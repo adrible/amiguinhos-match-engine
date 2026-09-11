@@ -27,10 +27,14 @@ jobs:
         run: python -m json.tool data/teams.json > /dev/null
 
       - name: Compile source
-        run: python -m compileall -q engine.py team_loader.py test_engine.py test_team_loader.py diagnostics.py
+        run: python -m compileall -q engine.py team_loader.py test_engine.py test_team_loader.py diagnostics.py calibrate_amiguinhos.py
 
       - name: Run unit and regression tests
         run: python -m unittest -v test_engine.py test_team_loader.py
 
       - name: Run 100-match smoke simulation
         run: python diagnostics.py 100
+
+      - name: Run 4,000-match Amiguinhos calibration
+        if: github.event_name == 'push' && github.event.head_commit.message == 'ci: run Amiguinhos calibration'
+        run: python calibrate_amiguinhos.py 1000

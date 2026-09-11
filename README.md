@@ -1,24 +1,41 @@
-# Amiguinhos Match Engine — v0.2
+# 🦆 Amiguinhos Match Engine — v1.2 Stable
 
-Segunda versão funcional do motor de futebol pensado para uso interativo no chat, com correções estruturais de estabilidade após auditoria da v0.1.
+Motor de futebol orientado a eventos para simulação interativa no chat. A versão estável atual é **1.2**.
+
+## Uso oficial
+
+Para novas partidas, use o entrypoint estável:
+
+```python
+from stable_engine import MatchEngine
+from team_loader import load_team
+
+amiguinhos = load_team("amiguinhos_u21")
+flamengo = load_team("flamengo_u21")
+
+engine = MatchEngine(amiguinhos, flamengo, seed=12345)
+```
+
+`engine.py` contém a base estrutural da v0.2. As duas correções calibradas da v1.2 — sensibilidade moderada à diferença de qualidade e influência real de overlap dos laterais — são aplicadas pela implementação promovida em `stable_engine.py`.
 
 ## Princípios
 
 1. O placar nunca é escolhido previamente.
 2. Não existe meta por partida de gols, chutes ou chutes no alvo.
-3. A situação cria a chance; depois a chance é finalizada.
+3. Situação, espaço e tática criam a chance; a finalização é resolvida depois.
 4. Qualidade da chance importa mais que quantidade de finalizações.
-5. xG descreve a situação; qualidade do finalizador e do goleiro ajustam a conversão depois.
-6. Tática altera espaço e risco. Não existem "bônus defensivos" empilhados sem custo.
+5. xG descreve a situação; qualidade do finalizador e do goleiro influencia a conversão.
+6. Tática altera espaço e risco; não existem bônus defensivos abstratos empilhados sem custo.
 7. Pressão alta pode recuperar a bola, mas aumenta exposição quando é quebrada.
 8. Linha alta comprime o campo, mas oferece profundidade.
 9. Compactação fecha o centro, mas entrega largura.
-10. Overlap cria apoio ofensivo, mas aumenta exposição em transição.
-11. Fadiga afeta atributos gradualmente.
-12. OVR não decide lances sozinho.
+10. Overlap aumenta a presença ofensiva do lateral e tem consequências espaciais.
+11. Fadiga e cartões modificam jogadores, não o placar.
+12. OVR influencia os duelos e o contexto, mas nunca determina sozinho o vencedor.
 13. Seed reproduz exatamente a partida.
-14. O script gera fatos; a narração fica fora do motor.
-15. `advance_until_relevant()` implementa a lógica do comando `p`.
+14. Estatísticas surgem dos eventos; elas nunca guiam a engine para uma meta.
+15. O script gera os fatos; a narração fica fora do motor.
+16. `advance_until_relevant()` implementa a lógica do comando `p`.
 
 ## Como funciona o `p`
 
@@ -26,11 +43,7 @@ Segunda versão funcional do motor de futebol pensado para uso interativo no cha
 event = engine.advance_until_relevant()
 ```
 
-Se não há lance vivo, o motor processa internamente até o próximo evento com relevância suficiente.
-
-Se já existe `pending` ou `restart`, a chamada resolve somente o próximo "beat" do lance. Assim um perigo, rebote, escanteio ou falta não é pulado inteiro em uma única chamada.
-
-Exemplo conceitual:
+Sem lance vivo, o motor processa internamente até o próximo evento relevante. Se existe `pending` ou `restart`, resolve apenas o próximo beat do mesmo lance.
 
 ```text
 p
@@ -50,22 +63,19 @@ p
 -> GOAL / SAVE / BLOCK / MISS
 ```
 
-## Uso mínimo
+## Intervenção do usuário
+
+Durante um `pending`:
 
 ```python
-from engine import MatchEngine, make_generic_team
-
-a = make_generic_team("Azul", 75, "balanced", seed=1)
-b = make_generic_team("Vermelho", 75, "attacking", seed=2)
-
-engine = MatchEngine(a, b, seed=12345)
-
-while not engine.state.ended:
-    event = engine.advance_until_relevant()
-    print(event)
+engine.override_pending("cross", target="Gabriel Félix")
 ```
 
-## Alteração tática durante a partida
+A ordem muda a decisão pretendida, não o resultado. A execução continua sendo calculada pela engine.
+
+Ações suportadas incluem `shoot`, `cross`, `cutback`, `through_ball` e `dribble`.
+
+## Alteração tática
 
 ```python
 engine.set_tactics(
@@ -76,94 +86,79 @@ engine.set_tactics(
 )
 ```
 
-A mudança não recalcula o passado nem reinicia o estado.
+A mudança não reinicia o estado nem recalcula o passado.
 
-## Intervenção do usuário em lance vivo
+## Elencos
 
-Quando existe um `pending`:
+Os times ficam em um único banco:
 
-```python
-engine.override_pending("cross", target="Centroavante")
+```text
+data/teams.json
 ```
 
-A ordem do usuário muda a decisão, mas o motor ainda calcula se a execução funciona.
-
-Opções nesta versão:
-
-- `shoot`
-- `cross`
-- `cutback`
-- `through_ball`
-- `dribble`
-
-## Substituição
+Carregamento:
 
 ```python
-engine.substitute(0, "Jogador A", "Jogador B")
+from team_loader import load_team, list_teams
+
+team = load_team("amiguinhos_u21")
+print(list_teams())
 ```
 
-Substituições são bloqueadas enquanto existe uma ação `pending` com a bola viva, evitando referências inválidas no meio do lance. Em prorrogação, a configuração padrão permite uma substituição adicional.
+O banco atualmente contém os 16 clubes do Regional Internacional U21. Times com elenco conhecido usam jogadores explícitos; os demais podem usar geração genérica baseada na força cadastrada.
 
-## Estatísticas e persistência
-
-```python
-print(engine.snapshot())
-```
-
-`snapshot()` é JSON-safe e inclui placar, posse, zona, fase, formação, xG, chutes, no alvo, grandes chances, escanteios, faltas, cartões, impedimentos, defesas, entradas no último terço e energia.
-
-Para salvar e restaurar a partida exatamente, inclusive o estado do RNG:
+## Persistência
 
 ```python
 payload = engine.export_json()
 engine2 = MatchEngine.from_json(payload)
 ```
 
-A continuação de `engine2` será idêntica à de `engine` se ambos receberem os mesmos comandos.
-
-## `match_flow`
-
-Cada seed também gera um `match_flow`, exposto no snapshot.
-
-Ele muda **a cadência dos acontecimentos**, não escolhe placar ou número de chutes. Isso permite que existam partidas naturalmente lentas ou caóticas sem impor uma quota estatística. Tática e decisões continuam determinando a qualidade das situações.
+O estado completo inclui RNG, placar, posse, zona, fase, ações pendentes, estatísticas, energia, cartões, lesões e elencos em campo. A continuação restaurada é reproduzível se receber os mesmos comandos.
 
 ## Testes
 
 ```bash
-python -m unittest -v test_engine.py
+python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
 ```
 
-## Diagnóstico em lote
+O CI roda em Python 3.11 e 3.12, valida o JSON, compila as fontes, executa os testes e roda smoke simulations.
 
-```bash
-python diagnostics.py 1000
-```
+## Calibração v1.2
 
-O diagnóstico observa o comportamento agregado sem usar essas médias como meta dentro de uma partida.
+A v1.2 foi validada em uma bateria de **4.000 partidas** dos 🦆 Amiguinhos contra adversários OVR 75, 80, 83 e 84, repetida nos dois ambientes de Python do CI.
 
-## Correções estruturais da v0.2
+Contra OVR 84, o time OVR 75 ficou em aproximadamente:
 
-- formação passa a alterar ocupação de linhas, pressão e apoio;
-- inferioridade numérica reduz cobertura e apoio de forma explícita;
-- transições perdem força com o tempo, mesmo sem uma ação específica consumi-las;
-- fadiga foi recalibrada para produzir efeito real no fim da partida;
+- 21,9% vitórias;
+- 23,2% empates;
+- 54,9% derrotas.
+
+A diferença de força é relevante, mas a zebra permanece possível em jogo único. A distribuição de qualidade das chances permaneceu praticamente igual à v1.1.
+
+Detalhes completos: `CALIBRATION_AMIGUINHOS_v12.md`.
+
+## Correções estruturais herdadas da v0.2
+
+- formação altera ocupação, pressão e apoio;
+- inferioridade numérica reduz cobertura e apoio;
+- transições perdem força com o tempo;
+- fadiga tem efeito real no fim da partida;
 - inversão de perspectiva troca também esquerda/direita;
-- bola enfiada usa o mesmo corredor/alvo para impedimento e execução;
-- defensor associado ao lance é preservado até a resolução, quando ainda está em campo;
+- bola enfiada preserva corredor/alvo entre impedimento e execução;
+- defensor do lance é preservado durante a resolução quando ainda está em campo;
 - segundo tempo começa com o lado oposto ao kickoff inicial;
-- cartões agora geram eventos próprios, com possibilidade de vermelho direto;
-- lesões simples persistentes foram adicionadas;
-- fases (`build_up`, `progression`, `final_third`, `chance_creation`, `transition`, `restart`) agora fazem parte do estado;
-- adaptação tática automática opcional foi adicionada;
-- persistência completa e reprodutível via JSON.
+- cartões, vermelho direto e lesões simples são persistentes;
+- fases de jogo integram o estado;
+- adaptação tática automática é opcional;
+- estado pode ser salvo/restaurado exatamente via JSON.
 
 ### Decisão mantida conscientemente
 
-O relógio ainda pode ultrapassar levemente 45/90/120 antes de o motor encerrar o período. Isso foi mantido deliberadamente nesta versão: funciona como uma tolerância simples de encerramento do lance e não será tratado como erro estrutural por enquanto.
+O relógio pode ultrapassar levemente 45/90/120 antes do encerramento do período. Isso é intencional nesta versão e representa tolerância para conclusão do lance; não é tratado como erro estrutural.
 
-## Ainda fora do escopo
+## Status
 
-- notas individuais pós-jogo;
-- roles específicas por jogador além da posição;
-- clima, gramado e perfil detalhado do árbitro;
-- elenco oficial dos Amiguinhos U21.
+**v1.2 = congelada para partidas oficiais.**
+
+Arquivo `VERSION`: `1.2`.

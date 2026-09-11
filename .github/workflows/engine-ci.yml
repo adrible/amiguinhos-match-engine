@@ -36,5 +36,5 @@ jobs:
         run: python diagnostics.py 100
 
       - name: Run 4,000-match Amiguinhos calibration
-        if: github.event_name == 'push' && github.event.head_commit.message == 'ci: run Amiguinhos calibration'
+        if: "${{ github.event_name == 'push' && github.event.head_commit.message == 'ci: run Amiguinhos calibration v2' }}"
         run: python calibrate_amiguinhos.py 1000

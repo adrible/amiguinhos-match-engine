@@ -1,19 +1,30 @@
-# Calibration — 🦆 Amiguinhos U21 v1.2 candidate
+# Calibration — 🦆 Amiguinhos U21 v1.2 STABLE
 
 Data: 2026-09-11
 
+**Status:** APROVADA E CONGELADA  
+**Release commit:** `7d938a4aa9d152c8a3c3689d08c1a81c84944f13`
+
 ## Objetivo
 
-A v1.2 candidata foi criada para atacar os dois pontos encontrados na calibração v1.1 sem dar qualquer bônus específico aos Amiguinhos:
+A v1.2 foi criada para atacar os dois pontos encontrados na calibração v1.1 sem dar qualquer bônus específico aos Amiguinhos:
 
 1. aumentar moderadamente a sensibilidade global à diferença de qualidade técnica entre os jogadores envolvidos na fase do jogo;
-2. fazer a instrução de `overlap_left` / `overlap_right` influenciar de verdade a presença dos laterais na progressão e no terço final.
+2. fazer `overlap_left` / `overlap_right` influenciar de verdade a presença dos laterais na progressão e no terço final.
 
-As mudanças foram implementadas primeiro em `engine_experiment_v12.py`, preservando `engine.py` intacto até a validação estatística.
+As mudanças foram primeiro isoladas em `engine_experiment_v12.py`, comparadas com a v1.1 e, após aprovação, expostas como versão estável por `stable_engine.py`.
 
-## Método
+## Validação final
 
-Foram repetidas exatamente as mesmas 4.000 partidas da v1.1: 1.000 contra cada faixa OVR 75, 80, 83 e 84, alternando estilos e mando e reutilizando a mesma lógica de seeds. A bateria foi executada em Python 3.11 e 3.12; os dois jobs concluíram com sucesso.
+A bateria final foi executada novamente a partir do entrypoint estável, em Python 3.11 e 3.12. Em ambos:
+
+- JSON dos elencos válido;
+- compilação concluída;
+- **23 testes unitários/regressivos aprovados**;
+- smoke test de 100 partidas aprovado;
+- calibração de **4.000 partidas** concluída com sucesso.
+
+Os resultados da calibração estável reproduziram exatamente os valores da candidata v1.2.
 
 ## v1.1 x v1.2
 
@@ -24,7 +35,7 @@ Foram repetidas exatamente as mesmas 4.000 partidas da v1.1: 1.000 contra cada f
 | OVR 83 | 27,5% | **23,2%** | 24,2% | 23,0% | 48,3% | **53,8%** | -0,46 | **-0,74** |
 | OVR 84 | 26,2% | **21,9%** | 23,7% | 23,2% | 50,1% | **54,9%** | -0,60 | **-0,86** |
 
-A curva ficou mais aberta sem transformar diferença de qualidade em resultado obrigatório. Contra OVR 84, por exemplo, o adversário agora vence 54,9% e os Amiguinhos 21,9%, ainda preservando uma probabilidade real de zebra em jogo único.
+A curva ficou mais aberta sem transformar diferença de qualidade em resultado obrigatório. Contra OVR 84, o adversário vence 54,9%, os Amiguinhos vencem 21,9% e 23,2% terminam empatados em 90 minutos: a zebra continua perfeitamente possível em jogo único.
 
 ## Produção por faixa — v1.2
 
@@ -35,18 +46,16 @@ A curva ficou mais aberta sem transformar diferença de qualidade em resultado o
 | 83 | 1,25 | 1,98 | 1,21 | 1,82 | 12,69 | 17,74 | 0,66 | 0,76 | 49,2% |
 | 84 | 1,18 | 2,04 | 1,19 | 1,91 | 12,37 | 18,23 | 0,63 | 0,83 | 49,3% |
 
-A progressão é monotônica: ao subir a força do rival, caem os chutes/xG dos Amiguinhos e sobem os chutes/xG sofridos. A posse praticamente não muda, o que é desejável: a vantagem de qualidade aparece sobretudo na eficiência espacial e na capacidade de transformar posse em situações melhores, não por uma posse artificialmente atribuída ao time mais forte.
+A progressão é monotônica: ao subir a força do rival, caem os chutes/xG dos Amiguinhos e sobem os chutes/xG sofridos. A posse praticamente não muda, de modo que a vantagem de qualidade emerge da eficiência espacial e dos duelos, não de uma posse artificial atribuída ao time mais forte.
 
 ## Qualidade das chances
-
-A distribuição permaneceu praticamente estável em relação à v1.1:
 
 - xG < 0,05: 40,6% (v1.1: 40,8%)
 - xG 0,05–0,14: 33,6% (v1.1: 33,2%)
 - xG 0,15–0,29: 20,1% (v1.1: 20,4%)
 - xG >= 0,30: 5,7% (v1.1: 5,6%)
 
-Isto é importante: a correção da curva de força não foi obtida criando mais chances grandes de forma artificial nem eliminando chutes ruins.
+A correção da curva de força não foi obtida criando chances grandes artificialmente nem eliminando chutes ruins.
 
 ## White x Jorge
 
@@ -55,7 +64,7 @@ Isto é importante: a correção da curva de força não foi obtida criando mais
 | Rodrigo White | 0,709 | **0,789** | 0,316 | **0,355** | 0,624 |
 | Jorge Henrique | 0,760 | **0,686** | 0,380 | **0,349** | 0,493 |
 
-A hierarquia espacial agora aparece na simulação: White participa mais de situações ofensivas e chega mais à finalização; Jorge aparece menos no terço final, preservando seu perfil mais conservador/inteligente. A diferença foi obtida pela instrução de overlap e pela seleção espacial de atores/alvos, não por um bônus nominal a White.
+A hierarquia espacial agora aparece na simulação: White participa mais de situações ofensivas e chega mais à finalização; Jorge aparece menos no terço final. A diferença nasce da instrução de overlap e da seleção espacial de atores/alvos, não de um bônus nominal a White.
 
 ## Perfil ofensivo v1.2
 
@@ -70,17 +79,14 @@ A hierarquia espacial agora aparece na simulação: White participa mais de situ
 | Jorge Henrique | 0,493 | 0,053 | 0,055 | 0,686 | 0,349 |
 | Felipe | 0,452 | 0,045 | 0,045 | 0,704 | 0,416 |
 
-Félix continua em 4,08 finalizações por jogo, praticamente idêntico à v1.1 (4,081). Portanto a correção não aumentou a dependência do centroavante. Valverde permanece o maior participante/criador de perigo, enquanto Adib e Mike continuam com perfil de criação mais forte do que de volume de chutes.
+Félix permanece em aproximadamente 4,08 finalizações por jogo, praticamente idêntico à v1.1. Valverde permanece o maior participante/criador de perigo, enquanto Adib e Mike mantêm perfil de criação mais forte que de volume de chutes.
 
 ## Origem das finalizações
 
-Os cruzamentos ficaram em 21,9% (v1.1: 21,6%), portanto a mudança de overlap não provocou explosão artificial de cruzamentos. As demais origens também permaneceram próximas da distribuição anterior.
+Cruzamentos: 21,9% (v1.1: 21,6%). A mudança de overlap não provocou explosão artificial de cruzamentos, e as demais origens permaneceram próximas da distribuição anterior.
 
 ## Conclusão
 
-A candidata v1.2 melhora os dois pontos que motivaram a revisão:
+A **v1.2 está oficialmente congelada como versão estável**. Ela melhora a curva de diferença de qualidade e diferencia corretamente White/Jorge sem regressão relevante na distribuição das chances, no papel de Félix ou na variedade ofensiva.
 
-- a diferença de qualidade entre equipes passa a ter efeito mais nítido, sem definir previamente o vencedor;
-- White e Jorge passam a ocupar funções ofensivas claramente diferentes.
-
-Não houve regressão relevante na distribuição de qualidade das chances, no papel de Félix ou na variedade das origens das finalizações. A candidata pode ser promovida para a engine principal após a incorporação das mudanças e uma última bateria de regressão.
+Para partidas oficiais, inclusive a final **🦆 Amiguinhos U21 x Flamengo U21**, o entrypoint canônico é `stable_engine.py`. Qualquer mudança futura deverá gerar uma nova revisão e passar novamente pela bateria de regressão/calibração antes de substituir esta versão.

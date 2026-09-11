@@ -23,11 +23,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Validate team database JSON
+        run: python -m json.tool data/teams.json > /dev/null
+
       - name: Compile source
-        run: python -m compileall -q engine.py test_engine.py diagnostics.py
+        run: python -m compileall -q engine.py team_loader.py test_engine.py test_team_loader.py diagnostics.py
 
       - name: Run unit and regression tests
-        run: python -m unittest -v test_engine.py
+        run: python -m unittest -v test_engine.py test_team_loader.py
 
       - name: Run 100-match smoke simulation
         run: python diagnostics.py 100

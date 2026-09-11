@@ -1,0 +1,32 @@
+name: Match Engine CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile source
+        run: python -m compileall -q engine.py test_engine.py diagnostics.py
+
+      - name: Run unit and regression tests
+        run: python -m unittest -v test_engine.py
+
+      - name: Run 100-match smoke simulation
+        run: python diagnostics.py 100

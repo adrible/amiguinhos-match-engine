@@ -45,6 +45,38 @@ class CalibrationHarnessTests(unittest.TestCase):
         self.assertEqual(batch["count"], 2)
         self.assertEqual(len(batch["matches"]), 2)
 
+    def test_adaptation_diagnostics_are_zero_when_feature_is_disabled(self):
+        batch = run_fixture_batch(
+            "amiguinhos_u21", "flamengo_u21", start_seed=0, count=2,
+            auto_adapt=False,
+        )
+        diag = batch["adaptation_diagnostics"]
+        self.assertEqual(diag["team_match_observations"], 4)
+        self.assertEqual(diag["total_adaptations"], 0)
+        self.assertEqual(diag["mean_per_team_match"], 0.0)
+        self.assertEqual(diag["max_per_team_match"], 0)
+        self.assertEqual(diag["count_distribution"], {"0": 4})
+        self.assertEqual(diag["team_matches_hitting_cap"], 0)
+        self.assertIsNone(diag["mean_minutes_between_adaptations"])
+
+    def test_adaptation_diagnostics_match_retained_rows(self):
+        batch = run_fixture_batch(
+            "amiguinhos_u21", "flamengo_u21", start_seed=0, count=2,
+            auto_adapt=True,
+        )
+        diag = batch["adaptation_diagnostics"]
+        retained_total = sum(len(row["adaptations"]) for row in batch["matches"])
+        response_total = sum(batch["adaptation_responses"].values())
+        self.assertEqual(diag["team_match_observations"], 4)
+        self.assertEqual(diag["total_adaptations"], retained_total)
+        self.assertEqual(diag["total_adaptations"], response_total)
+        self.assertEqual(sum(diag["count_distribution"].values()), 4)
+        self.assertLessEqual(
+            diag["max_per_team_match"], diag["configured_team_cap"]
+        )
+        if diag["total_adaptations"]:
+            self.assertIsNotNone(diag["mean_first_adaptation_minute"])
+
     def test_behavior_profiles_reflect_explicit_role_differences(self):
         adib = player_behavior_profile("amiguinhos_u21", "Gabriel Adib")
         mike = player_behavior_profile("amiguinhos_u21", "Mike Junior")

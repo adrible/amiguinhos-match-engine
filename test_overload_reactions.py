@@ -68,8 +68,10 @@ class OverloadReactionTests(unittest.TestCase):
         fullback = same_side_fullback(e)
         e.teams[0].team.tactics.overlap_left = 1.0
 
-        # Make the overlap an obvious local threat and suppress unrelated
-        # teammates so the diagnostic isolates the 2v1 geometry.
+        # Make the overlap an obvious local threat and deliberately remove the
+        # quality of every unrelated movement. This isolates a true 2v1 without
+        # weakening the engine's normal ability to recognise a legitimate third
+        # attacker in ordinary play.
         for ps in e.teams[0].on_field:
             if ps.player.name == actor.player.name:
                 continue
@@ -80,11 +82,15 @@ class OverloadReactionTests(unittest.TestCase):
                 ps.player.stamina = 93
                 ps.player.crossing = 91
                 ps.player.technique = 88
+                ps.player.composure = 88
             else:
-                ps.player.off_ball = 42
-                ps.player.anticipation = 42
-                ps.player.pace = min(ps.player.pace, 54)
-                ps.player.technique = min(ps.player.technique, 55)
+                for attr in (
+                    "off_ball", "anticipation", "pace", "technique", "vision",
+                    "composure", "finishing", "heading", "strength", "stamina",
+                    "crossing", "long_shots", "dribbling",
+                ):
+                    if hasattr(ps.player, attr):
+                        setattr(ps.player, attr, 25)
 
         zone = Zone(Band.ATT, Lane.LEFT)
         plan = primary_plan(e, zone)

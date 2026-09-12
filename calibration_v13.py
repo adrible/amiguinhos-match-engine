@@ -11,12 +11,18 @@ import argparse
 import json
 from collections import Counter
 from statistics import mean, median
-from typing import Iterable
+from typing import Iterable, Type
 
 from engine import Band, Lane, MatchConfig, Zone
 from engine_experiment_v13 import MatchEngine
 from final_protocol_v13 import assert_calibration_seed_allowed
 from team_loader_v13 import load_team_v13
+
+
+class MatchEngineV13UncappedAdaptationProbe(MatchEngine):
+    """Diagnostic-only engine: expose natural adaptation demand, never release."""
+
+    MAX_ADAPTATIONS_PER_TEAM = 99
 
 
 def _run_to_end(engine: MatchEngine, guard_limit: int = 5000) -> None:
@@ -37,17 +43,12 @@ def _event_error_counts(engine: MatchEngine) -> dict[str, int]:
     return dict(sorted(counts.items()))
 
 
-def _adaptation_distribution(matches: list[dict]) -> dict:
-    """Describe coaching reactivity without imposing a tuning quota.
-
-    Each team in each match is treated as one observation.  The diagnostic is
-    intentionally descriptive: count distribution, cap hits and temporal
-    spacing.  It does not decide what a "correct" number of adaptations is.
-    """
+def _adaptation_distribution(matches: list[dict], engine_cls: Type[MatchEngine]) -> dict:
+    """Describe coaching reactivity without imposing a tuning quota."""
     team_match_counts: list[int] = []
     intervals: list[float] = []
     first_minutes: list[float] = []
-    cap = int(getattr(MatchEngine, "MAX_ADAPTATIONS_PER_TEAM", 0) or 0)
+    cap = int(getattr(engine_cls, "MAX_ADAPTATIONS_PER_TEAM", 0) or 0)
 
     for row in matches:
         adaptations = row.get("adaptations", [])
@@ -92,16 +93,14 @@ def simulate_fixture(
     seed: int,
     *,
     auto_adapt: bool = False,
+    _engine_cls: Type[MatchEngine] = MatchEngine,
 ) -> dict:
-    # The official final seed is declared in advance and must remain unseen by
-    # calibration.  Fail before teams/engine are created so no RNG state or
-    # match information is ever generated for that reserved fixture+seed.
     assert_calibration_seed_allowed(home_key, away_key, seed)
 
     home = load_team_v13(home_key)
     away = load_team_v13(away_key)
     config = MatchConfig(auto_tactical_adaptation=auto_adapt)
-    engine = MatchEngine(home, away, seed=int(seed), config=config)
+    engine = _engine_cls(home, away, seed=int(seed), config=config)
     _run_to_end(engine)
 
     h, a = engine.stats
@@ -165,12 +164,17 @@ def run_fixture_batch(
     start_seed: int = 0,
     count: int = 100,
     auto_adapt: bool = False,
+    _engine_cls: Type[MatchEngine] = MatchEngine,
 ) -> dict:
     if count <= 0:
         raise ValueError("count must be positive")
     seeds = list(range(int(start_seed), int(start_seed) + int(count)))
     matches = [
-        simulate_fixture(home_key, away_key, seed, auto_adapt=auto_adapt)
+        simulate_fixture(
+            home_key, away_key, seed,
+            auto_adapt=auto_adapt,
+            _engine_cls=_engine_cls,
+        )
         for seed in seeds
     ]
 
@@ -194,6 +198,7 @@ def run_fixture_batch(
         "count": int(count),
         "seeds": seeds,
         "auto_adapt": bool(auto_adapt),
+        "diagnostic_engine": _engine_cls is not MatchEngine,
         "results": {
             "home_wins": results["home"],
             "draws": results["draw"],
@@ -213,7 +218,7 @@ def run_fixture_batch(
         },
         "defensive_errors": dict(sorted(error_counts.items())),
         "adaptation_responses": dict(sorted(adaptation_counts.items())),
-        "adaptation_diagnostics": _adaptation_distribution(matches),
+        "adaptation_diagnostics": _adaptation_distribution(matches, _engine_cls),
         "matches": matches,
     }
 
@@ -224,7 +229,6 @@ def player_behavior_profile(
     *,
     opponent_key: str = "flamengo_u21",
 ) -> dict:
-    """Deterministic behavioural snapshot; no simulated outcomes are required."""
     home = load_team_v13(team_key)
     away = load_team_v13(opponent_key)
     engine = MatchEngine(home, away, seed=0)
@@ -271,13 +275,19 @@ def amiguinhos_flamengo_stress(
     start_seed: int = 0,
     count: int = 100,
     auto_adapt: bool = False,
+    uncapped_adaptation_diagnostic: bool = False,
 ) -> dict:
+    engine_cls = (
+        MatchEngineV13UncappedAdaptationProbe
+        if uncapped_adaptation_diagnostic else MatchEngine
+    )
     return run_fixture_batch(
         "amiguinhos_u21",
         "flamengo_u21",
         start_seed=start_seed,
         count=count,
         auto_adapt=auto_adapt,
+        _engine_cls=engine_cls,
     )
 
 
@@ -286,13 +296,18 @@ def main(argv: Iterable[str] | None = None) -> None:
     parser.add_argument("count", nargs="?", type=int, default=100)
     parser.add_argument("--start-seed", type=int, default=0)
     parser.add_argument("--auto-adapt", action="store_true")
+    parser.add_argument("--uncapped-adaptation-diagnostic", action="store_true")
     parser.add_argument("--compact", action="store_true")
     args = parser.parse_args(list(argv) if argv is not None else None)
+
+    if args.uncapped_adaptation_diagnostic and not args.auto_adapt:
+        parser.error("--uncapped-adaptation-diagnostic requires --auto-adapt")
 
     result = amiguinhos_flamengo_stress(
         start_seed=args.start_seed,
         count=args.count,
         auto_adapt=args.auto_adapt,
+        uncapped_adaptation_diagnostic=args.uncapped_adaptation_diagnostic,
     )
     if args.compact:
         result = {k: v for k, v in result.items() if k != "matches"}

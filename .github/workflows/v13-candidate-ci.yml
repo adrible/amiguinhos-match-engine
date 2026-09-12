@@ -73,5 +73,8 @@ jobs:
       - name: Run 100-match v1.3 generic smoke simulation
         run: python diagnostics_v13.py 100
 
-      - name: Run fixed-range Amiguinhos x Flamengo stress smoke
-        run: python calibration_v13.py 12 --start-seed 0 --compact
+      - name: Run 100-seed Amiguinhos x Flamengo calibration
+        run: python calibration_v13.py 100 --start-seed 0 --compact
+
+      - name: Run 24-seed Amiguinhos x Flamengo adaptation stress
+        run: python calibration_v13.py 24 --start-seed 0 --auto-adapt --compact

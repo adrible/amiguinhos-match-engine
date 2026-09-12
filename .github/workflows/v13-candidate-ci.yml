@@ -83,3 +83,8 @@ jobs:
 
       - name: Run 24-seed Amiguinhos x Flamengo adaptation stress
         run: python calibration_v13.py 24 --start-seed 0 --auto-adapt --compact
+
+      - name: Probe uncapped adaptation demand on same 24 seeds
+        run: >-
+          python calibration_v13.py 24 --start-seed 0 --auto-adapt
+          --uncapped-adaptation-diagnostic --compact

@@ -1,0 +1,30 @@
+{
+  "version": "1.0-candidate",
+  "description": "v1.3-only behavioural traits. Stable v1.2 roster loading ignores this file.",
+  "teams": {
+    "amiguinhos_u21": {
+      "players": {
+        "Gabriel Adib": {
+          "creativity": 92,
+          "boldness": 86,
+          "basis": "High-level two-way creator who scans for non-obvious runs and accepts difficult high-upside actions when the context supports them."
+        },
+        "Mike Junior": {
+          "creativity": 89,
+          "boldness": 64,
+          "basis": "Strategic passer whose main differentiator is vision and option discovery rather than repeated high-variance execution."
+        },
+        "Jorge Henrique": {
+          "creativity": 78,
+          "boldness": 61,
+          "basis": "Intelligent, versatile player with good reading but a comparatively controlled decision profile."
+        },
+        "Remo": {
+          "creativity": 72,
+          "boldness": 82,
+          "basis": "Direct, powerful wide attacker: less focused on hidden-option creation, more willing to attack space and accept aggressive actions."
+        }
+      }
+    }
+  }
+}

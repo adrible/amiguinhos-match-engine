@@ -6,6 +6,7 @@ from pathlib import Path
 
 from engine import EventType
 from engine_experiment_v13 import MatchEngine
+from final_protocol_v13 import OFFICIAL_FINAL_SEED
 from runner_v13 import MatchSessionV13, event_view
 from team_loader_v13 import load_team_v13
 
@@ -110,6 +111,16 @@ class LiveRunnerTests(unittest.TestCase):
         self.assertEqual(view["score"]["home_goals"], session.engine.stats[0].goals)
         self.assertEqual(before_rng, session.engine.rng.getstate())
         self.assertEqual(before, session.engine.export_state())
+
+    def test_normal_runner_rejects_reserved_official_final_seed(self):
+        with self.assertRaisesRegex(RuntimeError, "official final seed is reserved"):
+            MatchSessionV13.from_fixture(seed=OFFICIAL_FINAL_SEED)
+
+    def test_nonofficial_knockout_session_can_enable_extra_time(self):
+        session = MatchSessionV13.from_fixture(seed=41, allow_extra_time=True)
+        self.assertTrue(session.engine.config.allow_extra_time)
+        self.assertFalse(session.engine.config.auto_tactical_adaptation)
+        self.assertTrue(session.pristine)
 
 
 if __name__ == "__main__":

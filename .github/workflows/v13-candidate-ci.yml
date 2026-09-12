@@ -36,14 +36,14 @@ jobs:
           engine_experiment_v13_cover.py engine_experiment_v13_communication.py
           engine_experiment_v13_offside.py engine_experiment_v13_overload.py
           engine_experiment_v13_errors.py engine_experiment_v13_chemistry.py
-          engine_experiment_v13_adaptation.py diagnostics_v13.py
+          engine_experiment_v13_adaptation.py diagnostics_v13.py calibration_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py
           test_spatial_decisions.py test_offball_anticipation.py
           test_body_orientation.py test_defensive_intelligence.py
           test_marking_handoffs.py test_defensive_cover.py
           test_defensive_communication.py test_offside_line.py test_overload_reactions.py
           test_defensive_errors.py test_shared_understanding.py test_tactical_adaptation.py
-          test_v13_player_traits.py
+          test_v13_player_traits.py test_calibration_v13.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -64,6 +64,10 @@ jobs:
           test_shared_understanding.py
           test_tactical_adaptation.py
           test_v13_player_traits.py
+          test_calibration_v13.py
 
-      - name: Run 100-match v1.3 smoke simulation
+      - name: Run 100-match v1.3 generic smoke simulation
         run: python diagnostics_v13.py 100
+
+      - name: Run fixed-range Amiguinhos x Flamengo stress smoke
+        run: python calibration_v13.py 12 --start-seed 0 --compact

@@ -32,8 +32,6 @@ VERSION = (
 class MatchEngineV13Offside(MatchEngineV13Communication):
     """Adds contextual line height / offside-trap behaviour to through balls."""
 
-    # ---------------------------- line structure ----------------------------
-
     def _line_members(self, defending_team: int) -> list[PlayerState]:
         primary = [
             ps for ps in self.teams[defending_team].on_field
@@ -156,8 +154,6 @@ class MatchEngineV13Offside(MatchEngineV13Communication):
         hiddenness = runner["hiddenness"]
         timing = runner["timing"]
 
-        # Organisation preferences.  They are not probabilities and therefore
-        # do not create an arbitrary number of traps per match.
         step = (
             0.22
             + 0.31 * line_height
@@ -260,16 +256,12 @@ class MatchEngineV13Offside(MatchEngineV13Communication):
         if offside_plan.get("response") != "step_up":
             return adjusted
         exposure = clamp(float(offside_plan.get("onside_exposure", 0.0)), 0.0, 0.10)
-        # A beaten step has a real cost: more depth and slightly less immediate
-        # pressure.  This is the opposite of stacking another defensive bonus.
         adjusted["space_behind"] = clamp(float(adjusted.get("space_behind", 0.45)) + exposure)
         adjusted["space"] = clamp(float(adjusted.get("space", 0.50)) + 0.45 * exposure)
         adjusted["pressure"] = clamp(float(adjusted.get("pressure", 0.50)) - 0.30 * exposure)
         adjusted["offside_trap_beaten"] = True
         adjusted["offside_exposure"] = exposure
         return adjusted
-
-    # ---------------------------- diagnostics ----------------------------
 
     def offside_line_diagnostic(
         self,
@@ -340,15 +332,10 @@ class MatchEngineV13Offside(MatchEngineV13Communication):
             "onside_context": self._apply_onside_tradeoff(adjusted, plan),
         }
 
-    # ---------------------------- live integration ----------------------------
-
     def _create_or_resolve_danger(self, team, actor, zone, kind, ctx):
         if kind != "through_ball":
             return super()._create_or_resolve_danger(team, actor, zone, kind, ctx)
 
-        # Choose the concrete receiver first.  This consumes a creativity-bound
-        # receiver when one was selected during the decision beat, so the line
-        # reacts to the actual run rather than to a generic attacker.
         target = self._choose_target(team, zone, attacking=True, exclude=actor.player.name)
 
         old = getattr(self, "_v13_defense_hint", None)
@@ -394,7 +381,6 @@ class MatchEngineV13Offside(MatchEngineV13Communication):
                 0.40 * actor.effective("passing")
                 + 0.20 * actor.effective("vision")
                 + 0.20 * actor.effective("technique")
-                + 0.20 * actor.effective("passing")
             )
             defending = (
                 0.45 * defender.effective("positioning")

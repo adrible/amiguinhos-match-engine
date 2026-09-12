@@ -2,10 +2,15 @@ from __future__ import annotations
 
 """Live interactive runner for the v1.3 candidate.
 
-Nothing is simulated at startup.  A session owns one live MatchEngine instance
-at 0:00.  The ``p`` command asks that engine to advance *from its current state*
-until the next relevant event.  There is no precomputed event queue, no hidden
-full-match simulation and no replay of a previously simulated result.
+Nothing is simulated at startup beyond constructing the current 0:00 engine
+state.  A session owns one live MatchEngine instance.  The ``p`` command asks
+that engine to advance *from its current state* until the next relevant event.
+There is no precomputed event queue, no hidden full-match simulation and no
+replay of a previously simulated result.
+
+The official final seed is reserved.  Normal fixture creation rejects it for
+the Amiguinhos U21 x Flamengo U21 final; only the explicit official-final
+factory/CLI flag may unlock it when the live final is actually started.
 """
 
 import argparse
@@ -15,6 +20,12 @@ from typing import Optional
 
 from engine import Event, EventType, MatchConfig
 from engine_experiment_v13 import MatchEngine
+from final_protocol_v13 import (
+    OFFICIAL_FINAL_AWAY,
+    OFFICIAL_FINAL_HOME,
+    OFFICIAL_FINAL_SEED,
+    is_reserved_official_seed,
+)
 from team_loader_v13 import load_team_v13
 
 
@@ -32,16 +43,46 @@ class MatchSessionV13:
         *,
         seed: int = 0,
         auto_adapt: bool = False,
+        allow_extra_time: bool = False,
+        allow_reserved_final_seed: bool = False,
     ) -> "MatchSessionV13":
+        if (
+            is_reserved_official_seed(home_key, away_key, seed)
+            and not allow_reserved_final_seed
+        ):
+            raise RuntimeError(
+                "official final seed is reserved; use the explicit official-final "
+                "runner only when the live final is actually starting"
+            )
+
         home = load_team_v13(home_key)
         away = load_team_v13(away_key)
         engine = MatchEngine(
             home,
             away,
             seed=int(seed),
-            config=MatchConfig(auto_tactical_adaptation=bool(auto_adapt)),
+            config=MatchConfig(
+                auto_tactical_adaptation=bool(auto_adapt),
+                allow_extra_time=bool(allow_extra_time),
+            ),
         )
         return cls(engine)
+
+    @classmethod
+    def from_official_final(cls) -> "MatchSessionV13":
+        """Create the reserved live final session.
+
+        Calling this method intentionally unlocks the previously declared seed.
+        It must not be used for calibration, previews, dry runs or CI smokes.
+        """
+        return cls.from_fixture(
+            OFFICIAL_FINAL_HOME,
+            OFFICIAL_FINAL_AWAY,
+            seed=OFFICIAL_FINAL_SEED,
+            auto_adapt=True,
+            allow_extra_time=True,
+            allow_reserved_final_seed=True,
+        )
 
     @classmethod
     def from_json(cls, payload: str) -> "MatchSessionV13":
@@ -200,17 +241,25 @@ def main() -> None:
     parser.add_argument("--away", default="flamengo_u21")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--auto-adapt", action="store_true")
+    parser.add_argument("--extra-time", action="store_true")
+    parser.add_argument("--official-final", action="store_true")
     parser.add_argument("--load", dest="load_path")
     args = parser.parse_args()
 
+    if args.official_final and args.load_path:
+        parser.error("--official-final cannot be combined with --load")
+
     if args.load_path:
         session = MatchSessionV13.load(args.load_path)
+    elif args.official_final:
+        session = MatchSessionV13.from_official_final()
     else:
         session = MatchSessionV13.from_fixture(
             args.home,
             args.away,
             seed=args.seed,
             auto_adapt=args.auto_adapt,
+            allow_extra_time=args.extra_time,
         )
     run_cli(session)
 

@@ -10,7 +10,7 @@ retained.  Aggregate figures are diagnostics, not tuning targets.
 import argparse
 import json
 from collections import Counter
-from statistics import mean
+from statistics import mean, median
 from typing import Iterable
 
 from engine import Band, Lane, MatchConfig, Zone
@@ -34,6 +34,55 @@ def _event_error_counts(engine: MatchEngine) -> dict[str, int]:
         if isinstance(payload, dict) and payload.get("type"):
             counts[str(payload["type"])] += 1
     return dict(sorted(counts.items()))
+
+
+def _adaptation_distribution(matches: list[dict]) -> dict:
+    """Describe coaching reactivity without imposing a tuning quota.
+
+    Each team in each match is treated as one observation.  The diagnostic is
+    intentionally descriptive: count distribution, cap hits and temporal
+    spacing.  It does not decide what a "correct" number of adaptations is.
+    """
+    team_match_counts: list[int] = []
+    intervals: list[float] = []
+    first_minutes: list[float] = []
+    cap = int(getattr(MatchEngine, "MAX_ADAPTATIONS_PER_TEAM", 0) or 0)
+
+    for row in matches:
+        adaptations = row.get("adaptations", [])
+        for team in (0, 1):
+            minutes = sorted(
+                float(item["minute"])
+                for item in adaptations
+                if int(item.get("team", -1)) == team and item.get("minute") is not None
+            )
+            team_match_counts.append(len(minutes))
+            if minutes:
+                first_minutes.append(minutes[0])
+                intervals.extend(
+                    later - earlier for earlier, later in zip(minutes, minutes[1:])
+                )
+
+    distribution = Counter(team_match_counts)
+    cap_hits = sum(1 for value in team_match_counts if cap > 0 and value >= cap)
+    observations = len(team_match_counts)
+    total = sum(team_match_counts)
+    return {
+        "team_match_observations": observations,
+        "total_adaptations": total,
+        "mean_per_team_match": mean(team_match_counts) if team_match_counts else 0.0,
+        "median_per_team_match": median(team_match_counts) if team_match_counts else 0.0,
+        "max_per_team_match": max(team_match_counts, default=0),
+        "count_distribution": {
+            str(key): distribution[key] for key in sorted(distribution)
+        },
+        "configured_team_cap": cap,
+        "team_matches_hitting_cap": cap_hits,
+        "cap_hit_rate": (cap_hits / observations) if observations else 0.0,
+        "mean_minutes_between_adaptations": mean(intervals) if intervals else None,
+        "minimum_minutes_between_adaptations": min(intervals) if intervals else None,
+        "mean_first_adaptation_minute": mean(first_minutes) if first_minutes else None,
+    }
 
 
 def simulate_fixture(
@@ -158,6 +207,7 @@ def run_fixture_batch(
         },
         "defensive_errors": dict(sorted(error_counts.items())),
         "adaptation_responses": dict(sorted(adaptation_counts.items())),
+        "adaptation_diagnostics": _adaptation_distribution(matches),
         "matches": matches,
     }
 

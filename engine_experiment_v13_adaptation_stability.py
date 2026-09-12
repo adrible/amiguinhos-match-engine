@@ -6,8 +6,8 @@ The first contextual adaptation layer correctly reacted to observable evidence,
 but broad fixture calibration showed that it was willing to change plan almost
 at every available cooldown boundary.  This layer does not tune to a scoreline
 or result rate.  It adds football-like inertia: a coach needs a persistent
-pattern, waits longer after a change, and cannot keep re-applying the same
-adjustment as though each occurrence were a new tactical idea.
+pattern, waits longer after a change, and cannot keep re-applying or merely
+relabeling an already-handled tactical problem.
 """
 
 from engine_experiment_v13_adaptation import MatchEngineV13Adaptation
@@ -27,13 +27,10 @@ class MatchEngineV13AdaptationStability(MatchEngineV13Adaptation):
     SAME_RESPONSE_COOLDOWN_MINUTES = 24.0
     MAX_ADAPTATIONS_PER_TEAM = 3  # failsafe, not the normal control mechanism
     STRUCTURAL_RESPONSES = frozenset({"protect_depth", "protect_wide", "regain_control"})
+    SCORE_RESPONSES = frozenset({"chase_game", "protect_lead"})
 
     def _evidence_between(self, team: int, start: float, end: float) -> dict:
-        """Pure evidence summary for a fixed historical slice.
-
-        This mirrors the base evidence vocabulary but lets the stability layer
-        distinguish a sustained pattern from several events clustered together.
-        """
+        """Pure evidence summary for a fixed historical slice."""
         opponent = 1 - team
         rows = [
             ev for ev in self.state.event_log
@@ -160,20 +157,15 @@ class MatchEngineV13AdaptationStability(MatchEngineV13Adaptation):
         cooldown = self._adaptation_cooldown(team)
         minute = self.minute
 
-        # Re-rank under the stricter stability gate. An already-applied response
-        # is not treated as a fresh idea: its tactical deltas are already present.
-        # A later adaptation therefore needs a genuinely different observed need.
-        selected = None
-        selected_score = -1.0
-        selected_threshold = 1.0
-        skipped_used: list[str] = []
+        # First build the evidence-valid ranking without looking at whether a
+        # response was used.  This preserves the meaning of "dominant need".
+        # If that need is already incorporated in the tactics, we do not fall
+        # through to a weaker structural label based on the same events.
+        candidates: list[tuple[str, float, float]] = []
         skipped_clustered: list[str] = []
         for response, score in sorted(scores.items(), key=lambda row: row[1], reverse=True):
             score = float(score)
             if score < 0.0:
-                continue
-            if self._response_used(team, response):
-                skipped_used.append(response)
                 continue
             threshold = self._stable_threshold(response, cooldown["count"])
             if score < threshold:
@@ -184,17 +176,41 @@ class MatchEngineV13AdaptationStability(MatchEngineV13Adaptation):
                 if not self._pattern_spans_window(team, response, evidence):
                     skipped_clustered.append(response)
                     continue
-            selected = response
-            selected_score = score
-            selected_threshold = threshold
-            break
+            candidates.append((response, score, threshold))
+
+        selected = None
+        selected_score = -1.0
+        selected_threshold = 1.0
+        dominant_used = None
+
+        if candidates:
+            dominant_response, dominant_score, dominant_threshold = candidates[0]
+            if not self._response_used(team, dominant_response):
+                selected = dominant_response
+                selected_score = dominant_score
+                selected_threshold = dominant_threshold
+            else:
+                dominant_used = dominant_response
+                # A late score-state change is qualitatively different from a
+                # structural pattern.  It may override an already-handled
+                # structural problem, but another structural label may not.
+                if dominant_response in self.STRUCTURAL_RESPONSES:
+                    for response, score, threshold in candidates[1:]:
+                        if (
+                            response in self.SCORE_RESPONSES
+                            and not self._response_used(team, response)
+                        ):
+                            selected = response
+                            selected_score = score
+                            selected_threshold = threshold
+                            break
 
         reasons: list[str] = []
         eligible = selected is not None
         if selected is None:
             reasons.append("insufficient_persistent_evidence")
-            if skipped_used:
-                reasons.append("response_already_applied")
+            if dominant_used is not None:
+                reasons.append("dominant_response_already_applied")
             if skipped_clustered:
                 reasons.append("pattern_not_temporally_persistent")
         if minute < 20.0:
@@ -221,6 +237,7 @@ class MatchEngineV13AdaptationStability(MatchEngineV13Adaptation):
                 "persistent_pattern_required": True,
                 "pattern_must_span_window": True,
                 "same_response_reapplication": False,
+                "handled_dominant_need_blocks_structural_fallthrough": True,
             },
             "cooldown": {
                 "count": cooldown["count"],

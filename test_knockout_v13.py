@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 
 from engine import EventType, MatchConfig, make_generic_team
-from engine_experiment_v13_knockout import MatchEngineV13Knockout
+from engine_experiment_v13_knockout import VERSION, MatchEngineV13Knockout
 
 
 class KnockoutContinuationTests(unittest.TestCase):
@@ -73,9 +73,11 @@ class KnockoutContinuationTests(unittest.TestCase):
         first = engine.step()
         self.assertEqual(first.type, EventType.PENALTY)
         self.assertTrue(first.data["shootout"])
+        self.assertEqual(first.data["kick_number"], 1)
         self.assertEqual(sum(engine._v13_shootout["kicks"]), 1)
         second = engine.step()
         self.assertEqual(second.type, EventType.PENALTY)
+        self.assertEqual(second.data["kick_number"], 2)
         self.assertEqual(sum(engine._v13_shootout["kicks"]), 2)
 
     def test_shootout_eventually_resolves_then_emits_match_end(self):
@@ -97,8 +99,13 @@ class KnockoutContinuationTests(unittest.TestCase):
         self.assertEqual(end.type, EventType.MATCH_END)
         self.assertEqual(end.text_key, "match_end_shootout")
         self.assertTrue(engine.state.ended)
+        self.assertFalse(engine._v13_shootout["active"])
         self.assertIn(end.data["winner"], (0, 1))
         self.assertNotEqual(end.data["shootout_score"][0], end.data["shootout_score"][1])
+
+        repeated = engine.step()
+        self.assertEqual(repeated.type, EventType.MATCH_END)
+        self.assertEqual(repeated.text_key, "match_already_ended")
 
     def test_same_seed_reproduces_same_shootout(self):
         first = self._engine(seed=91)
@@ -123,6 +130,8 @@ class KnockoutContinuationTests(unittest.TestCase):
         self._force_extra_time_tie_boundary(engine)
         engine.step()
         engine.step()
+        payload = engine.export_state()
+        self.assertEqual(payload["engine_version"], VERSION)
         restored = MatchEngineV13Knockout.from_json(engine.export_json())
 
         original_events = []

@@ -32,12 +32,14 @@ jobs:
           engine_experiment_v13_offball.py engine_experiment_v13_body.py
           engine_experiment_v13_defense.py engine_experiment_v13_marking.py
           engine_experiment_v13_cover.py engine_experiment_v13_communication.py
-          engine_experiment_v13_offside.py engine_experiment_v13_overload.py diagnostics_v13.py
+          engine_experiment_v13_offside.py engine_experiment_v13_overload.py
+          engine_experiment_v13_errors.py diagnostics_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py
           test_spatial_decisions.py test_offball_anticipation.py
           test_body_orientation.py test_defensive_intelligence.py
           test_marking_handoffs.py test_defensive_cover.py
           test_defensive_communication.py test_offside_line.py test_overload_reactions.py
+          test_defensive_errors.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -54,6 +56,7 @@ jobs:
           test_defensive_communication.py
           test_offside_line.py
           test_overload_reactions.py
+          test_defensive_errors.py
 
       - name: Run 100-match v1.3 smoke simulation
         run: python diagnostics_v13.py 100

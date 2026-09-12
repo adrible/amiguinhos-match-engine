@@ -60,7 +60,7 @@ class TacticalAdaptationStabilityTests(unittest.TestCase):
             "pattern_not_temporally_persistent", profile["blocked_reasons"]
         )
 
-    def test_same_response_is_not_reapplied_after_it_is_already_in_tactics(self):
+    def test_same_response_is_not_reapplied_or_relabelled_after_use(self):
         e = make_engine()
         e._v13_adaptation_history = [
             {
@@ -74,9 +74,30 @@ class TacticalAdaptationStabilityTests(unittest.TestCase):
         for minute in (61, 63, 65, 67, 69):
             add_event(e, minute, 1, "through_ball")
         profile = e._adaptation_profile(0)
-        self.assertNotEqual(profile["response"], "protect_depth")
+        self.assertIsNone(profile["response"])
         self.assertFalse(profile["eligible"])
-        self.assertIn("response_already_applied", profile["blocked_reasons"])
+        self.assertIn(
+            "dominant_response_already_applied", profile["blocked_reasons"]
+        )
+        self.assertTrue(
+            profile["stability_gate"][
+                "handled_dominant_need_blocks_structural_fallthrough"
+            ]
+        )
+
+    def test_late_score_need_can_override_handled_structural_problem(self):
+        e = make_engine()
+        e._v13_adaptation_history = [
+            {"minute": 50.0, "team": 0, "response": "protect_depth"}
+        ]
+        e.state.second = 82 * 60
+        e.stats[0].goals = 0
+        e.stats[1].goals = 2
+        for minute in (73, 75, 77, 79, 81):
+            add_event(e, minute, 1, "through_ball")
+        profile = e._adaptation_profile(0)
+        self.assertEqual(profile["response"], "chase_game")
+        self.assertTrue(profile["eligible"])
 
     def test_global_cooldown_is_longer_than_original_reaction_cycle(self):
         e = make_engine()
@@ -125,8 +146,10 @@ class TacticalAdaptationStabilityTests(unittest.TestCase):
         e.stats[1].goals = 2
         profile = e._adaptation_profile(0)
         self.assertFalse(profile["eligible"])
-        self.assertNotEqual(profile["response"], "chase_game")
-        self.assertIn("response_already_applied", profile["blocked_reasons"])
+        self.assertIsNone(profile["response"])
+        self.assertIn(
+            "dominant_response_already_applied", profile["blocked_reasons"]
+        )
 
     def test_same_seed_stays_reproducible_with_hysteresis(self):
         e1 = make_engine(seed=777)

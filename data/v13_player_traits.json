@@ -1,29 +1,46 @@
 {
-  "version": "1.0-candidate",
-  "description": "v1.3-only behavioural traits. Stable v1.2 roster loading ignores this file.",
+  "version": "1.1-candidate",
+  "description": "v1.3-only behavioural traits and explicit candidate attribute boosts. Stable v1.2 roster loading ignores this file.",
   "teams": {
     "amiguinhos_u21": {
+      "attribute_boosts": {
+        "overall": 2,
+        "pace": 3,
+        "passing": 3,
+        "vision": 3,
+        "technique": 3,
+        "dribbling": 3,
+        "crossing": 3,
+        "finishing": 3,
+        "long_shots": 3,
+        "heading": 3,
+        "strength": 3,
+        "tackling": 3,
+        "positioning": 3,
+        "anticipation": 3,
+        "composure": 3,
+        "off_ball": 3,
+        "stamina": 3,
+        "reflexes": 3,
+        "handling": 3,
+        "gk_positioning": 3,
+        "one_on_one": 3
+      },
       "players": {
-        "Gabriel Adib": {
-          "creativity": 92,
-          "boldness": 86,
-          "basis": "High-level two-way creator who scans for non-obvious runs and accepts difficult high-upside actions when the context supports them."
-        },
-        "Mike Junior": {
-          "creativity": 89,
-          "boldness": 64,
-          "basis": "Strategic passer whose main differentiator is vision and option discovery rather than repeated high-variance execution."
-        },
-        "Jorge Henrique": {
-          "creativity": 78,
-          "boldness": 61,
-          "basis": "Intelligent, versatile player with good reading but a comparatively controlled decision profile."
-        },
-        "Remo": {
-          "creativity": 72,
-          "boldness": 82,
-          "basis": "Direct, powerful wide attacker: less focused on hidden-option creation, more willing to attack space and accept aggressive actions."
-        }
+        "Christian": {"determination": 82},
+        "Jorge Henrique": {"creativity": 78, "boldness": 61, "determination": 91, "basis": "Intelligent, versatile and combative vice-captain; high persistence without turning controlled decision-making into recklessness."},
+        "Léo": {"determination": 86},
+        "João Peixoto": {"determination": 87},
+        "Rodrigo White": {"determination": 82},
+        "Felipe": {"determination": 94},
+        "Mike Junior": {"creativity": 89, "boldness": 64, "determination": 83, "basis": "Strategic passer whose vision is elite while determination helps him keep offering and competing under adverse match context."},
+        "Gabriel Adib": {"creativity": 92, "boldness": 86, "determination": 93, "basis": "Captain and high-level two-way creator; strong will to keep demanding the ball, recovering and attempting decisive actions under pressure."},
+        "Remo": {"creativity": 72, "boldness": 82, "determination": 88, "basis": "Direct power winger with strong willingness to attack space and repeat high-intensity actions."},
+        "Pedro Valverde": {"determination": 84},
+        "Gabriel Félix": {"determination": 89},
+        "Arthur Peixoto": {"determination": 86},
+        "Igor": {"determination": 84},
+        "Gabriel Gonzales": {"determination": 80}
       }
     }
   }

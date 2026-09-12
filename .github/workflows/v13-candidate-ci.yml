@@ -1,0 +1,54 @@
+name: Match Engine v1.3 Candidate CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  candidate-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Validate team database JSON
+        run: python -m json.tool data/teams.json > /dev/null
+
+      - name: Compile stable and candidate source
+        run: >-
+          python -m compileall -q
+          engine.py engine_experiment_v12.py stable_engine.py team_loader.py
+          engine_experiment_v13.py engine_experiment_v13_spatial.py
+          engine_experiment_v13_offball.py engine_experiment_v13_body.py
+          engine_experiment_v13_defense.py engine_experiment_v13_marking.py
+          engine_experiment_v13_cover.py diagnostics_v13.py
+          test_engine.py test_engine_v12.py test_team_loader.py
+          test_spatial_decisions.py test_offball_anticipation.py
+          test_body_orientation.py test_defensive_intelligence.py
+          test_marking_handoffs.py test_defensive_cover.py
+
+      - name: Run stable v1.2 regression suite
+        run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
+
+      - name: Run v1.3 candidate suite
+        run: >-
+          python -m unittest -v
+          test_spatial_decisions.py
+          test_offball_anticipation.py
+          test_body_orientation.py
+          test_defensive_intelligence.py
+          test_marking_handoffs.py
+          test_defensive_cover.py
+
+      - name: Run 100-match v1.3 smoke simulation
+        run: python diagnostics_v13.py 100

@@ -3,28 +3,28 @@ from __future__ import annotations
 """Experimental v1.3 layer: complete candidate persistence.
 
 The stable engine already serializes the match, players, tactics, event log and
-RNG state.  v1.3 adds persistent relationship/adaptation state that must also
+RNG state. v1.3 adds persistent relationship/adaptation state that must also
 survive a save/restore boundary or a restored match could make a different
 next decision despite having the same visible snapshot.
 
-This layer keeps the stable v1.2 format readable.  Old states without a ``v13``
+This layer keeps the stable v1.2 format readable. Old states without a ``v13``
 section restore with neutral/default candidate state.
 """
 
 from copy import deepcopy
 
-from engine_experiment_v13_adaptation import MatchEngineV13Adaptation
+from engine_experiment_v13_adaptation_stability import MatchEngineV13AdaptationStability
 
 
 VERSION = (
     "1.3-candidate-spatial-creativity-boldness-offball-body-defense-"
     "marking-cover-communication-offside-overload-errors-chemistry-"
-    "adaptation-persistence"
+    "adaptation-hysteresis-persistence"
 )
 STATE_VERSION = 3
 
 
-class MatchEngineV13Persistence(MatchEngineV13Adaptation):
+class MatchEngineV13Persistence(MatchEngineV13AdaptationStability):
     """Candidate engine with JSON-safe v1.3 private-state persistence."""
 
     def _v13_state_to_dict(self) -> dict:

@@ -15,6 +15,7 @@ from typing import Iterable
 
 from engine import Band, Lane, MatchConfig, Zone
 from engine_experiment_v13 import MatchEngine
+from final_protocol_v13 import assert_calibration_seed_allowed
 from team_loader_v13 import load_team_v13
 
 
@@ -92,6 +93,11 @@ def simulate_fixture(
     *,
     auto_adapt: bool = False,
 ) -> dict:
+    # The official final seed is declared in advance and must remain unseen by
+    # calibration.  Fail before teams/engine are created so no RNG state or
+    # match information is ever generated for that reserved fixture+seed.
+    assert_calibration_seed_allowed(home_key, away_key, seed)
+
     home = load_team_v13(home_key)
     away = load_team_v13(away_key)
     config = MatchConfig(auto_tactical_adaptation=auto_adapt)

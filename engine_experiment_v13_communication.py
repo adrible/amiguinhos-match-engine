@@ -184,7 +184,7 @@ class MatchEngineV13Communication(MatchEngineV13Cover):
         quality -= 0.12 * transition
         if call_type == "handoff_call":
             quality -= 0.11 * hiddenness
-        if communicator.player.yellow:
+        if communicator.yellow:
             quality -= 0.015
         return clamp(quality)
 

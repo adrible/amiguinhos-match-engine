@@ -175,8 +175,6 @@ class MatchEngineV13Knockout(MatchEngineV13Persistence):
         kicks = shootout["kicks"]
         goals = shootout["goals"]
 
-        # During the first five kicks per side, stop as soon as the trailing
-        # team cannot mathematically catch the leader.
         if kicks[0] <= 5 and kicks[1] <= 5:
             remaining0 = max(0, 5 - kicks[0])
             remaining1 = max(0, 5 - kicks[1])
@@ -185,8 +183,6 @@ class MatchEngineV13Knockout(MatchEngineV13Persistence):
             if goals[1] > goals[0] + remaining0:
                 return 1
 
-        # After both have taken at least five, sudden death resolves only after
-        # an equal number of kicks.
         if kicks[0] >= 5 and kicks[1] >= 5 and kicks[0] == kicks[1]:
             if goals[0] != goals[1]:
                 return 0 if goals[0] > goals[1] else 1
@@ -224,12 +220,14 @@ class MatchEngineV13Knockout(MatchEngineV13Persistence):
             conversion_probability=round(probability, 4),
             shootout_score=list(shootout["goals"]),
             shootout_kicks=list(shootout["kicks"]),
+            kick_number=sum(shootout["kicks"]),
             decisive=bool(winner is not None),
         )
 
     def _finish_shootout(self):
         shootout = self._v13_shootout
         winner = int(shootout["winner"])
+        shootout["active"] = False
         self.state.ended = True
         self.state.phase = "ended"
         return self._emit(
@@ -257,6 +255,11 @@ class MatchEngineV13Knockout(MatchEngineV13Persistence):
         data = super()._v13_state_to_dict()
         shootout = getattr(self, "_v13_shootout", None)
         data["shootout"] = deepcopy(shootout) if isinstance(shootout, dict) else None
+        return data
+
+    def export_state(self) -> dict:
+        data = super().export_state()
+        data["engine_version"] = VERSION
         return data
 
     @classmethod

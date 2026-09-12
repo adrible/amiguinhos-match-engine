@@ -1,46 +1,77 @@
 {
-  "version": "1.1-candidate",
-  "description": "v1.3-only behavioural traits and explicit candidate attribute boosts. Stable v1.2 roster loading ignores this file.",
+  "version": "1.2-candidate",
+  "description": "v1.3-only evolved player ratings and behavioural traits. Ratings are literal candidate values after tournament progression, not runtime boosts. Stable v1.2 loading ignores this file.",
   "teams": {
     "amiguinhos_u21": {
-      "attribute_boosts": {
-        "overall": 2,
-        "pace": 3,
-        "passing": 3,
-        "vision": 3,
-        "technique": 3,
-        "dribbling": 3,
-        "crossing": 3,
-        "finishing": 3,
-        "long_shots": 3,
-        "heading": 3,
-        "strength": 3,
-        "tackling": 3,
-        "positioning": 3,
-        "anticipation": 3,
-        "composure": 3,
-        "off_ball": 3,
-        "stamina": 3,
-        "reflexes": 3,
-        "handling": 3,
-        "gk_positioning": 3,
-        "one_on_one": 3
-      },
       "players": {
-        "Christian": {"determination": 82},
-        "Jorge Henrique": {"creativity": 78, "boldness": 61, "determination": 91, "basis": "Intelligent, versatile and combative vice-captain; high persistence without turning controlled decision-making into recklessness."},
-        "Léo": {"determination": 86},
-        "João Peixoto": {"determination": 87},
-        "Rodrigo White": {"determination": 82},
-        "Felipe": {"determination": 94},
-        "Mike Junior": {"creativity": 89, "boldness": 64, "determination": 83, "basis": "Strategic passer whose vision is elite while determination helps him keep offering and competing under adverse match context."},
-        "Gabriel Adib": {"creativity": 92, "boldness": 86, "determination": 93, "basis": "Captain and high-level two-way creator; strong will to keep demanding the ball, recovering and attempting decisive actions under pressure."},
-        "Remo": {"creativity": 72, "boldness": 82, "determination": 88, "basis": "Direct power winger with strong willingness to attack space and repeat high-intensity actions."},
-        "Pedro Valverde": {"determination": 84},
-        "Gabriel Félix": {"determination": 89},
-        "Arthur Peixoto": {"determination": 86},
-        "Igor": {"determination": 84},
-        "Gabriel Gonzales": {"determination": 80}
+        "Christian": {
+          "attributes": {"overall":77,"pace":53,"passing":68,"vision":64,"technique":66,"dribbling":48,"crossing":38,"finishing":28,"long_shots":28,"heading":48,"strength":76,"tackling":38,"positioning":80,"anticipation":79,"composure":78,"off_ball":38,"stamina":74,"reflexes":82,"handling":79,"gk_positioning":81,"one_on_one":84,"aggression":60,"discipline":70},
+          "determination": 82
+        },
+        "Jorge Henrique": {
+          "attributes": {"overall":78,"pace":79,"passing":82,"vision":81,"technique":79,"dribbling":77,"crossing":78,"finishing":60,"long_shots":70,"heading":71,"strength":80,"tackling":83,"positioning":82,"anticipation":83,"composure":80,"off_ball":75,"stamina":87,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":73,"discipline":78},
+          "creativity": 78,
+          "boldness": 61,
+          "determination": 91,
+          "basis": "Intelligent, versatile and combative vice-captain; high persistence without turning controlled decision-making into recklessness."
+        },
+        "Léo": {
+          "attributes": {"overall":76,"pace":78,"passing":71,"vision":68,"technique":70,"dribbling":62,"crossing":52,"finishing":47,"long_shots":47,"heading":84,"strength":87,"tackling":82,"positioning":80,"anticipation":81,"composure":75,"off_ball":58,"stamina":83,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":74,"discipline":73},
+          "determination": 86
+        },
+        "João Peixoto": {
+          "attributes": {"overall":74,"pace":70,"passing":69,"vision":65,"technique":67,"dribbling":58,"crossing":61,"finishing":46,"long_shots":48,"heading":85,"strength":91,"tackling":80,"positioning":79,"anticipation":77,"composure":72,"off_ball":57,"stamina":79,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":74,"discipline":73},
+          "determination": 87
+        },
+        "Rodrigo White": {
+          "attributes": {"overall":77,"pace":85,"passing":76,"vision":73,"technique":79,"dribbling":80,"crossing":84,"finishing":58,"long_shots":63,"heading":64,"strength":71,"tackling":75,"positioning":74,"anticipation":75,"composure":74,"off_ball":83,"stamina":86,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":62,"discipline":72},
+          "determination": 82
+        },
+        "Felipe": {
+          "attributes": {"overall":76,"pace":73,"passing":75,"vision":72,"technique":73,"dribbling":69,"crossing":63,"finishing":57,"long_shots":65,"heading":69,"strength":89,"tackling":85,"positioning":79,"anticipation":81,"composure":71,"off_ball":68,"stamina":86,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":90,"discipline":52},
+          "determination": 94
+        },
+        "Mike Junior": {
+          "attributes": {"overall":76,"pace":75,"passing":84,"vision":87,"technique":82,"dribbling":79,"crossing":77,"finishing":68,"long_shots":74,"heading":64,"strength":72,"tackling":69,"positioning":76,"anticipation":82,"composure":83,"off_ball":80,"stamina":82,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":61,"discipline":75},
+          "creativity": 89,
+          "boldness": 64,
+          "determination": 83,
+          "basis": "Strategic passer whose vision is elite while determination helps him keep offering and competing under adverse match context."
+        },
+        "Gabriel Adib": {
+          "attributes": {"overall":81,"pace":82,"passing":88,"vision":89,"technique":87,"dribbling":84,"crossing":80,"finishing":82,"long_shots":85,"heading":70,"strength":78,"tackling":82,"positioning":84,"anticipation":87,"composure":87,"off_ball":85,"stamina":88,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":80,"discipline":74},
+          "creativity": 92,
+          "boldness": 86,
+          "determination": 93,
+          "basis": "Captain and high-level two-way creator; strong will to keep demanding the ball, recovering and attempting decisive actions under pressure."
+        },
+        "Remo": {
+          "attributes": {"overall":78,"pace":88,"passing":76,"vision":74,"technique":82,"dribbling":83,"crossing":83,"finishing":79,"long_shots":78,"heading":65,"strength":84,"tackling":56,"positioning":72,"anticipation":78,"composure":77,"off_ball":84,"stamina":85,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":68,"discipline":73},
+          "creativity": 72,
+          "boldness": 82,
+          "determination": 88,
+          "basis": "Direct power winger with strong willingness to attack space and repeat high-intensity actions."
+        },
+        "Pedro Valverde": {
+          "attributes": {"overall":80,"pace":86,"passing":81,"vision":86,"technique":87,"dribbling":87,"crossing":78,"finishing":86,"long_shots":87,"heading":65,"strength":71,"tackling":52,"positioning":75,"anticipation":85,"composure":85,"off_ball":88,"stamina":81,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":58,"discipline":73},
+          "determination": 84
+        },
+        "Gabriel Félix": {
+          "attributes": {"overall":76,"pace":74,"passing":73,"vision":70,"technique":79,"dribbling":73,"crossing":58,"finishing":81,"long_shots":71,"heading":93,"strength":91,"tackling":42,"positioning":70,"anticipation":82,"composure":81,"off_ball":84,"stamina":80,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":69,"discipline":72},
+          "determination": 89
+        },
+        "Arthur Peixoto": {
+          "attributes": {"overall":73,"pace":72,"passing":74,"vision":71,"technique":72,"dribbling":68,"crossing":66,"finishing":55,"long_shots":62,"heading":71,"strength":83,"tackling":81,"positioning":78,"anticipation":78,"composure":75,"off_ball":66,"stamina":82,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":76,"discipline":78},
+          "determination": 86
+        },
+        "Igor": {
+          "attributes": {"overall":75,"pace":82,"passing":71,"vision":69,"technique":70,"dribbling":62,"crossing":61,"finishing":47,"long_shots":50,"heading":84,"strength":83,"tackling":80,"positioning":81,"anticipation":83,"composure":75,"off_ball":59,"stamina":81,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":69,"discipline":75},
+          "determination": 84
+        },
+        "Gabriel Gonzales": {
+          "attributes": {"overall":72,"pace":70,"passing":69,"vision":65,"technique":67,"dribbling":59,"crossing":53,"finishing":46,"long_shots":47,"heading":80,"strength":81,"tackling":77,"positioning":76,"anticipation":75,"composure":72,"off_ball":56,"stamina":77,"reflexes":43,"handling":43,"gk_positioning":43,"one_on_one":43,"aggression":72,"discipline":72},
+          "determination": 80
+        }
       }
     }
   }

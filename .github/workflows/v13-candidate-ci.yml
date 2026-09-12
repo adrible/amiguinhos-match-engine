@@ -39,7 +39,7 @@ jobs:
           engine_experiment_v13_adaptation.py engine_experiment_v13_adaptation_stability.py
           engine_experiment_v13_persistence.py engine_experiment_v13_knockout.py
           engine_experiment_v13_determination.py
-          final_protocol_v13.py diagnostics_v13.py calibration_v13.py runner_v13.py
+          final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py
           test_spatial_decisions.py test_offball_anticipation.py
           test_body_orientation.py test_defensive_intelligence.py
@@ -47,8 +47,8 @@ jobs:
           test_defensive_communication.py test_offside_line.py test_overload_reactions.py
           test_defensive_errors.py test_shared_understanding.py test_tactical_adaptation.py
           test_adaptation_stability.py test_v13_player_traits.py test_determination_v13.py
-          test_calibration_v13.py test_v13_persistence.py test_runner_v13.py
-          test_final_protocol_v13.py test_knockout_v13.py
+          test_extended_validation_v13.py test_calibration_v13.py test_v13_persistence.py
+          test_runner_v13.py test_final_protocol_v13.py test_knockout_v13.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -71,6 +71,7 @@ jobs:
           test_adaptation_stability.py
           test_v13_player_traits.py
           test_determination_v13.py
+          test_extended_validation_v13.py
           test_calibration_v13.py
           test_v13_persistence.py
           test_runner_v13.py
@@ -90,3 +91,21 @@ jobs:
         run: >-
           python calibration_v13.py 24 --start-seed 0 --auto-adapt
           --uncapped-adaptation-diagnostic --compact
+
+  extended-evaluation:
+    needs: candidate-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run 300-match all-opponent home-away evaluation
+        run: python evaluation_v13.py --count 10 --base-seed 1000 --compact
+
+      - name: Run additional 300-seed Amiguinhos x Flamengo stress
+        run: python calibration_v13.py 300 --start-seed 20000 --compact

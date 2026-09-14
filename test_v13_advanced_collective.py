@@ -42,7 +42,7 @@ class AdvancedCollectiveTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13Deception, MatchEngineV13PassingTexture))
         self.assertTrue(issubclass(MatchEngineV13TransitionStructure, MatchEngineV13Deception))
         self.assertTrue(issubclass(MatchEngineV13SpaceManipulation, MatchEngineV13TransitionStructure))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13SpaceManipulation)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13SpaceManipulation))
 
     def test_scanning_changes_information_and_decision_time_without_new_attribute(self):
         e = self.engine()

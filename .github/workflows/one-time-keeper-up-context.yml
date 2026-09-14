@@ -1,0 +1,147 @@
+name: One-time contextual keeper up
+on:
+  push:
+    branches: [v1.3-spatial-creativity-boldness]
+    paths: ['.github/workflows/one-time-keeper-up-context.yml']
+permissions:
+  contents: write
+jobs:
+  patch-test-commit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v1.3-spatial-creativity-boldness
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Patch contextual goalkeeper behavior
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('engine_experiment_v13_spatial.py')
+          s = p.read_text()
+
+          anchor = '''    def _choose_actor(self, team: int, zone: Zone) -> PlayerState:\n'''
+          insert = '''    def _keeper_attack_mode(self, team: int, zone: Zone) -> str:\n        \"\"\"Contextual goalkeeper positioning: normal, high_support, keeper_up.\n\n        The keeper never leaks forward from a generic tiny probability. Forward\n        involvement is enabled only by explicit match context.\n        \"\"\"\n        home, away = self.score\n        diff = (home - away) if team == 0 else (away - home)\n        minute = self.minute\n        if diff >= 0 or minute < 86.0:\n            return \"normal\"\n\n        restart_attacking = (\n            self.state.restart_team == team\n            and self.state.restart in {\"corner\", \"free_kick\"}\n        )\n        if (\n            minute >= 89.0\n            and restart_attacking\n            and zone.band in {Band.ATT, Band.BOX}\n        ):\n            return \"keeper_up\"\n        if minute >= 92.0 and zone.band in {Band.ATT, Band.BOX}:\n            return \"keeper_up\"\n        if minute >= 88.0 and zone.band == Band.MID:\n            return \"high_support\"\n        return \"normal\"\n\n    def _ensure_keeper_exposure_state(self) -> None:\n        if not hasattr(self, \"_v13_keeper_up_team\"):\n            self._v13_keeper_up_team = None\n        if not hasattr(self, \"_v13_keeper_up_until\"):\n            self._v13_keeper_up_until = 0.0\n\n    def _activate_keeper_up(self, team: int, seconds: float = 32.0) -> None:\n        self._ensure_keeper_exposure_state()\n        self._v13_keeper_up_team = int(team)\n        self._v13_keeper_up_until = max(\n            float(self._v13_keeper_up_until), self.state.second + float(seconds)\n        )\n\n    def _clear_keeper_up(self, team: Optional[int] = None) -> None:\n        self._ensure_keeper_exposure_state()\n        if team is None or self._v13_keeper_up_team == team:\n            self._v13_keeper_up_team = None\n            self._v13_keeper_up_until = 0.0\n\n    def _keeper_is_exposed(self, team: int) -> bool:\n        self._ensure_keeper_exposure_state()\n        if self.state.second > self._v13_keeper_up_until:\n            self._clear_keeper_up()\n            return False\n        return self._v13_keeper_up_team == team\n\n    def export_state(self) -> dict:\n        data = super().export_state()\n        self._ensure_keeper_exposure_state()\n        data[\"v13_keeper_up\"] = {\n            \"team\": self._v13_keeper_up_team,\n            \"until\": self._v13_keeper_up_until,\n        }\n        return data\n\n    @classmethod\n    def from_state_dict(cls, data: dict):\n        obj = super().from_state_dict(data)\n        keeper = data.get(\"v13_keeper_up\", {})\n        obj._v13_keeper_up_team = keeper.get(\"team\")\n        obj._v13_keeper_up_until = float(keeper.get(\"until\", 0.0))\n        return obj\n\n    def _contextual_attacking_receiver_eligible(\n        self, team: int, zone: Zone, ps: PlayerState\n    ) -> bool:\n        if ps.player.position.upper() != \"GK\":\n            return True\n        mode = self._keeper_attack_mode(team, zone)\n        return (\n            (mode == \"high_support\" and zone.band == Band.MID)\n            or (mode == \"keeper_up\" and zone.band in {Band.MID, Band.ATT, Band.BOX})\n        )\n\n    def _resolve_restart(self):\n        kind = self.state.restart\n        team = self.state.restart_team\n        zone = self.state.restart_zone or self.state.zone\n        keeper_up = (\n            team is not None\n            and kind in {\"corner\", \"free_kick\"}\n            and self._keeper_attack_mode(team, zone) == \"keeper_up\"\n        )\n        if keeper_up:\n            self._activate_keeper_up(team, seconds=36.0)\n        event = super()._resolve_restart()\n        if keeper_up:\n            event.data[\"keeper_up\"] = True\n        return event\n\n    def _calculate_xg(self, p, shooter, defender, keeper) -> float:\n        xg = super()._calculate_xg(p, shooter, defender, keeper)\n        defending_team = 1 - p.team\n        if not self._keeper_is_exposed(defending_team):\n            return xg\n        # Keeper out of goal: loss of possession has a real downside. The bonus\n        # is strongest for transitions and advanced shots, but even a long-range\n        # attempt at an empty goal becomes materially more dangerous.\n        empty_goal_bonus = {\n            Band.DEF: 0.075, Band.MID: 0.145, Band.ATT: 0.235, Band.BOX: 0.285\n        }[p.zone.band]\n        if p.origin in {\"transition\", \"turnover\", \"carry\", \"progression\"}:\n            empty_goal_bonus += 0.065\n        return clamp(xg + empty_goal_bonus, 0.003, 0.88)\n\n    def _switch_possession(self, new_team, zone, transition=0.0):\n        super()._switch_possession(new_team, zone, transition=transition)\n        # Once the exposed keeper's team safely recovers the ball in a normal\n        # build-up zone, he is considered to have retreated.\n        if self._keeper_is_exposed(new_team) and zone.band in {Band.DEF, Band.MID}:\n            self._clear_keeper_up(new_team)\n\n    def _emit(self, typ, team, relevance, text_key, **data):\n        event = super()._emit(typ, team, relevance, text_key, **data)\n        if getattr(typ, \"value\", typ) == \"goal\":\n            self._clear_keeper_up()\n        return event\n\n'''
+          if insert not in s:
+              if anchor not in s:
+                  raise SystemExit('choose_actor anchor not found')
+              s = s.replace(anchor, insert + anchor, 1)
+
+          old = '''        for ps in rt.on_field:\n            pos = ps.player.position.upper()\n            if pos == \"GK\":\n                continue\n            if zone.band == Band.MID:\n'''
+          new = '''        for ps in rt.on_field:\n            pos = ps.player.position.upper()\n            if pos == \"GK\":\n                mode = self._keeper_attack_mode(team, zone)\n                if mode == \"high_support\" and zone.band == Band.MID:\n                    w = 0.035\n                elif mode == \"keeper_up\" and zone.band in {Band.MID, Band.ATT, Band.BOX}:\n                    w = {Band.MID: 0.045, Band.ATT: 0.070, Band.BOX: 0.105}[zone.band]\n                else:\n                    continue\n                w *= 0.75 + 0.25 * ps.energy\n                weights.append((ps, w))\n                continue\n            if zone.band == Band.MID:\n'''
+          if old not in s:
+              raise SystemExit('actor GK block not found')
+          s = s.replace(old, new, 1)
+
+          old = '''        return weighted_choice(self.rng, weights)\n\n    def _receiver_option_quality'''
+          new = '''        selected = weighted_choice(self.rng, weights)\n        if selected.player.position.upper() == \"GK\" and zone.band != Band.DEF:\n            self._activate_keeper_up(team)\n        return selected\n\n    def _receiver_option_quality'''
+          if old not in s:
+              raise SystemExit('actor return anchor not found')
+          s = s.replace(old, new, 1)
+
+          old = '''            if not self._attacking_receiver_eligible(ps):\n                continue\n            pos = ps.player.position.upper()\n            w = {\n                \"ST\": 1.55, \"AM\": 1.35, \"LW\": 1.25, \"RW\": 1.25,\n                \"CM\": 0.75, \"LB\": 0.42, \"RB\": 0.42, \"DM\": 0.35,\n                \"CB\": 0.12,\n            }.get(pos, 0.5)\n'''
+          new = '''            if not self._contextual_attacking_receiver_eligible(team, zone, ps):\n                continue\n            pos = ps.player.position.upper()\n            if pos == \"GK\":\n                mode = self._keeper_attack_mode(team, zone)\n                w = (\n                    0.030 if mode == \"high_support\"\n                    else {Band.MID: 0.040, Band.ATT: 0.060, Band.BOX: 0.095}.get(zone.band, 0.0)\n                )\n            else:\n                w = {\n                    \"ST\": 1.55, \"AM\": 1.35, \"LW\": 1.25, \"RW\": 1.25,\n                    \"CM\": 0.75, \"LB\": 0.42, \"RB\": 0.42, \"DM\": 0.35,\n                    \"CB\": 0.12,\n                }.get(pos, 0.5)\n'''
+          if old not in s:
+              raise SystemExit('target eligibility block not found')
+          s = s.replace(old, new, 1)
+
+          old = '''                if target is not None and self._attacking_receiver_eligible(target):\n                    return target\n'''
+          new = '''                if target is not None and self._contextual_attacking_receiver_eligible(team, zone, target):\n                    if target.player.position.upper() == \"GK\":\n                        self._activate_keeper_up(team)\n                    return target\n'''
+          if old not in s:
+              raise SystemExit('forced target block not found')
+          s = s.replace(old, new, 1)
+
+          old = '''            return weighted_choice(\n                self.rng,\n                MatchEngineV13Spatial._base_target_weights(self, team, zone, None),\n            )\n        return weighted_choice(self.rng, self._base_target_weights(team, zone, actor))\n'''
+          new = '''            target = weighted_choice(\n                self.rng,\n                MatchEngineV13Spatial._base_target_weights(self, team, zone, None),\n            )\n            if target.player.position.upper() == \"GK\":\n                self._activate_keeper_up(team)\n            return target\n        target = weighted_choice(self.rng, self._base_target_weights(team, zone, actor))\n        if target.player.position.upper() == \"GK\":\n            self._activate_keeper_up(team)\n        return target\n'''
+          if old not in s:
+              raise SystemExit('choose_target return block not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+
+      - name: Add contextual keeper-up regression tests
+        run: |
+          cat > test_v13_keeper_up_context.py <<'PY'
+          from __future__ import annotations
+          import unittest
+          from engine import Band, Lane, Zone, PendingAction, make_generic_team
+          from engine_experiment_v13_spatial import MatchEngineV13Spatial
+
+          class KeeperUpContextTests(unittest.TestCase):
+              def engine(self):
+                  return MatchEngineV13Spatial(
+                      make_generic_team('Home', 78, 'balanced', seed=11),
+                      make_generic_team('Away', 78, 'balanced', seed=22),
+                      seed=33,
+                  )
+
+              def set_score(self, e, home, away):
+                  e.stats[0].goals = home
+                  e.stats[1].goals = away
+
+              def test_ten_minutes_losing_is_still_normal(self):
+                  e = self.engine(); self.set_score(e, 0, 1); e.state.second = 10 * 60
+                  self.assertEqual(e._keeper_attack_mode(0, Zone(Band.BOX, Lane.CENTER)), 'normal')
+                  gk = e._goalkeeper(0)
+                  self.assertFalse(e._contextual_attacking_receiver_eligible(0, Zone(Band.BOX, Lane.CENTER), gk))
+
+              def test_94th_minute_one_goal_down_enables_keeper_up(self):
+                  e = self.engine(); self.set_score(e, 0, 1); e.state.second = 94 * 60
+                  z = Zone(Band.BOX, Lane.CENTER)
+                  self.assertEqual(e._keeper_attack_mode(0, z), 'keeper_up')
+                  self.assertTrue(e._contextual_attacking_receiver_eligible(0, z, e._goalkeeper(0)))
+
+              def test_draw_at_94_does_not_send_keeper(self):
+                  e = self.engine(); self.set_score(e, 1, 1); e.state.second = 94 * 60
+                  self.assertEqual(e._keeper_attack_mode(0, Zone(Band.BOX, Lane.CENTER)), 'normal')
+
+              def test_late_attacking_corner_activates_exposure(self):
+                  e = self.engine(); self.set_score(e, 0, 1); e.state.second = 91 * 60
+                  e.state.restart = 'corner'; e.state.restart_team = 0
+                  e.state.restart_zone = Zone(Band.BOX, Lane.RIGHT)
+                  ev = e._resolve_restart()
+                  self.assertTrue(ev.data.get('keeper_up'))
+                  self.assertTrue(e._keeper_is_exposed(0))
+
+              def test_exposed_keeper_increases_counter_xg(self):
+                  e = self.engine(); self.set_score(e, 0, 1); e.state.second = 94 * 60
+                  p = PendingAction(1, e._choose_actor(1, Zone(Band.ATT, Lane.CENTER)).player.name,
+                                    'shoot', Zone(Band.ATT, Lane.CENTER), danger=0.55,
+                                    pressure=0.25, origin='transition')
+                  shooter = e.teams[1].by_name(p.actor)
+                  defender = e._choose_actor(0, Zone(Band.DEF, Lane.CENTER))
+                  keeper = e._goalkeeper(0)
+                  base = e._calculate_xg(p, shooter, defender, keeper)
+                  e._activate_keeper_up(0)
+                  exposed = e._calculate_xg(p, shooter, defender, keeper)
+                  self.assertGreater(exposed, base + 0.20)
+
+              def test_keeper_exposure_survives_json_roundtrip(self):
+                  e = self.engine(); self.set_score(e, 0, 1); e.state.second = 94 * 60
+                  e._activate_keeper_up(0, seconds=40)
+                  clone = MatchEngineV13Spatial.from_json(e.export_json())
+                  self.assertTrue(clone._keeper_is_exposed(0))
+                  self.assertEqual(clone._v13_keeper_up_team, 0)
+
+          if __name__ == '__main__':
+              unittest.main()
+          PY
+
+      - name: Run regression suite
+        run: |
+          python -m unittest -v \
+            test_v13_keeper_up_context.py \
+            test_v13_goalkeeper_receiver_eligibility.py \
+            test_spatial_decisions.py \
+            test_historical_2014_v13.py
+
+      - name: Commit implementation and remove one-time workflow
+        run: |
+          rm .github/workflows/one-time-keeper-up-context.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine_experiment_v13_spatial.py test_v13_keeper_up_context.py .github/workflows/one-time-keeper-up-context.yml
+          git commit -m "Add contextual goalkeeper keeper-up behavior in v1.3"
+          git push

@@ -1,0 +1,25 @@
+name: Export Live Session Bundle
+
+on:
+  push:
+    branches:
+      - live-test-brazil-germany-2014
+    paths:
+      - .github/workflows/export-live-session.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload live bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: brazil-germany-live-bundle
+          path: .
+          retention-days: 1

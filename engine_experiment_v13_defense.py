@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Experimental v1.3 layer: contextual defensive intelligence.
 
-Extends the v1.3 body-orientation candidate without touching frozen v1.2.
+Extends the v1.3 legal-body-contact candidate without touching frozen v1.2.
 
 Core idea:
     attacking situation + zone + runner/ball threat + defensive tactics
@@ -19,13 +19,13 @@ from dataclasses import replace
 from typing import Optional
 
 from engine import Band, Lane, PendingAction, PlayerState, Zone, clamp, weighted_choice
-from engine_experiment_v13_body import MatchEngineV13Body
+from engine_experiment_v13_legal_body import MatchEngineV13LegalBody
 
 
 VERSION = "1.3-candidate-spatial-creativity-boldness-offball-body-defense"
 
 
-class MatchEngineV13Defense(MatchEngineV13Body):
+class MatchEngineV13Defense(MatchEngineV13LegalBody):
     """Adds contextual defensive decision-making.
 
     Defensive intelligence here means *choosing what to protect* in the current

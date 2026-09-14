@@ -54,7 +54,7 @@ class MatchEngineV13Substitutions(MatchEngineV13Determination):
         return data
 
     @staticmethod
-    def _role_fit(out_position: str, in_position: str) -> float:
+    def _substitution_role_fit(out_position: str, in_position: str) -> float:
         """0..1 positional compatibility for a straight substitution."""
         out_pos = str(out_position).upper()
         in_pos = str(in_position).upper()
@@ -230,7 +230,7 @@ class MatchEngineV13Substitutions(MatchEngineV13Determination):
         incoming: Player,
         reason: str,
     ) -> Optional[dict]:
-        fit = self._role_fit(outgoing.player.position, incoming.position)
+        fit = self._substitution_role_fit(outgoing.player.position, incoming.position)
         if fit < 0.52:
             return None
 

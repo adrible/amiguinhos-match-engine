@@ -1,0 +1,20 @@
+name: Live Historical P
+
+on:
+  push:
+    branches: [live-test-brazil-germany-2014]
+    paths:
+      - 'live_sessions/brazil_germany_2014_command.json'
+
+jobs:
+  press-p:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Advance exactly one p
+        run: python live_historical_session_v13.py

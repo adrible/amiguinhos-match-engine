@@ -3,20 +3,26 @@ from __future__ import annotations
 """v1.3-only roster loader for evolved ratings and behavioural traits.
 
 Stable v1.2 continues to load ``data/teams.json`` through ``team_loader.py``.
-The candidate v1.3 starts from that frozen roster only to preserve team
+The candidate v1.3 starts from that frozen roster to preserve the known team
 structure, then replaces explicitly listed player ratings with the literal
 current values stored in ``data/v13_player_traits.json``.
 
 Those values are NOT runtime boosts or deltas. They are the players' new
 ratings after their progression during the tournament. Creativity, boldness
 and determination remain separate behavioural traits.
+
+Some explicit tournament opponents were originally stored with only eleven
+starters.  v1.3 needs a usable bench for the autonomous substitution coach, so
+teams with *no bench data at all* receive a deterministic neutral reserve pool.
+Known benches are never supplemented or replaced.  Stable v1.2 is unaffected.
 """
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Optional
 
-from engine import Team
+from engine import Team, make_generic_team
 from team_loader import load_team as load_stable_team
 
 
@@ -104,6 +110,37 @@ def _validated_attributes(player_name: str, raw: dict) -> dict[str, int]:
     return validated
 
 
+def _candidate_reserve_seed(team_key: str) -> int:
+    """Stable per-team seed; independent from Python hash randomization."""
+    digest = hashlib.sha256(f"v13-reserve-pool|{team_key}".encode("utf-8")).hexdigest()
+    return int(digest[:8], 16)
+
+
+def _ensure_candidate_bench(team: Team, team_key: str) -> Team:
+    """Provide a neutral deterministic bench only when the source has none.
+
+    The generated pool is intentionally generic and one strength step below the
+    team's rounded starting-XI average.  It is a data-completeness fallback,
+    not a team-specific buff.  Any explicitly supplied bench wins completely.
+    """
+    if team.bench:
+        return team
+    if not team.starters:
+        return team
+
+    average_overall = round(
+        sum(float(player.overall) for player in team.starters) / len(team.starters)
+    )
+    generated = make_generic_team(
+        name=f"{team.name} Reserva",
+        strength=int(average_overall),
+        style="balanced",
+        seed=_candidate_reserve_seed(team_key),
+    )
+    team.bench = list(generated.bench)
+    return team
+
+
 def apply_v13_traits(
     team: Team,
     team_key: str,
@@ -146,9 +183,10 @@ def load_team_v13(
     *,
     traits_path: Optional[str | Path] = None,
 ) -> Team:
-    """Load frozen v1.2 structure, then replace explicit v1.3 player values."""
+    """Load frozen v1.2 structure, evolve ratings, then ensure candidate depth."""
     team = load_stable_team(team_key, teams_path)
-    return apply_v13_traits(team, team_key, traits_path=traits_path)
+    team = apply_v13_traits(team, team_key, traits_path=traits_path)
+    return _ensure_candidate_bench(team, team_key)
 
 
 load_team = load_team_v13

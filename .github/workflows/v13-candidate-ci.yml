@@ -50,6 +50,9 @@ jobs:
           engine_experiment_v13_combinations.py engine_experiment_v13_runs.py
           engine_experiment_v13_thirdman.py engine_experiment_v13_pressing_triggers.py
           engine_experiment_v13_duels.py engine_experiment_v13_collective.py
+          engine_experiment_v13_scanning.py engine_experiment_v13_passing_texture.py
+          engine_experiment_v13_deception.py engine_experiment_v13_transition_structure.py
+          engine_experiment_v13_space_manipulation.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
@@ -64,7 +67,7 @@ jobs:
           test_referee_calibration_v13.py test_referee_extended_v13.py
           test_extended_validation_v13.py test_calibration_v13.py
           test_v13_persistence.py test_runner_v13.py test_final_protocol_v13.py test_knockout_v13.py
-          test_v13_collective_play.py
+          test_v13_collective_play.py test_v13_advanced_collective.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -103,6 +106,7 @@ jobs:
           test_final_protocol_v13.py
           test_knockout_v13.py
           test_v13_collective_play.py
+          test_v13_advanced_collective.py
 
       - name: Run 100-match v1.3 generic smoke simulation
         run: python diagnostics_v13.py 100

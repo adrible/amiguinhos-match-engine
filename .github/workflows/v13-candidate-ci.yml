@@ -43,7 +43,7 @@ jobs:
           engine_experiment_v13_determination.py engine_experiment_v13_substitutions.py
           engine_experiment_v13_referee.py engine_experiment_v13_referee_ordering.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
-          substitution_diagnostics_v13.py runner_v13.py
+          substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py
           test_spatial_decisions.py test_offball_anticipation.py
           test_body_orientation.py test_defensive_intelligence.py
@@ -102,6 +102,9 @@ jobs:
 
       - name: Run 100-match automatic substitution diagnostics
         run: python substitution_diagnostics_v13.py 100 --start-seed 50000
+
+      - name: Run 100-match referee and foul diagnostics
+        run: python referee_diagnostics_v13.py 100 --start-seed 60000 --compact
 
   extended-evaluation:
     needs: candidate-test

@@ -3,7 +3,7 @@
 This is intentionally separate from frozen stable_engine.py (v1.2).
 """
 
-from engine_experiment_v13_referee_ordering import MatchEngineV13Referee
+from engine_experiment_v13_referee_calibrated import MatchEngineV13Referee
 
 ENGINE_VERSION = "1.3-candidate"
 MatchEngine = MatchEngineV13Referee

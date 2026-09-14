@@ -109,3 +109,9 @@ jobs:
 
       - name: Run additional 300-seed Amiguinhos x Flamengo stress
         run: python calibration_v13.py 300 --start-seed 20000 --compact
+
+      - name: Compare 120 identical seeds with and without auto adaptation
+        run: python evaluation_v13.py --adaptation-ab --count 120 --base-seed 30000 --compact
+
+      - name: Run 120 final-like knockout matches with adaptation and extra time
+        run: python evaluation_v13.py --knockout --count 120 --base-seed 40000 --compact

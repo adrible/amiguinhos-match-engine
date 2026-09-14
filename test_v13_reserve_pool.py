@@ -67,12 +67,22 @@ class V13ReservePoolTests(unittest.TestCase):
         ]
         self.assertEqual(first_rows, second_rows)
 
-    def test_flamengo_is_on_shared_youth_scale_not_old_84_team_scale(self):
+    def test_flamengo_preserves_84_tournament_strength_on_real_u20_roster(self):
         candidate = load_team_v13("flamengo_u21")
         starter_average = sum(p.overall for p in candidate.starters) / len(candidate.starters)
-        self.assertGreater(starter_average, 78.0)
-        self.assertLess(starter_average, 82.0)
-        self.assertEqual(max(p.overall for p in candidate.starters), 82)
+        self.assertAlmostEqual(starter_average, 84.0, places=8)
+        self.assertEqual(max(p.overall for p in candidate.starters), 86)
+        self.assertGreaterEqual(min(p.overall for p in candidate.starters), 82)
+
+    def test_flamengo_84_is_not_only_a_label(self):
+        candidate = load_team_v13("flamengo_u21")
+        joshua = next(player for player in candidate.starters if player.name == "Joshua")
+        falcone = next(player for player in candidate.starters if player.name == "Lucas Falcone")
+        joao = next(player for player in candidate.starters if player.name == "João Victor")
+        self.assertEqual(joshua.overall, 86)
+        self.assertGreaterEqual(joshua.dribbling, 90)
+        self.assertGreaterEqual(falcone.passing, 86)
+        self.assertGreaterEqual(joao.tackling, 86)
 
     def test_flamengo_bench_contains_real_current_u20_options(self):
         candidate = load_team_v13("flamengo_u21")

@@ -41,11 +41,12 @@ class DeterminationV13Tests(unittest.TestCase):
         self.assertEqual(felipe.aggression, 90)
         self.assertEqual(felipe.discipline, 52)
 
-    def test_unconfigured_opponent_keeps_stable_ratings(self):
-        stable = load_stable_team("flamengo_u21")
-        candidate = load_team_v13("flamengo_u21")
+    def test_non_overlaid_opponent_keeps_stable_ratings(self):
+        stable = load_stable_team("ajax_u21")
+        candidate = load_team_v13("ajax_u21")
         stable_players = {p.name: p for p in stable.starters}
         candidate_players = {p.name: p for p in candidate.starters}
+        self.assertEqual(set(candidate_players), set(stable_players))
         for name in stable_players:
             self.assertEqual(candidate_players[name].overall, stable_players[name].overall)
             self.assertEqual(candidate_players[name].passing, stable_players[name].passing)

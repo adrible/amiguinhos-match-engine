@@ -3,12 +3,15 @@ from __future__ import annotations
 """Live interactive runner for the v1.3 candidate.
 
 Nothing is simulated at startup beyond constructing the current 0:00 engine
-state.  A session owns one live MatchEngine instance.  The ``p`` command asks
+state. A session owns one live MatchEngine instance. The ``p`` command asks
 that engine to advance *from its current state* until the next relevant event.
 There is no precomputed event queue, no hidden full-match simulation and no
 replay of a previously simulated result.
 
-The official final seed is reserved.  Normal fixture creation rejects it for
+Candidate-only historical test fixtures are loaded through
+``historical_2014_v13`` and remain isolated from frozen v1.2 tournament data.
+
+The official final seed is reserved. Normal fixture creation rejects it for
 the Amiguinhos U21 x Flamengo U21 final; only the explicit official-final
 factory/CLI flag may unlock it when the live final is actually started.
 """
@@ -26,7 +29,7 @@ from final_protocol_v13 import (
     OFFICIAL_FINAL_SEED,
     is_reserved_official_seed,
 )
-from team_loader_v13 import load_team_v13
+from historical_2014_v13 import load_team_for_v13
 
 
 class MatchSessionV13:
@@ -55,8 +58,8 @@ class MatchSessionV13:
                 "runner only when the live final is actually starting"
             )
 
-        home = load_team_v13(home_key)
-        away = load_team_v13(away_key)
+        home = load_team_for_v13(home_key)
+        away = load_team_for_v13(away_key)
         engine = MatchEngine(
             home,
             away,

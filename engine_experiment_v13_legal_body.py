@@ -115,10 +115,28 @@ class MatchEngineV13LegalBody(MatchEngineV13Body):
         return table.get(region, {}).get(part, 0.88)
 
     @staticmethod
+    def _footedness(actor: PlayerState) -> str:
+        raw = str(actor.player.preferred_foot or "R").strip().upper()
+        if raw in {"B", "BOTH", "AMBIDEXTROUS", "AMBIDEXTRO", "TWO_FOOTED", "TWO-FOOTED", "2"}:
+            return "B"
+        return "L" if raw == "L" else "R"
+
+    @staticmethod
     def _preferred_and_weak_foot(actor: PlayerState) -> tuple[str, str]:
-        preferred = "left_foot" if (actor.player.preferred_foot or "R").upper() == "L" else "right_foot"
+        footedness = MatchEngineV13LegalBody._footedness(actor)
+        preferred = "left_foot" if footedness == "L" else "right_foot"
         weak = "right_foot" if preferred == "left_foot" else "left_foot"
         return preferred, weak
+
+    @staticmethod
+    def _weak_foot_difficulty(actor: PlayerState, family: str) -> float:
+        technique = clamp(actor.effective("technique") / 100.0)
+        floor, ceiling = {
+            "pass": (0.68, 0.94),
+            "control": (0.70, 0.95),
+            "shoot": (0.65, 0.92),
+        }.get(family, (0.68, 0.94))
+        return floor + (ceiling - floor) * (technique ** 1.15)
 
     @staticmethod
     def _incoming_height(source: str) -> float:
@@ -141,6 +159,9 @@ class MatchEngineV13LegalBody(MatchEngineV13Body):
         }.get((source or "open_play").lower(), 0.18)
 
     def _part_category(self, actor: PlayerState, part: str) -> str:
+        footedness = self._footedness(actor)
+        if footedness == "B" and part in {"right_foot", "left_foot"}:
+            return "preferred_foot"
         preferred, weak = self._preferred_and_weak_foot(actor)
         if part == preferred:
             return "preferred_foot"
@@ -179,6 +200,8 @@ class MatchEngineV13LegalBody(MatchEngineV13Body):
             },
         }.get(family, {category: 1.0})
         difficulty = base.get(category, 0.45)
+        if category == "weak_foot":
+            difficulty = self._weak_foot_difficulty(actor, family)
         if category == "head":
             skill = (0.62 * actor.effective("heading") + 0.22 * actor.effective("technique") + 0.16 * actor.effective("composure")) / 75.0
         elif category in {"chest", "thigh", "knee", "shin", "shoulder"}:
@@ -205,10 +228,18 @@ class MatchEngineV13LegalBody(MatchEngineV13Body):
         height = self._incoming_height(source)
         preferred, weak = self._preferred_and_weak_foot(actor)
         family = self._action_family(action)
+        footedness = self._footedness(actor)
+        technique_comfort = clamp(actor.effective("technique") / 100.0)
+        if footedness == "B":
+            preferred_weight = 0.86
+            weak_weight = 0.86
+        else:
+            preferred_weight = 1.00
+            weak_weight = 0.14 + 0.18 * (technique_comfort ** 1.10)
 
         weights = {
-            preferred: 1.00,
-            weak: 0.24,
+            preferred: preferred_weight,
+            weak: weak_weight,
             "head": 0.035,
             "chest": 0.018,
             "thigh": 0.020,
@@ -216,8 +247,12 @@ class MatchEngineV13LegalBody(MatchEngineV13Body):
             "shin": 0.006,
             "shoulder": 0.004,
         }
-        weights[preferred] *= 1.0 - 0.42 * height
-        weights[weak] *= 1.0 - 0.28 * height
+        if footedness == "B":
+            weights[preferred] *= 1.0 - 0.35 * height
+            weights[weak] *= 1.0 - 0.35 * height
+        else:
+            weights[preferred] *= 1.0 - 0.42 * height
+            weights[weak] *= 1.0 - 0.28 * height
         weights["head"] *= 1.0 + 12.0 * height
         weights["chest"] *= 1.0 + 8.0 * height
         weights["thigh"] *= 1.0 + 6.5 * height

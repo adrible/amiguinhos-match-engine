@@ -73,5 +73,31 @@ class LegalBodyActionTests(unittest.TestCase):
         self.assertEqual(clone._v13_forced_shot_body_part['part'], 'left_foot')
 
 
+    def test_two_footed_profile_treats_both_feet_as_equally_natural(self):
+        e = self.engine(); a = self.actor(e); z = Zone(Band.ATT, Lane.CENTER)
+        a.player.preferred_foot = 'BOTH'
+        a.player.technique = 90
+        probs = e.body_part_probabilities(a, 'shoot', z, self.ctx(), source='open_play')
+        self.assertAlmostEqual(probs['right_foot'], probs['left_foot'], places=8)
+        self.assertEqual(e._part_category(a, 'right_foot'), 'preferred_foot')
+        self.assertEqual(e._part_category(a, 'left_foot'), 'preferred_foot')
+        for action in ('safe_pass', 'carry', 'shoot'):
+            right = e._part_execution_modifier(a, action, 'right_foot')
+            left = e._part_execution_modifier(a, action, 'left_foot')
+            self.assertAlmostEqual(right, left, places=8)
+
+    def test_technique_improves_nonpreferred_foot_without_new_attribute(self):
+        e = self.engine(); a = self.actor(e); z = Zone(Band.ATT, Lane.CENTER)
+        a.player.preferred_foot = 'R'
+        a.player.technique = 45
+        low_mod = e._part_execution_modifier(a, 'shoot', 'left_foot')
+        low_prob = e.body_part_probabilities(a, 'shoot', z, self.ctx(), source='open_play')['left_foot']
+        a.player.technique = 95
+        high_mod = e._part_execution_modifier(a, 'shoot', 'left_foot')
+        high_prob = e.body_part_probabilities(a, 'shoot', z, self.ctx(), source='open_play')['left_foot']
+        self.assertGreater(high_mod, low_mod)
+        self.assertGreater(high_prob, low_prob)
+
+
 if __name__ == '__main__':
     unittest.main()

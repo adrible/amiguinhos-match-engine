@@ -14,9 +14,11 @@ class MatchEngineV13Referee(_CalibratedReferee):
     def _second_yellow_factor(incident: dict) -> float:
         """Higher practical threshold for a player's dismissal by second caution.
 
-        A marginal repeat trip is not treated as if it carried the same caution
-        likelihood as the player's first booking.  SPA, DOGSO, reckless conduct
-        and high severity progressively remove that referee-management margin.
+        For the same incident, a player who is already booked must always be
+        less likely to receive a second caution than an unbooked player is to
+        receive the first. SPA, DOGSO, reckless conduct and high severity can
+        substantially reduce that referee-management margin, but never erase
+        it completely. Direct-red decisions remain a separate pathway.
         """
         severity = float(incident["severity"])
         factor = 0.22 + 0.24 * severity
@@ -26,7 +28,10 @@ class MatchEngineV13Referee(_CalibratedReferee):
             factor += 0.12
         if severity >= 0.80:
             factor += 0.12
-        return clamp(factor, 0.28, 1.0)
+
+        # Strictly below 1.0: even for a very serious cautionable offence,
+        # the second yellow remains slightly harder to show than the first.
+        return clamp(factor, 0.28, 0.92)
 
 
 MatchEngine = MatchEngineV13Referee

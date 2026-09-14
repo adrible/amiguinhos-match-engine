@@ -20,7 +20,10 @@ def make_engine(seed: int = 123) -> MatchEngineV13AdaptationInertia:
 
 class TacticalAdaptationInertiaTests(unittest.TestCase):
     def test_canonical_entrypoint_uses_progressive_inertia(self):
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13AdaptationInertia)
+        # New candidate layers may sit above inertia; the architectural invariant
+        # is that the canonical engine still includes progressive inertia in its
+        # inheritance chain rather than having to be exactly that class object.
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13AdaptationInertia))
 
     def test_first_adaptation_threshold_is_unchanged(self):
         self.assertAlmostEqual(

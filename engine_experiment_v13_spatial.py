@@ -203,23 +203,36 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         lane = 0.93 + 0.08 * self._lane_novelty(ps, zone)
         return clamp(base * spatial * lane)
 
+    @staticmethod
+    def _attacking_receiver_eligible(ps: PlayerState) -> bool:
+        """Whether a player can be selected as an ordinary attacking receiver.
+
+        Goalkeepers remain available for defensive build-up as ball carriers,
+        but they are not valid open-play attacking targets. If a future
+        keeper-up/set-piece mechanic is added, it should opt in explicitly
+        rather than relying on a tiny generic probability.
+        """
+        return ps.player.position.upper() != "GK"
+
     def _base_target_weights(
         self,
         team: int,
         zone: Zone,
-        actor: PlayerState,
+        actor: Optional[PlayerState],
     ) -> list[tuple[PlayerState, float]]:
         """Normal receiver preference, without creativity or boldness."""
         tactics = self.teams[team].team.tactics
         weights: list[tuple[PlayerState, float]] = []
         for ps in self.teams[team].on_field:
-            if ps.player.name == actor.player.name:
+            if actor is not None and ps.player.name == actor.player.name:
+                continue
+            if not self._attacking_receiver_eligible(ps):
                 continue
             pos = ps.player.position.upper()
             w = {
                 "ST": 1.55, "AM": 1.35, "LW": 1.25, "RW": 1.25,
                 "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35,
-                "CB": 0.12, "GK": 0.01,
+                "CB": 0.12,
             }.get(pos, 0.5)
             w *= 0.70 + 0.30 * ps.effective("off_ball") / 100.0
 
@@ -776,7 +789,7 @@ class MatchEngineV13Spatial(_StableMatchEngine):
                 except KeyError:
                     target = None
                 self._v13_forced_target = None
-                if target is not None:
+                if target is not None and self._attacking_receiver_eligible(target):
                     return target
             else:
                 # Never let a stale idea leak into a later possession/action.
@@ -787,7 +800,12 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         except KeyError:
             actor = None
         if actor is None:
-            return super()._choose_target(team, zone, attacking=True, exclude=exclude)
+            # Do not fall back to the frozen engine here: its historical tiny
+            # GK target weight can leak a keeper into an attacking sequence.
+            return weighted_choice(
+                self.rng,
+                MatchEngineV13Spatial._base_target_weights(self, team, zone, None),
+            )
         return weighted_choice(self.rng, self._base_target_weights(team, zone, actor))
 
     def _choose_decision(

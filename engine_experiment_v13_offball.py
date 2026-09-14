@@ -615,7 +615,11 @@ class MatchEngineV13OffBall(MatchEngineV13Spatial):
                     target = None
                 self._v13_forced_target = None
                 self._v13_receiver_context = None
-                if target is not None and actor is not None:
+                if (
+                    target is not None
+                    and actor is not None
+                    and self._attacking_receiver_eligible(target)
+                ):
                     info = self._hidden_opportunity(
                         team, actor, zone,
                         context or {"pressure": 0.50, "space": 0.50, "space_behind": 0.40, "support": 0.50},

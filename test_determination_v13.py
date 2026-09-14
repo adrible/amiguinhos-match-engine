@@ -16,7 +16,7 @@ class DeterminationV13Tests(unittest.TestCase):
             seed=seed,
         )
 
-    def test_stable_v12_roster_is_not_boosted_or_given_determination(self):
+    def test_stable_v12_roster_keeps_old_ratings_and_no_determination(self):
         stable = load_stable_team("amiguinhos_u21")
         players = {p.name: p for p in [*stable.starters, *stable.bench]}
         adib = players["Gabriel Adib"]
@@ -26,7 +26,7 @@ class DeterminationV13Tests(unittest.TestCase):
         self.assertEqual(adib.discipline, 74)
         self.assertFalse(hasattr(adib, "determination"))
 
-    def test_v13_amiguinhos_receive_explicit_boost_without_personality_rewrite(self):
+    def test_v13_amiguinhos_load_evolved_literal_ratings_and_traits(self):
         candidate = load_team_v13("amiguinhos_u21")
         players = {p.name: p for p in [*candidate.starters, *candidate.bench]}
         adib = players["Gabriel Adib"]
@@ -41,7 +41,7 @@ class DeterminationV13Tests(unittest.TestCase):
         self.assertEqual(felipe.aggression, 90)
         self.assertEqual(felipe.discipline, 52)
 
-    def test_unconfigured_opponent_does_not_receive_amiguinhos_boost(self):
+    def test_unconfigured_opponent_keeps_stable_ratings(self):
         stable = load_stable_team("flamengo_u21")
         candidate = load_team_v13("flamengo_u21")
         stable_players = {p.name: p for p in stable.starters}
@@ -104,7 +104,7 @@ class DeterminationV13Tests(unittest.TestCase):
         self.assertLess(high["risk"], low["risk"])
         self.assertGreater(high["determination_resilience"], low["determination_resilience"])
 
-    def test_determination_and_boost_survive_candidate_roundtrip(self):
+    def test_determination_and_evolved_ratings_survive_candidate_roundtrip(self):
         e = self.make_engine(seed=77)
         restored = MatchEngine.from_json(e.export_json())
         original = e.teams[0].by_name("Gabriel Adib").player

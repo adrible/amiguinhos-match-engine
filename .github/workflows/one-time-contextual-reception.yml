@@ -48,14 +48,13 @@ jobs:
 
           p = Path('engine_experiment_v13_body.py')
           s = p.read_text()
-          old = '''        foot = (actor.player.preferred_foot or "R").upper()
-          if lane == Lane.CENTER:
-          '''.replace('          ', '')
-          new = '''        foot = str(actor.player.preferred_foot or "R").strip().upper()
-          if foot in {"B", "BOTH", "AMBIDEXTROUS", "AMBIDEXTRO", "TWO_FOOTED", "TWO-FOOTED", "2"}:
-              foot = "B"
-          if lane == Lane.CENTER or foot == "B":
-          '''.replace('          ', '')
+          old = '        foot = (actor.player.preferred_foot or "R").upper()\n        if lane == Lane.CENTER:\n'
+          new = (
+              '        foot = str(actor.player.preferred_foot or "R").strip().upper()\n'
+              '        if foot in {"B", "BOTH", "AMBIDEXTROUS", "AMBIDEXTRO", "TWO_FOOTED", "TWO-FOOTED", "2"}:\n'
+              '            foot = "B"\n'
+              '        if lane == Lane.CENTER or foot == "B":\n'
+          )
           if old not in s:
               raise SystemExit('body foot-profile block not found')
           s = s.replace(old, new, 1)

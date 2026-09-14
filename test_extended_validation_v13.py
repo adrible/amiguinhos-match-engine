@@ -125,22 +125,37 @@ class ExtendedV13ValidationTests(unittest.TestCase):
         self.assertLess(probs[1], probs[2])
         self.assertLessEqual(probs[2] - probs[0], 0.0121)
 
-    def test_boost_matches_data_exactly_for_entire_roster_and_caps_at_95(self):
+    def test_literal_v13_attributes_match_json_exactly_for_entire_roster(self):
         database = load_v13_trait_database()
-        boosts = database["teams"]["amiguinhos_u21"]["attribute_boosts"]
+        player_data = database["teams"]["amiguinhos_u21"]["players"]
         stable = load_stable_team("amiguinhos_u21")
         candidate = load_team_v13("amiguinhos_u21")
         stable_players = {p.name: p for p in [*stable.starters, *stable.bench]}
         candidate_players = {p.name: p for p in [*candidate.starters, *candidate.bench]}
         self.assertEqual(set(stable_players), set(candidate_players))
-        for name, base in stable_players.items():
-            boosted = candidate_players[name]
-            for attr, delta in boosts.items():
-                expected = int(round(max(1.0, min(95.0, float(getattr(base, attr)) + float(delta)))))
-                self.assertEqual(getattr(boosted, attr), expected, f"{name}:{attr}")
-                self.assertLessEqual(getattr(boosted, attr), 95)
-            self.assertEqual(boosted.aggression, base.aggression)
-            self.assertEqual(boosted.discipline, base.discipline)
+        self.assertEqual(set(player_data), set(candidate_players))
+
+        changed = 0
+        for name, candidate_player in candidate_players.items():
+            expected_attributes = player_data[name]["attributes"]
+            for attr, expected in expected_attributes.items():
+                self.assertEqual(getattr(candidate_player, attr), int(expected), f"{name}:{attr}")
+                self.assertLessEqual(getattr(candidate_player, attr), 95)
+                if getattr(stable_players[name], attr) != int(expected):
+                    changed += 1
+        self.assertGreater(changed, 0)
+
+    def test_v13_loader_does_not_treat_literal_values_as_deltas(self):
+        database = load_v13_trait_database()
+        adib_data = database["teams"]["amiguinhos_u21"]["players"]["Gabriel Adib"]
+        stable = load_stable_team("amiguinhos_u21")
+        candidate = load_team_v13("amiguinhos_u21")
+        stable_adib = {p.name: p for p in [*stable.starters, *stable.bench]}["Gabriel Adib"]
+        candidate_adib = {p.name: p for p in [*candidate.starters, *candidate.bench]}["Gabriel Adib"]
+
+        self.assertEqual(candidate_adib.passing, adib_data["attributes"]["passing"])
+        self.assertNotEqual(candidate_adib.passing, stable_adib.passing + adib_data["attributes"]["passing"])
+        self.assertEqual(candidate_adib.overall, adib_data["attributes"]["overall"])
 
     def test_every_amiguinhos_player_has_explicit_determination(self):
         team = load_team_v13("amiguinhos_u21")

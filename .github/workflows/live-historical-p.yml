@@ -6,6 +6,9 @@ on:
     paths:
       - 'live_sessions/brazil_germany_2014_command.json'
 
+permissions:
+  contents: write
+
 jobs:
   press-p:
     runs-on: ubuntu-latest
@@ -18,3 +21,11 @@ jobs:
           python-version: '3.12'
       - name: Advance exactly one p
         run: python live_historical_session_v13.py
+      - name: Persist live state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add live_sessions/brazil_germany_2014_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Persist Brazil Germany 2014 live state"
+          git push

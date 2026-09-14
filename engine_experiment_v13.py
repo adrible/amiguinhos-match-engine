@@ -3,9 +3,9 @@
 This is intentionally separate from frozen stable_engine.py (v1.2).
 """
 
-from engine_experiment_v13_determination import MatchEngineV13Determination
+from engine_experiment_v13_substitutions import MatchEngineV13Substitutions
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13Determination
+MatchEngine = MatchEngineV13Substitutions
 
-__all__ = ["ENGINE_VERSION", "MatchEngine", "MatchEngineV13Determination"]
+__all__ = ["ENGINE_VERSION", "MatchEngine", "MatchEngineV13Substitutions"]

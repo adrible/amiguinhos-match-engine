@@ -12,12 +12,12 @@
     "inter_u21": {"overall": 81, "tier": "A+", "label": "MUITO FORTE"},
     "river_plate_u21": {"overall": 81, "tier": "A+", "label": "MUITO FORTE"},
     "ajax_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
-    "manchester_city_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
+    "man_city_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
     "boca_juniors_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
     "porto_u21": {"overall": 78, "tier": "A", "label": "FORTE"},
     "liverpool_u21": {"overall": 78, "tier": "A", "label": "FORTE"},
-    "borussia_dortmund_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
-    "bayern_munchen_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
+    "dortmund_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
+    "bayern_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
     "amiguinhos_u21": {"overall": 73.1, "tier": "B", "label": "AZARAO FORTE", "rating_moment": "pre_tournament_progression"}
   },
   "notes": [

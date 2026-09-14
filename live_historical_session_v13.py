@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import base64
 import json
 from pathlib import Path
 
@@ -20,6 +19,6 @@ else:
     )
 
 event = session.press_p()
+STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+STATE_PATH.write_text(session.export_json(), encoding="utf-8")
 print("LIVE_EVENT_JSON=" + json.dumps(event_view(event, session), ensure_ascii=False, sort_keys=True))
-state = session.export_json().encode("utf-8")
-print("LIVE_STATE_B64=" + base64.b64encode(state).decode("ascii"))

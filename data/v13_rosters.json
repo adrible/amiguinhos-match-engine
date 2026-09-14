@@ -1,0 +1,77 @@
+{
+  "version": "1.3-candidate-u20-rosters",
+  "description": "Candidate-only roster overlay. Legacy *_u21 keys are retained for protocol/seed compatibility, while the simulated squads are normalized to the same U20 player-rating scale. Stable v1.2 data is untouched.",
+  "rating_scale": "Shared U20 internal scale. These ratings compare youth players with the Amiguinhos candidate, not with senior professional squads.",
+  "teams": {
+    "amiguinhos_u21": {
+      "age_category": "U20",
+      "name": "🦆 Amiguinhos U21",
+      "starter_names": [
+        "Christian",
+        "Jorge Henrique",
+        "Léo",
+        "Igor",
+        "João Peixoto",
+        "Felipe",
+        "Gabriel Adib",
+        "Mike Junior",
+        "Pedro Valverde",
+        "Remo",
+        "Gabriel Félix"
+      ],
+      "bench_names": [
+        "Rodrigo White",
+        "Arthur Peixoto",
+        "Gabriel Gonzales"
+      ],
+      "tactics": {
+        "formation": "4-2-3-1"
+      },
+      "notes": "Corrected pre-final structure: Igor starts at centre-back, João can cover the left side, and White is the specialist left-back option from the bench. White, Arthur and Gonzales are the three reserves in the known 14-player squad."
+    },
+    "flamengo_u21": {
+      "age_category": "U20",
+      "name": "Flamengo Sub-20",
+      "source_basis": "CR Flamengo official U20 match reports, latest reference XI 2026-09-12 vs Volta Redonda plus current squad options seen in 2026 official reports.",
+      "tactics": {
+        "formation": "4-3-3",
+        "mentality": 0.28,
+        "tempo": 0.64,
+        "width": 0.58,
+        "pressing": 0.65,
+        "defensive_line": 0.61,
+        "compactness": 0.57,
+        "directness": 0.46,
+        "counter": 0.63,
+        "overlap_left": 0.53,
+        "overlap_right": 0.55,
+        "cross_frequency": 0.43,
+        "risk": 0.57
+      },
+      "players": [
+        {"name":"Léo Nannetti","position":"GK","squad":"starter","overall":82,"attributes":{"reflexes":87,"handling":83,"gk_positioning":84,"one_on_one":85,"composure":80,"passing":69,"anticipation":81}},
+        {"name":"Daniel Sales","position":"RB","squad":"starter","overall":80,"attributes":{"pace":83,"crossing":80,"tackling":77,"positioning":76,"stamina":84,"passing":76}},
+        {"name":"Weverson","position":"CB","squad":"starter","overall":79,"attributes":{"pace":72,"heading":82,"strength":83,"tackling":82,"positioning":81,"anticipation":80}},
+        {"name":"João Victor","position":"CB","squad":"starter","overall":81,"attributes":{"pace":74,"heading":84,"strength":84,"tackling":83,"positioning":83,"anticipation":84,"composure":78}},
+        {"name":"Ítalo","position":"LB","squad":"starter","overall":78,"attributes":{"pace":82,"crossing":78,"dribbling":75,"tackling":75,"positioning":74,"stamina":82}},
+        {"name":"Rogério Araújo","position":"CM","squad":"starter","overall":79,"attributes":{"passing":80,"vision":79,"technique":79,"dribbling":76,"stamina":82,"aggression":71,"discipline":75}},
+        {"name":"Lucas Falcone","position":"CM","squad":"starter","overall":80,"attributes":{"passing":83,"vision":82,"technique":81,"composure":80,"positioning":77,"stamina":83,"long_shots":74}},
+        {"name":"Jhefinho Vinicius","position":"AM","squad":"starter","overall":80,"attributes":{"pace":82,"dribbling":83,"technique":82,"vision":80,"finishing":78,"off_ball":83,"composure":79}},
+        {"name":"Joshua","position":"RW","squad":"starter","overall":82,"preferred_foot":"R","attributes":{"pace":85,"dribbling":85,"technique":84,"vision":83,"passing":81,"finishing":80,"long_shots":82,"off_ball":84,"composure":82}},
+        {"name":"Sayago","position":"LW","squad":"starter","overall":80,"preferred_foot":"R","attributes":{"pace":81,"dribbling":82,"technique":83,"vision":82,"passing":80,"finishing":76,"off_ball":81,"composure":80}},
+        {"name":"Victor Hugo","position":"ST","squad":"starter","overall":79,"attributes":{"pace":80,"finishing":81,"heading":77,"strength":78,"off_ball":82,"anticipation":80,"composure":78}},
+
+        {"name":"Pedro Batista","position":"GK","squad":"bench","overall":76,"attributes":{"reflexes":80,"handling":77,"gk_positioning":78,"one_on_one":78}},
+        {"name":"Enzo Pinheiro","position":"CM","squad":"bench","overall":77,"attributes":{"passing":79,"vision":78,"technique":78,"stamina":80,"composure":76}},
+        {"name":"Gustavo Ramires","position":"LB","squad":"bench","overall":78,"attributes":{"pace":81,"crossing":78,"tackling":76,"positioning":75,"stamina":83}},
+        {"name":"Rafael Henrique","position":"AM","squad":"bench","overall":78,"attributes":{"pace":80,"dribbling":81,"technique":80,"vision":79,"finishing":77,"off_ball":80}},
+        {"name":"Andrew Nathan","position":"ST","squad":"bench","overall":79,"attributes":{"pace":82,"finishing":80,"strength":78,"off_ball":81,"anticipation":79,"composure":77}},
+        {"name":"Douglas Telles","position":"RW","squad":"bench","overall":78,"attributes":{"pace":83,"dribbling":80,"crossing":78,"finishing":77,"off_ball":81}},
+        {"name":"Juliano","position":"LW","squad":"bench","overall":78,"attributes":{"pace":84,"dribbling":81,"finishing":79,"off_ball":81,"composure":77}},
+        {"name":"Josmar","position":"ST","squad":"bench","overall":81,"attributes":{"finishing":84,"heading":82,"strength":83,"off_ball":84,"anticipation":82,"composure":80}},
+        {"name":"Diego Queiroz","position":"CB","squad":"bench","overall":79,"attributes":{"heading":82,"strength":82,"tackling":80,"positioning":80,"anticipation":79,"discipline":75}}
+      ],
+      "notes": "Real Flamengo U20 player pool, not the senior team. Latest official XI reference is 12 Sep 2026. Ratings are candidate simulation estimates on the same youth scale as Amiguinhos; they are not senior-team ratings and are not result-calibrated."
+    }
+  }
+}

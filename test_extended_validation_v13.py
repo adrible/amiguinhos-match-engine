@@ -130,7 +130,7 @@ class ExtendedV13ValidationTests(unittest.TestCase):
 
     def test_unconfigured_player_uses_universal_bounded_fallback(self):
         engine = self.make_engine()
-        opponent = engine.teams[1].by_name("André Vidal")
+        opponent = engine.teams[1].by_name("Lucas Falcone")
         self.assertFalse(hasattr(opponent.player, "determination"))
         value = engine._determination(opponent)
         self.assertGreaterEqual(value, 0.0)

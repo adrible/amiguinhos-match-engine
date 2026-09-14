@@ -1,0 +1,61 @@
+name: One-time contextual reception rerun
+on:
+  push:
+    branches: [v1.3-spatial-creativity-boldness]
+    paths:
+      - '.github/workflows/one-time-contextual-reception-rerun.yml'
+permissions:
+  contents: write
+
+jobs:
+  replay-test-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v1.3-spatial-creativity-boldness
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Replay already tested reception generator
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          source = Path('.github/workflows/one-time-contextual-reception.yml').read_text()
+          marker = "          python - <<'PY'\n"
+          start = source.index(marker) + len(marker)
+          end = source.index("          PY\n", start)
+          block = source[start:end]
+          lines = []
+          for line in block.splitlines():
+              if line.startswith('          '):
+                  line = line[10:]
+              lines.append(line)
+          script = '\n'.join(lines) + '\n'
+          exec(compile(script, 'contextual-reception-generator', 'exec'), {})
+          PY
+
+      - name: Run focused reception tests
+        run: python -m unittest -q test_v13_reception.py test_v13_legal_body_actions.py test_body_orientation.py
+
+      - name: Run calibration and extended validation
+        run: python -m unittest -q test_calibration_v13.py test_extended_validation_v13.py
+
+      - name: Run full regression suite
+        run: python -m unittest -q
+
+      - name: Ensure branch did not move during validation
+        run: |
+          git fetch origin v1.3-spatial-creativity-boldness
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/v1.3-spatial-creativity-boldness)"
+
+      - name: Commit tested integration
+        run: |
+          rm .github/workflows/one-time-contextual-reception.yml
+          rm .github/workflows/one-time-contextual-reception-rerun.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine_experiment_v13_reception.py test_v13_reception.py RECEPTION_CONTROL_v13.md engine_experiment_v13_defense.py engine_experiment_v13_body.py .github/workflows/one-time-contextual-reception.yml .github/workflows/one-time-contextual-reception-rerun.yml
+          git commit -m "Add contextual first touch and first-time reception in v1.3"
+          git push

@@ -1,20 +1,25 @@
 from __future__ import annotations
 
-"""v1.3-only roster loader for evolved ratings and behavioural traits.
+"""v1.3-only roster loader for corrected U20 squads, evolved ratings and traits.
 
 Stable v1.2 continues to load ``data/teams.json`` through ``team_loader.py``.
-The candidate v1.3 starts from that frozen roster to preserve the known team
-structure, then replaces explicitly listed player ratings with the literal
-current values stored in ``data/v13_player_traits.json``.
+The v1.3 candidate starts from that frozen structure, then applies an optional
+candidate-only roster overlay from ``data/v13_rosters.json`` before replacing
+explicit Amiguinhos ratings with the literal current values stored in
+``data/v13_player_traits.json``.
 
-Those values are NOT runtime boosts or deltas. They are the players' new
-ratings after their progression during the tournament. Creativity, boldness
-and determination remain separate behavioural traits.
+The legacy ``*_u21`` keys remain unchanged because they are part of the final
+protocol and reserved-seed identity.  They do *not* imply that v1.3 must field
+a senior/U21-strength roster: the candidate roster overlay explicitly models
+the Amiguinhos and Flamengo squads on the same U20 internal rating scale.
 
-Some explicit tournament opponents were originally stored with only eleven
-starters.  v1.3 needs a usable bench for the autonomous substitution coach, so
-teams with *no bench data at all* receive a deterministic neutral reserve pool.
-Known benches are never supplemented or replaced.  Stable v1.2 is unaffected.
+Those values are NOT runtime boosts or deltas. Creativity, boldness and
+determination remain separate behavioural traits.
+
+Opponent teams that still have no explicit candidate bench may receive a
+neutral deterministic reserve pool as a data-completeness fallback.  Teams
+with real/known benches (including the corrected Flamengo U20 roster) are never
+supplemented or replaced. Stable v1.2 is unaffected.
 """
 
 import hashlib
@@ -22,11 +27,13 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from engine import Team, make_generic_team
+from engine import Player, POSITION_TEMPLATE, Team
+from engine import make_generic_team
 from team_loader import load_team as load_stable_team
 
 
 DEFAULT_V13_TRAITS = Path(__file__).resolve().parent / "data" / "v13_player_traits.json"
+DEFAULT_V13_ROSTERS = Path(__file__).resolve().parent / "data" / "v13_rosters.json"
 _ALLOWED_TRAITS = {"creativity", "boldness", "determination"}
 _ALLOWED_ATTRIBUTES = {
     "overall",
@@ -62,6 +69,16 @@ def load_v13_trait_database(path: Optional[str | Path] = None) -> dict:
     teams = data.get("teams")
     if not isinstance(teams, dict):
         raise ValueError("Invalid v1.3 player database: missing 'teams' object.")
+    return data
+
+
+def load_v13_roster_database(path: Optional[str | Path] = None) -> dict:
+    db_path = Path(path) if path is not None else DEFAULT_V13_ROSTERS
+    with db_path.open("r", encoding="utf-8") as fh:
+        data = json.load(fh)
+    teams = data.get("teams")
+    if not isinstance(teams, dict):
+        raise ValueError("Invalid v1.3 roster database: missing 'teams' object.")
     return data
 
 
@@ -110,6 +127,126 @@ def _validated_attributes(player_name: str, raw: dict) -> dict[str, int]:
     return validated
 
 
+def _build_candidate_player(raw: dict) -> Player:
+    """Create one candidate player from a U20 roster entry.
+
+    A position template supplies neutral youth-football defaults around the
+    declared OVR; explicit JSON attributes then replace those values.  This is
+    deterministic and contains no fixture/result feedback.
+    """
+    if not isinstance(raw, dict):
+        raise ValueError("v1.3 roster player entry must be an object.")
+    name = str(raw.get("name", "")).strip()
+    position = str(raw.get("position", "")).upper().strip()
+    if not name or position not in POSITION_TEMPLATE:
+        raise ValueError(f"Invalid v1.3 roster player: name={name!r}, position={position!r}")
+
+    overall_value = float(raw.get("overall", 75))
+    if not overall_value.is_integer() or not 1 <= int(overall_value) <= 95:
+        raise ValueError(f"Invalid v1.3 overall for {name}: {overall_value}")
+    overall = int(overall_value)
+
+    delta = overall - 75
+    kwargs: dict[str, object] = {
+        "name": name,
+        "position": position,
+        "overall": overall,
+    }
+    for attr, base in POSITION_TEMPLATE[position].items():
+        kwargs[attr] = int(max(20, min(95, round(float(base) + delta * 0.72))))
+
+    explicit = _validated_attributes(name, raw)
+    explicit.pop("overall", None)
+    kwargs.update(explicit)
+    if raw.get("preferred_foot") is not None:
+        foot = str(raw["preferred_foot"]).upper().strip()
+        if foot not in {"L", "R"}:
+            raise ValueError(f"Invalid preferred foot for {name}: {foot!r}")
+        kwargs["preferred_foot"] = foot
+    return Player(**kwargs)
+
+
+def _apply_tactics_overlay(team: Team, raw: dict) -> None:
+    tactics_raw = raw.get("tactics", {})
+    if not isinstance(tactics_raw, dict):
+        raise ValueError("v1.3 roster tactics must be an object.")
+    for key, value in tactics_raw.items():
+        if not hasattr(team.tactics, key):
+            raise ValueError(f"Unsupported v1.3 tactic field: {key}")
+        setattr(team.tactics, key, value)
+    team.tactics = team.tactics.normalized()
+
+
+def apply_v13_roster(
+    team: Team,
+    team_key: str,
+    *,
+    roster_path: Optional[str | Path] = None,
+) -> Team:
+    """Apply candidate-only lineup/roster corrections without touching v1.2."""
+    database = load_v13_roster_database(roster_path)
+    raw = database["teams"].get(team_key)
+    if raw is None:
+        return team
+    if not isinstance(raw, dict):
+        raise ValueError(f"v1.3 roster entry for {team_key} must be an object.")
+
+    if raw.get("name"):
+        team.name = str(raw["name"])
+    _apply_tactics_overlay(team, raw)
+
+    players_raw = raw.get("players")
+    if players_raw is not None:
+        if not isinstance(players_raw, list):
+            raise ValueError(f"v1.3 roster players for {team_key} must be a list.")
+        starters: list[Player] = []
+        bench: list[Player] = []
+        seen: set[str] = set()
+        for player_raw in players_raw:
+            player = _build_candidate_player(player_raw)
+            if player.name in seen:
+                raise ValueError(f"Duplicate v1.3 roster player for {team_key}: {player.name}")
+            seen.add(player.name)
+            squad = str(player_raw.get("squad", "bench")).lower().strip()
+            if squad == "starter":
+                starters.append(player)
+            elif squad == "bench":
+                bench.append(player)
+            else:
+                raise ValueError(f"Invalid squad marker for {player.name}: {squad!r}")
+        if len(starters) != 11:
+            raise ValueError(
+                f"v1.3 explicit roster for {team_key} must contain exactly 11 starters; "
+                f"got {len(starters)}"
+            )
+        team.starters = starters
+        team.bench = bench
+        return team
+
+    starter_names = raw.get("starter_names")
+    bench_names = raw.get("bench_names")
+    if starter_names is None and bench_names is None:
+        return team
+    if not isinstance(starter_names, list) or not isinstance(bench_names, list):
+        raise ValueError(
+            f"v1.3 roster for {team_key} must provide both starter_names and bench_names"
+        )
+
+    roster = {p.name: p for p in [*team.starters, *team.bench]}
+    requested = [str(name) for name in [*starter_names, *bench_names]]
+    unknown = sorted(set(requested) - set(roster))
+    if unknown:
+        raise ValueError(f"v1.3 roster for {team_key} references unknown players: {unknown}")
+    if len(set(requested)) != len(requested):
+        raise ValueError(f"v1.3 roster for {team_key} contains duplicate player names")
+    if len(starter_names) != 11:
+        raise ValueError(f"v1.3 roster for {team_key} must contain exactly 11 starters")
+
+    team.starters = [roster[str(name)] for name in starter_names]
+    team.bench = [roster[str(name)] for name in bench_names]
+    return team
+
+
 def _candidate_reserve_seed(team_key: str) -> int:
     """Stable per-team seed; independent from Python hash randomization."""
     digest = hashlib.sha256(f"v13-reserve-pool|{team_key}".encode("utf-8")).hexdigest()
@@ -117,12 +254,7 @@ def _candidate_reserve_seed(team_key: str) -> int:
 
 
 def _ensure_candidate_bench(team: Team, team_key: str) -> Team:
-    """Provide a neutral deterministic bench only when the source has none.
-
-    The generated pool is intentionally generic and one strength step below the
-    team's rounded starting-XI average.  It is a data-completeness fallback,
-    not a team-specific buff.  Any explicitly supplied bench wins completely.
-    """
+    """Provide a neutral deterministic bench only when candidate data has none."""
     if team.bench:
         return team
     if not team.starters:
@@ -182,9 +314,11 @@ def load_team_v13(
     teams_path: Optional[str | Path] = None,
     *,
     traits_path: Optional[str | Path] = None,
+    roster_path: Optional[str | Path] = None,
 ) -> Team:
-    """Load frozen v1.2 structure, evolve ratings, then ensure candidate depth."""
+    """Load frozen v1.2 data, apply U20 roster correction, then evolved traits."""
     team = load_stable_team(team_key, teams_path)
+    team = apply_v13_roster(team, team_key, roster_path=roster_path)
     team = apply_v13_traits(team, team_key, traits_path=traits_path)
     return _ensure_candidate_bench(team, team_key)
 
@@ -193,7 +327,10 @@ load_team = load_team_v13
 
 __all__ = [
     "DEFAULT_V13_TRAITS",
+    "DEFAULT_V13_ROSTERS",
     "load_v13_trait_database",
+    "load_v13_roster_database",
+    "apply_v13_roster",
     "apply_v13_traits",
     "load_team_v13",
     "load_team",

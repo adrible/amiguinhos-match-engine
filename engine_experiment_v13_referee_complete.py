@@ -3,8 +3,9 @@ from __future__ import annotations
 """Integrity adapter for the extended v1.3 referee model.
 
 Keeps special incidents from mutating play when no decision is made, makes a
-head/concussion protocol stop play, and counts sanctioned handballs as team
-fouls.  Separated as an adapter so the previous referee layers remain auditable.
+head/concussion protocol stop play, exposes concussion details to the public
+live-event stream, and counts sanctioned handballs as team fouls. Separated as
+an adapter so the previous referee layers remain auditable.
 """
 
 from typing import Optional
@@ -35,6 +36,28 @@ class MatchEngineV13RefereeComplete(_ExtendedReferee):
         return super()._advantage_probability(
             attacking_team, attacker, zone, incident, card, injury
         )
+
+    def _queue_event(
+        self,
+        event_type: EventType,
+        team: int,
+        relevance: int,
+        text_key: str,
+        **data,
+    ) -> None:
+        # Make head-assessment semantics visible to the live runner rather than
+        # leaving them only in private injury state.
+        if event_type == EventType.INJURY and data.get("body_area") == "head_or_face":
+            data.setdefault("concussion_protocol", True)
+            player_name = str(data.get("player", ""))
+            for key, details in self._injury_details.items():
+                if key.endswith(f":{player_name}"):
+                    if details.get("concussion_protocol"):
+                        data["suspected_concussion"] = bool(
+                            details.get("suspected_concussion", False)
+                        )
+                    break
+        super()._queue_event(event_type, team, relevance, text_key, **data)
 
     def _record_handball_foul(self, defending_team: int) -> None:
         self.stats[defending_team].fouls += 1

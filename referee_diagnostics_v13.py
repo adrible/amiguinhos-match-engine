@@ -30,6 +30,7 @@ def run_referee_diagnostics(count: int = 100, start_seed: int = 60000) -> dict:
     injuries: Counter[str] = Counter()
     reactions: Counter[str] = Counter()
     referee_styles: Counter[str] = Counter()
+    special_totals: Counter[str] = Counter()
     totals = Counter()
     per_match_rows = []
 
@@ -85,6 +86,30 @@ def run_referee_diagnostics(count: int = 100, start_seed: int = 60000) -> dict:
                 injuries[grade] += 1
                 totals["injury_events"] += 1
                 match_totals["injuries"] += 1
+            if event.text_key in {
+                "penalty_for_handball",
+                "handball_offence",
+                "var_awards_penalty_handball",
+            }:
+                totals["handball_decisions"] += 1
+                match_totals["handball_decisions"] += 1
+            if event.text_key in {
+                "simulation_detected",
+                "simulation_no_call",
+                "penalty_awarded_after_simulation",
+                "free_kick_awarded_after_simulation",
+            }:
+                totals["simulation_events"] += 1
+                match_totals["simulation_events"] += 1
+            if event.text_key.startswith("var_"):
+                totals["var_events"] += 1
+                match_totals["var_events"] += 1
+
+        diagnostic = engine.referee_diagnostic()
+        special = diagnostic.get("special_counts", {})
+        for key, value in special.items():
+            special_totals[str(key)] += int(value)
+        totals["ending_heat_sum"] += float(diagnostic.get("match_heat", 0.0))
 
         per_match_rows.append(
             {
@@ -98,6 +123,10 @@ def run_referee_diagnostics(count: int = 100, start_seed: int = 60000) -> dict:
                 "reactions": match_totals["reactions"],
                 "mass_confrontations": match_totals["mass_confrontations"],
                 "injuries": match_totals["injuries"],
+                "handball_decisions": match_totals["handball_decisions"],
+                "simulation_events": match_totals["simulation_events"],
+                "var_events": match_totals["var_events"],
+                "ending_heat": float(diagnostic.get("match_heat", 0.0)),
             }
         )
 
@@ -119,12 +148,17 @@ def run_referee_diagnostics(count: int = 100, start_seed: int = 60000) -> dict:
             "reactions": avg("reactions"),
             "mass_confrontations": avg("mass_confrontations"),
             "injury_events": avg("injury_events"),
+            "handball_decisions": avg("handball_decisions"),
+            "simulation_events": avg("simulation_events"),
+            "var_events": avg("var_events"),
+            "ending_match_heat": avg("ending_heat_sum"),
         },
         "foul_types": dict(sorted(foul_types.items())),
         "cards": dict(sorted(cards.items())),
         "card_reasons": dict(sorted(card_reasons.items())),
         "injury_grades": dict(sorted(injuries.items())),
         "reactions": dict(sorted(reactions.items())),
+        "special_counts": dict(sorted(special_totals.items())),
         "referee_styles": dict(sorted(referee_styles.items())),
         "rows": per_match_rows,
     }

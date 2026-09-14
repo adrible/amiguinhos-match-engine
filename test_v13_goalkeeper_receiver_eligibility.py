@@ -39,6 +39,14 @@ class GoalkeeperAttackingReceiverEligibilityTests(unittest.TestCase):
                 target = engine._choose_target(0, zone, attacking=True, exclude=actor.player.name)
                 self.assertNotEqual(target.player.position.upper(), "GK")
 
+    def test_goalkeeper_never_becomes_open_play_actor_outside_defensive_third(self):
+        engine = self._engine(MatchEngineV13Spatial)
+        for band in (Band.MID, Band.ATT, Band.BOX):
+            zone = Zone(band, Lane.CENTER)
+            for _ in range(2000):
+                actor = engine._choose_actor(0, zone)
+                self.assertNotEqual(actor.player.position.upper(), "GK")
+
     def test_forced_goalkeeper_target_is_rejected_in_canonical_engine(self):
         engine = self._engine(MatchEngine)
         actor = self._first_outfielder(engine)

@@ -178,6 +178,57 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         transition_threat = clamp(float(ctx.get("transition_threat", 0.50)))
         return clamp(base * (0.86 + 0.28 * transition_threat), 0.08, 1.0)
 
+    def _choose_actor(self, team: int, zone: Zone) -> PlayerState:
+        """Choose the ball carrier without letting the goalkeeper teleport forward.
+
+        The keeper remains eligible in the defensive third for ordinary build-up.
+        Outside that band, open-play possession actors must be outfield players
+        unless a future explicit keeper-up mechanic opts in.
+        """
+        if zone.band == Band.DEF:
+            return super()._choose_actor(team, zone)
+
+        rt = self.teams[team]
+        tactics = rt.team.tactics
+        weights: list[tuple[PlayerState, float]] = []
+        for ps in rt.on_field:
+            pos = ps.player.position.upper()
+            if pos == "GK":
+                continue
+            if zone.band == Band.MID:
+                w = {
+                    "DM": 1.2, "CM": 1.5, "AM": 1.15, "LB": 0.65,
+                    "RB": 0.65, "LW": 0.85, "RW": 0.85, "ST": 0.45,
+                    "CB": 0.35,
+                }.get(pos, 0.5)
+            elif zone.band == Band.ATT:
+                w = {
+                    "AM": 1.35, "LW": 1.25, "RW": 1.25, "ST": 1.15,
+                    "CM": 0.75, "LB": 0.35, "RB": 0.35, "DM": 0.30,
+                    "CB": 0.10,
+                }.get(pos, 0.5)
+            else:
+                w = {
+                    "ST": 1.65, "LW": 1.05, "RW": 1.05, "AM": 1.15,
+                    "CM": 0.45, "LB": 0.16, "RB": 0.16, "DM": 0.12,
+                    "CB": 0.09,
+                }.get(pos, 0.4)
+
+            if zone.lane == Lane.LEFT and pos in ("LB", "LW"):
+                w *= 1.45
+            if zone.lane == Lane.RIGHT and pos in ("RB", "RW"):
+                w *= 1.45
+            if zone.lane == Lane.CENTER and pos in ("CB", "DM", "CM", "AM", "ST"):
+                w *= 1.25
+
+            overlap_helper = getattr(self, "_fullback_overlap_factor", None)
+            if callable(overlap_helper):
+                w *= overlap_helper(pos, zone, tactics)
+            w *= 0.75 + 0.25 * ps.energy
+            weights.append((ps, w))
+
+        return weighted_choice(self.rng, weights)
+
     def _receiver_option_quality(self, ps: PlayerState, zone: Zone, ctx: dict) -> float:
         """Projected reward if this receiver gets the ball."""
         off_ball = ps.effective("off_ball") / 100.0

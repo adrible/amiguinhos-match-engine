@@ -239,6 +239,7 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             "team": self._v13_keeper_up_team,
             "until": self._v13_keeper_up_until,
         }
+        data["v13_open_goal_shot"] = getattr(self, "_v13_open_goal_shot", None)
         return data
 
     @classmethod
@@ -247,6 +248,7 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         keeper = data.get("v13_keeper_up", {})
         obj._v13_keeper_up_team = keeper.get("team")
         obj._v13_keeper_up_until = float(keeper.get("until", 0.0))
+        obj._v13_open_goal_shot = data.get("v13_open_goal_shot")
         return obj
 
     def _contextual_attacking_receiver_eligible(
@@ -302,6 +304,38 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         event = super()._emit(typ, team, relevance, text_key, **data)
         if getattr(typ, "value", typ) == "goal":
             self._clear_keeper_up()
+        return event
+
+    def _open_goal_direct_shot_profile(
+        self, team: int, actor: PlayerState, zone: Zone, ctx: dict
+    ) -> dict:
+        """Perception and willingness to shoot at an exposed goal."""
+        opponent = 1 - team
+        if zone.band == Band.DEF or not self._keeper_is_exposed(opponent):
+            return {"eligible": False, "perception_probability": 0.0, "attempt_probability_if_perceived": 0.0}
+        vision = actor.effective("vision") / 100.0
+        composure = actor.effective("composure") / 100.0
+        technique = actor.effective("technique") / 100.0
+        long_shots = actor.effective("long_shots") / 100.0
+        pressure = clamp(float(ctx.get("pressure", 0.5)))
+        space = clamp(float(ctx.get("space", 0.5)))
+        visibility = {Band.MID: 0.82, Band.ATT: 0.95, Band.BOX: 1.00}[zone.band]
+        lane_factor = 1.0 if zone.lane == Lane.CENTER else 0.93
+        perception = clamp((0.50 + 0.30 * vision + 0.12 * composure + 0.10 * space - 0.20 * pressure) * visibility * lane_factor, 0.0, 0.98)
+        strike_skill = 0.40 * long_shots + 0.34 * technique + 0.26 * composure
+        distance_bonus = {Band.MID: 0.02, Band.ATT: 0.13, Band.BOX: 0.22}[zone.band]
+        attempt = clamp(0.46 + 0.36 * strike_skill + 0.13 * space - 0.18 * pressure + distance_bonus, 0.28, 0.97)
+        return {"eligible": True, "perception_probability": perception, "attempt_probability_if_perceived": attempt}
+
+    def _resolve_shot(self, p):
+        marker = getattr(self, "_v13_open_goal_shot", None)
+        event = super()._resolve_shot(p)
+        if marker is not None and marker.get("team") == p.team and marker.get("actor") == p.actor:
+            event.data["open_goal"] = True
+            event.data["keeper_exposed"] = True
+            event.data["open_goal_perception"] = marker.get("perception_probability")
+            event.data["open_goal_attempt"] = marker.get("attempt_probability_if_perceived")
+        self._v13_open_goal_shot = None
         return event
 
     def _choose_actor(self, team: int, zone: Zone) -> PlayerState:
@@ -1029,8 +1063,22 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         then accidentally target another.
         """
         self._v13_forced_target = None
+        self._v13_open_goal_shot = None
         team = self._team_index_for_actor(actor)
         if team is not None:
+            open_goal = self._open_goal_direct_shot_profile(team, actor, zone, ctx)
+            if (
+                open_goal["eligible"]
+                and self.rng.random() < open_goal["perception_probability"]
+                and self.rng.random() < open_goal["attempt_probability_if_perceived"]
+            ):
+                self._v13_open_goal_shot = {
+                    "team": team,
+                    "actor": actor.player.name,
+                    "perception_probability": round(open_goal["perception_probability"], 4),
+                    "attempt_probability_if_perceived": round(open_goal["attempt_probability_if_perceived"], 4),
+                }
+                return "shoot"
             info = self._hidden_opportunity(team, actor, zone, ctx)
             if info and info["qualifies"]:
                 confidence = clamp(0.46 + 3.2 * max(0.0, info["margin"]), 0.46, 0.92)

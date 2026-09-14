@@ -1,0 +1,55 @@
+name: One-time fix GK forward actor
+
+on:
+  push:
+    branches:
+      - v1.3-spatial-creativity-boldness
+    paths:
+      - .github/workflows/one-time-fix-gk-forward-actor.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v1.3-spatial-creativity-boldness
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Patch goalkeeper forward actor eligibility
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('engine_experiment_v13_spatial.py')
+          s = p.read_text()
+          needle = '''    def _receiver_option_quality(self, ps: PlayerState, zone: Zone, ctx: dict) -> float:\n        """Projected reward if this receiver gets the ball."""\n'''
+          insert = '''    def _choose_actor(self, team: int, zone: Zone) -> PlayerState:\n        """Choose the ball carrier without letting the goalkeeper teleport forward.\n\n        The keeper remains eligible in the defensive third for ordinary build-up.\n        Outside that band, open-play possession actors must be outfield players\n        unless a future explicit keeper-up mechanic opts in.\n        """\n        if zone.band == Band.DEF:\n            return super()._choose_actor(team, zone)\n\n        rt = self.teams[team]\n        tactics = rt.team.tactics\n        weights: list[tuple[PlayerState, float]] = []\n        for ps in rt.on_field:\n            pos = ps.player.position.upper()\n            if pos == "GK":\n                continue\n            if zone.band == Band.MID:\n                w = {\n                    "DM": 1.2, "CM": 1.5, "AM": 1.15, "LB": 0.65,\n                    "RB": 0.65, "LW": 0.85, "RW": 0.85, "ST": 0.45,\n                    "CB": 0.35,\n                }.get(pos, 0.5)\n            elif zone.band == Band.ATT:\n                w = {\n                    "AM": 1.35, "LW": 1.25, "RW": 1.25, "ST": 1.15,\n                    "CM": 0.75, "LB": 0.35, "RB": 0.35, "DM": 0.30,\n                    "CB": 0.10,\n                }.get(pos, 0.5)\n            else:\n                w = {\n                    "ST": 1.65, "LW": 1.05, "RW": 1.05, "AM": 1.15,\n                    "CM": 0.45, "LB": 0.16, "RB": 0.16, "DM": 0.12,\n                    "CB": 0.09,\n                }.get(pos, 0.4)\n\n            if zone.lane == Lane.LEFT and pos in ("LB", "LW"):\n                w *= 1.45\n            if zone.lane == Lane.RIGHT and pos in ("RB", "RW"):\n                w *= 1.45\n            if zone.lane == Lane.CENTER and pos in ("CB", "DM", "CM", "AM", "ST"):\n                w *= 1.25\n\n            overlap_helper = getattr(self, "_fullback_overlap_factor", None)\n            if callable(overlap_helper):\n                w *= overlap_helper(pos, zone, tactics)\n            w *= 0.75 + 0.25 * ps.energy\n            weights.append((ps, w))\n\n        return weighted_choice(self.rng, weights)\n\n'''
+          if needle not in s:
+              raise SystemExit('receiver quality anchor not found')
+          s = s.replace(needle, insert + needle, 1)
+          p.write_text(s)
+
+          p = Path('test_v13_goalkeeper_receiver_eligibility.py')
+          s = p.read_text()
+          needle = '''    def test_forced_goalkeeper_target_is_rejected_in_canonical_engine(self):\n'''
+          insert = '''    def test_goalkeeper_never_becomes_open_play_actor_outside_defensive_third(self):\n        engine = self._engine(MatchEngineV13Spatial)\n        for band in (Band.MID, Band.ATT, Band.BOX):\n            zone = Zone(band, Lane.CENTER)\n            for _ in range(2000):\n                actor = engine._choose_actor(0, zone)\n                self.assertNotEqual(actor.player.position.upper(), "GK")\n\n'''
+          if needle not in s:
+              raise SystemExit('test anchor not found')
+          s = s.replace(needle, insert + needle, 1)
+          p.write_text(s)
+          PY
+      - name: Run regression tests
+        run: |
+          python -m unittest -v test_v13_goalkeeper_receiver_eligibility.py test_spatial_decisions.py test_historical_2014_v13.py
+      - name: Commit permanent fix and remove one-time workflow
+        run: |
+          rm .github/workflows/one-time-fix-gk-forward-actor.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine_experiment_v13_spatial.py test_v13_goalkeeper_receiver_eligibility.py .github/workflows/one-time-fix-gk-forward-actor.yml
+          git commit -m "Prevent goalkeeper forward open-play actor selection in v1.3"
+          git push

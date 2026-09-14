@@ -6,7 +6,13 @@ import unittest
 
 from engine import Band, Lane, Zone
 from engine_experiment_v13 import MatchEngine
-from evaluation_v13 import evaluation_schedule, run_broad_evaluation, tournament_teams
+from evaluation_v13 import (
+    evaluation_schedule,
+    run_adaptation_ab,
+    run_broad_evaluation,
+    run_knockout_stress,
+    tournament_teams,
+)
 from final_protocol_v13 import OFFICIAL_FINAL_SEED
 from team_loader import load_team as load_stable_team
 from team_loader_v13 import load_team_v13, load_v13_trait_database
@@ -51,6 +57,24 @@ class ExtendedV13ValidationTests(unittest.TestCase):
         self.assertEqual(results["wins"] + results["draws"] + results["losses"], expected)
         self.assertEqual(len(report["by_opponent"]), len(tournament_teams()) - 1)
         self.assertEqual(len(report["rows"]), 2 * (len(tournament_teams()) - 1))
+
+    def test_adaptation_ab_uses_same_unfiltered_seed_range(self):
+        report = run_adaptation_ab(count=2, start_seed=45000)
+        self.assertEqual(report["count"], 2)
+        self.assertEqual(report["start_seed"], 45000)
+        self.assertEqual(report["without_adaptation"]["count"], 2)
+        self.assertEqual(report["with_adaptation"]["count"], 2)
+        self.assertFalse(report["without_adaptation"]["auto_adapt"])
+        self.assertTrue(report["with_adaptation"]["auto_adapt"])
+        self.assertNotEqual(report["official_seed_quarantined"], 45000)
+
+    def test_knockout_stress_resolves_every_match_without_official_seed(self):
+        report = run_knockout_stress(count=3, start_seed=46000, auto_adapt=True)
+        self.assertEqual(sum(report["winners"].values()), 3)
+        self.assertEqual(sum(report["decided_by"].values()), 3)
+        self.assertTrue(report["allow_extra_time"])
+        self.assertTrue(report["auto_adapt"])
+        self.assertNotEqual(report["official_seed_quarantined"], 46000)
 
     def test_zero_adversity_makes_determination_behaviorally_neutral(self):
         engine = self.make_engine()

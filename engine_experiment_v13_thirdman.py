@@ -69,6 +69,7 @@ class MatchEngineV13ThirdMan(MatchEngineV13Runs):
         return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
 
     def _execute_decision(self, team, actor, zone, decision, ctx):
+        self._ensure_third_man_state()
         chain = self.active_pass_chain(team)
         adjusted = dict(ctx)
         if chain and chain[-1]["target"] == actor.player.name and len(chain) >= 2:

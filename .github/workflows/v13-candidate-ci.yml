@@ -25,6 +25,8 @@ jobs:
         run: |
           python -m json.tool data/teams.json > /dev/null
           python -m json.tool data/v13_player_traits.json > /dev/null
+          python -m json.tool data/v13_rosters.json > /dev/null
+          python -m json.tool data/v13_competition_strength.json > /dev/null
 
       - name: Compile stable and candidate source
         run: >-
@@ -39,6 +41,7 @@ jobs:
           engine_experiment_v13_adaptation.py engine_experiment_v13_adaptation_stability.py
           engine_experiment_v13_persistence.py engine_experiment_v13_knockout.py
           engine_experiment_v13_determination.py engine_experiment_v13_substitutions.py
+          engine_experiment_v13_referee.py engine_experiment_v13_referee_ordering.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py
@@ -48,7 +51,7 @@ jobs:
           test_defensive_communication.py test_offside_line.py test_overload_reactions.py
           test_defensive_errors.py test_shared_understanding.py test_tactical_adaptation.py
           test_adaptation_stability.py test_v13_player_traits.py test_determination_v13.py
-          test_auto_substitutions_v13.py test_v13_reserve_pool.py
+          test_auto_substitutions_v13.py test_v13_reserve_pool.py test_referee_fouls_v13.py
           test_extended_validation_v13.py test_calibration_v13.py
           test_v13_persistence.py test_runner_v13.py test_final_protocol_v13.py test_knockout_v13.py
 
@@ -75,6 +78,7 @@ jobs:
           test_determination_v13.py
           test_auto_substitutions_v13.py
           test_v13_reserve_pool.py
+          test_referee_fouls_v13.py
           test_extended_validation_v13.py
           test_calibration_v13.py
           test_v13_persistence.py

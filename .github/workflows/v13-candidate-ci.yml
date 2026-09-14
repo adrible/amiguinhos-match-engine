@@ -35,6 +35,7 @@ jobs:
           historical_2014_v13.py
           engine_experiment_v13.py engine_experiment_v13_spatial.py
           engine_experiment_v13_offball.py engine_experiment_v13_body.py
+          engine_experiment_v13_legal_body.py engine_experiment_v13_reception.py
           engine_experiment_v13_defense.py engine_experiment_v13_marking.py
           engine_experiment_v13_cover.py engine_experiment_v13_communication.py
           engine_experiment_v13_offside.py engine_experiment_v13_overload.py
@@ -46,12 +47,15 @@ jobs:
           engine_experiment_v13_referee_calibrated.py engine_experiment_v13_referee_final.py
           engine_experiment_v13_referee_extended.py engine_experiment_v13_referee_complete.py
           engine_experiment_v13_adaptation_inertia.py
+          engine_experiment_v13_combinations.py engine_experiment_v13_runs.py
+          engine_experiment_v13_thirdman.py engine_experiment_v13_pressing_triggers.py
+          engine_experiment_v13_duels.py engine_experiment_v13_collective.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
           test_spatial_decisions.py test_offball_anticipation.py
-          test_body_orientation.py test_defensive_intelligence.py
-          test_marking_handoffs.py test_defensive_cover.py
+          test_body_orientation.py test_v13_legal_body_actions.py test_v13_reception.py
+          test_defensive_intelligence.py test_marking_handoffs.py test_defensive_cover.py
           test_defensive_communication.py test_offside_line.py test_overload_reactions.py
           test_defensive_errors.py test_shared_understanding.py test_tactical_adaptation.py
           test_adaptation_stability.py test_adaptation_inertia_v13.py
@@ -60,6 +64,7 @@ jobs:
           test_referee_calibration_v13.py test_referee_extended_v13.py
           test_extended_validation_v13.py test_calibration_v13.py
           test_v13_persistence.py test_runner_v13.py test_final_protocol_v13.py test_knockout_v13.py
+          test_v13_collective_play.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -71,6 +76,8 @@ jobs:
           test_spatial_decisions.py
           test_offball_anticipation.py
           test_body_orientation.py
+          test_v13_legal_body_actions.py
+          test_v13_reception.py
           test_defensive_intelligence.py
           test_marking_handoffs.py
           test_defensive_cover.py
@@ -95,6 +102,7 @@ jobs:
           test_runner_v13.py
           test_final_protocol_v13.py
           test_knockout_v13.py
+          test_v13_collective_play.py
 
       - name: Run 100-match v1.3 generic smoke simulation
         run: python diagnostics_v13.py 100

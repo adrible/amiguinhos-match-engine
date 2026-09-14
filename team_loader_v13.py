@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-"""v1.3-only roster loader for behavioural traits and candidate boosts.
+"""v1.3-only roster loader for evolved ratings and behavioural traits.
 
-The stable ``team_loader.py`` remains the authoritative v1.2 loader.  This
-module calls it first and then attaches optional dynamic v1.3 traits plus
-explicit candidate-only attribute boosts from a separate data file.  The base
-``Player`` dataclass is therefore not changed and stable loading remains
-byte-for-byte compatible with v1.2.
+Stable v1.2 continues to load ``data/teams.json`` through ``team_loader.py``.
+The candidate v1.3 starts from that frozen roster only to preserve team
+structure, then replaces explicitly listed player ratings with the literal
+current values stored in ``data/v13_player_traits.json``.
+
+Those values are NOT runtime boosts or deltas. They are the players' new
+ratings after their progression during the tournament. Creativity, boldness
+and determination remain separate behavioural traits.
 """
 
 import json
@@ -19,7 +22,7 @@ from team_loader import load_team as load_stable_team
 
 DEFAULT_V13_TRAITS = Path(__file__).resolve().parent / "data" / "v13_player_traits.json"
 _ALLOWED_TRAITS = {"creativity", "boldness", "determination"}
-_ALLOWED_BOOST_ATTRIBUTES = {
+_ALLOWED_ATTRIBUTES = {
     "overall",
     "pace",
     "passing",
@@ -41,6 +44,8 @@ _ALLOWED_BOOST_ATTRIBUTES = {
     "handling",
     "gk_positioning",
     "one_on_one",
+    "aggression",
+    "discipline",
 }
 
 
@@ -50,13 +55,13 @@ def load_v13_trait_database(path: Optional[str | Path] = None) -> dict:
         data = json.load(fh)
     teams = data.get("teams")
     if not isinstance(teams, dict):
-        raise ValueError("Invalid v1.3 trait database: missing 'teams' object.")
+        raise ValueError("Invalid v1.3 player database: missing 'teams' object.")
     return data
 
 
 def _validated_traits(player_name: str, raw: dict) -> dict[str, float]:
     if not isinstance(raw, dict):
-        raise ValueError(f"v1.3 traits for {player_name} must be an object.")
+        raise ValueError(f"v1.3 data for {player_name} must be an object.")
     values = {}
     for key in _ALLOWED_TRAITS:
         if key not in raw:
@@ -70,41 +75,33 @@ def _validated_traits(player_name: str, raw: dict) -> dict[str, float]:
     return values
 
 
-def _validated_attribute_boosts(team_key: str, raw: dict) -> dict[str, float]:
-    boosts = raw.get("attribute_boosts", {}) if isinstance(raw, dict) else {}
-    if boosts is None:
+def _validated_attributes(player_name: str, raw: dict) -> dict[str, int]:
+    attributes = raw.get("attributes", {}) if isinstance(raw, dict) else {}
+    if attributes is None:
         return {}
-    if not isinstance(boosts, dict):
-        raise ValueError(f"v1.3 attribute_boosts for {team_key} must be an object.")
+    if not isinstance(attributes, dict):
+        raise ValueError(f"v1.3 attributes for {player_name} must be an object.")
 
-    unknown = sorted(set(boosts) - _ALLOWED_BOOST_ATTRIBUTES)
+    unknown = sorted(set(attributes) - _ALLOWED_ATTRIBUTES)
     if unknown:
         raise ValueError(
-            f"v1.3 attribute_boosts for {team_key} contains unsupported attributes: {unknown}"
+            f"v1.3 attributes for {player_name} contains unsupported fields: {unknown}"
         )
 
-    validated: dict[str, float] = {}
-    for key, raw_value in boosts.items():
+    validated: dict[str, int] = {}
+    for key, raw_value in attributes.items():
         value = float(raw_value)
-        if not -10.0 <= value <= 10.0:
+        if not value.is_integer():
             raise ValueError(
-                f"v1.3 attribute boost {key} for {team_key} must be between -10 and 10."
+                f"v1.3 attribute {key} for {player_name} must be an integer rating."
             )
-        validated[key] = value
+        integer = int(value)
+        if not 1 <= integer <= 95:
+            raise ValueError(
+                f"v1.3 attribute {key} for {player_name} must be between 1 and 95."
+            )
+        validated[key] = integer
     return validated
-
-
-def _apply_attribute_boosts(team: Team, team_key: str, team_raw: dict) -> None:
-    boosts = _validated_attribute_boosts(team_key, team_raw)
-    if not boosts:
-        return
-
-    for player in [*team.starters, *team.bench]:
-        for attr, boost in boosts.items():
-            current = float(getattr(player, attr))
-            # Keep the candidate within the same rating scale as the stable DB.
-            boosted = max(1.0, min(95.0, current + boost))
-            setattr(player, attr, int(round(boosted)))
 
 
 def apply_v13_traits(
@@ -113,14 +110,15 @@ def apply_v13_traits(
     *,
     traits_path: Optional[str | Path] = None,
 ) -> Team:
+    """Apply literal v1.3 ratings plus optional behavioural traits.
+
+    No arithmetic is performed against the v1.2 ratings. If the JSON says
+    ``passing: 88``, the candidate player's passing is exactly 88.
+    """
     database = load_v13_trait_database(traits_path)
     team_raw = database["teams"].get(team_key, {})
     if not isinstance(team_raw, dict):
         raise ValueError(f"v1.3 team entry for {team_key} must be an object.")
-
-    # Candidate boosts are explicit data, not an engine-side team-name bonus.
-    # Any team could receive the same mechanism through the v1.3 data file.
-    _apply_attribute_boosts(team, team_key, team_raw)
 
     players_raw = team_raw.get("players", {})
     if not isinstance(players_raw, dict):
@@ -130,11 +128,13 @@ def apply_v13_traits(
     unknown = sorted(set(players_raw) - set(roster))
     if unknown:
         raise ValueError(
-            f"v1.3 trait database references unknown players for {team_key}: {unknown}"
+            f"v1.3 player database references unknown players for {team_key}: {unknown}"
         )
 
     for player_name, raw in players_raw.items():
         player = roster[player_name]
+        for key, value in _validated_attributes(player_name, raw).items():
+            setattr(player, key, value)
         for key, value in _validated_traits(player_name, raw).items():
             setattr(player, key, value)
     return team
@@ -146,13 +146,11 @@ def load_team_v13(
     *,
     traits_path: Optional[str | Path] = None,
 ) -> Team:
-    """Load the stable roster, then apply optional v1.3-only data."""
+    """Load frozen v1.2 structure, then replace explicit v1.3 player values."""
     team = load_stable_team(team_key, teams_path)
     return apply_v13_traits(team, team_key, traits_path=traits_path)
 
 
-# Friendly alias for v1.3 scripts.  We intentionally do not replace the stable
-# ``team_loader.load_team`` symbol anywhere.
 load_team = load_team_v13
 
 __all__ = [

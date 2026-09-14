@@ -1,0 +1,126 @@
+name: One-time fix GK attacking receiver
+
+on:
+  push:
+    branches:
+      - v1.3-spatial-creativity-boldness
+    paths:
+      - .github/workflows/one-time-fix-gk-attacking-receiver.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v1.3-spatial-creativity-boldness
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Patch v1.3 receiver eligibility
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('engine_experiment_v13_spatial.py')
+          s = p.read_text()
+          s = s.replace(
+          '''    def _base_target_weights(\n        self,\n        team: int,\n        zone: Zone,\n        actor: PlayerState,\n    ) -> list[tuple[PlayerState, float]]:\n        """Normal receiver preference, without creativity or boldness."""\n''',
+          '''    @staticmethod\n    def _attacking_receiver_eligible(ps: PlayerState) -> bool:\n        """Whether a player can be selected as an ordinary attacking receiver.\n\n        Goalkeepers remain available for defensive build-up as ball carriers,\n        but they are not valid open-play attacking targets. If a future\n        keeper-up/set-piece mechanic is added, it should opt in explicitly\n        rather than relying on a tiny generic probability.\n        """\n        return ps.player.position.upper() != "GK"\n\n    def _base_target_weights(\n        self,\n        team: int,\n        zone: Zone,\n        actor: Optional[PlayerState],\n    ) -> list[tuple[PlayerState, float]]:\n        """Normal receiver preference, without creativity or boldness."""\n''')
+          s = s.replace(
+          '''        for ps in self.teams[team].on_field:\n            if ps.player.name == actor.player.name:\n                continue\n            pos = ps.player.position.upper()\n''',
+          '''        for ps in self.teams[team].on_field:\n            if actor is not None and ps.player.name == actor.player.name:\n                continue\n            if not self._attacking_receiver_eligible(ps):\n                continue\n            pos = ps.player.position.upper()\n''', 1)
+          s = s.replace(
+          '''                "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35,\n                "CB": 0.12, "GK": 0.01,\n''',
+          '''                "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35,\n                "CB": 0.12,\n''', 1)
+          s = s.replace(
+          '''                if target is not None:\n                    return target\n''',
+          '''                if target is not None and self._attacking_receiver_eligible(target):\n                    return target\n''', 1)
+          s = s.replace(
+          '''        if actor is None:\n            return super()._choose_target(team, zone, attacking=True, exclude=exclude)\n        return weighted_choice(self.rng, self._base_target_weights(team, zone, actor))\n''',
+          '''        if actor is None:\n            # Do not fall back to the frozen engine here: its historical tiny\n            # GK target weight can leak a keeper into an attacking sequence.\n            return weighted_choice(\n                self.rng,\n                MatchEngineV13Spatial._base_target_weights(self, team, zone, None),\n            )\n        return weighted_choice(self.rng, self._base_target_weights(team, zone, actor))\n''', 1)
+          p.write_text(s)
+
+          p = Path('engine_experiment_v13_offball.py')
+          s = p.read_text()
+          s = s.replace(
+          '''                if target is not None and actor is not None:\n                    info = self._hidden_opportunity(\n''',
+          '''                if (\n                    target is not None\n                    and actor is not None\n                    and self._attacking_receiver_eligible(target)\n                ):\n                    info = self._hidden_opportunity(\n''', 1)
+          p.write_text(s)
+          PY
+      - name: Add regression test
+        run: |
+          cat > test_v13_goalkeeper_receiver_eligibility.py <<'PY'
+          from __future__ import annotations
+
+          import unittest
+
+          from engine import Band, Lane, Zone, make_generic_team
+          from engine_experiment_v13 import MatchEngine
+          from engine_experiment_v13_spatial import MatchEngineV13Spatial
+
+
+          class GoalkeeperAttackingReceiverEligibilityTests(unittest.TestCase):
+              def _engine(self, cls):
+                  home = make_generic_team("Home", 78, "balanced", seed=101)
+                  away = make_generic_team("Away", 78, "balanced", seed=202)
+                  return cls(home, away, seed=303)
+
+              @staticmethod
+              def _first_outfielder(engine):
+                  return next(ps for ps in engine.teams[0].on_field if ps.player.position.upper() != "GK")
+
+              @staticmethod
+              def _goalkeeper(engine):
+                  return next(ps for ps in engine.teams[0].on_field if ps.player.position.upper() == "GK")
+
+              def test_goalkeeper_absent_from_spatial_target_probabilities(self):
+                  engine = self._engine(MatchEngineV13Spatial)
+                  actor = self._first_outfielder(engine)
+                  goalkeeper = self._goalkeeper(engine)
+                  for band in (Band.DEF, Band.MID, Band.ATT, Band.BOX):
+                      probs = engine.target_probabilities(0, actor, Zone(band, Lane.CENTER))
+                      self.assertNotIn(goalkeeper.player.name, probs)
+                      self.assertAlmostEqual(sum(probs.values()), 1.0, places=9)
+
+              def test_goalkeeper_never_drawn_as_attacking_target(self):
+                  engine = self._engine(MatchEngineV13Spatial)
+                  actor = self._first_outfielder(engine)
+                  for band in (Band.DEF, Band.MID, Band.ATT, Band.BOX):
+                      zone = Zone(band, Lane.CENTER)
+                      for _ in range(2000):
+                          target = engine._choose_target(0, zone, attacking=True, exclude=actor.player.name)
+                          self.assertNotEqual(target.player.position.upper(), "GK")
+
+              def test_forced_goalkeeper_target_is_rejected_in_canonical_engine(self):
+                  engine = self._engine(MatchEngine)
+                  actor = self._first_outfielder(engine)
+                  goalkeeper = self._goalkeeper(engine)
+                  engine._v13_forced_target = {
+                      "team": 0,
+                      "actor": actor.player.name,
+                      "target": goalkeeper.player.name,
+                      "action": "through_ball",
+                  }
+                  target = engine._choose_target(0, Zone(Band.ATT, Lane.CENTER), attacking=True, exclude=actor.player.name)
+                  self.assertNotEqual(target.player.position.upper(), "GK")
+                  self.assertIsNone(engine._v13_forced_target)
+
+
+          if __name__ == "__main__":
+              unittest.main()
+          PY
+      - name: Run regression tests
+        run: |
+          python -m unittest -v test_v13_goalkeeper_receiver_eligibility.py test_spatial_decisions.py test_historical_2014_v13.py
+      - name: Commit permanent fix and remove one-time workflow
+        run: |
+          rm .github/workflows/one-time-fix-gk-attacking-receiver.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine_experiment_v13_spatial.py engine_experiment_v13_offball.py test_v13_goalkeeper_receiver_eligibility.py .github/workflows/one-time-fix-gk-attacking-receiver.yml
+          git commit -m "Fix goalkeeper attacking receiver eligibility in v1.3"
+          git push

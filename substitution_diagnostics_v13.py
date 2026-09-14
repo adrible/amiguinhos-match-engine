@@ -17,6 +17,20 @@ from final_protocol_v13 import assert_calibration_seed_allowed
 from team_loader_v13 import load_team_v13
 
 
+def _summary(counts: list[int], minutes: list[float], reasons: Counter[str]) -> dict:
+    return {
+        "total_auto_substitutions": sum(counts),
+        "mean_per_match": mean(counts) if counts else 0.0,
+        "median_per_match": median(counts) if counts else 0.0,
+        "max_per_match": max(counts, default=0),
+        "matches_with_auto_substitutions": sum(1 for value in counts if value > 0),
+        "mean_minute": mean(minutes) if minutes else None,
+        "first_minute": min(minutes) if minutes else None,
+        "last_minute": max(minutes) if minutes else None,
+        "reason_counts": dict(sorted(reasons.items())),
+    }
+
+
 def run_substitution_batch(
     count: int = 100,
     *,
@@ -34,6 +48,9 @@ def run_substitution_batch(
     first_half: list[dict] = []
     matches_with_subs = 0
     maximum = 0
+    team_counts = {0: [], 1: []}
+    team_minutes = {0: [], 1: []}
+    team_reasons = {0: Counter(), 1: Counter()}
 
     for seed in range(int(start_seed), int(start_seed) + int(count)):
         assert_calibration_seed_allowed(home_key, away_key, seed)
@@ -61,6 +78,7 @@ def run_substitution_batch(
             ]
             count_team = len(team_events)
             per_team_match.append(count_team)
+            team_counts[team].append(count_team)
             maximum = max(maximum, count_team)
             match_total += count_team
             for ev in team_events:
@@ -68,6 +86,8 @@ def run_substitution_batch(
                 reason = str(ev.data.get("reason", "unknown"))
                 minutes.append(minute)
                 reasons[reason] += 1
+                team_minutes[team].append(minute)
+                team_reasons[team][reason] += 1
                 if minute < 45.0:
                     first_half.append(
                         {
@@ -110,6 +130,10 @@ def run_substitution_batch(
         "first_half_auto_substitutions": len(first_half),
         "first_half_non_injury_substitutions": len(invalid_first_half),
         "reason_counts": dict(sorted(reasons.items())),
+        "by_team": {
+            home_key: _summary(team_counts[0], team_minutes[0], team_reasons[0]),
+            away_key: _summary(team_counts[1], team_minutes[1], team_reasons[1]),
+        },
     }
 
 

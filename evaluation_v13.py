@@ -3,9 +3,10 @@ from __future__ import annotations
 """Broad, outcome-blind evaluation harness for the v1.3 candidate.
 
 This module does not tune or search seeds. It evaluates Amiguinhos against
-all other tournament teams using a deterministic schedule of contiguous seed
-ranges, in both home/away orientations. The official final seed is never part
-of the schedule.
+all other tournament teams using deterministic contiguous seed ranges, can
+compare the exact same seeds with/without tactical adaptation, and can stress
+the full knockout path (extra time + live shootout). The official final seed
+is never part of any diagnostic schedule.
 """
 
 import argparse
@@ -15,7 +16,10 @@ from statistics import mean
 from typing import Iterable
 
 from calibration_v13 import run_fixture_batch
-from final_protocol_v13 import OFFICIAL_FINAL_SEED
+from engine import MatchConfig
+from engine_experiment_v13 import MatchEngine
+from final_protocol_v13 import OFFICIAL_FINAL_SEED, assert_calibration_seed_allowed
+from team_loader_v13 import load_team_v13
 
 
 TEAMS_PATH = Path(__file__).resolve().parent / "data" / "teams.json"
@@ -29,6 +33,15 @@ def tournament_teams() -> dict[str, dict]:
     return teams
 
 
+def _assert_safe_seed_range(start_seed: int, count: int) -> list[int]:
+    if count <= 0:
+        raise ValueError("count must be positive")
+    seeds = list(range(int(start_seed), int(start_seed) + int(count)))
+    if OFFICIAL_FINAL_SEED in seeds:
+        raise AssertionError("evaluation schedule intersects quarantined official seed")
+    return seeds
+
+
 def evaluation_schedule(*, count_per_orientation: int = 12, base_seed: int = 1000) -> list[dict]:
     if count_per_orientation <= 0:
         raise ValueError("count_per_orientation must be positive")
@@ -36,9 +49,7 @@ def evaluation_schedule(*, count_per_orientation: int = 12, base_seed: int = 100
     schedule: list[dict] = []
     for index, opponent in enumerate(opponents):
         start = int(base_seed) + index * 1000
-        seeds = list(range(start, start + int(count_per_orientation)))
-        if OFFICIAL_FINAL_SEED in seeds:
-            raise AssertionError("evaluation schedule intersects quarantined official seed")
+        _assert_safe_seed_range(start, int(count_per_orientation))
         schedule.append({
             "opponent": opponent,
             "home_key": "amiguinhos_u21",
@@ -157,20 +168,149 @@ def run_broad_evaluation(
     }
 
 
+def _compact_batch(batch: dict) -> dict:
+    return {key: value for key, value in batch.items() if key not in {"matches", "seeds"}}
+
+
+def _home_points_per_match(batch: dict) -> float:
+    return (
+        3 * int(batch["results"]["home_wins"]) + int(batch["results"]["draws"])
+    ) / int(batch["count"])
+
+
+def run_adaptation_ab(
+    *,
+    count: int = 120,
+    start_seed: int = 30000,
+) -> dict:
+    """Compare identical unfiltered seeds with and without auto adaptation."""
+    _assert_safe_seed_range(start_seed, count)
+    without = run_fixture_batch(
+        "amiguinhos_u21", "flamengo_u21",
+        start_seed=start_seed, count=count, auto_adapt=False,
+    )
+    with_adapt = run_fixture_batch(
+        "amiguinhos_u21", "flamengo_u21",
+        start_seed=start_seed, count=count, auto_adapt=True,
+    )
+    return {
+        "fixture": ["amiguinhos_u21", "flamengo_u21"],
+        "seed_policy": "same_contiguous_unfiltered_range_for_both_conditions",
+        "start_seed": int(start_seed),
+        "count": int(count),
+        "official_seed_quarantined": OFFICIAL_FINAL_SEED,
+        "without_adaptation": _compact_batch(without),
+        "with_adaptation": _compact_batch(with_adapt),
+        "deltas_with_minus_without": {
+            "amiguinhos_points_per_match": _home_points_per_match(with_adapt) - _home_points_per_match(without),
+            "amiguinhos_goals": with_adapt["averages"]["home_goals"] - without["averages"]["home_goals"],
+            "amiguinhos_xg": with_adapt["averages"]["home_xg"] - without["averages"]["home_xg"],
+            "flamengo_goals": with_adapt["averages"]["away_goals"] - without["averages"]["away_goals"],
+            "flamengo_xg": with_adapt["averages"]["away_xg"] - without["averages"]["away_xg"],
+        },
+    }
+
+
+def _run_knockout_to_end(engine: MatchEngine, guard_limit: int = 7000) -> None:
+    guard = 0
+    while not engine.state.ended and guard < guard_limit:
+        engine.step()
+        guard += 1
+    if guard >= guard_limit:
+        raise RuntimeError(f"knockout simulation guard reached for seed {engine.seed}")
+
+
+def run_knockout_stress(
+    *,
+    count: int = 120,
+    start_seed: int = 40000,
+    auto_adapt: bool = True,
+) -> dict:
+    """Stress the final-like path without ever using the official final seed."""
+    seeds = _assert_safe_seed_range(start_seed, count)
+    winners = {"amiguinhos": 0, "flamengo": 0}
+    decided_by = {"regulation": 0, "extra_time": 0, "shootout": 0}
+    goals_for = []
+    goals_against = []
+
+    for seed in seeds:
+        assert_calibration_seed_allowed("amiguinhos_u21", "flamengo_u21", seed)
+        engine = MatchEngine(
+            load_team_v13("amiguinhos_u21"),
+            load_team_v13("flamengo_u21"),
+            seed=seed,
+            config=MatchConfig(
+                auto_tactical_adaptation=auto_adapt,
+                allow_extra_time=True,
+            ),
+        )
+        _run_knockout_to_end(engine)
+
+        shootout = getattr(engine, "_v13_shootout", None)
+        if isinstance(shootout, dict) and shootout.get("winner") is not None:
+            winner = int(shootout["winner"])
+            mode = "shootout"
+        else:
+            if engine.score[0] == engine.score[1]:
+                raise AssertionError(f"knockout ended unresolved on seed {seed}")
+            winner = 0 if engine.score[0] > engine.score[1] else 1
+            reached_extra_time = any(
+                event.text_key == "regulation_end_tied" for event in engine.state.event_log
+            )
+            mode = "extra_time" if reached_extra_time else "regulation"
+
+        winners["amiguinhos" if winner == 0 else "flamengo"] += 1
+        decided_by[mode] += 1
+        goals_for.append(engine.stats[0].goals)
+        goals_against.append(engine.stats[1].goals)
+
+    return {
+        "fixture": ["amiguinhos_u21", "flamengo_u21"],
+        "seed_policy": "contiguous_unfiltered_final_like_nonofficial_seeds",
+        "start_seed": int(start_seed),
+        "count": int(count),
+        "auto_adapt": bool(auto_adapt),
+        "allow_extra_time": True,
+        "official_seed_quarantined": OFFICIAL_FINAL_SEED,
+        "winners": winners,
+        "decided_by": decided_by,
+        "average_regulation_plus_extra_time_goals": {
+            "amiguinhos": mean(goals_for),
+            "flamengo": mean(goals_against),
+        },
+    }
+
+
 def main(argv: Iterable[str] | None = None) -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--count", type=int, default=12, help="seeds per home/away orientation")
+    parser.add_argument("--count", type=int, default=12, help="seeds per orientation, or batch count in special modes")
     parser.add_argument("--base-seed", type=int, default=1000)
     parser.add_argument("--auto-adapt", action="store_true")
+    parser.add_argument("--adaptation-ab", action="store_true")
+    parser.add_argument("--knockout", action="store_true")
     parser.add_argument("--compact", action="store_true")
     args = parser.parse_args(list(argv) if argv is not None else None)
-    result = run_broad_evaluation(
-        count_per_orientation=args.count,
-        base_seed=args.base_seed,
-        auto_adapt=args.auto_adapt,
-    )
-    if args.compact:
-        result.pop("rows", None)
+
+    if args.adaptation_ab and args.knockout:
+        parser.error("--adaptation-ab and --knockout are mutually exclusive")
+
+    if args.adaptation_ab:
+        result = run_adaptation_ab(count=args.count, start_seed=args.base_seed)
+    elif args.knockout:
+        result = run_knockout_stress(
+            count=args.count,
+            start_seed=args.base_seed,
+            auto_adapt=True if not args.auto_adapt else args.auto_adapt,
+        )
+    else:
+        result = run_broad_evaluation(
+            count_per_orientation=args.count,
+            base_seed=args.base_seed,
+            auto_adapt=args.auto_adapt,
+        )
+        if args.compact:
+            result.pop("rows", None)
+
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
 
 

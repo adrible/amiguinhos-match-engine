@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from engine import Band, Lane, Player, Zone, make_generic_team
+from engine import Band, Lane, MatchConfig, Player, Zone, make_generic_team
 from engine_experiment_v13 import MatchEngine as CanonicalMatchEngine
 from engine_experiment_v13_positions import MatchEngineV13Positions
 from engine_experiment_v13_substitution_strategy import MatchEngineV13SubstitutionStrategy
@@ -15,6 +15,7 @@ class StrategicSubstitutionTests(unittest.TestCase):
             load_team_v13("amiguinhos_u21"),
             make_generic_team("Away", 80, "balanced", seed=404),
             seed=seed,
+            config=MatchConfig(allow_extra_time=True),
         )
 
     @staticmethod

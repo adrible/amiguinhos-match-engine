@@ -25,9 +25,9 @@ class IndividualInstructionTests(unittest.TestCase):
     def target_weight(items, name):
         return next(float(weight) for ps, weight in items if ps.player.name == name)
 
-    def test_canonical_entrypoint_uses_instruction_layer(self):
+    def test_canonical_entrypoint_contains_instruction_layer(self):
         self.assertTrue(issubclass(MatchEngineV13IndividualInstructions, MatchEngineV13Rotations))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13IndividualInstructions)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13IndividualInstructions))
 
     def test_conflicting_instructions_are_rejected(self):
         e = self.engine()

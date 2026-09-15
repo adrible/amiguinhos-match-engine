@@ -12,9 +12,10 @@ from engine_experiment_v13_corners import MatchEngineV13Corners
 from engine_experiment_v13_throwins import MatchEngineV13ThrowIns
 from engine_experiment_v13_positions import MatchEngineV13Positions
 from engine_experiment_v13_substitution_strategy import MatchEngineV13SubstitutionStrategy
+from engine_experiment_v13_rotations import MatchEngineV13Rotations
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13SubstitutionStrategy
+MatchEngine = MatchEngineV13Rotations
 
 __all__ = [
     "ENGINE_VERSION",
@@ -28,4 +29,5 @@ __all__ = [
     "MatchEngineV13ThrowIns",
     "MatchEngineV13Positions",
     "MatchEngineV13SubstitutionStrategy",
+    "MatchEngineV13Rotations",
 ]

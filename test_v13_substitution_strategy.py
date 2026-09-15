@@ -24,9 +24,9 @@ class StrategicSubstitutionTests(unittest.TestCase):
         e.state.restart_team = 0
         e.state.restart_zone = Zone(Band.MID, Lane.CENTER)
 
-    def test_canonical_entrypoint_uses_strategic_substitution_layer(self):
+    def test_canonical_entrypoint_contains_strategic_substitution_layer(self):
         self.assertTrue(issubclass(MatchEngineV13SubstitutionStrategy, MatchEngineV13Positions))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13SubstitutionStrategy)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13SubstitutionStrategy))
 
     def test_sixth_substitution_is_available_in_extra_time(self):
         e = self.engine()
@@ -101,9 +101,7 @@ class StrategicSubstitutionTests(unittest.TestCase):
         e = self.engine(seed=9309)
         e.state.period_markers = [105, 120]
         e.state.second = 118.0 * 60.0
-        outgoing = e.teams[0].by_name("Gabriel Gonzales") if any(
-            ps.player.name == "Gabriel Gonzales" for ps in e.teams[0].on_field
-        ) else e.teams[0].by_name("Léo")
+        outgoing = e.teams[0].by_name("Léo")
         incoming = Player(
             name="Penalty Specialist",
             position=outgoing.player.position,

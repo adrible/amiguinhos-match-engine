@@ -138,11 +138,18 @@ class MatchEngineV13Ratings(MatchEngineV13IndividualInstructions):
     def _participant_names(self, team: int) -> set[str]:
         names = {ps.player.name for ps in self.teams[team].on_field}
         for event in self.state.event_log:
-            if event.type == EventType.SUBSTITUTION and int(event.team) == int(team):
+            if int(event.team) != int(team):
+                continue
+            if event.type == EventType.SUBSTITUTION:
                 if event.data.get("out"):
                     names.add(str(event.data["out"]))
                 if event.data.get("in_player"):
                     names.add(str(event.data["in_player"]))
+            elif event.type in {EventType.CARD, EventType.INJURY}:
+                # Red-carded players can disappear from on_field; medical events
+                # can precede a forced substitution. Both are still participants.
+                if event.data.get("player"):
+                    names.add(str(event.data["player"]))
         return names
 
     def player_match_rating(self, team: int, player_name: str) -> dict:

@@ -186,6 +186,40 @@ class TournamentAwareEngineTests(unittest.TestCase):
         self.assertNotEqual(event.text_key, "regulation_end_tied")
         self.assertEqual(ahead.state.period_markers, [45, 90])
 
+    def test_live_standings_are_provisional_but_not_mathematically_fixed(self):
+        tournament = CompleteTournamentStateV13(
+            competition_id="live_table",
+            teams=["A", "B"],
+            stages={"l": {"kind": "league", "champion_position": 1}},
+            fixtures=[
+                {"id": "ab", "stage_id": "l", "home": "A", "away": "B", "status": "live", "score": [1, 0], "minute": 70},
+            ],
+        )
+        table = tournament.standings("l")
+        a = next(row for row in table if row["team"] == "A")
+        self.assertEqual(a["position"], 1)
+        self.assertEqual(a["points"], 3)
+        self.assertEqual(a["live_unsettled_matches"], 1)
+        self.assertEqual(a["min_points"], 0)
+        self.assertEqual(a["max_points"], 3)
+        self.assertEqual(a["remaining"], 1)
+
+    def test_pre_match_aggregate_excludes_current_live_leg(self):
+        tournament = CompleteTournamentStateV13(
+            competition_id="frozen_prematch",
+            teams=["A", "B"],
+            stages={"ko": {"kind": "knockout", "two_legged": True}},
+            fixtures=[
+                {"id": "l1", "stage_id": "ko", "home": "A", "away": "B", "status": "final", "score": [2, 0], "leg": 1, "tie_id": "T"},
+                {"id": "l2", "stage_id": "ko", "home": "B", "away": "A", "status": "live", "score": [1, 0], "minute": 60, "leg": 2, "tie_id": "T"},
+            ],
+        )
+        conditions = tournament.pre_match_conditions("l2")["team_conditions"]["0"]
+        self.assertEqual(conditions["aggregate_goals_for_before"], 0)
+        self.assertEqual(conditions["aggregate_goals_against_before"], 2)
+        self.assertEqual(conditions["aggregate_diff_before"], -2)
+        self.assertEqual(conditions["goals_needed_to_level_aggregate"], 2)
+
     def test_live_tournament_session_starts_at_zero_without_presimulation(self):
         tournament = CompleteTournamentStateV13(
             competition_id="live_group",

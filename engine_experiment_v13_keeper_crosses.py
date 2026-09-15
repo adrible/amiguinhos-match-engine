@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-"""v1.3 duel/box stage 5: goalkeeper decisions on crosses."""
+"""v1.3 duel/box stage 5: goalkeeper decisions on crosses.
+
+This remains the canonical top class. New final-third intelligence layers sit
+below it in the inheritance chain so existing keeper-cross API and canonical
+entrypoint stay stable.
+"""
 
 from engine import Band, DEF_C, EventType, PendingAction, PlayerState, clamp
-from engine_experiment_v13_crossing_aerial import MatchEngineV13CrossingAerial
+from engine_experiment_v13_quick_free_kick import MatchEngineV13QuickFreeKick
 from engine_experiment_v13_passing_texture import _stable_fraction
 
 VERSION = "1.3-candidate-keeper-crosses"
 
 
-class MatchEngineV13KeeperCrosses(MatchEngineV13CrossingAerial):
+class MatchEngineV13KeeperCrosses(MatchEngineV13QuickFreeKick):
     def keeper_cross_diagnostic(
         self,
         keeper: PlayerState,

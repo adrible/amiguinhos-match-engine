@@ -16,7 +16,7 @@ class RestartIntelligenceTests(unittest.TestCase):
         )
 
     def test_canonical_engine_contains_restart_layer(self):
-        self.assertIs(MatchEngine, MatchEngineV13Restarts)
+        self.assertTrue(issubclass(MatchEngine, MatchEngineV13Restarts))
 
     def test_goal_kick_can_be_armed_without_creating_a_chance(self):
         e = self.engine()

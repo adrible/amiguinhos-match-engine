@@ -1,0 +1,80 @@
+{
+  "version": "1.3-candidate-u20-rosters",
+  "description": "Candidate-only roster overlay. Legacy *_u21 keys are retained for protocol/seed compatibility. Team and player ratings are competition-relative within the Regional Internacional youth field, not senior-professional equivalence. Stable v1.2 data is untouched.",
+  "rating_scale": "Regional Internacional youth competition scale. Team OVR reflects tournament performance/strength relative to the other U20/U21 sides. It is not a senior-professional rating scale.",
+  "teams": {
+    "amiguinhos_u21": {
+      "age_category": "U20",
+      "name": "🦆 Amiguinhos U21",
+      "pre_progression_competition_overall": 73.1,
+      "starter_names": [
+        "Christian",
+        "Jorge Henrique",
+        "Léo",
+        "Igor",
+        "João Peixoto",
+        "Felipe",
+        "Gabriel Adib",
+        "Mike Junior",
+        "Pedro Valverde",
+        "Remo",
+        "Gabriel Félix"
+      ],
+      "bench_names": [
+        "Rodrigo White",
+        "Arthur Peixoto",
+        "Gabriel Gonzales"
+      ],
+      "tactics": {
+        "formation": "4-2-3-1"
+      },
+      "notes": "Corrected pre-final structure: Igor starts at centre-back, João can cover the left side, and White is the specialist left-back option from the bench. White, Arthur and Gonzales are the three reserves in the known 14-player squad. The historical 73.1 team OVR is the pre-progression tournament rating; current v1.3 evolved player values remain literal in v13_player_traits.json."
+    },
+    "flamengo_u21": {
+      "age_category": "U20",
+      "name": "Flamengo Sub-20",
+      "competition_overall": 84,
+      "competition_tier": "S+ — ELITE MUNDIAL",
+      "source_basis": "CR Flamengo official U20 match reports, latest reference XI 2026-09-12 vs Volta Redonda plus current squad options seen in 2026 official reports.",
+      "tactics": {
+        "formation": "4-3-3",
+        "mentality": 0.35,
+        "tempo": 0.66,
+        "width": 0.58,
+        "pressing": 0.68,
+        "defensive_line": 0.64,
+        "compactness": 0.57,
+        "directness": 0.49,
+        "counter": 0.67,
+        "overlap_left": 0.56,
+        "overlap_right": 0.54,
+        "cross_frequency": 0.45,
+        "risk": 0.60
+      },
+      "players": [
+        {"name":"Léo Nannetti","position":"GK","squad":"starter","overall":84,"attributes":{"reflexes":89,"handling":85,"gk_positioning":86,"one_on_one":87,"composure":82,"passing":72,"anticipation":83}},
+        {"name":"Daniel Sales","position":"RB","squad":"starter","overall":83,"attributes":{"pace":87,"crossing":84,"tackling":80,"positioning":79,"stamina":88,"passing":80,"dribbling":79,"anticipation":80}},
+        {"name":"Weverson","position":"CB","squad":"starter","overall":83,"attributes":{"pace":75,"heading":86,"strength":87,"tackling":86,"positioning":85,"anticipation":84,"composure":79}},
+        {"name":"João Victor","position":"CB","squad":"starter","overall":85,"attributes":{"pace":78,"passing":77,"heading":88,"strength":88,"tackling":87,"positioning":87,"anticipation":88,"composure":82}},
+        {"name":"Ítalo","position":"LB","squad":"starter","overall":82,"attributes":{"pace":86,"crossing":82,"dribbling":79,"tackling":79,"positioning":78,"stamina":86,"passing":78}},
+        {"name":"Rogério Araújo","position":"CM","squad":"starter","overall":83,"attributes":{"passing":84,"vision":83,"technique":83,"dribbling":80,"stamina":86,"tackling":75,"positioning":79,"aggression":73,"discipline":77}},
+        {"name":"Lucas Falcone","position":"CM","squad":"starter","overall":84,"attributes":{"passing":87,"vision":86,"technique":85,"dribbling":81,"composure":84,"positioning":81,"stamina":87,"long_shots":78}},
+        {"name":"Jhefinho Vinicius","position":"AM","squad":"starter","overall":84,"attributes":{"pace":86,"dribbling":87,"technique":86,"vision":84,"passing":82,"finishing":82,"off_ball":87,"composure":83}},
+        {"name":"Joshua","position":"RW","squad":"starter","overall":86,"preferred_foot":"R","attributes":{"pace":91,"dribbling":91,"technique":89,"vision":88,"passing":86,"finishing":85,"long_shots":87,"off_ball":89,"composure":87}},
+        {"name":"Sayago","position":"LW","squad":"starter","overall":85,"preferred_foot":"R","attributes":{"pace":87,"dribbling":88,"technique":88,"vision":87,"passing":85,"crossing":83,"finishing":81,"off_ball":86,"composure":85}},
+        {"name":"Victor Hugo","position":"ST","squad":"starter","overall":85,"attributes":{"pace":85,"technique":82,"finishing":87,"heading":82,"strength":83,"off_ball":88,"anticipation":86,"composure":84}},
+
+        {"name":"Pedro Batista","position":"GK","squad":"bench","overall":80,"attributes":{"reflexes":84,"handling":81,"gk_positioning":82,"one_on_one":82,"composure":77}},
+        {"name":"Enzo Pinheiro","position":"CM","squad":"bench","overall":81,"attributes":{"passing":83,"vision":82,"technique":82,"stamina":84,"composure":80}},
+        {"name":"Gustavo Ramires","position":"LB","squad":"bench","overall":82,"attributes":{"pace":85,"crossing":82,"tackling":80,"positioning":79,"stamina":87}},
+        {"name":"Rafael Henrique","position":"AM","squad":"bench","overall":82,"attributes":{"pace":84,"dribbling":85,"technique":84,"vision":83,"finishing":81,"off_ball":84}},
+        {"name":"Andrew Nathan","position":"ST","squad":"bench","overall":83,"attributes":{"pace":86,"finishing":84,"strength":82,"off_ball":85,"anticipation":83,"composure":81}},
+        {"name":"Douglas Telles","position":"RW","squad":"bench","overall":82,"attributes":{"pace":87,"dribbling":84,"crossing":82,"finishing":81,"off_ball":85}},
+        {"name":"Juliano","position":"LW","squad":"bench","overall":82,"attributes":{"pace":88,"dribbling":85,"finishing":83,"off_ball":85,"composure":81}},
+        {"name":"Josmar","position":"ST","squad":"bench","overall":84,"attributes":{"pace":82,"finishing":87,"heading":85,"strength":86,"off_ball":87,"anticipation":85,"composure":83}},
+        {"name":"Diego Queiroz","position":"CB","squad":"bench","overall":82,"attributes":{"pace":74,"heading":85,"strength":85,"tackling":83,"positioning":83,"anticipation":82,"discipline":78}}
+      ],
+      "notes": "Real Flamengo U20 player pool on the tournament-relative rating scale. Starting-XI average OVR is exactly 84.0, preserving Flamengo's S+ competition rating. Ratings describe relative performance/strength inside this youth tournament; they are not senior-professional equivalents and are not result-calibrated."
+    }
+  }
+}

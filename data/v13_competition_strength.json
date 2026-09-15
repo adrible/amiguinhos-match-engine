@@ -1,0 +1,28 @@
+{
+  "version": "1.3-candidate-competition-strength",
+  "competition": "Regional Internacional U21",
+  "interpretation": "Ratings are relative to competitive strength/performance inside the youth tournament. They are not senior-professional equivalence ratings.",
+  "teams": {
+    "real_madrid_u21": {"overall": 84, "tier": "S+", "label": "ELITE MUNDIAL"},
+    "flamengo_u21": {"overall": 84, "tier": "S+", "label": "ELITE MUNDIAL", "roster_category": "U20"},
+    "barcelona_u21": {"overall": 83, "tier": "S", "label": "ELITE"},
+    "benfica_u21": {"overall": 83, "tier": "S", "label": "ELITE"},
+    "palmeiras_u21": {"overall": 82, "tier": "S", "label": "ELITE"},
+    "psg_u21": {"overall": 81, "tier": "A+", "label": "MUITO FORTE"},
+    "inter_u21": {"overall": 81, "tier": "A+", "label": "MUITO FORTE"},
+    "river_plate_u21": {"overall": 81, "tier": "A+", "label": "MUITO FORTE"},
+    "ajax_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
+    "man_city_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
+    "boca_juniors_u21": {"overall": 80, "tier": "A+", "label": "MUITO FORTE"},
+    "porto_u21": {"overall": 78, "tier": "A", "label": "FORTE"},
+    "liverpool_u21": {"overall": 78, "tier": "A", "label": "FORTE"},
+    "dortmund_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
+    "bayern_u21": {"overall": 77, "tier": "B+", "label": "COMPETITIVO"},
+    "amiguinhos_u21": {"overall": 73.1, "tier": "B", "label": "AZARAO FORTE", "rating_moment": "pre_tournament_progression"}
+  },
+  "notes": [
+    "Flamengo keeps 84 even though the v1.3 roster uses actual U20 identities.",
+    "Amiguinhos 73.1 is historical pre-progression context. Current v1.3 player ratings are the literal evolved values in v13_player_traits.json.",
+    "This file is descriptive/canonical competition context; match execution continues to emerge from actual player attributes, tactics and engine state rather than a hidden team-name bonus."
+  ]
+}

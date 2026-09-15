@@ -2,20 +2,23 @@ from __future__ import annotations
 
 import unittest
 
-from engine import Band, Lane, Zone, make_generic_team
+from engine import Band, Lane, MatchConfig, Zone, make_generic_team
+from competition_state_v13 import TournamentStateV13 as CompleteTournamentStateV13
 from engine_experiment_v13 import MatchEngine as CanonicalMatchEngine
 from engine_experiment_v13_awards import MatchEngineV13Awards
 from engine_experiment_v13_tournament import MatchEngineV13TournamentContext
 from team_loader_v13 import load_team_v13
+from tournament_runner_v13 import TournamentMatchSessionV13
 from tournament_state_v13 import TournamentMatchBridgeV13, TournamentStateV13
 
 
 class TournamentAwareEngineTests(unittest.TestCase):
-    def engine(self, seed=10601, context=None):
+    def engine(self, seed=10601, context=None, config=None):
         return MatchEngineV13TournamentContext(
             load_team_v13("amiguinhos_u21"),
             make_generic_team("Away", 80, "balanced", seed=1001),
             seed=seed,
+            config=config,
             tournament_context=context,
         )
 
@@ -34,6 +37,20 @@ class TournamentAwareEngineTests(unittest.TestCase):
             "team_context": {
                 "0": {"need_goal": need_goal, "protect_result": protect},
                 "1": {"need_goal": 0.0, "protect_result": 0.0},
+            },
+        }
+
+    @staticmethod
+    def knockout_context(aggregate_diff=0):
+        return {
+            "version": 1,
+            "competition_id": "cup",
+            "fixture_id": "leg2",
+            "stage_kind": "knockout",
+            "knowledge_policy": "only_final_or_currently_live_results_are_visible",
+            "team_context": {
+                "0": {"need_goal": 0.0, "protect_result": 0.0, "aggregate_diff": aggregate_diff, "two_legged": True, "decisive_leg": True},
+                "1": {"need_goal": 0.0, "protect_result": 0.0, "aggregate_diff": -aggregate_diff, "two_legged": True, "decisive_leg": True},
             },
         }
 
@@ -137,6 +154,56 @@ class TournamentAwareEngineTests(unittest.TestCase):
         second = bridge.apply_simultaneous_update(e, "other", 2, 0, 71.0)
         self.assertEqual(second["simultaneous"][0]["score"], [2, 0])
         self.assertEqual(e.tournament_context_diagnostic()["simultaneous"][0]["score"], [2, 0])
+
+    def test_two_leg_final_uses_aggregate_not_leg_winner(self):
+        tournament = CompleteTournamentStateV13(
+            competition_id="two_leg_final",
+            teams=["A", "B"],
+            stages={"f": {"kind": "final", "two_legged": True}},
+            fixtures=[
+                {"id": "f1", "stage_id": "f", "home": "A", "away": "B", "status": "final", "score": [3, 0], "leg": 1, "tie_id": "F"},
+                {"id": "f2", "stage_id": "f", "home": "B", "away": "A", "status": "final", "score": [1, 0], "winner": "B", "leg": 2, "tie_id": "F"},
+            ],
+        )
+        self.assertEqual(tournament.tie_resolution("F")["winner"], "A")
+        self.assertEqual(tournament.competition_status()["champion"], "A")
+
+    def test_aggregate_not_leg_score_controls_extra_time(self):
+        tied = self.engine(10613, self.knockout_context(0), MatchConfig(allow_extra_time=True))
+        tied.stats[0].goals, tied.stats[1].goals = 2, 0
+        tied.state.second = 90.0 * 60.0
+        tied.state.period_index = 1
+        event = tied._check_period_boundary()
+        self.assertEqual(event.text_key, "regulation_end_tied")
+        self.assertEqual(tied.state.period_markers, [105, 120])
+
+        ahead = self.engine(10615, self.knockout_context(1), MatchConfig(allow_extra_time=True))
+        ahead.stats[0].goals, ahead.stats[1].goals = 1, 1
+        ahead.state.second = 90.0 * 60.0
+        ahead.state.period_index = 1
+        event = ahead._check_period_boundary()
+        self.assertIsNotNone(event)
+        self.assertNotEqual(event.text_key, "regulation_end_tied")
+        self.assertEqual(ahead.state.period_markers, [45, 90])
+
+    def test_live_tournament_session_starts_at_zero_without_presimulation(self):
+        tournament = CompleteTournamentStateV13(
+            competition_id="live_group",
+            teams=["amiguinhos_u21", "flamengo_u21", "river_plate_u21", "bayern_u21"],
+            stages={"g": {"kind": "group", "qualify_positions": [1, 2]}},
+            fixtures=[
+                {"id": "main", "stage_id": "g", "home": "amiguinhos_u21", "away": "flamengo_u21", "status": "scheduled", "simultaneous_key": "last"},
+                {"id": "other", "stage_id": "g", "home": "river_plate_u21", "away": "bayern_u21", "status": "scheduled", "simultaneous_key": "last"},
+            ],
+        )
+        session = TournamentMatchSessionV13(tournament, "main", seed=10617)
+        self.assertTrue(session.pristine)
+        self.assertEqual(session.engine.minute, 0.0)
+        self.assertEqual(session.engine.state.event_log, [])
+        session.update_simultaneous("other", 1, 0, 12.0)
+        self.assertEqual(session.engine.minute, 0.0)
+        self.assertEqual(session.engine.state.event_log, [])
+        self.assertEqual(session.snapshot()["competition"]["simultaneous"][0]["score"], [1, 0])
 
 
 if __name__ == "__main__":

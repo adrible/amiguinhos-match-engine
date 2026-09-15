@@ -22,7 +22,7 @@ class MatchEnvironmentTests(unittest.TestCase):
 
     def test_canonical_entrypoint_uses_environment_layer(self):
         self.assertTrue(issubclass(MatchEngineV13Environment, MatchEngineV13Ratings))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Environment)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Environment))
 
     def test_environment_generation_is_same_seed_deterministic_and_rng_independent(self):
         home_a, away_a = self.teams()

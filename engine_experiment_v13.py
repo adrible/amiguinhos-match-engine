@@ -20,9 +20,10 @@ from engine_experiment_v13_game_management import MatchEngineV13GameManagement
 from engine_experiment_v13_set_piece_routines import MatchEngineV13SetPieceRoutines
 from engine_experiment_v13_leadership import MatchEngineV13Leadership
 from engine_experiment_v13_awards import MatchEngineV13Awards
+from engine_experiment_v13_tournament import MatchEngineV13TournamentContext
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13Awards
+MatchEngine = MatchEngineV13TournamentContext
 
 __all__ = [
     "ENGINE_VERSION",
@@ -44,4 +45,5 @@ __all__ = [
     "MatchEngineV13SetPieceRoutines",
     "MatchEngineV13Leadership",
     "MatchEngineV13Awards",
+    "MatchEngineV13TournamentContext",
 ]

@@ -78,7 +78,7 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         )
         self.assertLess(ball["direct_red"], hold["direct_red"])
 
-    def test_second_yellow_threshold_is_higher_for_marginal_repeat_foul(self):
+    def test_second_yellow_management_is_strong_for_marginal_repeat_foul(self):
         e = self.make_engine()
         marginal = {
             "type": "trip",
@@ -98,9 +98,26 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         }
         marginal_factor = e._second_yellow_factor(marginal)
         serious_factor = e._second_yellow_factor(serious)
-        self.assertLess(marginal_factor, 0.60)
-        self.assertGreater(serious_factor, marginal_factor)
-        self.assertLessEqual(serious_factor, 1.0)
+        self.assertLessEqual(marginal_factor, 0.15)
+        self.assertGreater(serious_factor, marginal_factor * 2.0)
+        self.assertLess(serious_factor, 0.45)
+
+    def test_dogso_reduces_second_yellow_management_without_erasing_it(self):
+        e = self.make_engine()
+        serious = {
+            "type": "reckless_tackle",
+            "severity": 0.82,
+            "spa": True,
+            "dogso": False,
+            "attempt_to_play_ball": True,
+            "violent": False,
+        }
+        dogso = {**serious, "dogso": True}
+        serious_factor = e._second_yellow_factor(serious)
+        dogso_factor = e._second_yellow_factor(dogso)
+        self.assertGreater(dogso_factor, serious_factor)
+        self.assertLessEqual(dogso_factor, 0.55)
+        self.assertLess(dogso_factor, 1.0)
 
     def test_hard_foul_reaction_upgrade_can_create_confrontation_without_forcing_card(self):
         e = self.make_engine(seed=909)

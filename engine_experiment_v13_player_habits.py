@@ -62,8 +62,14 @@ class MatchEngineV13PlayerHabits(MatchEngineV13IndividualAdaptation):
             out.append((action, max(0.0, float(weight) * clamp(modifier, 0.80, 1.22))))
         return out
 
-    def _base_target_weights(self, team: int, zone: Zone, actor: PlayerState | None):
-        weights = super()._base_target_weights(team, zone, actor)
+    def _base_target_weights(
+        self,
+        team: int,
+        zone: Zone,
+        actor: PlayerState | None,
+        ctx: dict | None = None,
+    ):
+        weights = super()._base_target_weights(team, zone, actor, ctx)
         if zone.band not in {Band.ATT, Band.BOX} or zone.lane == Lane.CENTER:
             return weights
         out = []

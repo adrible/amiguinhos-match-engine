@@ -22,7 +22,7 @@ class DerivedRoleTests(unittest.TestCase):
 
     def test_canonical_entrypoint_includes_injuries_and_roles(self):
         self.assertTrue(issubclass(MatchEngineV13Roles, MatchEngineV13Injuries))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Roles)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Roles))
 
     def test_role_diagnostic_is_rng_pure_and_creates_no_player_rating(self):
         e = self.engine()

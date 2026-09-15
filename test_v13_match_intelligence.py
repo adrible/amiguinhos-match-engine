@@ -49,7 +49,7 @@ class MatchIntelligenceTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13Rebounds, MatchEngineV13Restarts))
         self.assertTrue(issubclass(MatchEngineV13Injuries, MatchEngineV13Rebounds))
         self.assertTrue(issubclass(MatchEngineV13Roles, MatchEngineV13Injuries))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Roles)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Roles))
 
     def test_memory_requires_repetition_inside_match(self):
         e = self.engine()

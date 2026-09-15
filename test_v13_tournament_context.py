@@ -47,6 +47,17 @@ class TournamentAwareEngineTests(unittest.TestCase):
         e.set_tournament_context(self.context(need_goal=0.9))
         self.assertEqual(state, e.rng.getstate())
 
+    def test_no_context_preserves_underlying_match_sequence(self):
+        home_a = load_team_v13("amiguinhos_u21")
+        away_a = make_generic_team("Away", 80, "balanced", seed=1001)
+        home_b = load_team_v13("amiguinhos_u21")
+        away_b = make_generic_team("Away", 80, "balanced", seed=1001)
+        a = MatchEngineV13TournamentContext(home_a, away_a, seed=10604)
+        b = MatchEngineV13Awards(home_b, away_b, seed=10604)
+        for _ in range(20):
+            ea, eb = a.step(), b.step()
+            self.assertEqual((ea.minute, ea.team, ea.type.value, ea.text_key, ea.data), (eb.minute, eb.team, eb.type.value, eb.text_key, eb.data))
+
     def test_competition_urgency_changes_preference_not_execution(self):
         chase = self.engine(10605, self.context(need_goal=1.0))
         protect = self.engine(10605, self.context(protect=1.0))
@@ -62,7 +73,26 @@ class TournamentAwareEngineTests(unittest.TestCase):
         self.assertGreater(cw["through_ball"], pw["through_ball"])
         self.assertGreater(cw["shoot"], pw["shoot"])
         self.assertLess(cw["safe_pass"], pw["safe_pass"])
+        self.assertGreater(pw["shoot"], 0.0)
         self.assertEqual(attrs, a.player.__dict__)
+
+    def test_aggregate_context_overrides_current_leg_score_for_coaching(self):
+        context = self.context(protect=0.90)
+        context["stage_kind"] = "knockout"
+        context["team_context"]["0"].update({"aggregate_diff": 1, "decisive_leg": True})
+        e = self.engine(10606, context)
+        e.state.second = 82.0 * 60.0
+        e.stats[0].goals, e.stats[1].goals = 0, 1
+        management = e.game_management_diagnostic(0)
+        self.assertEqual(management["match_score_diff"], -1)
+        self.assertGreater(management["score_diff"], 0)
+        self.assertTrue(management["competition_override"])
+        reason = e._outgoing_reason(0, e.teams[0].by_name("Gabriel Adib"))
+        self.assertIsNotNone(reason)
+        self.assertEqual(reason["reason"], "tactical_protect")
+        adaptation = e._adaptation_profile(0)
+        self.assertEqual(adaptation["competition_target_response"], "protect_lead")
+        self.assertNotEqual(adaptation["response"], "chase_game")
 
     def test_final_stake_without_need_goal_does_not_force_all_in(self):
         neutral = self.engine(10607, self.context())

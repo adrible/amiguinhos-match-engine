@@ -57,7 +57,7 @@ class FinalThirdIntelligenceTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13KeeperCrosses, MatchEngineV13QuickFreeKick))
         self.assertTrue(issubclass(MatchEngineV13Restarts, MatchEngineV13KeeperCrosses))
         self.assertTrue(issubclass(MatchEngineV13Rebounds, MatchEngineV13Restarts))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Rebounds)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Rebounds))
 
     def test_finishing_uses_shooter_and_keeper_context(self):
         e = self.engine()

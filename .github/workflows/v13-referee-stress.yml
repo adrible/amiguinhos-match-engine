@@ -1,0 +1,137 @@
+name: Match Engine v1.3 Referee Stress Audit
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: v13-referee-stress-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  referee-stress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run 1,000-match referee distribution audit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from collections import defaultdict
+
+          from referee_diagnostics_v13 import run_referee_diagnostics
+
+          BLOCKS = [70000, 70200, 70400, 70600, 70800]
+          COUNT = 200
+          reports = [run_referee_diagnostics(COUNT, start) for start in BLOCKS]
+
+          block_summaries = []
+          total_matches = 0
+          total_reds = 0
+          total_yellows = 0
+          matches_with_red = 0
+          matches_with_two_plus_red = 0
+          max_reds = 0
+          direct_red = 0
+          second_yellow_red = 0
+          simulation_events = 0
+          var_events = 0
+          simulation_attempts = 0
+          simulation_detected = 0
+          simulation_fooled_referee = 0
+          var_interventions = 0
+          by_style = defaultdict(lambda: {"matches": 0, "fouls": 0, "yellow": 0, "red": 0, "matches_with_red": 0})
+
+          for report in reports:
+              rows = report["rows"]
+              block_reds = sum(int(row["red"]) for row in rows)
+              block_yellows = sum(int(row["yellow"]) for row in rows)
+              block_with_red = sum(int(row["red"]) > 0 for row in rows)
+              block_two_plus = sum(int(row["red"]) >= 2 for row in rows)
+              block_max = max((int(row["red"]) for row in rows), default=0)
+              block_summaries.append({
+                  "start_seed": report["start_seed"],
+                  "count": report["count"],
+                  "red_cards_per_match": block_reds / len(rows),
+                  "yellow_cards_per_match": block_yellows / len(rows),
+                  "matches_with_red_rate": block_with_red / len(rows),
+                  "matches_with_two_plus_red_rate": block_two_plus / len(rows),
+                  "max_reds_in_match": block_max,
+                  "direct_red": int(report["cards"].get("direct_red", 0)),
+                  "second_yellow_red": int(report["cards"].get("second_yellow_red", 0)),
+                  "simulation_events": sum(int(row["simulation_events"]) for row in rows),
+                  "var_events": sum(int(row["var_events"]) for row in rows),
+              })
+
+              total_matches += len(rows)
+              total_reds += block_reds
+              total_yellows += block_yellows
+              matches_with_red += block_with_red
+              matches_with_two_plus_red += block_two_plus
+              max_reds = max(max_reds, block_max)
+              direct_red += int(report["cards"].get("direct_red", 0))
+              second_yellow_red += int(report["cards"].get("second_yellow_red", 0))
+              simulation_events += sum(int(row["simulation_events"]) for row in rows)
+              var_events += sum(int(row["var_events"]) for row in rows)
+              special = report.get("special_counts", {})
+              simulation_attempts += int(special.get("simulation_attempts", 0))
+              simulation_detected += int(special.get("simulation_detected", 0))
+              simulation_fooled_referee += int(special.get("simulation_fooled_referee", 0))
+              var_interventions += int(special.get("var_interventions", 0))
+
+              for row in rows:
+                  style = str(row["referee_style"])
+                  bucket = by_style[style]
+                  bucket["matches"] += 1
+                  bucket["fouls"] += int(row["fouls"])
+                  bucket["yellow"] += int(row["yellow"])
+                  bucket["red"] += int(row["red"])
+                  bucket["matches_with_red"] += int(int(row["red"]) > 0)
+
+          style_summary = {}
+          for style, bucket in sorted(by_style.items()):
+              n = bucket["matches"]
+              style_summary[style] = {
+                  "matches": n,
+                  "fouls_per_match": bucket["fouls"] / n,
+                  "yellow_cards_per_match": bucket["yellow"] / n,
+                  "red_cards_per_match": bucket["red"] / n,
+                  "matches_with_red_rate": bucket["matches_with_red"] / n,
+              }
+
+          summary = {
+              "seed_policy": "five_contiguous_unfiltered_outcome_blind_blocks",
+              "blocks": block_summaries,
+              "overall": {
+                  "matches": total_matches,
+                  "red_cards": total_reds,
+                  "red_cards_per_match": total_reds / total_matches,
+                  "yellow_cards_per_match": total_yellows / total_matches,
+                  "matches_with_red": matches_with_red,
+                  "matches_with_red_rate": matches_with_red / total_matches,
+                  "matches_with_two_plus_red": matches_with_two_plus_red,
+                  "matches_with_two_plus_red_rate": matches_with_two_plus_red / total_matches,
+                  "max_reds_in_match": max_reds,
+                  "direct_red": direct_red,
+                  "second_yellow_red": second_yellow_red,
+                  "direct_red_share": direct_red / total_reds if total_reds else 0.0,
+                  "second_yellow_red_share": second_yellow_red / total_reds if total_reds else 0.0,
+                  "simulation_events": simulation_events,
+                  "var_events": var_events,
+                  "simulation_attempts": simulation_attempts,
+                  "simulation_detected": simulation_detected,
+                  "simulation_fooled_referee": simulation_fooled_referee,
+                  "var_interventions": var_interventions,
+              },
+              "by_referee_style": style_summary,
+          }
+          print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
+          PY

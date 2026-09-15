@@ -13,6 +13,34 @@ class MatchEngineV13TempoControl(MatchEngineV13PlayerHabits):
         if not hasattr(self, "_v13_tempo_marker"):
             self._v13_tempo_marker = None
 
+    def export_state(self) -> dict:
+        data = super().export_state()
+        self._ensure_tempo_state()
+        marker = self._v13_tempo_marker
+        if isinstance(marker, dict):
+            payload = dict(marker)
+            zone = payload.get("zone")
+            if isinstance(zone, Zone):
+                payload["zone"] = {"band": zone.band.value, "lane": zone.lane.value}
+            data["v13_tempo_marker"] = payload
+        else:
+            data["v13_tempo_marker"] = None
+        return data
+
+    @classmethod
+    def from_state_dict(cls, data: dict):
+        obj = super().from_state_dict(data)
+        raw = data.get("v13_tempo_marker")
+        if isinstance(raw, dict):
+            marker = dict(raw)
+            zone = marker.get("zone")
+            if isinstance(zone, dict):
+                marker["zone"] = obj._zone_from_dict(zone)
+            obj._v13_tempo_marker = marker
+        else:
+            obj._v13_tempo_marker = None
+        return obj
+
     def tempo_control_diagnostic(self, team: int, actor: PlayerState, zone: Zone, ctx: dict) -> dict:
         tactics = self.teams[team].team.tactics
         pressure = clamp(float(ctx.get("pressure", 0.5)))

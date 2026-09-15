@@ -105,6 +105,33 @@ class MatchIntelligenceTests(unittest.TestCase):
         self.assertEqual(diag["mode"], "circulate")
         self.assertGreater(diag["clock_scale"], 1.0)
 
+    def test_tempo_marker_survives_roundtrip(self):
+        e = self.engine(seed=1210)
+        actor = self.outfielder(e, 0)
+        zone = Zone(Band.MID, Lane.CENTER)
+        e.state.possession = 0
+        e.state.zone = zone
+        e._v13_current_open_actor = actor.player.name
+        e._v13_tempo_marker = {
+            "team": 0,
+            "actor": actor.player.name,
+            "zone": zone,
+            "mode": "circulate",
+            "strength": 0.75,
+            "clock_scale": 1.0675,
+            "pressure": 0.46,
+            "transition": 0.0,
+            "score_diff": 1,
+        }
+        scale_before = e.combination_clock_scale(0)
+        payload = e.export_state()
+        self.assertEqual(payload["v13_tempo_marker"]["zone"], {"band": Band.MID.value, "lane": Lane.CENTER.value})
+
+        clone = MatchEngineV13KeeperCrosses.from_json(e.export_json())
+        self.assertEqual(clone._v13_tempo_marker, e._v13_tempo_marker)
+        clone._v13_current_open_actor = actor.player.name
+        self.assertAlmostEqual(clone.combination_clock_scale(0), scale_before)
+
     def test_transition_choice_reads_rest_defense_and_team_quality(self):
         e = self.engine(seed=1211)
         for ps in e.teams[0].on_field:

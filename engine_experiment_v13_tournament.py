@@ -63,14 +63,7 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
         )
 
     def _score_diff_for(self, team: int) -> int:
-        """Competition-aware result state used by coaching systems.
-
-        With no tournament context this is exactly the old match-score reading.
-        With context, a strong aggregate/table need can replace that simplistic
-        reading. Example: losing the second leg 0-1 while leading 3-2 on
-        aggregate is treated as a result to protect rather than a deficit to
-        chase.
-        """
+        """Competition-aware result state used by coaching systems."""
         match_diff = int(self.score[int(team)] - self.score[1 - int(team)])
         comp = self._team_tournament_context(team)
         if not comp:
@@ -131,10 +124,7 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
         comp = self._team_tournament_context(team)
         if not comp:
             return items
-
         need_goal, protect = self._competition_intent(team)
-        # Tournament context is a second, small preference layer on top of game
-        # management. Execution attributes and chance conversion are untouched.
         time_pressure = 0.30 + 0.70 * clamp((self.minute - 45.0) / 45.0)
         chase = need_goal * time_pressure
         control = protect * (0.35 + 0.65 * clamp((self.minute - 55.0) / 35.0))
@@ -168,6 +158,86 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
             (action, max(0.001, float(weight) * clamp(factors.get(action, 1.0), 0.78, 1.22)))
             for action, weight in items
         ]
+
+    def _adaptation_profile(self, team: int) -> dict:
+        profile = super()._adaptation_profile(team)
+        comp = self._team_tournament_context(team)
+        if not comp:
+            return profile
+        need_goal, protect = self._competition_intent(team)
+        if max(need_goal, protect) < 0.55:
+            return {**profile, "competition_context_applied": False}
+
+        scores = dict(profile.get("scores") or {})
+        minute = float(self.minute)
+        effective_diff = self._score_diff_for(team)
+        target = None
+        if need_goal >= max(0.55, protect + 0.10):
+            target = "chase_game"
+            scores["protect_lead"] = -1.0
+            if minute >= 58.0:
+                urgency = clamp((minute - 58.0) / 32.0)
+                scores[target] = max(
+                    float(scores.get(target, -1.0)),
+                    0.57 + 0.14 * need_goal + 0.14 * urgency,
+                )
+        elif protect >= max(0.55, need_goal + 0.10):
+            target = "protect_lead"
+            scores["chase_game"] = -1.0
+            if minute >= 68.0:
+                urgency = clamp((minute - 68.0) / 22.0)
+                scores[target] = max(
+                    float(scores.get(target, -1.0)),
+                    0.56 + 0.13 * protect + 0.14 * urgency,
+                )
+
+        if target is None:
+            return {
+                **profile,
+                "score_diff": effective_diff,
+                "scores": scores,
+                "competition_context_applied": True,
+            }
+
+        cooldown = dict(profile.get("cooldown") or {})
+        count = int(cooldown.get("count", 0) or 0)
+        threshold_fn = getattr(self, "_stable_threshold", None)
+        if callable(threshold_fn):
+            threshold = float(threshold_fn(target, count))
+        else:
+            threshold = 0.58 if target in {"chase_game", "protect_lead"} else 0.55
+        target_score = float(scores.get(target, -1.0))
+        response_used = getattr(self, "_response_used", None)
+        already_used = bool(callable(response_used) and response_used(team, target))
+
+        generic_blockers = {
+            "too_early",
+            "team_adaptation_limit",
+            "cooldown",
+            "progressive_adaptation_inertia",
+        }
+        reasons = [
+            reason for reason in list(profile.get("blocked_reasons") or [])
+            if reason in generic_blockers
+        ]
+        eligible = target_score >= threshold and not reasons and not already_used
+        if already_used:
+            reasons.append("competition_response_already_applied")
+        if target_score < threshold:
+            reasons.append("competition_evidence_below_threshold")
+
+        return {
+            **profile,
+            "score_diff": effective_diff,
+            "response": target if target_score >= 0.0 else None,
+            "response_score": target_score,
+            "threshold": threshold,
+            "eligible": eligible,
+            "blocked_reasons": reasons,
+            "scores": scores,
+            "competition_context_applied": True,
+            "competition_target_response": target,
+        }
 
     def snapshot(self) -> dict:
         data = super().snapshot()

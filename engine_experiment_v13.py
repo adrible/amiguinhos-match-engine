@@ -17,9 +17,10 @@ from engine_experiment_v13_instructions import MatchEngineV13IndividualInstructi
 from engine_experiment_v13_ratings import MatchEngineV13Ratings
 from engine_experiment_v13_environment import MatchEngineV13Environment
 from engine_experiment_v13_game_management import MatchEngineV13GameManagement
+from engine_experiment_v13_set_piece_routines import MatchEngineV13SetPieceRoutines
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13GameManagement
+MatchEngine = MatchEngineV13SetPieceRoutines
 
 __all__ = [
     "ENGINE_VERSION",
@@ -38,4 +39,5 @@ __all__ = [
     "MatchEngineV13Ratings",
     "MatchEngineV13Environment",
     "MatchEngineV13GameManagement",
+    "MatchEngineV13SetPieceRoutines",
 ]

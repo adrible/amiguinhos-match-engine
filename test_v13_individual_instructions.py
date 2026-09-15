@@ -81,12 +81,13 @@ class IndividualInstructionTests(unittest.TestCase):
         e = self.engine(seed=9709)
         zone = Zone(Band.ATT, Lane.CENTER)
         ctx = {"pressure": 0.4, "space": 0.6, "space_behind": 0.72, "support": 0.55}
+        actor = e.teams[0].by_name("Gabriel Adib")
         before = self.target_weight(
-            e._base_target_weights(0, zone, None, ctx), "Pedro Valverde"
+            e._base_target_weights(0, zone, actor, ctx), "Pedro Valverde"
         )
         e.set_player_instruction(0, "Pedro Valverde", attack_depth=True)
         after = self.target_weight(
-            e._base_target_weights(0, zone, None, ctx), "Pedro Valverde"
+            e._base_target_weights(0, zone, actor, ctx), "Pedro Valverde"
         )
         self.assertGreater(after, before)
 
@@ -96,32 +97,35 @@ class IndividualInstructionTests(unittest.TestCase):
         wide.set_player_instruction(0, "Remo", hold_width=True)
         center.set_player_instruction(0, "Remo", move_inside=True)
         ctx = {"pressure": 0.4, "space": 0.6, "space_behind": 0.5, "support": 0.55}
+        wide_actor = wide.teams[0].by_name("Gabriel Adib")
+        center_actor = center.teams[0].by_name("Gabriel Adib")
         wide_weight = self.target_weight(
-            wide._base_target_weights(0, Zone(Band.ATT, Lane.RIGHT), None, ctx), "Remo"
+            wide._base_target_weights(0, Zone(Band.ATT, Lane.RIGHT), wide_actor, ctx), "Remo"
         )
         inside_weight = self.target_weight(
-            center._base_target_weights(0, Zone(Band.ATT, Lane.CENTER), None, ctx), "Remo"
+            center._base_target_weights(0, Zone(Band.ATT, Lane.CENTER), center_actor, ctx), "Remo"
         )
         self.assertGreater(wide_weight, self.target_weight(
-            center._base_target_weights(0, Zone(Band.ATT, Lane.RIGHT), None, ctx), "Remo"
+            center._base_target_weights(0, Zone(Band.ATT, Lane.RIGHT), center_actor, ctx), "Remo"
         ))
         self.assertGreater(inside_weight, self.target_weight(
-            wide._base_target_weights(0, Zone(Band.ATT, Lane.CENTER), None, ctx), "Remo"
+            wide._base_target_weights(0, Zone(Band.ATT, Lane.CENTER), wide_actor, ctx), "Remo"
         ))
 
     def test_press_target_reduces_receiver_availability_without_buff(self):
         e = self.engine(seed=9713)
         target = e.teams[1].on_field[6]
+        actor = e.teams[1].on_field[5]
         marker = e.teams[0].by_name("Felipe")
         zone = Zone(Band.MID, Lane.CENTER)
         ctx = {"pressure": 0.45, "space": 0.55, "space_behind": 0.48, "support": 0.55}
         before = self.target_weight(
-            e._base_target_weights(1, zone, None, ctx), target.player.name
+            e._base_target_weights(1, zone, actor, ctx), target.player.name
         )
         marker_attrs = dict(marker.player.__dict__)
         e.set_player_instruction(0, marker.player.name, press_target=target.player.name)
         after = self.target_weight(
-            e._base_target_weights(1, zone, None, ctx), target.player.name
+            e._base_target_weights(1, zone, actor, ctx), target.player.name
         )
         self.assertLess(after, before)
         self.assertEqual(marker_attrs, marker.player.__dict__)

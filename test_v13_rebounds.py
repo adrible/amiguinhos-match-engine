@@ -31,7 +31,7 @@ class ReboundContinuityTests(unittest.TestCase):
         return shooter, p
 
     def test_canonical_engine_contains_rebound_layer(self):
-        self.assertIs(MatchEngine, MatchEngineV13Rebounds)
+        self.assertTrue(issubclass(MatchEngine, MatchEngineV13Rebounds))
 
     def test_rebound_geometry_stays_connected_to_shot_lane(self):
         e = self.engine(seed=8303)

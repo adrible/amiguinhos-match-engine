@@ -11,6 +11,7 @@ from copy import deepcopy
 
 from engine import PlayerState, Zone, clamp
 from engine_experiment_v13_awards import MatchEngineV13Awards
+from engine_experiment_v13_knockout import MatchEngineV13Knockout
 
 
 class MatchEngineV13TournamentContext(MatchEngineV13Awards):
@@ -238,6 +239,49 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
             "competition_context_applied": True,
             "competition_target_response": target,
         }
+
+    def _competition_boundary_context(self) -> dict | None:
+        raw = getattr(self, "_v13_tournament_context", None)
+        if not isinstance(raw, dict):
+            return None
+        if str(raw.get("stage_kind")) not in {"playoff", "knockout", "third_place", "final"}:
+            return None
+        home = self._team_tournament_context(0)
+        if not home or not bool(home.get("decisive_leg", True)):
+            return None
+        aggregate_diff = home.get("aggregate_diff")
+        if aggregate_diff is None:
+            return None
+        return {
+            "stage_kind": raw.get("stage_kind"),
+            "two_legged": bool(home.get("two_legged", False)),
+            "decisive_leg": bool(home.get("decisive_leg", True)),
+            "aggregate_diff": int(aggregate_diff),
+        }
+
+    def _check_period_boundary(self):
+        context = self._competition_boundary_context()
+        if context is None:
+            return super()._check_period_boundary()
+        if self.state.period_index >= len(self.state.period_markers):
+            return None
+        marker = self.state.period_markers[self.state.period_index]
+        if self.minute < marker:
+            return None
+
+        # In a decisive knockout leg, continuation is determined by the tie,
+        # not by the score of this leg in isolation.
+        if marker == 90 and self.state.period_markers == [45, 90] and self.config.allow_extra_time:
+            if int(context["aggregate_diff"]) == 0:
+                return self._start_extra_time()
+            return super(MatchEngineV13Knockout, self)._check_period_boundary()
+
+        if marker == 120 and self.state.period_markers == [105, 120]:
+            if int(context["aggregate_diff"]) == 0:
+                return self._start_shootout()
+            return super(MatchEngineV13Knockout, self)._check_period_boundary()
+
+        return super()._check_period_boundary()
 
     def snapshot(self) -> dict:
         data = super().snapshot()

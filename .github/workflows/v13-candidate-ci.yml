@@ -134,7 +134,7 @@ jobs:
         run: python diagnostics_v13.py 10
 
   heavy-validation:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.heavy_validation }}
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.heavy_validation) }}
     needs: candidate-test
     runs-on: ubuntu-latest
     steps:

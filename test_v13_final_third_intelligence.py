@@ -7,6 +7,8 @@ from engine import Band, Lane, PendingAction, Zone, make_generic_team
 from engine_experiment_v13 import MatchEngine as CanonicalMatchEngine
 from engine_experiment_v13_crossing_aerial import MatchEngineV13CrossingAerial
 from engine_experiment_v13_keeper_crosses import MatchEngineV13KeeperCrosses
+from engine_experiment_v13_restarts import MatchEngineV13Restarts
+from engine_experiment_v13_rebounds import MatchEngineV13Rebounds
 from engine_experiment_v13_finishing import MatchEngineV13AdvancedFinishing
 from engine_experiment_v13_shot_preparation import MatchEngineV13ShotPreparation
 from engine_experiment_v13_passing_lanes import MatchEngineV13PassingLanes
@@ -53,7 +55,9 @@ class FinalThirdIntelligenceTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13PressingTraps, MatchEngineV13LineBreaking))
         self.assertTrue(issubclass(MatchEngineV13QuickFreeKick, MatchEngineV13PressingTraps))
         self.assertTrue(issubclass(MatchEngineV13KeeperCrosses, MatchEngineV13QuickFreeKick))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13KeeperCrosses)
+        self.assertTrue(issubclass(MatchEngineV13Restarts, MatchEngineV13KeeperCrosses))
+        self.assertTrue(issubclass(MatchEngineV13Rebounds, MatchEngineV13Restarts))
+        self.assertIs(CanonicalMatchEngine, MatchEngineV13Rebounds)
 
     def test_finishing_uses_shooter_and_keeper_context(self):
         e = self.engine()

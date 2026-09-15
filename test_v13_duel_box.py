@@ -10,6 +10,8 @@ from engine_experiment_v13_one_v_one import MatchEngineV13OneVOne
 from engine_experiment_v13_box_movement import MatchEngineV13BoxMovement
 from engine_experiment_v13_crossing_aerial import MatchEngineV13CrossingAerial
 from engine_experiment_v13_keeper_crosses import MatchEngineV13KeeperCrosses
+from engine_experiment_v13_restarts import MatchEngineV13Restarts
+from engine_experiment_v13_rebounds import MatchEngineV13Rebounds
 
 
 class DuelAndBoxTests(unittest.TestCase):
@@ -42,7 +44,9 @@ class DuelAndBoxTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13BoxMovement, MatchEngineV13OneVOne))
         self.assertTrue(issubclass(MatchEngineV13CrossingAerial, MatchEngineV13BoxMovement))
         self.assertTrue(issubclass(MatchEngineV13KeeperCrosses, MatchEngineV13CrossingAerial))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13KeeperCrosses)
+        self.assertTrue(issubclass(MatchEngineV13Restarts, MatchEngineV13KeeperCrosses))
+        self.assertTrue(issubclass(MatchEngineV13Rebounds, MatchEngineV13Restarts))
+        self.assertIs(CanonicalMatchEngine, MatchEngineV13Rebounds)
 
     def test_advanced_dribble_responds_to_real_matchup(self):
         e = self.engine()

@@ -17,9 +17,9 @@ class MultiPositionTests(unittest.TestCase):
             seed=seed,
         )
 
-    def test_canonical_entrypoint_uses_position_layer(self):
+    def test_canonical_entrypoint_contains_position_layer(self):
         self.assertTrue(issubclass(MatchEngineV13Positions, MatchEngineV13ThrowIns))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Positions)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Positions))
 
     def test_initial_deployment_separates_natural_and_match_position(self):
         e = self.engine()

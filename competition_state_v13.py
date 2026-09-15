@@ -66,6 +66,48 @@ class TournamentStateV13(_TournamentStateV13Base):
             row["max_points"] = fixed_points + int(point_rules["win"]) * unsettled
         return rows
 
+    def pre_match_conditions(self, fixture_id: str) -> dict:
+        result = super().pre_match_conditions(fixture_id)
+        fixture = self.fixture(fixture_id)
+        stage = self.stages[fixture["stage_id"]]
+        result["stakes"] = {
+            "qualify_positions": list(stage.get("qualify_positions", [])),
+            "promotion_positions": list(stage.get("promotion_positions", [])),
+            "relegation_positions": list(stage.get("relegation_positions", [])),
+            "champion_position": stage.get("champion_position"),
+            "promotion_on_win": bool(stage.get("promotion_on_win", False)),
+            "two_legged": bool(stage.get("two_legged", False)),
+            "away_goals": bool(stage.get("away_goals", False)),
+            "allow_extra_time": bool(stage.get("allow_extra_time", False)),
+        }
+
+        if stage["kind"] not in {"playoff", "knockout", "third_place", "final"}:
+            return result
+
+        tie_id = fixture.get("tie_id")
+        aggregate = self.aggregate(str(tie_id)) if tie_id else None
+        for side, team in ((0, fixture["home"]), (1, fixture["away"])):
+            opponent = fixture["away"] if side == 0 else fixture["home"]
+            team_conditions = result["team_conditions"].setdefault(str(side), {})
+            if aggregate is None:
+                before_for = before_against = 0
+            else:
+                before_for = int(aggregate["goals"].get(team, 0))
+                before_against = int(aggregate["goals"].get(opponent, 0))
+            diff = before_for - before_against
+            team_conditions.update({
+                "aggregate_goals_for_before": before_for,
+                "aggregate_goals_against_before": before_against,
+                "aggregate_diff_before": diff,
+                "leading_on_aggregate_before": diff > 0,
+                "level_on_aggregate_before": diff == 0,
+                "trailing_on_aggregate_before": diff < 0,
+                "goals_needed_to_level_aggregate": max(0, -diff),
+                "net_goal_swing_needed_to_lead": max(0, 1 - diff),
+                "decisive_leg": bool(not stage.get("two_legged") or int(fixture.get("leg", 1)) >= 2),
+            })
+        return result
+
     def record_tie_winner(
         self,
         tie_id: str,

@@ -73,7 +73,7 @@ jobs:
           engine_experiment_v13_transition_choice.py engine_experiment_v13_keeper_crosses.py
           engine_experiment_v13_restarts.py engine_experiment_v13_rebounds.py
           engine_experiment_v13_injuries.py engine_experiment_v13_roles.py
-          engine_experiment_v13_corners.py
+          engine_experiment_v13_corners.py engine_experiment_v13_throwins.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
@@ -92,6 +92,7 @@ jobs:
           test_v13_final_third_intelligence.py test_v13_match_intelligence.py
           test_v13_kickoff.py test_v13_restarts.py test_v13_rebounds.py
           test_v13_injury_management.py test_v13_roles.py test_v13_corners.py
+          test_v13_throwins.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -140,6 +141,7 @@ jobs:
           test_v13_injury_management.py
           test_v13_roles.py
           test_v13_corners.py
+          test_v13_throwins.py
 
       - name: Run economical 10-match v1.3 smoke simulation
         run: python diagnostics_v13.py 10

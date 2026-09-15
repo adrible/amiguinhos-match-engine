@@ -27,7 +27,7 @@ class ContextualCornerTests(unittest.TestCase):
 
     def test_canonical_entrypoint_uses_corner_layer(self):
         self.assertTrue(issubclass(MatchEngineV13Corners, MatchEngineV13Roles))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Corners)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Corners))
 
     def test_plan_is_normalized_and_rng_pure(self):
         e = self.engine()

@@ -199,10 +199,13 @@ class MatchEngineV13IndividualInstructions(MatchEngineV13Rotations):
         context = ctx or {}
         space_behind = clamp(float(context.get("space_behind", 0.45)))
         opponent = 1 - int(team)
+        # Only instructions owned by players who are actually on the pitch can
+        # affect receiver availability. An instruction remains in history after
+        # a substitution, but an off-field marker has no live pressing effect.
         opponent_press_targets = {
-            str(inst.get("press_target"))
-            for key, inst in getattr(self, "_v13_individual_instructions", {}).items()
-            if str(key).startswith(f"{opponent}:") and inst.get("press_target")
+            str(inst["press_target"])
+            for ps in self.teams[opponent].on_field
+            if (inst := self._instructions_for(opponent, ps.player.name)).get("press_target")
         }
 
         out = []

@@ -66,6 +66,43 @@ class TournamentStateV13(_TournamentStateV13Base):
             row["max_points"] = fixed_points + int(point_rules["win"]) * unsettled
         return rows
 
+    def _aggregate_before_fixture(self, fixture: dict) -> dict | None:
+        tie_id = fixture.get("tie_id")
+        if not tie_id:
+            return None
+        current_leg = int(fixture.get("leg", 1))
+        rows = [
+            row for row in self.fixtures.values()
+            if str(row.get("tie_id")) == str(tie_id)
+            and int(row.get("leg", 1)) < current_leg
+            and row["status"] == "final"
+        ]
+        teams = []
+        goals: dict[str, int] = {}
+        away_goals: dict[str, int] = {}
+        for row in rows:
+            for team in (row["home"], row["away"]):
+                if team not in teams:
+                    teams.append(team)
+                    goals[team] = 0
+                    away_goals[team] = 0
+            hg, ag = int(row["score"][0]), int(row["score"][1])
+            goals[row["home"]] += hg
+            goals[row["away"]] += ag
+            away_goals[row["away"]] += ag
+        for team in (fixture["home"], fixture["away"]):
+            if team not in teams:
+                teams.append(team)
+                goals[team] = 0
+                away_goals[team] = 0
+        return {
+            "tie_id": str(tie_id),
+            "teams": teams,
+            "goals": goals,
+            "away_goals": away_goals,
+            "fixtures": [row["id"] for row in sorted(rows, key=lambda row: (int(row.get("leg", 1)), row["id"]))],
+        }
+
     def pre_match_conditions(self, fixture_id: str) -> dict:
         result = super().pre_match_conditions(fixture_id)
         fixture = self.fixture(fixture_id)
@@ -84,11 +121,12 @@ class TournamentStateV13(_TournamentStateV13Base):
         if stage["kind"] not in {"playoff", "knockout", "third_place", "final"}:
             return result
 
-        tie_id = fixture.get("tie_id")
-        aggregate = self.aggregate(str(tie_id)) if tie_id else None
+        aggregate = self._aggregate_before_fixture(fixture)
+        result["aggregate_before_fixture"] = deepcopy(aggregate)
         for side, team in ((0, fixture["home"]), (1, fixture["away"])):
             opponent = fixture["away"] if side == 0 else fixture["home"]
             team_conditions = result["team_conditions"].setdefault(str(side), {})
+            team_conditions["aggregate_before_match"] = deepcopy(aggregate)
             if aggregate is None:
                 before_for = before_against = 0
             else:

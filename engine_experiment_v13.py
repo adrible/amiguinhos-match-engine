@@ -15,9 +15,10 @@ from engine_experiment_v13_substitution_strategy import MatchEngineV13Substituti
 from engine_experiment_v13_rotations import MatchEngineV13Rotations
 from engine_experiment_v13_instructions import MatchEngineV13IndividualInstructions
 from engine_experiment_v13_ratings import MatchEngineV13Ratings
+from engine_experiment_v13_environment import MatchEngineV13Environment
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13Ratings
+MatchEngine = MatchEngineV13Environment
 
 __all__ = [
     "ENGINE_VERSION",
@@ -34,4 +35,5 @@ __all__ = [
     "MatchEngineV13Rotations",
     "MatchEngineV13IndividualInstructions",
     "MatchEngineV13Ratings",
+    "MatchEngineV13Environment",
 ]

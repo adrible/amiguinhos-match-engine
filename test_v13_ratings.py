@@ -17,9 +17,9 @@ class MatchRatingTests(unittest.TestCase):
             seed=seed,
         )
 
-    def test_canonical_entrypoint_uses_rating_layer(self):
+    def test_canonical_entrypoint_contains_rating_layer(self):
         self.assertTrue(issubclass(MatchEngineV13Ratings, MatchEngineV13IndividualInstructions))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Ratings)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Ratings))
 
     def test_quiet_players_do_not_receive_overall_bonus(self):
         e = self.engine()

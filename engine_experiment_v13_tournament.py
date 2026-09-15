@@ -2,9 +2,9 @@ from __future__ import annotations
 
 """v1.3 tournament-aware decision layer.
 
-Competition context changes intentions, not player ability.  The engine consumes
+Competition context changes intentions, not player ability. The engine consumes
 only a JSON-safe snapshot supplied by ``TournamentStateV13`` or another trusted
-competition controller.  No future results are inferred here.
+competition controller. No future results are inferred here.
 """
 
 from copy import deepcopy
@@ -41,18 +41,87 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
         self._v13_tournament_context = self._normalise_tournament_context(raw)
 
     def tournament_context_diagnostic(self, team: int | None = None):
-        if self._v13_tournament_context is None:
+        if getattr(self, "_v13_tournament_context", None) is None:
             return None
         if team is None:
             return deepcopy(self._v13_tournament_context)
         return deepcopy(self._team_tournament_context(int(team)))
 
     def _team_tournament_context(self, team: int) -> dict:
-        if self._v13_tournament_context is None:
+        raw = getattr(self, "_v13_tournament_context", None)
+        if raw is None:
             return {}
-        team_context = self._v13_tournament_context.get("team_context", {})
+        team_context = raw.get("team_context", {})
         row = team_context.get(str(int(team)), {})
         return row if isinstance(row, dict) else {}
+
+    def _competition_intent(self, team: int) -> tuple[float, float]:
+        comp = self._team_tournament_context(team)
+        return (
+            clamp(float(comp.get("need_goal", 0.0))),
+            clamp(float(comp.get("protect_result", 0.0))),
+        )
+
+    def _score_diff_for(self, team: int) -> int:
+        """Competition-aware result state used by coaching systems.
+
+        With no tournament context this is exactly the old match-score reading.
+        With context, a strong aggregate/table need can replace that simplistic
+        reading. Example: losing the second leg 0-1 while leading 3-2 on
+        aggregate is treated as a result to protect rather than a deficit to
+        chase.
+        """
+        match_diff = int(self.score[int(team)] - self.score[1 - int(team)])
+        comp = self._team_tournament_context(team)
+        if not comp:
+            return match_diff
+        need_goal, protect = self._competition_intent(team)
+        aggregate_diff = comp.get("aggregate_diff")
+        if aggregate_diff is not None:
+            aggregate_diff = int(aggregate_diff)
+            if aggregate_diff < 0:
+                return -max(1, abs(aggregate_diff))
+            if aggregate_diff > 0:
+                return max(1, aggregate_diff)
+            if need_goal >= 0.55:
+                return -1
+            if protect >= 0.55:
+                return 1
+            return 0
+        if need_goal >= max(0.55, protect + 0.12):
+            return -1
+        if protect >= max(0.55, need_goal + 0.12):
+            return 1
+        return match_diff
+
+    def game_management_diagnostic(self, team: int) -> dict:
+        data = super().game_management_diagnostic(team)
+        comp = self._team_tournament_context(team)
+        if not comp:
+            return data
+        need_goal, protect = self._competition_intent(team)
+        effective_diff = self._score_diff_for(team)
+        late = float(data.get("late_factor", 0.0))
+        short = float(data.get("short_handed", 0.0))
+        extra = float(data.get("numerical_advantage", 0.0))
+        data["match_score_diff"] = int(data.get("score_diff", 0))
+        data["score_diff"] = int(effective_diff)
+        data["competition_need_goal"] = need_goal
+        data["competition_protect_result"] = protect
+        data["competition_override"] = bool(
+            effective_diff != data["match_score_diff"] or need_goal > 0.0 or protect > 0.0
+        )
+        data["clock_factor"] = clamp(
+            1.0 + 0.085 * protect - 0.065 * need_goal - 0.018 * late * short,
+            0.93,
+            1.12,
+        )
+        data["risk_shift"] = clamp(
+            0.32 * need_goal - 0.27 * protect - 0.06 * short + 0.04 * extra,
+            -0.45,
+            0.45,
+        )
+        return data
 
     def _decision_weights(self, actor: PlayerState, zone: Zone, tactics, ctx):
         items = super()._decision_weights(actor, zone, tactics, ctx)
@@ -63,15 +132,12 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
         if not comp:
             return items
 
-        need_goal = clamp(float(comp.get("need_goal", 0.0)))
-        protect = clamp(float(comp.get("protect_result", 0.0)))
-        # A competition can demand a result before kickoff, but decision urgency
-        # still grows with match time.  This prevents a final at 0:00 from being
-        # treated like stoppage time simply because both teams need to win.
+        need_goal, protect = self._competition_intent(team)
+        # Tournament context is a second, small preference layer on top of game
+        # management. Execution attributes and chance conversion are untouched.
         time_pressure = 0.30 + 0.70 * clamp((self.minute - 45.0) / 45.0)
         chase = need_goal * time_pressure
         control = protect * (0.35 + 0.65 * clamp((self.minute - 55.0) / 35.0))
-
         factors: dict[str, float] = {}
 
         def mul(action: str, factor: float) -> None:
@@ -79,65 +145,29 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
 
         if chase > 0.0:
             for action, factor in {
-                "safe_pass": 1.0 - 0.11 * chase,
-                "progressive_pass": 1.0 + 0.08 * chase,
-                "through_ball": 1.0 + 0.13 * chase,
-                "long_ball": 1.0 + 0.08 * chase,
-                "dribble": 1.0 + 0.05 * chase,
-                "cross": 1.0 + 0.07 * chase,
-                "shoot": 1.0 + 0.10 * chase,
+                "safe_pass": 1.0 - 0.06 * chase,
+                "progressive_pass": 1.0 + 0.05 * chase,
+                "through_ball": 1.0 + 0.08 * chase,
+                "long_ball": 1.0 + 0.05 * chase,
+                "dribble": 1.0 + 0.03 * chase,
+                "cross": 1.0 + 0.04 * chase,
+                "shoot": 1.0 + 0.06 * chase,
             }.items():
                 mul(action, factor)
-
         if control > 0.0:
             for action, factor in {
-                "safe_pass": 1.0 + 0.10 * control,
-                "switch": 1.0 + 0.05 * control,
-                "through_ball": 1.0 - 0.08 * control,
-                "dribble": 1.0 - 0.07 * control,
-                "shoot": 1.0 - 0.04 * control,
+                "safe_pass": 1.0 + 0.06 * control,
+                "switch": 1.0 + 0.03 * control,
+                "through_ball": 1.0 - 0.05 * control,
+                "dribble": 1.0 - 0.04 * control,
+                "shoot": 1.0 - 0.025 * control,
             }.items():
                 mul(action, factor)
 
         return [
-            (action, max(0.001, float(weight) * clamp(factors.get(action, 1.0), 0.72, 1.28)))
+            (action, max(0.001, float(weight) * clamp(factors.get(action, 1.0), 0.78, 1.22)))
             for action, weight in items
         ]
-
-    def _outgoing_reason(self, team: int, player: PlayerState):
-        existing = super()._outgoing_reason(team, player)
-        if existing is not None:
-            return existing
-        comp = self._team_tournament_context(team)
-        if not comp or player.red or player.injured or player.player.position.upper() == "GK":
-            return None
-        if self.minute < 60.0:
-            return None
-        need_goal = clamp(float(comp.get("need_goal", 0.0)))
-        protect = clamp(float(comp.get("protect_result", 0.0)))
-        if need_goal >= 0.58:
-            return {
-                "reason": "competition_chase",
-                "urgency": 0.68 + 0.72 * need_goal * clamp((self.minute - 58.0) / 32.0),
-                "competition_need_goal": need_goal,
-            }
-        if protect >= 0.62 and self.minute >= 70.0:
-            return {
-                "reason": "competition_protect",
-                "urgency": 0.62 + 0.55 * protect * clamp((self.minute - 68.0) / 22.0),
-                "competition_protect_result": protect,
-            }
-        return None
-
-    def _replacement_profile(self, team, outgoing, incoming, reason):
-        mapped = {
-            "competition_chase": "tactical_chase",
-            "competition_protect": "tactical_protect",
-        }.get(str(reason), reason)
-        profile = super()._replacement_profile(team, outgoing, incoming, mapped)
-        if profile is not None and mapped != reason:
-            profile["competition_reason"] = str(reason)
-        return profile
 
     def snapshot(self) -> dict:
         data = super().snapshot()
@@ -146,7 +176,9 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
 
     def export_state(self) -> dict:
         data = super().export_state()
-        data["v13_tournament_context"] = deepcopy(self._v13_tournament_context)
+        data["v13_tournament_context"] = deepcopy(
+            getattr(self, "_v13_tournament_context", None)
+        )
         return data
 
     @classmethod

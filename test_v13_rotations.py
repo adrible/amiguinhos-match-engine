@@ -26,9 +26,9 @@ class PositionRotationTests(unittest.TestCase):
         e.state.restart_zone = Zone(Band.ATT, Lane.RIGHT)
         e.set_tactics(0, cross_frequency=0.78)
 
-    def test_canonical_entrypoint_uses_rotation_layer(self):
+    def test_canonical_entrypoint_contains_rotation_layer(self):
         self.assertTrue(issubclass(MatchEngineV13Rotations, MatchEngineV13SubstitutionStrategy))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13Rotations)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13Rotations))
 
     def test_rotation_diagnostic_is_rng_pure(self):
         e = self.engine(seed=9503)

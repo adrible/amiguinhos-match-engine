@@ -11,7 +11,7 @@ from copy import deepcopy
 
 from engine import PlayerState, Zone, clamp
 from engine_experiment_v13_awards import MatchEngineV13Awards
-from engine_experiment_v13_knockout import MatchEngineV13Knockout
+from engine_experiment_v13_persistence import MatchEngineV13Persistence
 
 
 class MatchEngineV13TournamentContext(MatchEngineV13Awards):
@@ -269,17 +269,19 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
         if self.minute < marker:
             return None
 
-        # In a decisive knockout leg, continuation is determined by the tie,
-        # not by the score of this leg in isolation.
+        # In a decisive tournament tie, continuation is governed by aggregate
+        # state.  When aggregate is already decided we bypass the knockout
+        # layer's current-match-score tie check and let the ordinary period
+        # boundary close the match.
         if marker == 90 and self.state.period_markers == [45, 90] and self.config.allow_extra_time:
             if int(context["aggregate_diff"]) == 0:
                 return self._start_extra_time()
-            return super(MatchEngineV13Knockout, self)._check_period_boundary()
+            return MatchEngineV13Persistence._check_period_boundary(self)
 
         if marker == 120 and self.state.period_markers == [105, 120]:
             if int(context["aggregate_diff"]) == 0:
                 return self._start_shootout()
-            return super(MatchEngineV13Knockout, self)._check_period_boundary()
+            return MatchEngineV13Persistence._check_period_boundary(self)
 
         return super()._check_period_boundary()
 

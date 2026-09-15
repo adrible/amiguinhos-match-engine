@@ -43,7 +43,7 @@ jobs:
         run: >-
           python -m compileall -q
           engine.py engine_experiment_v12.py stable_engine.py team_loader.py team_loader_v13.py
-          historical_2014_v13.py
+          historical_2014_v13.py tournament_state_v13.py
           engine_experiment_v13.py engine_experiment_v13_spatial.py
           engine_experiment_v13_offball.py engine_experiment_v13_body.py
           engine_experiment_v13_legal_body.py engine_experiment_v13_reception.py
@@ -80,6 +80,7 @@ jobs:
           engine_experiment_v13_ratings.py engine_experiment_v13_environment.py
           engine_experiment_v13_game_management.py engine_experiment_v13_set_piece_routines.py
           engine_experiment_v13_leadership.py engine_experiment_v13_awards.py
+          engine_experiment_v13_tournament.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
@@ -102,6 +103,7 @@ jobs:
           test_v13_rotations.py test_v13_individual_instructions.py test_v13_ratings.py
           test_v13_environment.py test_v13_game_management.py
           test_v13_set_piece_routines.py test_v13_leadership_awards.py
+          test_tournament_state_v13.py test_v13_tournament_context.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -160,6 +162,8 @@ jobs:
           test_v13_game_management.py
           test_v13_set_piece_routines.py
           test_v13_leadership_awards.py
+          test_tournament_state_v13.py
+          test_v13_tournament_context.py
 
       - name: Run economical 10-match v1.3 smoke simulation
         run: python diagnostics_v13.py 10

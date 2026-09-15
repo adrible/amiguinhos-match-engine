@@ -4,7 +4,9 @@ from __future__ import annotations
 
 This builds on ``tournament_state_v13`` and adds robust tie resolution for
 single- and two-leg playoffs, knockout rounds, third-place ties and finals.
-The winner of one leg is never confused with the winner of the tie.
+The winner of one leg is never confused with the winner of the tie. Live table
+positions use the current score, while mathematical qualification/title/
+relegation bounds still treat an in-progress match as unsettled.
 """
 
 from copy import deepcopy
@@ -16,6 +18,54 @@ from tournament_state_v13 import (
 
 
 class TournamentStateV13(_TournamentStateV13Base):
+    def standings(
+        self,
+        stage_id: str,
+        *,
+        group: str | None = None,
+        overrides: dict[str, list[int]] | None = None,
+    ) -> list[dict]:
+        rows = super().standings(stage_id, group=group, overrides=overrides)
+        stage = self.stages[str(stage_id)]
+        point_rules = stage["points"]
+        overridden = set((overrides or {}).keys())
+
+        for row in rows:
+            team = row["team"]
+            live_unsettled = 0
+            provisional_points = 0
+            for fixture in self.fixtures.values():
+                if fixture["stage_id"] != str(stage_id):
+                    continue
+                if group is not None and fixture.get("group") != group:
+                    continue
+                if fixture["id"] in overridden or fixture["status"] != "live":
+                    continue
+                if team not in {fixture["home"], fixture["away"]}:
+                    continue
+                live_unsettled += 1
+                hg, ag = int(fixture["score"][0]), int(fixture["score"][1])
+                if hg == ag:
+                    provisional_points += int(point_rules["draw"])
+                else:
+                    team_winning = (
+                        (team == fixture["home"] and hg > ag)
+                        or (team == fixture["away"] and ag > hg)
+                    )
+                    provisional_points += int(
+                        point_rules["win"] if team_winning else point_rules["loss"]
+                    )
+
+            scheduled_remaining = int(row.get("remaining", 0))
+            unsettled = scheduled_remaining + live_unsettled
+            fixed_points = int(row["points"]) - provisional_points
+            row["scheduled_remaining"] = scheduled_remaining
+            row["live_unsettled_matches"] = live_unsettled
+            row["remaining"] = unsettled
+            row["min_points"] = fixed_points + int(point_rules["loss"]) * unsettled
+            row["max_points"] = fixed_points + int(point_rules["win"]) * unsettled
+        return rows
+
     def record_tie_winner(
         self,
         tie_id: str,

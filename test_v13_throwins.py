@@ -16,9 +16,9 @@ class ContextualThrowInTests(unittest.TestCase):
             seed=seed,
         )
 
-    def test_canonical_entrypoint_uses_throw_in_layer(self):
+    def test_canonical_entrypoint_contains_throw_in_layer(self):
         self.assertTrue(issubclass(MatchEngineV13ThrowIns, MatchEngineV13Corners))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13ThrowIns)
+        self.assertTrue(issubclass(CanonicalMatchEngine, MatchEngineV13ThrowIns))
 
     def test_central_turnover_never_becomes_throw_in(self):
         e = self.engine()

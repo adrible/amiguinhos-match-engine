@@ -11,6 +11,7 @@ from engine_experiment_v13_player_habits import MatchEngineV13PlayerHabits
 from engine_experiment_v13_tempo_control import MatchEngineV13TempoControl
 from engine_experiment_v13_transition_choice import MatchEngineV13TransitionChoice
 from engine_experiment_v13_keeper_crosses import MatchEngineV13KeeperCrosses
+from engine_experiment_v13_restarts import MatchEngineV13Restarts
 
 
 class MatchIntelligenceTests(unittest.TestCase):
@@ -41,7 +42,8 @@ class MatchIntelligenceTests(unittest.TestCase):
         self.assertTrue(issubclass(MatchEngineV13TempoControl, MatchEngineV13PlayerHabits))
         self.assertTrue(issubclass(MatchEngineV13TransitionChoice, MatchEngineV13TempoControl))
         self.assertTrue(issubclass(MatchEngineV13KeeperCrosses, MatchEngineV13TransitionChoice))
-        self.assertIs(CanonicalMatchEngine, MatchEngineV13KeeperCrosses)
+        self.assertTrue(issubclass(MatchEngineV13Restarts, MatchEngineV13KeeperCrosses))
+        self.assertIs(CanonicalMatchEngine, MatchEngineV13Restarts)
 
     def test_memory_requires_repetition_inside_match(self):
         e = self.engine()

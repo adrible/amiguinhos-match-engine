@@ -69,6 +69,20 @@ class MatchFlowRealismTests(unittest.TestCase):
         self.assertGreater(dribble, safe)
         self.assertLessEqual(dribble, 0.115)
 
+    def test_booked_defender_manages_borderline_contact_without_immunity(self):
+        engine = self.make_engine()
+        zone = Zone(Band.MID, Lane.CENTER)
+        actor = engine._choose_actor(0, zone)
+        defender = engine._choose_defender(1, zone)
+        ctx = {"pressure": 0.62}
+        unbooked = engine.contact_foul_probability(0, actor, defender, zone, "dribble", ctx)
+        defender.yellow = 1
+        booked = engine.contact_foul_probability(0, actor, defender, zone, "dribble", ctx)
+        self.assertGreater(unbooked, booked)
+        self.assertGreater(booked, 0.0)
+        self.assertLess(booked / unbooked, 0.65)
+        self.assertGreater(booked / unbooked, 0.40)
+
     def test_box_contact_extension_is_conservative(self):
         engine = self.make_engine()
         zone = Zone(Band.BOX, Lane.CENTER)

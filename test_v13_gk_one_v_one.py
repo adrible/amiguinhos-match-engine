@@ -34,6 +34,37 @@ def test_one_v_one_detection_is_contextual():
     assert not engine._is_keeper_one_v_one(p)
 
 
+def test_marginal_box_shot_is_not_mislabeled_as_genuine_one_v_one():
+    engine = _engine()
+    p = _pending(engine)
+    p.danger = 0.53
+    p.pressure = 0.61
+    assert not engine._is_keeper_one_v_one(p)
+
+
+def test_scramble_origin_requires_clear_isolation():
+    engine = _engine()
+    p = _pending(engine)
+    p.origin = "second_ball"
+    p.danger = 0.68
+    p.pressure = 0.34
+    assert not engine._is_keeper_one_v_one(p)
+    p.danger = 0.74
+    p.pressure = 0.26
+    assert engine._is_keeper_one_v_one(p)
+
+
+def test_transition_and_carry_use_different_isolation_thresholds():
+    engine = _engine()
+    p = _pending(engine)
+    p.danger = 0.60
+    p.pressure = 0.52
+    p.origin = "transition"
+    assert engine._is_keeper_one_v_one(p)
+    p.origin = "carry"
+    assert not engine._is_keeper_one_v_one(p)
+
+
 def test_one_v_one_diagnostics_are_rng_pure_and_normalised():
     engine = _engine()
     p = _pending(engine)
@@ -70,6 +101,9 @@ def test_one_v_one_resolution_adds_decision_metadata_without_attribute_mutation(
     assert event.data.get("goalkeeper_one_v_one") is True
     assert event.data.get("attacker_1v1_choice") in engine.ATTACKER_CHOICES
     assert event.data.get("keeper_1v1_choice") in engine.KEEPER_CHOICES
+    assert event.data.get("one_v_one_base_danger") == 0.7
+    assert event.data.get("one_v_one_base_pressure") == 0.3
+    assert event.data.get("one_v_one_origin") == "through_ball"
     assert shooter.player.__dict__ == before_shooter
     assert keeper.player.__dict__ == before_keeper
 

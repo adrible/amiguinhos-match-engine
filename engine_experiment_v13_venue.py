@@ -6,11 +6,17 @@ Venue is modelled as match context, never as a hidden technical-rating bonus.
 The layer affects only perceived local pressure/support/space and a very small
 away travel load. Referee/card probabilities are deliberately untouched so the
 disciplinary calibration remains venue-neutral.
+
+For designated home/away fixtures, the visitor can also experience a causal
+environment strain derived from unfamiliarity, crowd hostility and travel. That
+strain is applied to the attacking phase through perceived pressure/support/space
+rather than through player attributes, and naturally collapses toward zero for
+neutral or shared-stadium fixtures.
 """
 
 from copy import deepcopy
 
-from engine import clamp
+from engine import Band, clamp
 from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRealism
 
 VERSION = "1.3-candidate-venue-context"
@@ -69,6 +75,41 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
         }
         return out
 
+    def _away_environment_strain(self) -> float:
+        """Return a causal 0..1 visitor-environment load.
+
+        This is deliberately derived only from fixture context. It is not a
+        benchmark target and does not inspect score, team identity or ratings.
+        Shared-stadium fixtures retain only the small residual implied by their
+        crowd/travel context, while neutral fixtures resolve exactly to zero.
+        """
+        venue = self._v13_venue_context
+        if venue["mode"] == "neutral":
+            return 0.0
+        unfamiliarity = max(0.0, 0.50 - float(venue["away_familiarity"]))
+        crowd_hostility = max(0.0, float(venue["crowd_home_share"]) - 0.50)
+        travel = max(0.0, float(venue["away_travel_load"]))
+        return clamp(
+            0.55 * unfamiliarity
+            + 0.85 * crowd_hostility
+            + 0.45 * travel
+        )
+
+    def _away_phase_effects(self, band: Band) -> dict:
+        """Extra visitor context in possession, strongest near the home goal."""
+        strain = self._away_environment_strain()
+        band_scale = {
+            Band.DEF: 0.35,
+            Band.MID: 0.70,
+            Band.ATT: 1.05,
+            Band.BOX: 1.20,
+        }[band]
+        return {
+            "pressure_shift": 0.095 * strain * band_scale,
+            "support_shift": -0.050 * strain * band_scale,
+            "space_shift": -0.020 * strain * band_scale,
+        }
+
     def _venue_effects(self, team: int) -> dict:
         team = int(team)
         if team not in (0, 1):
@@ -97,11 +138,23 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             +0.004 * crowd_edge
             -0.003 * travel
         )
+
+        # The visitor's baseline environment load belongs here rather than in
+        # player ratings. Home output is intentionally untouched because the
+        # venue asymmetry should primarily emerge from the visitor coping with
+        # an unfamiliar/hostile setting, not from a generic home skill boost.
+        environment_strain = self._away_environment_strain() if team == 1 else 0.0
+        if environment_strain > 0.0:
+            pressure_shift += 0.065 * environment_strain
+            support_shift -= 0.040 * environment_strain
+            space_shift -= 0.016 * environment_strain
+
         return {
             "team": team,
             "familiarity": round(familiarity, 5),
             "crowd_edge": round(crowd_edge, 5),
             "travel_load": round(travel, 5),
+            "environment_strain": round(environment_strain, 6),
             "pressure_shift": round(pressure_shift, 6),
             "support_shift": round(support_shift, 6),
             "space_shift": round(space_shift, 6),
@@ -110,6 +163,7 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
     def venue_diagnostic(self) -> dict:
         return {
             **deepcopy(self._v13_venue_context),
+            "away_environment_strain": round(self._away_environment_strain(), 6),
             "home_effects": self._venue_effects(0),
             "away_effects": self._venue_effects(1),
             "referee_bias": 0.0,
@@ -117,13 +171,25 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
 
     def _spatial_context(self, team, zone):
         context = dict(super()._spatial_context(team, zone))
-        effects = self._venue_effects(int(team))
-        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + effects["pressure_shift"])
-        context["support"] = clamp(float(context.get("support", 0.5)) + effects["support_shift"])
-        context["space"] = clamp(float(context.get("space", 0.5)) + effects["space_shift"])
+        team_index = int(team)
+        effects = dict(self._venue_effects(team_index))
+        if team_index == 1:
+            phase = self._away_phase_effects(zone.band)
+            effects["pressure_shift"] += phase["pressure_shift"]
+            effects["support_shift"] += phase["support_shift"]
+            effects["space_shift"] += phase["space_shift"]
+
+        pressure_shift = float(effects["pressure_shift"])
+        support_shift = float(effects["support_shift"])
+        space_shift = float(effects["space_shift"])
+        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + pressure_shift)
+        context["support"] = clamp(float(context.get("support", 0.5)) + support_shift)
+        context["space"] = clamp(float(context.get("space", 0.5)) + space_shift)
         context["venue_mode"] = self._v13_venue_context["mode"]
-        context["venue_pressure_shift"] = effects["pressure_shift"]
-        context["venue_support_shift"] = effects["support_shift"]
+        context["venue_pressure_shift"] = round(pressure_shift, 6)
+        context["venue_support_shift"] = round(support_shift, 6)
+        context["venue_space_shift"] = round(space_shift, 6)
+        context["venue_environment_strain"] = effects["environment_strain"]
         return context
 
     def _advance_clock(self, seconds: float, possession_team: int):

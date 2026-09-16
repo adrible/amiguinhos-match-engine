@@ -2,6 +2,7 @@ import json
 import unittest
 
 from real_match_benchmark_v13 import (
+    BENCHMARK_VENUE_MODE,
     CORE_METRICS,
     RESERVED_OFFICIAL_FINAL_SEED,
     SOURCE_FILE,
@@ -39,6 +40,9 @@ class RealMatchBenchmarkTests(unittest.TestCase):
         self.assertEqual(dataset["seasons"], ["2223", "2324", "2425"])
         self.assertIn("FTHG", dataset["required_columns"])
         self.assertIn("HR", dataset["required_columns"])
+
+    def test_league_benchmark_uses_explicit_home_away_context(self):
+        self.assertEqual(BENCHMARK_VENUE_MODE, "home_away")
 
     def test_summary_uses_match_level_stats_without_hidden_targets(self):
         summary = summarise_matches([

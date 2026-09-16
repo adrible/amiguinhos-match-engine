@@ -129,6 +129,7 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
         pressure = clamp(float(ctx.get("pressure", 0.5)))
         aggression = clamp(defender.effective("aggression") / 100.0)
         discipline = clamp(defender.effective("discipline") / 100.0)
+        composure = clamp(defender.effective("composure") / 100.0)
         dribble = clamp(actor.effective("dribbling") / 100.0)
         transition = clamp(float(self.state.transition_boost))
         strictness = clamp(float(getattr(self.referee, "strictness", 0.55)))
@@ -143,6 +144,19 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
             + 0.012 * dribble
             + 0.014 * transition
         ) * whistle_factor
+
+        # A booked player should manage borderline physical interventions more
+        # carefully.  This acts on whether the contact is attempted, not on the
+        # referee's later card decision, and therefore reduces repeat-foul risk
+        # without making a second yellow impossible when a foul still occurs.
+        if defender.yellow:
+            management = clamp(
+                0.70 - 0.18 * discipline - 0.08 * composure + 0.08 * aggression,
+                0.46,
+                0.62,
+            )
+            probability *= management
+
         # The whole extension, not only its base term, is suppressed in the box.
         # Existing dribble/handball/referee systems remain the main penalty route.
         if in_box:
@@ -188,6 +202,7 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
             "spa": spa,
             "dogso": False,
             "violent": False,
+            "ordinary_contact": True,
         }
 
     def _execute_decision(self, team, actor, zone, decision, ctx):

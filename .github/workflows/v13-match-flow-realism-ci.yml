@@ -24,11 +24,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Compile layer and tests
-        run: python -m py_compile engine_experiment_v13_match_flow_realism.py test_v13_match_flow_realism.py engine_experiment_v13.py
+      - name: Compile layers and tests
+        run: python -m py_compile engine_experiment_v13_match_flow_realism.py engine_experiment_v13_discipline_realism.py test_v13_match_flow_realism.py test_v13_discipline_realism.py engine_experiment_v13.py
 
       - name: Run match-flow realism tests
-        run: python -m unittest -v test_v13_match_flow_realism.py
+        run: python -m unittest -v test_v13_match_flow_realism.py test_v13_discipline_realism.py
 
       - name: Run short canonical smoke
         run: python diagnostics_v13.py 20

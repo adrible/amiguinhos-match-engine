@@ -1,0 +1,49 @@
+name: Match Engine v1.3 Real Match Benchmark
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      engine_matches:
+        description: "Number of engine matches in the population sample"
+        required: false
+        default: "1000"
+
+concurrency:
+  group: v13-real-match-benchmark-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile benchmark
+        run: python -m py_compile real_match_benchmark_v13.py test_real_match_benchmark_v13.py
+
+      - name: Test benchmark harness
+        run: python -m unittest -v test_real_match_benchmark_v13.py
+
+      - name: Run real-match benchmark
+        env:
+          ENGINE_MATCHES: ${{ github.event_name == 'workflow_dispatch' && inputs.engine_matches || '300' }}
+        run: |
+          python real_match_benchmark_v13.py \
+            --engine-matches "$ENGINE_MATCHES" \
+            --start-seed 91000 \
+            --output artifacts/real_match_benchmark_v13.json
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13-real-match-benchmark
+          path: artifacts/real_match_benchmark_v13.json
+          if-no-files-found: error

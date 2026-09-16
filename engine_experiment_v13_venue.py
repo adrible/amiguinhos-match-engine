@@ -3,15 +3,17 @@ from __future__ import annotations
 """Persistent venue context for the v1.3 candidate.
 
 Venue is modelled as match context, never as a hidden technical-rating bonus.
-The layer affects only perceived local pressure/support/space and a very small
-away travel load. Referee/card probabilities are deliberately untouched so the
-disciplinary calibration remains venue-neutral.
+The layer affects perceived local pressure/support/space, attacking decisions
+and a very small away travel load. Referee/card probabilities are deliberately
+untouched so the disciplinary calibration remains venue-neutral.
 
-For designated home/away fixtures, the visitor can also experience a causal
-environment strain derived from unfamiliarity, crowd hostility and travel. That
-strain is applied to the attacking phase through perceived pressure/support/space
-rather than through player attributes, and naturally collapses toward zero for
-neutral or shared-stadium fixtures.
+For designated home/away fixtures, the visitor can experience a causal
+environment strain derived from unfamiliarity, crowd hostility and travel.
+Crucially, that strain primarily changes *decision appetite* in advanced areas
+rather than execution skill: visitors may take an extra safe pass instead of a
+low-margin shot, dribble or forcing pass. This avoids manufacturing home chances
+through an arbitrary away technical penalty and naturally collapses toward zero
+for neutral or shared-stadium fixtures.
 """
 
 from copy import deepcopy
@@ -78,10 +80,10 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
     def _away_environment_strain(self) -> float:
         """Return a causal 0..1 visitor-environment load.
 
-        This is deliberately derived only from fixture context. It is not a
-        benchmark target and does not inspect score, team identity or ratings.
-        Shared-stadium fixtures retain only the small residual implied by their
-        crowd/travel context, while neutral fixtures resolve exactly to zero.
+        This is derived only from fixture context. It does not inspect score,
+        team identity, benchmark output or player ratings. Shared-stadium
+        fixtures retain only the small residual implied by crowd/travel context,
+        while neutral fixtures resolve exactly to zero.
         """
         venue = self._v13_venue_context
         if venue["mode"] == "neutral":
@@ -95,20 +97,16 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             + 0.45 * travel
         )
 
-    def _away_phase_effects(self, band: Band) -> dict:
-        """Extra visitor context in possession, strongest near the home goal."""
+    def _away_attacking_caution(self, band: Band) -> float:
+        """0..1 extra visitor caution, concentrated in advanced possession."""
         strain = self._away_environment_strain()
         band_scale = {
-            Band.DEF: 0.35,
-            Band.MID: 0.70,
-            Band.ATT: 1.05,
-            Band.BOX: 1.20,
+            Band.DEF: 0.00,
+            Band.MID: 0.30,
+            Band.ATT: 0.85,
+            Band.BOX: 1.00,
         }[band]
-        return {
-            "pressure_shift": 0.095 * strain * band_scale,
-            "support_shift": -0.050 * strain * band_scale,
-            "space_shift": -0.020 * strain * band_scale,
-        }
+        return clamp(strain * band_scale)
 
     def _venue_effects(self, team: int) -> dict:
         team = int(team)
@@ -121,8 +119,9 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             crowd_edge *= -1.0
         travel = float(venue["away_travel_load"]) if team == 1 else 0.0
 
-        # Small contextual shifts only. They influence the situation perceived
-        # by the decision model, never a player's underlying execution skill.
+        # Keep execution-context shifts deliberately small. The stronger venue
+        # signal is handled by decision appetite below so an away disadvantage
+        # does not become a generic passing/shooting skill penalty.
         pressure_shift = (
             -0.020 * (familiarity - 0.50)
             -0.018 * crowd_edge
@@ -138,16 +137,7 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             +0.004 * crowd_edge
             -0.003 * travel
         )
-
-        # The visitor's baseline environment load belongs here rather than in
-        # player ratings. Home output is intentionally untouched because the
-        # venue asymmetry should primarily emerge from the visitor coping with
-        # an unfamiliar/hostile setting, not from a generic home skill boost.
         environment_strain = self._away_environment_strain() if team == 1 else 0.0
-        if environment_strain > 0.0:
-            pressure_shift += 0.065 * environment_strain
-            support_shift -= 0.040 * environment_strain
-            space_shift -= 0.016 * environment_strain
 
         return {
             "team": team,
@@ -166,31 +156,74 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             "away_environment_strain": round(self._away_environment_strain(), 6),
             "home_effects": self._venue_effects(0),
             "away_effects": self._venue_effects(1),
+            "away_attacking_caution": {
+                band.value: round(self._away_attacking_caution(band), 6)
+                for band in (Band.DEF, Band.MID, Band.ATT, Band.BOX)
+            },
             "referee_bias": 0.0,
         }
 
     def _spatial_context(self, team, zone):
         context = dict(super()._spatial_context(team, zone))
         team_index = int(team)
-        effects = dict(self._venue_effects(team_index))
-        if team_index == 1:
-            phase = self._away_phase_effects(zone.band)
-            effects["pressure_shift"] += phase["pressure_shift"]
-            effects["support_shift"] += phase["support_shift"]
-            effects["space_shift"] += phase["space_shift"]
-
-        pressure_shift = float(effects["pressure_shift"])
-        support_shift = float(effects["support_shift"])
-        space_shift = float(effects["space_shift"])
-        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + pressure_shift)
-        context["support"] = clamp(float(context.get("support", 0.5)) + support_shift)
-        context["space"] = clamp(float(context.get("space", 0.5)) + space_shift)
+        effects = self._venue_effects(team_index)
+        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + effects["pressure_shift"])
+        context["support"] = clamp(float(context.get("support", 0.5)) + effects["support_shift"])
+        context["space"] = clamp(float(context.get("space", 0.5)) + effects["space_shift"])
         context["venue_mode"] = self._v13_venue_context["mode"]
-        context["venue_pressure_shift"] = round(pressure_shift, 6)
-        context["venue_support_shift"] = round(support_shift, 6)
-        context["venue_space_shift"] = round(space_shift, 6)
+        context["venue_pressure_shift"] = effects["pressure_shift"]
+        context["venue_support_shift"] = effects["support_shift"]
+        context["venue_space_shift"] = effects["space_shift"]
         context["venue_environment_strain"] = effects["environment_strain"]
+        context["venue_attacking_caution"] = (
+            round(self._away_attacking_caution(zone.band), 6)
+            if team_index == 1 else 0.0
+        )
         return context
+
+    def _decision_weights(self, actor, zone, tactics, ctx):
+        """Apply venue strain to choice appetite, not execution probability."""
+        items = list(super()._decision_weights(actor, zone, tactics, ctx))
+        team = self._team_index_for_actor(actor)
+        if team != 1:
+            return items
+
+        caution = self._away_attacking_caution(zone.band)
+        if caution <= 0.0 or zone.band == Band.DEF:
+            return items
+
+        if zone.band == Band.MID:
+            multipliers = {
+                "safe_pass": 1.0 + 0.25 * caution,
+                "switch": 1.0 + 0.10 * caution,
+                "progressive_pass": 1.0 - 0.20 * caution,
+                "through_ball": 1.0 - 0.35 * caution,
+                "carry": 1.0 - 0.12 * caution,
+            }
+        elif zone.band == Band.ATT:
+            multipliers = {
+                "safe_pass": 1.0 + 0.50 * caution,
+                "cutback": 1.0 + 0.15 * caution,
+                "progressive_pass": 1.0 - 0.12 * caution,
+                "carry": 1.0 - 0.12 * caution,
+                "through_ball": 1.0 - 0.55 * caution,
+                "cross": 1.0 - 0.10 * caution,
+                "dribble": 1.0 - 0.40 * caution,
+                "shoot": 1.0 - 0.65 * caution,
+            }
+        else:  # Band.BOX
+            multipliers = {
+                "safe_pass": 1.0 + 0.65 * caution,
+                "cutback": 1.0 + 0.25 * caution,
+                "cross": 1.0 - 0.12 * caution,
+                "dribble": 1.0 - 0.45 * caution,
+                "shoot": 1.0 - 0.70 * caution,
+            }
+
+        return [
+            (action, max(0.001, float(weight) * float(multipliers.get(action, 1.0))))
+            for action, weight in items
+        ]
 
     def _advance_clock(self, seconds: float, possession_team: int):
         super()._advance_clock(seconds, possession_team)

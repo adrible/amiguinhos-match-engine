@@ -2,14 +2,11 @@ from __future__ import annotations
 
 """Disciplinary guardrails for the causal ordinary-contact layer.
 
-The real-match benchmark showed that adding missing ordinary-contact fouls fixed
-foul/yellow frequency but exposed too many dismissals.  This adapter is narrow:
-it only changes sanctions for incidents explicitly tagged ``ordinary_contact``.
-Hard/reckless fouls, DOGSO, violent conduct, tactical fouls and reaction cards
-continue through the established referee model unchanged.
-
-The layer does not read benchmark targets, team identity, scoreline or desired
-result.  First cautions remain governed by the existing yellow-card model.
+This top adapter owns the *additional* sanction management for incidents tagged
+``ordinary_contact``. The lower referee layers remain responsible for general
+fouls, DOGSO, violent/reckless conduct, tactical fouls and reaction cards. First
+cautions are deliberately unchanged; only straight-red and repeat-caution
+conversion for genuinely marginal contact are constrained.
 """
 
 from engine import PlayerState, Zone, clamp
@@ -37,11 +34,16 @@ class MatchEngineV13DisciplineRealism(MatchEngineV13MatchFlowRealism):
         if not bool(incident.get("ordinary_contact")):
             return probs
 
-        # Ordinary contact in this layer is explicitly bounded to low/moderate
-        # severity and never DOGSO/violent.  It should therefore not inherit a
-        # meaningful residual direct-red chance merely from aggression or referee
-        # strictness.  First-yellow probability is deliberately untouched.
-        direct_red = min(float(probs.get("direct_red", 0.0)), 0.0008)
+        severity = float(incident.get("severity", 0.0))
+        dogso = bool(incident.get("dogso"))
+        violent = bool(incident.get("violent"))
+        if dogso or violent or severity >= 0.66:
+            return probs
+
+        # The ordinary-contact generator is bounded to low/moderate incidents.
+        # It may still produce a yellow, but cannot gain a meaningful straight-
+        # red lottery merely from referee strictness or player aggression.
+        direct_red = min(float(probs.get("direct_red", 0.0)), 0.00035)
         return {**probs, "direct_red": direct_red}
 
     def _second_yellow_factor(self, incident: dict) -> float:
@@ -51,16 +53,18 @@ class MatchEngineV13DisciplineRealism(MatchEngineV13MatchFlowRealism):
 
         severity = clamp(float(incident.get("severity", 0.0)))
         spa = bool(incident.get("spa"))
+        dogso = bool(incident.get("dogso"))
+        hard_type = str(incident.get("type")) in {"reckless_tackle", "elbow_or_forearm"}
+        if dogso or hard_type or severity >= 0.66:
+            return base
 
-        # A booked player can still be dismissed for a repeat ordinary foul, but
-        # the same marginal contact should require a clearer second-caution
-        # threshold.  SPA removes much of that management margin.  This changes
-        # only the second-caution conversion after a foul has actually occurred.
+        # Directly define the final conversion threshold here rather than
+        # multiplying another lower-layer management factor. This avoids hidden
+        # stacking while retaining a non-zero dismissal route. SPA removes part
+        # of the management margin because the foul stopped a promising attack.
         if spa:
-            factor = base * (0.48 + 0.12 * severity)
-            return clamp(factor, 0.055, 0.125)
-        factor = base * (0.30 + 0.10 * severity)
-        return clamp(factor, 0.030, 0.060)
+            return clamp(0.060 + 0.050 * severity, 0.060, 0.105)
+        return clamp(0.035 + 0.040 * severity, 0.035, 0.060)
 
 
 MatchEngine = MatchEngineV13DisciplineRealism

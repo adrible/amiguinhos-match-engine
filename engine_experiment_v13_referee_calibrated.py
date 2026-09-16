@@ -71,17 +71,6 @@ class MatchEngineV13Referee(_OrderingReferee):
             red += 0.07
         if foul_type == "elbow_or_forearm" and severity >= 0.78:
             red += 0.09
-
-        # Routine contact has no realistic direct-red pathway unless a separate
-        # DOGSO/violent/excessive-force fact exists. Keep a tiny floor for model
-        # uncertainty rather than making any outcome literally impossible.
-        if (
-            bool(incident.get("ordinary_contact"))
-            and not dogso
-            and not violent
-            and severity < 0.66
-        ):
-            red = min(red, 0.00035)
         red = clamp(red, 0.0002, 0.58)
 
         # First-yellow behaviour is intentionally preserved. The population

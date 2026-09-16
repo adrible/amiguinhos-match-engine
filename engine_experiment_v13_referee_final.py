@@ -14,9 +14,12 @@ class MatchEngineV13Referee(_CalibratedReferee):
     def _second_yellow_factor(incident: dict) -> float:
         """Practical management margin for a player already cautioned.
 
-        Routine low-severity repeat fouls get more management room than SPA,
-        DOGSO, reckless conduct or genuinely hard challenges. The canonical
-        discipline adapter applies the additional ordinary-contact guardrail.
+        Routine low-severity repeat fouls receive materially more management
+        room than SPA, DOGSO, reckless conduct or genuinely hard challenges.
+        A second caution remains possible for the same marginal offence, but it
+        should be a clearer threshold than a first yellow.  The canonical
+        discipline adapter applies an additional guardrail to incidents created
+        by the ordinary-contact extension.
         """
         severity = float(incident["severity"])
         spa = bool(incident.get("spa"))
@@ -32,8 +35,11 @@ class MatchEngineV13Referee(_CalibratedReferee):
             factor += 0.05
 
         if not spa and not dogso and not hard_type and severity < 0.55:
-            factor *= 0.82
-            return clamp(factor, 0.07, 0.40)
+            # Once booked, players and referees both manage routine marginal
+            # repeats.  This acts only on second-caution conversion: first-yellow
+            # frequency and all serious-card pathways are left untouched.
+            factor *= 0.58
+            return clamp(factor, 0.05, 0.30)
 
         return clamp(factor, 0.10, 0.55)
 

@@ -114,9 +114,27 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         }
         marginal_factor = e._second_yellow_factor(marginal)
         serious_factor = e._second_yellow_factor(serious)
-        self.assertLessEqual(marginal_factor, 0.12)
-        self.assertGreater(serious_factor, marginal_factor * 2.0)
+        self.assertLessEqual(marginal_factor, 0.05)
+        self.assertGreater(marginal_factor, 0.0)
+        self.assertGreater(serious_factor, marginal_factor * 3.0)
         self.assertLess(serious_factor, 0.45)
+
+    def test_spa_repeat_retains_more_second_yellow_pressure_than_routine_repeat(self):
+        e = self.make_engine()
+        routine = {
+            "type": "holding",
+            "severity": 0.48,
+            "spa": False,
+            "dogso": False,
+            "attempt_to_play_ball": False,
+            "violent": False,
+        }
+        spa = {**routine, "spa": True}
+        routine_factor = e._second_yellow_factor(routine)
+        spa_factor = e._second_yellow_factor(spa)
+        self.assertGreater(spa_factor, routine_factor)
+        self.assertLessEqual(spa_factor, 0.09)
+        self.assertGreater(spa_factor, 0.0)
 
     def test_ordinary_contact_has_more_second_yellow_management_than_same_generic_trip(self):
         e = self.make_engine()
@@ -133,6 +151,7 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         ordinary_factor = e._second_yellow_factor(ordinary)
         self.assertGreater(generic_factor, ordinary_factor)
         self.assertGreater(ordinary_factor, 0.0)
+        self.assertLessEqual(ordinary_factor, 0.038)
 
     def test_dogso_reduces_second_yellow_management_without_erasing_it(self):
         e = self.make_engine()

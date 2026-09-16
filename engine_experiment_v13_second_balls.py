@@ -134,7 +134,6 @@ class MatchEngineV13SecondBalls(MatchEngineV13MicroAdjustments):
             self.state.phase = "final_third" if zone.band == Band.ATT else "progression"
             danger = clamp(0.22 + 0.18 * p_attack + (0.08 if zone.band == Band.ATT else 0.0))
             if zone.band == Band.ATT and self.rng.random() < 0.42 + 0.18 * p_attack:
-                kind = self._natural_next_action(zone, source="second_ball")
                 self.state.pending = self._pending_from_second_ball(
                     attacking_team, attacker, defender, zone, danger
                 )
@@ -161,7 +160,7 @@ class MatchEngineV13SecondBalls(MatchEngineV13MicroAdjustments):
         defending_team = 1 - attacking_team
         control = clamp(
             0.43
-            + (defender.effective("composure") - attacker.effective("pressure") if hasattr(attacker.player, "pressure") else defender.effective("composure") - 70.0) / 300.0
+            + (defender.effective("composure") - 70.0) / 300.0
             + 0.10 * defender.effective("positioning") / 100.0,
             0.30,
             0.76,

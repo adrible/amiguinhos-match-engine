@@ -53,12 +53,6 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         return str(int(marker))
 
     def _phase_clock_factor(self) -> float:
-        """Small causal duration adjustment for the current live phase.
-
-        A transition is quicker than a settled build-up; final-third sequences
-        also unfold faster than circulation in the defensive third.  This
-        changes elapsed time only, never execution quality.
-        """
         zone = getattr(self.state, "zone", None)
         transition = clamp(float(getattr(self.state, "transition_boost", 0.0)))
         if transition > 0.20:
@@ -77,60 +71,33 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         return 1.0
 
     def _advance_clock(self, seconds: float, possession_team: int):
-        # Open-play cadence is translated into a more physical phase duration.
-        # Game-management below this layer can still make a leading side use a
-        # little more clock, and a chasing side a little less.
         adjusted = float(seconds) * self._phase_clock_factor()
         return super()._advance_clock(adjusted, possession_team)
 
-    def _advance_dead_clock(
-        self,
-        elapsed_seconds: float,
-        recoverable_seconds: float,
-        *,
-        reason: str,
-    ) -> None:
+    def _advance_dead_clock(self, elapsed_seconds: float, recoverable_seconds: float, *, reason: str) -> None:
         elapsed = max(0.0, float(elapsed_seconds))
         recoverable = clamp(float(recoverable_seconds), 0.0, elapsed)
         if elapsed <= 0.0:
             return
-
         marker = self._current_base_marker()
         self.state.second += elapsed
-        # Dead-ball time is not credited as possession and produces almost no
-        # running load, but it still counts as minutes played.
         for rt in self.teams:
             for ps in rt.on_field:
                 ps.minutes += elapsed / 60.0
-
         state = self._ensure_stoppage_state()
         if marker is None:
             return
         key = self._marker_key(marker)
-        state["dead_elapsed_by_marker"][key] = (
-            float(state["dead_elapsed_by_marker"].get(key, 0.0)) + elapsed
-        )
-        state["recoverable_by_marker"][key] = (
-            float(state["recoverable_by_marker"].get(key, 0.0)) + recoverable
-        )
-        state["dead_by_reason"][reason] = (
-            float(state["dead_by_reason"].get(reason, 0.0)) + elapsed
-        )
-
-        # Once the board has been shown, subsequent recoverable delays extend
-        # the announced minimum rather than changing the number already shown.
+        state["dead_elapsed_by_marker"][key] = float(state["dead_elapsed_by_marker"].get(key, 0.0)) + elapsed
+        state["recoverable_by_marker"][key] = float(state["recoverable_by_marker"].get(key, 0.0)) + recoverable
+        state["dead_by_reason"][reason] = float(state["dead_by_reason"].get(reason, 0.0)) + elapsed
         if key in state["announced_seconds_by_marker"] and recoverable > 0.0:
-            state["extension_seconds_by_marker"][key] = (
-                float(state["extension_seconds_by_marker"].get(key, 0.0))
-                + recoverable
-            )
+            state["extension_seconds_by_marker"][key] = float(state["extension_seconds_by_marker"].get(key, 0.0)) + recoverable
 
     def _advance_live_detail_clock(self, seconds: float, possession_team: int) -> None:
         seconds = max(0.0, float(seconds))
         if seconds <= 0.0:
             return
-        # This is already a specific action duration, so bypass this layer's
-        # broad phase factor while preserving lower-layer fatigue/management.
         super()._advance_clock(seconds, int(possession_team))
         state = self._ensure_stoppage_state()
         state["active_detail_seconds"] = float(state.get("active_detail_seconds", 0.0)) + seconds
@@ -144,6 +111,11 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         key = str(event.text_key or "")
         typ = event.type
 
+        # The referee acknowledging a foul but playing advantage does not stop
+        # the ball.  The foul still counts for discipline/statistics, but there
+        # is no dead-ball interval to recover later.
+        if typ == EventType.FOUL and bool(event.data.get("advantage")):
+            return 0.0, 0.0, "advantage_played"
         if typ == EventType.GOAL and key == "goal":
             return 42.0, 28.0, "goal_celebration"
         if typ == EventType.SUBSTITUTION:
@@ -177,8 +149,6 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         if typ == EventType.OFFSIDE:
             return 8.0, 1.0, "offside_restart"
         if typ in {EventType.SAVE, EventType.MISS, EventType.BLOCK, EventType.POST}:
-            # Only a short natural reset. It runs on the official clock but is
-            # not normally recovered as added time.
             return 4.0, 0.0, "natural_reset"
         return 0.0, 0.0, "none"
 
@@ -202,12 +172,10 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         if event.type in {EventType.PERIOD_END, EventType.MATCH_END}:
             event.data["clock_accounted"] = True
             return
-
         if had_pending and not event.data.get("shootout"):
             detail = self._pending_detail_seconds(event)
             self._advance_live_detail_clock(detail, event.team)
             event.data["live_action_seconds"] = round(detail, 2)
-
         elapsed, recoverable, reason = self._dead_time_profile(event)
         if elapsed > 0.0:
             self._advance_dead_clock(elapsed, recoverable, reason=reason)
@@ -232,18 +200,9 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         key = self._marker_key(marker)
         if key in state["announced_seconds_by_marker"]:
             return float(state["announced_seconds_by_marker"][key])
-
         recoverable = float(state["recoverable_by_marker"].get(key, 0.0))
-        # Very small isolated delays need not produce a displayed minute.
-        if recoverable < 15.0:
-            announced = 0.0
-        else:
-            announced = math.ceil(recoverable / 60.0) * 60.0
-
-        if marker in (45, 90):
-            cap = 12.0 * 60.0
-        else:
-            cap = 6.0 * 60.0
+        announced = 0.0 if recoverable < 15.0 else math.ceil(recoverable / 60.0) * 60.0
+        cap = 12.0 * 60.0 if marker in (45, 90) else 6.0 * 60.0
         announced = min(announced, cap)
         state["announced_seconds_by_marker"][key] = announced
         state["extension_seconds_by_marker"].setdefault(key, 0.0)
@@ -252,9 +211,7 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
     def _period_target_second(self, marker: int) -> float:
         state = self._ensure_stoppage_state()
         key = self._marker_key(marker)
-        announced = self._announced_seconds(marker)
-        extension = float(state["extension_seconds_by_marker"].get(key, 0.0))
-        return marker * 60.0 + announced + extension
+        return marker * 60.0 + self._announced_seconds(marker) + float(state["extension_seconds_by_marker"].get(key, 0.0))
 
     def _check_period_boundary(self):
         marker = self._current_base_marker()
@@ -263,7 +220,6 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         base_second = float(marker) * 60.0
         if self.state.second < base_second:
             return None
-
         state = self._ensure_stoppage_state()
         key = self._marker_key(marker)
         was_announced = key in state["announced_seconds_by_marker"]
@@ -278,7 +234,6 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
                 added_minutes=int(announced // 60),
                 recoverable_seconds=round(float(state["recoverable_by_marker"].get(key, 0.0)), 2),
             )
-
         if self.state.second + 1e-9 < self._period_target_second(marker):
             return None
         return super()._check_period_boundary()

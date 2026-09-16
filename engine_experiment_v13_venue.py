@@ -3,23 +3,14 @@ from __future__ import annotations
 """Persistent venue context for the v1.3 candidate.
 
 Venue is modelled as match context, never as a hidden technical-rating bonus.
-The layer affects only perceived local pressure/support/space, a small amount of
-territorial hesitation for the visitor, and a very small away travel load.
-Referee/card probabilities are deliberately untouched so the disciplinary
-calibration remains venue-neutral.
-
-For designated home/away fixtures, visitor strain is derived from unfamiliarity,
-crowd hostility and travel. The effect is deliberately split in two: a mild
-execution-context shift in advanced areas and occasional recycling of a
-successful progression instead of forcing another line. Recycling keeps the
-ball rather than manufacturing a turnover, so home advantage is not created by
-an arbitrary technical downgrade of the away side. Neutral fixtures remain
-exactly neutral and shared-stadium effects remain small.
+The layer affects only perceived local pressure/support/space and a very small
+away travel load. Referee/card probabilities are deliberately untouched so the
+disciplinary calibration remains venue-neutral.
 """
 
 from copy import deepcopy
 
-from engine import Band, Zone, clamp
+from engine import clamp
 from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRealism
 
 VERSION = "1.3-candidate-venue-context"
@@ -68,7 +59,7 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             raise ValueError(f"Unsupported venue mode: {mode}")
         defaults = cls.DEFAULTS[mode]
 
-        return {
+        out = {
             "mode": mode,
             "home_familiarity": clamp(float(raw.get("home_familiarity", defaults["home_familiarity"]))),
             "away_familiarity": clamp(float(raw.get("away_familiarity", defaults["away_familiarity"]))),
@@ -76,50 +67,7 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             "away_travel_load": clamp(float(raw.get("away_travel_load", defaults["away_travel_load"]))),
             "source": str(raw.get("source", "explicit")),
         }
-
-    def _away_environment_strain(self) -> float:
-        """Return a causal 0..1 visitor-environment load."""
-        venue = self._v13_venue_context
-        if venue["mode"] == "neutral":
-            return 0.0
-        unfamiliarity = max(0.0, 0.50 - float(venue["away_familiarity"]))
-        crowd_hostility = max(0.0, float(venue["crowd_home_share"]) - 0.50)
-        travel = max(0.0, float(venue["away_travel_load"]))
-        return clamp(
-            0.55 * unfamiliarity
-            + 0.85 * crowd_hostility
-            + 0.45 * travel
-        )
-
-    def _away_execution_context(self, band: Band) -> dict:
-        """Small advanced-area context shift, never a player-rating penalty."""
-        strain = self._away_environment_strain()
-        scale = {
-            Band.DEF: 0.20,
-            Band.MID: 0.55,
-            Band.ATT: 1.00,
-            Band.BOX: 1.10,
-        }[band]
-        return {
-            "pressure_shift": 0.050 * strain * scale,
-            "support_shift": -0.020 * strain * scale,
-            "space_shift": -0.008 * strain * scale,
-        }
-
-    def _away_recycle_probability(self, origin: Band, destination: Band) -> float:
-        """Chance that a successful away progression is recycled laterally.
-
-        Only line-breaking progressions in advanced build-up are eligible. A
-        recycle is not a failed pass and does not change possession.
-        """
-        strain = self._away_environment_strain()
-        if strain <= 0.0:
-            return 0.0
-        if origin == Band.MID and destination == Band.ATT:
-            return clamp(0.28 * strain, 0.0, 0.16)
-        if origin == Band.ATT and destination == Band.BOX:
-            return clamp(0.42 * strain, 0.0, 0.20)
-        return 0.0
+        return out
 
     def _venue_effects(self, team: int) -> dict:
         team = int(team)
@@ -132,6 +80,8 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             crowd_edge *= -1.0
         travel = float(venue["away_travel_load"]) if team == 1 else 0.0
 
+        # Small contextual shifts only. They influence the situation perceived
+        # by the decision model, never a player's underlying execution skill.
         pressure_shift = (
             -0.020 * (familiarity - 0.50)
             -0.018 * crowd_edge
@@ -147,14 +97,11 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             +0.004 * crowd_edge
             -0.003 * travel
         )
-        environment_strain = self._away_environment_strain() if team == 1 else 0.0
-
         return {
             "team": team,
             "familiarity": round(familiarity, 5),
             "crowd_edge": round(crowd_edge, 5),
             "travel_load": round(travel, 5),
-            "environment_strain": round(environment_strain, 6),
             "pressure_shift": round(pressure_shift, 6),
             "support_shift": round(support_shift, 6),
             "space_shift": round(space_shift, 6),
@@ -163,68 +110,29 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
     def venue_diagnostic(self) -> dict:
         return {
             **deepcopy(self._v13_venue_context),
-            "away_environment_strain": round(self._away_environment_strain(), 6),
             "home_effects": self._venue_effects(0),
             "away_effects": self._venue_effects(1),
-            "away_execution_context": {
-                band.value: {
-                    key: round(value, 6)
-                    for key, value in self._away_execution_context(band).items()
-                }
-                for band in (Band.DEF, Band.MID, Band.ATT, Band.BOX)
-            },
-            "away_recycle_probability": {
-                "mid_to_att": round(self._away_recycle_probability(Band.MID, Band.ATT), 6),
-                "att_to_box": round(self._away_recycle_probability(Band.ATT, Band.BOX), 6),
-            },
             "referee_bias": 0.0,
         }
 
     def _spatial_context(self, team, zone):
         context = dict(super()._spatial_context(team, zone))
-        team_index = int(team)
-        effects = self._venue_effects(team_index)
-        pressure_shift = float(effects["pressure_shift"])
-        support_shift = float(effects["support_shift"])
-        space_shift = float(effects["space_shift"])
-
-        if team_index == 1:
-            advanced = self._away_execution_context(zone.band)
-            pressure_shift += advanced["pressure_shift"]
-            support_shift += advanced["support_shift"]
-            space_shift += advanced["space_shift"]
-
-        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + pressure_shift)
-        context["support"] = clamp(float(context.get("support", 0.5)) + support_shift)
-        context["space"] = clamp(float(context.get("space", 0.5)) + space_shift)
+        effects = self._venue_effects(int(team))
+        context["pressure"] = clamp(float(context.get("pressure", 0.5)) + effects["pressure_shift"])
+        context["support"] = clamp(float(context.get("support", 0.5)) + effects["support_shift"])
+        context["space"] = clamp(float(context.get("space", 0.5)) + effects["space_shift"])
         context["venue_mode"] = self._v13_venue_context["mode"]
-        context["venue_pressure_shift"] = round(pressure_shift, 6)
-        context["venue_support_shift"] = round(support_shift, 6)
-        context["venue_space_shift"] = round(space_shift, 6)
-        context["venue_environment_strain"] = effects["environment_strain"]
+        context["venue_pressure_shift"] = effects["pressure_shift"]
+        context["venue_support_shift"] = effects["support_shift"]
         return context
-
-    def _progress_zone(self, zone: Zone, kind: str) -> Zone:
-        destination = super()._progress_zone(zone, kind)
-        # `_progress_zone` is called during the current possession. Only the
-        # visitor is eligible for environmental recycling; home and neutral
-        # paths consume no additional RNG and preserve historical determinism.
-        if int(self.state.possession) != 1:
-            return destination
-        probability = self._away_recycle_probability(zone.band, destination.band)
-        if probability <= 0.0:
-            return destination
-        if self.rng.random() >= probability:
-            return destination
-        # Keep any lateral lane movement produced by the successful action, but
-        # do not award the next territorial band. Possession remains unchanged.
-        return Zone(zone.band, destination.lane)
 
     def _advance_clock(self, seconds: float, possession_team: int):
         super()._advance_clock(seconds, possession_team)
         travel = float(self._v13_venue_context.get("away_travel_load", 0.0))
         if travel <= 0.0:
             return
+        # Travel load is deliberately tiny: context should matter over a full
+        # match, not behave like an attribute penalty from kick-off.
         extra = max(0.0, float(seconds)) / 60.0 * 0.00018 * travel
         if extra <= 0.0:
             return

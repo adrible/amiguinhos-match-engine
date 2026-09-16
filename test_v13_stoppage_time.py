@@ -130,3 +130,10 @@ def test_same_seed_remains_deterministic_with_stoppage_layer():
         if a.state.ended or b.state.ended:
             break
     assert a.snapshot() == b.snapshot()
+
+
+def load_tests(loader, tests, pattern):
+    """Expose all new plain-function realism tests to the unittest-only CI."""
+    from test_v13_new_stack_unittest import NewRealismStackFunctionTests
+
+    return loader.loadTestsFromTestCase(NewRealismStackFunctionTests)

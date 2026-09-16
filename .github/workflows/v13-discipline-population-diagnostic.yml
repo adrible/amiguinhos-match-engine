@@ -1,0 +1,45 @@
+name: Match Engine v1.3 Discipline Population Diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      matches:
+        description: "Number of synthetic benchmark-population matches"
+        required: false
+        default: "300"
+
+concurrency:
+  group: v13-discipline-population-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  discipline-population:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile diagnostic
+        run: python -m py_compile discipline_population_diagnostics_v13.py
+
+      - name: Run discipline population diagnostic
+        env:
+          MATCHES: ${{ github.event_name == 'workflow_dispatch' && inputs.matches || '300' }}
+        run: |
+          mkdir -p artifacts
+          python discipline_population_diagnostics_v13.py "$MATCHES" --start-seed 91000 \
+            | tee artifacts/discipline_population_v13.json
+
+      - name: Upload diagnostic report
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13-discipline-population-diagnostic
+          path: artifacts/discipline_population_v13.json
+          if-no-files-found: error

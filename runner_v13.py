@@ -32,6 +32,9 @@ from final_protocol_v13 import (
 from historical_2014_v13 import load_team_for_v13
 
 
+VENUE_MODES = ("neutral", "home_away", "shared_stadium")
+
+
 class MatchSessionV13:
     """Small stateful facade around one live v1.3 engine."""
 
@@ -47,6 +50,7 @@ class MatchSessionV13:
         seed: int = 0,
         auto_adapt: bool = False,
         allow_extra_time: bool = False,
+        venue_mode: str = "neutral",
         allow_reserved_final_seed: bool = False,
     ) -> "MatchSessionV13":
         if (
@@ -57,6 +61,8 @@ class MatchSessionV13:
                 "official final seed is reserved; use the explicit official-final "
                 "runner only when the live final is actually starting"
             )
+        if str(venue_mode) not in VENUE_MODES:
+            raise ValueError(f"venue_mode must be one of {VENUE_MODES}")
 
         home = load_team_for_v13(home_key)
         away = load_team_for_v13(away_key)
@@ -68,6 +74,10 @@ class MatchSessionV13:
                 auto_tactical_adaptation=bool(auto_adapt),
                 allow_extra_time=bool(allow_extra_time),
             ),
+            venue_context={
+                "mode": str(venue_mode),
+                "source": "live_runner",
+            },
         )
         return cls(engine)
 
@@ -77,6 +87,8 @@ class MatchSessionV13:
 
         Calling this method intentionally unlocks the previously declared seed.
         It must not be used for calibration, previews, dry runs or CI smokes.
+        The Regional Internacional final is explicitly neutral-site unless a
+        future competition record states otherwise.
         """
         return cls.from_fixture(
             OFFICIAL_FINAL_HOME,
@@ -84,6 +96,7 @@ class MatchSessionV13:
             seed=OFFICIAL_FINAL_SEED,
             auto_adapt=True,
             allow_extra_time=True,
+            venue_mode="neutral",
             allow_reserved_final_seed=True,
         )
 
@@ -245,6 +258,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--auto-adapt", action="store_true")
     parser.add_argument("--extra-time", action="store_true")
+    parser.add_argument("--venue-mode", choices=VENUE_MODES, default="neutral")
     parser.add_argument("--official-final", action="store_true")
     parser.add_argument("--load", dest="load_path")
     args = parser.parse_args()
@@ -263,6 +277,7 @@ def main() -> None:
             seed=args.seed,
             auto_adapt=args.auto_adapt,
             allow_extra_time=args.extra_time,
+            venue_mode=args.venue_mode,
         )
     run_cli(session)
 

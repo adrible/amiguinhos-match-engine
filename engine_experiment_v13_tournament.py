@@ -9,9 +9,8 @@ competition controller. No future results are inferred here.
 
 from copy import deepcopy
 
-from engine import PlayerState, Zone, clamp
+from engine import EventType, PlayerState, Zone, clamp
 from engine_experiment_v13_awards import MatchEngineV13Awards
-from engine_experiment_v13_persistence import MatchEngineV13Persistence
 
 
 class MatchEngineV13TournamentContext(MatchEngineV13Awards):
@@ -259,6 +258,25 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
             "aggregate_diff": int(aggregate_diff),
         }
 
+    def _finish_decided_competition_period(self, marker: int):
+        """Close a decisive tie without consulting the current-leg draw rule."""
+        self.state.period_index += 1
+        self.state.pending = None
+        self.state.restart = None
+        self.state.restart_team = None
+        self.state.restart_zone = None
+        self.state.transition_boost = 0.0
+        self.state.ended = True
+        self.state.phase = "ended"
+        return self._emit(
+            EventType.MATCH_END,
+            self.state.possession,
+            5,
+            "match_end",
+            competition_decided=True,
+            period_marker=int(marker),
+        )
+
     def _check_period_boundary(self):
         context = self._competition_boundary_context()
         if context is None:
@@ -270,18 +288,16 @@ class MatchEngineV13TournamentContext(MatchEngineV13Awards):
             return None
 
         # In a decisive tournament tie, continuation is governed by aggregate
-        # state.  When aggregate is already decided we bypass the knockout
-        # layer's current-match-score tie check and let the ordinary period
-        # boundary close the match.
+        # state rather than by the score of the current leg in isolation.
         if marker == 90 and self.state.period_markers == [45, 90] and self.config.allow_extra_time:
             if int(context["aggregate_diff"]) == 0:
                 return self._start_extra_time()
-            return MatchEngineV13Persistence._check_period_boundary(self)
+            return self._finish_decided_competition_period(marker)
 
         if marker == 120 and self.state.period_markers == [105, 120]:
             if int(context["aggregate_diff"]) == 0:
                 return self._start_shootout()
-            return MatchEngineV13Persistence._check_period_boundary(self)
+            return self._finish_decided_competition_period(marker)
 
         return super()._check_period_boundary()
 

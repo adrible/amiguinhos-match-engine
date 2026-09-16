@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "description": "Real-match reference sources for the v1.3 statistical realism benchmark. Raw third-party match files are fetched at runtime and are not vendored into this repository.",
+  "match_dataset": {
+    "provider": "datasets/football-datasets GitHub mirror of Football-Data.co.uk match statistics",
+    "upstream": "https://www.football-data.co.uk/",
+    "mirror": "https://github.com/datasets/football-datasets",
+    "seasons": ["2223", "2324", "2425"],
+    "leagues": [
+      {"name": "Premier League", "slug": "premier-league"},
+      {"name": "Bundesliga", "slug": "bundesliga"},
+      {"name": "Serie A", "slug": "serie-a"},
+      {"name": "La Liga", "slug": "la-liga"},
+      {"name": "Ligue 1", "slug": "ligue-1"}
+    ],
+    "raw_url_template": "https://raw.githubusercontent.com/datasets/football-datasets/main/datasets/{slug}/season-{season}.csv",
+    "required_columns": ["FTHG", "FTAG", "FTR", "HS", "AS", "HST", "AST", "HF", "AF", "HC", "AC", "HY", "AY", "HR", "AR"]
+  },
+  "timing_references": {
+    "premier_league_2024_25": {
+      "second_half_added_minutes": 6.5333333333,
+      "stoppage_goal_share": 0.084,
+      "source": "https://www.premierleague.com/ar/news/4461793/what-are-the-biggest-trends-from-202526-so-far",
+      "note": "Official Premier League comparison table reports 6m32s average second-half stoppage time and 8.4% of goals in 90+ during 2024/25."
+    }
+  },
+  "methodology_notes": [
+    "Core benchmark uses match-level fields whose definitions map directly to engine statistics.",
+    "xG, second-ball, goalkeeper-one-v-one, tactical-foul intent and other provider-dependent labels are excluded from the core index unless a like-for-like source is added.",
+    "The realism index is diagnostic only and must never be used as an in-match quota or target.",
+    "Continuous unfiltered engine seed ranges are used; the reserved official-final seed is rejected."
+  ]
+}

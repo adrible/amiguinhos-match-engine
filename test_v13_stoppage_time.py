@@ -65,8 +65,21 @@ def test_substitution_has_elapsed_and_recoverable_time():
     event = engine.substitute(0, out_name, in_name)
     assert event.type == EventType.SUBSTITUTION
     assert event.data["dead_elapsed_seconds"] == 30.0
-    assert event.data["recoverable_seconds"] == 22.0
+    assert event.data["recoverable_seconds"] == 27.0
     assert engine.state.second == before + 30.0
+
+
+def test_recovery_profiles_never_recover_more_than_elapsed():
+    engine = _engine()
+    events = [
+        Event(engine.minute, 0, EventType.FOUL, 1, "foul_incident", {"card": None}),
+        Event(engine.minute, 0, EventType.CARD, 2, "card_shown_contextual", {}),
+        Event(engine.minute, 0, EventType.CORNER, 3, "corner_awarded", {}),
+        Event(engine.minute, 0, EventType.GOAL, 5, "goal", {}),
+    ]
+    for event in events:
+        elapsed, recoverable, _ = engine._dead_time_profile(event)
+        assert 0.0 <= recoverable <= elapsed
 
 
 def test_added_time_is_announced_from_actual_recoverable_loss():

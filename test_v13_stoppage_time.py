@@ -1,0 +1,132 @@
+import copy
+
+from engine import Band, EventType, Lane, MatchConfig, PendingAction, Zone, make_generic_team
+from engine_experiment_v13_stoppage import MatchEngineV13Stoppage
+
+
+def _engine(seed=101):
+    return MatchEngineV13Stoppage(
+        make_generic_team("Home", 78, seed=1),
+        make_generic_team("Away", 78, seed=2),
+        seed=seed,
+        config=MatchConfig(auto_tactical_adaptation=False),
+    )
+
+
+def test_stoppage_diagnostic_is_rng_pure():
+    engine = _engine()
+    before = copy.deepcopy(engine.rng.getstate())
+    diagnostic = engine.stoppage_time_diagnostic()
+    after = engine.rng.getstate()
+    assert diagnostic["current_period"]["marker"] == 45
+    assert before == after
+
+
+def test_dead_time_advances_match_clock_but_not_possession():
+    engine = _engine()
+    before_clock = engine.state.second
+    before_possession = [row.possession_seconds for row in engine.stats]
+    before_minutes = engine.teams[0].on_field[0].minutes
+    engine._advance_dead_clock(42.0, 28.0, reason="goal_celebration")
+    assert engine.state.second == before_clock + 42.0
+    assert [row.possession_seconds for row in engine.stats] == before_possession
+    assert engine.teams[0].on_field[0].minutes > before_minutes
+    diag = engine.stoppage_time_diagnostic()["current_period"]
+    assert diag["dead_elapsed_seconds"] == 42.0
+    assert diag["recoverable_seconds"] == 28.0
+
+
+def test_substitution_has_elapsed_and_recoverable_time():
+    engine = _engine()
+    out_name = next(ps.player.name for ps in engine.teams[0].on_field if ps.player.position != "GK")
+    in_name = next(p.name for p in engine.teams[0].bench if p.position != "GK")
+    before = engine.state.second
+    event = engine.substitute(0, out_name, in_name)
+    assert event.type == EventType.SUBSTITUTION
+    assert event.data["dead_elapsed_seconds"] == 30.0
+    assert event.data["recoverable_seconds"] == 22.0
+    assert engine.state.second == before + 30.0
+
+
+def test_added_time_is_announced_from_actual_recoverable_loss():
+    engine = _engine()
+    engine.state.second = 44.0 * 60.0
+    engine._advance_dead_clock(60.0, 60.0, reason="test_delay")
+    announcement = engine._check_period_boundary()
+    assert announcement is not None
+    assert announcement.type == EventType.INFO
+    assert announcement.text_key == "stoppage_time_announced"
+    assert announcement.data["added_minutes"] == 1
+    assert engine.state.period_index == 0
+
+    engine.state.second = 45.75 * 60.0
+    assert engine._check_period_boundary() is None
+    engine.state.second = 46.0 * 60.0
+    end = engine._check_period_boundary()
+    assert end is not None
+    assert end.type == EventType.PERIOD_END
+    assert engine.state.period_index == 1
+
+
+def test_new_delay_during_added_time_extends_announced_minimum():
+    engine = _engine()
+    engine.state.second = 44.0 * 60.0
+    engine._advance_dead_clock(60.0, 60.0, reason="initial_delay")
+    announcement = engine._check_period_boundary()
+    assert announcement.data["added_minutes"] == 1
+
+    engine._advance_dead_clock(30.0, 20.0, reason="late_injury")
+    engine.state.second = 46.10 * 60.0
+    assert engine._check_period_boundary() is None
+    engine.state.second = 46.34 * 60.0
+    end = engine._check_period_boundary()
+    assert end is not None
+    assert end.type == EventType.PERIOD_END
+
+
+def test_pending_live_action_consumes_small_real_time():
+    engine = _engine()
+    striker = next(ps for ps in engine.teams[0].on_field if ps.player.position == "ST")
+    engine.state.possession = 0
+    engine.state.zone = Zone(Band.BOX, Lane.CENTER)
+    engine.state.pending = PendingAction(
+        team=0,
+        actor=striker.player.name,
+        kind="shoot",
+        zone=Zone(Band.BOX, Lane.CENTER),
+        danger=0.58,
+        pressure=0.35,
+        origin="through_ball",
+    )
+    before = engine.stats[0].possession_seconds
+    event = engine.step()
+    assert event.data.get("live_action_seconds", 0.0) > 0.0
+    assert engine.stats[0].possession_seconds > before
+
+
+def test_stoppage_state_survives_save_load():
+    engine = _engine()
+    engine.state.second = 40.0 * 60.0
+    engine._advance_dead_clock(82.0, 68.0, reason="injury:moderate")
+    payload = engine.export_json()
+    restored = MatchEngineV13Stoppage.from_json(payload)
+    assert restored.stoppage_time_diagnostic() == engine.stoppage_time_diagnostic()
+    assert restored.state.second == engine.state.second
+
+
+def test_same_seed_remains_deterministic_with_stoppage_layer():
+    a = _engine(seed=909)
+    b = _engine(seed=909)
+    for _ in range(80):
+        ea = a.step()
+        eb = b.step()
+        assert (ea.type, ea.text_key, ea.team, ea.minute, ea.data) == (
+            eb.type,
+            eb.text_key,
+            eb.team,
+            eb.minute,
+            eb.data,
+        )
+        if a.state.ended or b.state.ended:
+            break
+    assert a.snapshot() == b.snapshot()

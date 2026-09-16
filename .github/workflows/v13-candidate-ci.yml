@@ -82,7 +82,11 @@ jobs:
           engine_experiment_v13_leadership.py engine_experiment_v13_awards.py
           engine_experiment_v13_tournament.py engine_experiment_v13_stoppage.py
           engine_experiment_v13_clock_behaviour.py engine_experiment_v13_mental_state.py
-          engine_experiment_v13_tactical_fouls.py
+          engine_experiment_v13_tactical_fouls.py engine_experiment_v13_mismatches.py
+          engine_experiment_v13_micro_adjustments.py engine_experiment_v13_second_balls.py
+          engine_experiment_v13_set_piece_defense.py engine_experiment_v13_offensive_communication.py
+          engine_experiment_v13_numerical_advantage.py engine_experiment_v13_load_injuries.py
+          engine_experiment_v13_gk_one_v_one.py engine_experiment_v13_penalties.py
           final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
           substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
           test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
@@ -107,7 +111,10 @@ jobs:
           test_v13_set_piece_routines.py test_v13_leadership_awards.py
           test_tournament_state_v13.py test_v13_tournament_context.py test_v13_competition_complete.py
           test_v13_stoppage_time.py test_v13_clock_behaviour.py test_v13_mental_state.py
-          test_v13_tactical_fouls.py
+          test_v13_tactical_fouls.py test_v13_mismatches.py test_v13_micro_adjustments.py
+          test_v13_second_balls.py test_v13_set_piece_defense.py
+          test_v13_offensive_communication.py test_v13_numerical_advantage.py
+          test_v13_load_injuries.py test_v13_gk_one_v_one.py test_v13_penalties.py
 
       - name: Run stable v1.2 regression suite
         run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
@@ -173,6 +180,15 @@ jobs:
           test_v13_clock_behaviour.py
           test_v13_mental_state.py
           test_v13_tactical_fouls.py
+          test_v13_mismatches.py
+          test_v13_micro_adjustments.py
+          test_v13_second_balls.py
+          test_v13_set_piece_defense.py
+          test_v13_offensive_communication.py
+          test_v13_numerical_advantage.py
+          test_v13_load_injuries.py
+          test_v13_gk_one_v_one.py
+          test_v13_penalties.py
 
       - name: Run economical 10-match v1.3 smoke simulation
         run: python diagnostics_v13.py 10

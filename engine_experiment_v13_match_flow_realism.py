@@ -20,6 +20,8 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
         "cross_cleared": 0.28,
         "cutback_stopped": 0.30,
         "cutback_cleared": 0.25,
+        "through_ball_stopped": 0.055,
+        "through_ball_cleared": 0.075,
         "dribble_stopped": 0.10,
         "dispossessed": 0.07,
         "progressive_pass_failed": 0.055,
@@ -44,7 +46,13 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
         if base <= 0.0 or zone.band not in {Band.ATT, Band.BOX}:
             return 0.0
         wide = zone.lane != Lane.CENTER
-        if str(reason) in {"dribble_stopped", "dispossessed", "progressive_pass_failed"} and not wide:
+        if str(reason) in {
+            "through_ball_stopped",
+            "through_ball_cleared",
+            "dribble_stopped",
+            "dispossessed",
+            "progressive_pass_failed",
+        } and not wide:
             return 0.0
         pressure = clamp(float(ctx.get("pressure", 0.5)))
         space = clamp(float(ctx.get("space", 0.5)))
@@ -108,6 +116,37 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
             return self._arm_corner_after_shot(int(p.team), p, event, corner_p)
         return event
 
+    def corner_reclear_probability(self, event: Event) -> float:
+        """Chance that a pressured corner clearance itself runs behind.
+
+        This applies only to the explicit contextual-corner clearance event. It
+        represents a defender heading/slicing a difficult delivery over the goal
+        line rather than converting every clearance into generic possession.
+        """
+        if event.text_key != "corner_cleared_contextual":
+            return 0.0
+        quality = clamp(float(event.data.get("delivery_quality", 0.5)))
+        contact = clamp(float(event.data.get("contact_probability", 0.5)))
+        return clamp(0.075 + 0.10 * quality + 0.045 * contact, 0.08, 0.21)
+
+    def _resolve_contextual_corner(self, team: int, zone: Zone):
+        event = super()._resolve_contextual_corner(team, zone)
+        reclear_p = self.corner_reclear_probability(event)
+        if reclear_p <= 0.0 or self.rng.random() >= reclear_p:
+            return event
+
+        taker = str(event.data.get("taker") or self._corner_taker(team).player.name)
+        self.state.pending = None
+        self.state.transition_boost = 0.0
+        corner = self._award_corner(int(team), taker)
+        corner.data.update(
+            corner_cause="corner_clearance_deflected_behind",
+            previous_pattern=event.data.get("pattern"),
+            previous_delivery_quality=event.data.get("delivery_quality"),
+            corner_probability=round(reclear_p, 4),
+        )
+        return corner
+
     # ----------------------------- ordinary contact fouls -----------------------------
 
     def contact_foul_probability(
@@ -146,9 +185,8 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
         ) * whistle_factor
 
         # A booked player should manage borderline physical interventions more
-        # carefully.  This acts on whether the contact is attempted, not on the
-        # referee's later card decision, and therefore reduces repeat-foul risk
-        # without making a second yellow impossible when a foul still occurs.
+        # carefully. This changes whether marginal contact is attempted, not the
+        # referee's sanction once an actual foul occurs.
         if defender.yellow:
             management = clamp(
                 0.70 - 0.18 * discipline - 0.08 * composure + 0.08 * aggression,
@@ -157,7 +195,6 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
             )
             probability *= management
 
-        # The whole extension, not only its base term, is suppressed in the box.
         # Existing dribble/handball/referee systems remain the main penalty route.
         if in_box:
             probability *= 0.18

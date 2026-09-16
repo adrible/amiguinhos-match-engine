@@ -1,0 +1,25 @@
+name: Export Live Sim V13 Bundle
+
+on:
+  push:
+    branches:
+      - live-sim-brazil-germany-2014-v13
+    paths:
+      - .github/workflows/export-live-sim-v13.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-sim-v13-bundle
+          path: .
+          retention-days: 1

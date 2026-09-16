@@ -2,15 +2,20 @@ from __future__ import annotations
 
 """Compare the v1.3 candidate with a large collection of real matches.
 
-The benchmark deliberately lives outside the match engine.  It is a diagnostic
+The benchmark deliberately lives outside the match engine. It is a diagnostic
 harness, not a calibration target: no number produced here is read by the engine
 while a match is being simulated.
 
 Core real-match data are downloaded from the public datasets/football-datasets
-GitHub mirror of Football-Data.co.uk.  Only directly comparable match-level
+GitHub mirror of Football-Data.co.uk. Only directly comparable match-level
 fields are used in the core index (score, shots, shots on target, fouls,
-corners and cards).  Provider-specific concepts such as xG, tactical-foul
+corners and cards). Provider-specific concepts such as xG, tactical-foul
 intent, second balls and goalkeeper 1v1 labels are intentionally excluded.
+
+Because the source collection consists of league matches with designated home
+and away teams, the synthetic comparison population uses the explicit v1.3
+``home_away`` venue context. Neutral and shared-stadium fixtures remain separate
+engine modes and are not mixed into this league benchmark.
 """
 
 import argparse
@@ -31,6 +36,7 @@ from engine_experiment_v13 import MatchEngine
 
 RESERVED_OFFICIAL_FINAL_SEED = 1810131239
 SOURCE_FILE = Path(__file__).with_name("data") / "real_match_benchmark_sources.json"
+BENCHMARK_VENUE_MODE = "home_away"
 
 CORE_METRICS = (
     "goals_per_match",
@@ -52,7 +58,7 @@ CORE_METRICS = (
 )
 
 # Floors stop an unusually stable three-season sample from making a tiny
-# difference look infinitely important.  They are diagnostic tolerances, not
+# difference look infinitely important. They are diagnostic tolerances, not
 # desired engine targets.
 SCALE_FLOORS = {
     "goals_per_match": 0.16,
@@ -309,7 +315,15 @@ def simulate_engine_population(count: int, start_seed: int) -> tuple[list[dict[s
             str(away_style),
             seed=900001 + seed * 2,
         )
-        engine = MatchEngine(home, away, seed=seed)
+        engine = MatchEngine(
+            home,
+            away,
+            seed=seed,
+            venue_context={
+                "mode": BENCHMARK_VENUE_MODE,
+                "source": "real_league_benchmark",
+            },
+        )
         guard = 0
         while not engine.state.ended and guard < 7000:
             engine.step()
@@ -456,8 +470,9 @@ def run(engine_matches: int, start_seed: int, cache_dir: Path, output: Path | No
     timing = _timing_comparison(source, engine_timing)
 
     result = {
-        "benchmark_version": 1,
+        "benchmark_version": 2,
         "candidate": "v1.3",
+        "engine_venue_mode": BENCHMARK_VENUE_MODE,
         "real_match_count": len(real_rows),
         "engine_match_count": len(engine_rows),
         "engine_seed_range": [start_seed, start_seed + engine_matches - 1],
@@ -481,6 +496,7 @@ def run(engine_matches: int, start_seed: int, cache_dir: Path, output: Path | No
         f"v1.3 real-match benchmark: {len(real_rows)} real matches vs "
         f"{len(engine_rows)} engine matches"
     )
+    print(f"venue_mode={BENCHMARK_VENUE_MODE}")
     print(f"realism_index={comparison['realism_index']:.2f}/100")
     print("metric                          real      engine     delta      z      score")
     for component in comparison["components"]:

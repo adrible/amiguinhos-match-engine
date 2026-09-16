@@ -57,16 +57,42 @@ def test_advantage_played_has_no_dead_ball_time():
     assert "dead_elapsed_seconds" not in event.data
 
 
-def test_substitution_has_elapsed_and_recoverable_time():
-    engine = _engine()
+def _sub_names(engine):
     out_name = next(ps.player.name for ps in engine.teams[0].on_field if ps.player.position != "GK")
     in_name = next(p.name for p in engine.teams[0].bench if p.position != "GK")
+    return out_name, in_name
+
+
+def test_first_half_substitution_uses_conservative_recovery():
+    engine = _engine()
+    out_name, in_name = _sub_names(engine)
     before = engine.state.second
     event = engine.substitute(0, out_name, in_name)
     assert event.type == EventType.SUBSTITUTION
     assert event.data["dead_elapsed_seconds"] == 30.0
-    assert event.data["recoverable_seconds"] == 27.0
+    assert event.data["recoverable_seconds"] == 22.0
     assert engine.state.second == before + 30.0
+
+
+def test_second_half_substitution_uses_modern_recovery():
+    engine = _engine()
+    engine.state.period_index = 1
+    engine.state.second = 60.0 * 60.0
+    out_name, in_name = _sub_names(engine)
+    event = engine.substitute(0, out_name, in_name)
+    assert event.data["dead_elapsed_seconds"] == 30.0
+    assert event.data["recoverable_seconds"] == 27.0
+
+
+def test_extra_time_recovery_returns_to_conservative_profile():
+    engine = _engine()
+    engine.state.period_markers = [105, 120]
+    engine.state.period_index = 0
+    engine.state.second = 96.0 * 60.0
+    event = Event(engine.minute, 0, EventType.CARD, 2, "card_shown_contextual", {})
+    elapsed, recoverable, _ = engine._dead_time_profile(event)
+    assert elapsed == 20.0
+    assert recoverable == 12.0
 
 
 def test_recovery_profiles_never_recover_more_than_elapsed():
@@ -77,9 +103,11 @@ def test_recovery_profiles_never_recover_more_than_elapsed():
         Event(engine.minute, 0, EventType.CORNER, 3, "corner_awarded", {}),
         Event(engine.minute, 0, EventType.GOAL, 5, "goal", {}),
     ]
-    for event in events:
-        elapsed, recoverable, _ = engine._dead_time_profile(event)
-        assert 0.0 <= recoverable <= elapsed
+    for period_index in (0, 1):
+        engine.state.period_index = period_index
+        for event in events:
+            elapsed, recoverable, _ = engine._dead_time_profile(event)
+            assert 0.0 <= recoverable <= elapsed
 
 
 def test_added_time_is_announced_from_actual_recoverable_loss():

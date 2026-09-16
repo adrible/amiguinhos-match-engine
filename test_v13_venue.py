@@ -22,7 +22,8 @@ class VenueContextV13Tests(unittest.TestCase):
         self.assertAlmostEqual(diag["home_effects"]["pressure_shift"], 0.0, places=6)
         self.assertAlmostEqual(diag["away_effects"]["pressure_shift"], 0.0, places=6)
         self.assertAlmostEqual(diag["away_environment_strain"], 0.0, places=6)
-        self.assertTrue(all(value == 0.0 for value in diag["away_attacking_caution"].values()))
+        self.assertEqual(diag["away_recycle_probability"]["mid_to_att"], 0.0)
+        self.assertEqual(diag["away_recycle_probability"]["att_to_box"], 0.0)
         self.assertEqual(diag["referee_bias"], 0.0)
 
     def test_home_away_context_favours_familiar_home_environment_without_rating_bonus(self):
@@ -36,35 +37,39 @@ class VenueContextV13Tests(unittest.TestCase):
         self.assertLess(away["support_shift"], 0.0)
         self.assertGreater(away["travel_load"], 0.0)
         self.assertGreater(away["environment_strain"], 0.0)
-        # Execution-context pressure remains deliberately small; the stronger
-        # venue signal belongs to attacking decisions, not player skill.
-        self.assertLess(away["pressure_shift"], 0.02)
 
     def test_shared_stadium_has_smaller_asymmetry_than_home_away(self):
-        normal_engine = self.make_engine(venue_context="home_away")
-        shared_engine = self.make_engine(venue_context="shared_stadium")
-        normal = normal_engine.venue_diagnostic()
-        shared = shared_engine.venue_diagnostic()
+        normal = self.make_engine(venue_context="home_away").venue_diagnostic()
+        shared = self.make_engine(venue_context="shared_stadium").venue_diagnostic()
         normal_gap = abs(normal["home_effects"]["pressure_shift"] - normal["away_effects"]["pressure_shift"])
         shared_gap = abs(shared["home_effects"]["pressure_shift"] - shared["away_effects"]["pressure_shift"])
         self.assertLess(shared_gap, normal_gap)
         self.assertLess(shared["away_environment_strain"], normal["away_environment_strain"])
         self.assertLess(
-            shared["away_attacking_caution"][Band.BOX.value],
-            normal["away_attacking_caution"][Band.BOX.value],
+            shared["away_recycle_probability"]["mid_to_att"],
+            normal["away_recycle_probability"]["mid_to_att"],
         )
 
-    def test_away_attacking_caution_is_concentrated_in_advanced_possession(self):
+    def test_away_execution_context_is_mild_and_stronger_near_goal(self):
         engine = self.make_engine(venue_context="home_away")
-        defensive = engine._away_attacking_caution(Band.DEF)
-        midfield = engine._away_attacking_caution(Band.MID)
-        attacking = engine._away_attacking_caution(Band.ATT)
-        box = engine._away_attacking_caution(Band.BOX)
+        defensive = engine._away_execution_context(Band.DEF)
+        midfield = engine._away_execution_context(Band.MID)
+        attacking = engine._away_execution_context(Band.ATT)
+        box = engine._away_execution_context(Band.BOX)
 
-        self.assertEqual(defensive, 0.0)
-        self.assertGreater(midfield, defensive)
-        self.assertGreater(attacking, midfield)
-        self.assertGreater(box, attacking)
+        self.assertGreater(midfield["pressure_shift"], defensive["pressure_shift"])
+        self.assertGreater(attacking["pressure_shift"], midfield["pressure_shift"])
+        self.assertGreater(box["pressure_shift"], attacking["pressure_shift"])
+        self.assertLess(box["pressure_shift"], 0.03)
+        self.assertGreater(defensive["support_shift"], midfield["support_shift"])
+        self.assertGreater(midfield["support_shift"], attacking["support_shift"])
+
+    def test_recycling_only_targets_advanced_line_breaks(self):
+        engine = self.make_engine(venue_context="home_away")
+        self.assertEqual(engine._away_recycle_probability(Band.DEF, Band.MID), 0.0)
+        self.assertEqual(engine._away_recycle_probability(Band.ATT, Band.ATT), 0.0)
+        self.assertGreater(engine._away_recycle_probability(Band.MID, Band.ATT), 0.0)
+        self.assertGreater(engine._away_recycle_probability(Band.ATT, Band.BOX), 0.0)
 
     def test_venue_diagnostic_is_rng_pure_and_does_not_mutate_player_attributes(self):
         engine = self.make_engine(venue_context="home_away")

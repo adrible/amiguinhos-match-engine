@@ -24,12 +24,22 @@
       "note": "Official Premier League comparison table reports 6m32s average second-half stoppage time and 8.4% of goals in 90+ during 2024/25."
     }
   },
+  "body_part_references": {
+    "premier_league_headers_2019_20_to_2023_24": {
+      "headed_shots": 7198,
+      "headed_shots_on_target": 2713,
+      "headed_sot_rate": 0.3769102528,
+      "source": "https://www.premierleague.com/en/news/4029745",
+      "note": "Official Premier League season table reports headed shots and headed shots on target for five seasons: 2019/20 through 2023/24. This is supplemental validation only, not a core-index target."
+    }
+  },
   "methodology_notes": [
     "Core benchmark uses match-level fields whose definitions map directly to engine statistics.",
     "xG, second-ball, goalkeeper-one-v-one, tactical-foul intent and other provider-dependent labels are excluded from the core index unless a like-for-like source is added.",
     "The realism index is diagnostic only and must never be used as an in-match quota or target.",
     "Continuous unfiltered engine seed ranges are used; the reserved official-final seed is rejected.",
     "Card metrics are population-sensitive because benchmark teams are synthetic positional-template populations. Yellow/red gaps must be interpreted together with discipline-population diagnostics and must not, by themselves, trigger referee calibration.",
-    "Football-Data card fields are provider aggregates; second-yellow accounting can differ by competition/source convention, so yellow and red columns are not assumed to encode a universal dismissal taxonomy."
+    "Football-Data card fields are provider aggregates; second-yellow accounting can differ by competition/source convention, so yellow and red columns are not assumed to encode a universal dismissal taxonomy.",
+    "Body-part accuracy must be interpreted conditionally because headers and footed shots have very different location distributions. Aggregate header-vs-foot comparisons must not, by themselves, trigger finishing calibration."
   ]
 }

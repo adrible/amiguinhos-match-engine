@@ -28,9 +28,15 @@ from engine_experiment_v13_tactical_fouls import MatchEngineV13TacticalFouls
 from engine_experiment_v13_mismatches import MatchEngineV13Mismatches
 from engine_experiment_v13_micro_adjustments import MatchEngineV13MicroAdjustments
 from engine_experiment_v13_second_balls import MatchEngineV13SecondBalls
+from engine_experiment_v13_set_piece_defense import MatchEngineV13SetPieceDefense
+from engine_experiment_v13_offensive_communication import MatchEngineV13OffensiveCommunication
+from engine_experiment_v13_numerical_advantage import MatchEngineV13NumericalAdvantage
+from engine_experiment_v13_load_injuries import MatchEngineV13LoadInjuries
+from engine_experiment_v13_gk_one_v_one import MatchEngineV13GoalkeeperOneVOne
+from engine_experiment_v13_penalties import MatchEngineV13Penalties
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13SecondBalls
+MatchEngine = MatchEngineV13Penalties
 
 __all__ = [
     "ENGINE_VERSION",
@@ -60,4 +66,10 @@ __all__ = [
     "MatchEngineV13Mismatches",
     "MatchEngineV13MicroAdjustments",
     "MatchEngineV13SecondBalls",
+    "MatchEngineV13SetPieceDefense",
+    "MatchEngineV13OffensiveCommunication",
+    "MatchEngineV13NumericalAdvantage",
+    "MatchEngineV13LoadInjuries",
+    "MatchEngineV13GoalkeeperOneVOne",
+    "MatchEngineV13Penalties",
 ]

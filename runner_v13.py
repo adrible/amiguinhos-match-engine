@@ -8,6 +8,10 @@ that engine to advance *from its current state* until the next relevant event.
 There is no precomputed event queue, no hidden full-match simulation and no
 replay of a previously simulated result.
 
+The live ``p`` interface returns a NarrationPacket rather than exposing a raw
+event directly. Match physics remain untouched; the packet only adds
+continuity, bridge events and explicit instructions for a live commentator.
+
 Candidate-only historical test fixtures are loaded through
 ``historical_2014_v13`` and remain isolated from frozen v1.2 tournament data.
 
@@ -30,6 +34,11 @@ from final_protocol_v13 import (
     is_reserved_official_seed,
 )
 from historical_2014_v13 import load_team_for_v13
+from narration_packet_v13 import (
+    NarrationStateV13,
+    build_narration_packet,
+    continuity_snapshot,
+)
 
 
 VENUE_MODES = ("neutral", "home_away", "shared_stadium")
@@ -40,6 +49,10 @@ class MatchSessionV13:
 
     def __init__(self, engine: MatchEngine):
         self.engine = engine
+        self.narrator_state = NarrationStateV13.for_engine(engine)
+
+    def _reset_narrator_state(self) -> None:
+        self.narrator_state = NarrationStateV13.for_engine(self.engine)
 
     @classmethod
     def from_fixture(
@@ -118,8 +131,31 @@ class MatchSessionV13:
         )
 
     def press_p(self, *, min_relevance: Optional[int] = None) -> Event:
-        """Advance the live match on demand to the next relevant event."""
+        """Compatibility API: advance to and return the next relevant raw event."""
         return self.engine.advance_until_relevant(min_relevance=min_relevance)
+
+    def press_p_packet(self, *, min_relevance: Optional[int] = None) -> dict:
+        """Advance on demand and return a narration-safe, self-contained packet.
+
+        Raw duplicate/stale/background records can be consumed internally so a
+        single user ``p`` still produces the next narratable moment rather than
+        forcing the caller to understand engine bookkeeping.
+        """
+        packet = None
+        for _ in range(16):
+            before = continuity_snapshot(self.engine)
+            event = self.engine.advance_until_relevant(min_relevance=min_relevance)
+            packet = build_narration_packet(
+                self,
+                event,
+                self.narrator_state,
+                before,
+            )
+            if packet.get("narrate") or event.type == EventType.MATCH_END:
+                return packet
+        if packet is None:  # defensive; loop always executes at least once
+            raise RuntimeError("failed to build narration packet")
+        return packet
 
     def step_once(self) -> Event:
         """Advance exactly one engine beat; useful for debugging only."""
@@ -183,11 +219,15 @@ def _print_event(event: Event, session: MatchSessionV13) -> None:
         print(json.dumps(view["data"], ensure_ascii=False, sort_keys=True))
 
 
+def _print_packet(packet: dict) -> None:
+    print(json.dumps(packet, ensure_ascii=False, indent=2, sort_keys=True))
+
+
 def _print_help() -> None:
     print("Comandos:")
-    print("  p              avança ao próximo evento relevante")
+    print("  p              avança ao próximo momento narrável e retorna NarrationPacket")
     print("  p N            usa relevância mínima N apenas neste avanço")
-    print("  .              avança exatamente um beat (debug)")
+    print("  .              avança exatamente um beat e mostra evento bruto (debug)")
     print("  s              mostra o snapshot atual sem avançar")
     print("  save ARQUIVO   salva o estado v1.3 completo")
     print("  load ARQUIVO   restaura o estado v1.3 completo")
@@ -227,9 +267,9 @@ def run_cli(session: MatchSessionV13) -> None:
                 except ValueError:
                     print("Relevância precisa ser um inteiro.")
                     continue
-            event = session.press_p(min_relevance=threshold)
-            _print_event(event, session)
-            if event.type == EventType.MATCH_END:
+            packet = session.press_p_packet(min_relevance=threshold)
+            _print_packet(packet)
+            if packet.get("main_event", {}).get("type") == EventType.MATCH_END.value:
                 print("Fim de jogo.")
             continue
         if command == ".":
@@ -247,6 +287,7 @@ def run_cli(session: MatchSessionV13) -> None:
                 print(f"Falha ao carregar: {exc}")
                 continue
             session.engine = restored.engine
+            session._reset_narrator_state()
             print(f"Estado restaurado: {_score_line(session)}")
             continue
 

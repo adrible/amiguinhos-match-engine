@@ -14,17 +14,25 @@ class MatchEngineV13Referee(_CalibratedReferee):
     def _second_yellow_factor(incident: dict) -> float:
         """Practical management margin for a player already cautioned.
 
-        Routine low-severity repeat fouls receive materially more management
+        Routine low/moderate repeat fouls receive materially more management
         room than SPA, DOGSO, reckless conduct or genuinely hard challenges.
-        A second caution remains possible for the same marginal offence, but it
-        should be a clearer threshold than a first yellow.  The canonical
-        discipline adapter applies an additional guardrail to incidents created
-        by the ordinary-contact extension.
+        A second caution remains possible for the same ordinary infringement,
+        but its threshold is deliberately clearer than the first caution. The
+        canonical discipline adapter applies an even narrower conversion route
+        to incidents created by the ordinary-contact extension.
         """
         severity = float(incident["severity"])
         spa = bool(incident.get("spa"))
         dogso = bool(incident.get("dogso"))
         hard_type = str(incident.get("type")) in {"reckless_tackle", "elbow_or_forearm"}
+
+        # A routine repeat is managed behaviourally rather than by giving every
+        # minor foul another full yellow-card lottery.  SPA retains more sanction
+        # pressure, while DOGSO/reckless/hard incidents stay on the serious path.
+        if not dogso and not hard_type and severity < 0.66:
+            if spa:
+                return clamp(0.052 + 0.050 * severity, 0.055, 0.090)
+            return clamp(0.024 + 0.034 * severity, 0.028, 0.050)
 
         factor = 0.05 + 0.14 * severity
         factor += 0.07 * float(spa)
@@ -33,14 +41,6 @@ class MatchEngineV13Referee(_CalibratedReferee):
             factor += 0.07
         if severity >= 0.80:
             factor += 0.05
-
-        if not spa and not dogso and not hard_type and severity < 0.55:
-            # Once booked, players and referees both manage routine marginal
-            # repeats.  This acts only on second-caution conversion: first-yellow
-            # frequency and all serious-card pathways are left untouched.
-            factor *= 0.58
-            return clamp(factor, 0.05, 0.30)
-
         return clamp(factor, 0.10, 0.55)
 
 

@@ -22,9 +22,10 @@ from engine_experiment_v13_leadership import MatchEngineV13Leadership
 from engine_experiment_v13_awards import MatchEngineV13Awards
 from engine_experiment_v13_tournament import MatchEngineV13TournamentContext
 from engine_experiment_v13_stoppage import MatchEngineV13Stoppage
+from engine_experiment_v13_clock_behaviour import MatchEngineV13ClockBehaviour
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13Stoppage
+MatchEngine = MatchEngineV13ClockBehaviour
 
 __all__ = [
     "ENGINE_VERSION",
@@ -48,4 +49,5 @@ __all__ = [
     "MatchEngineV13Awards",
     "MatchEngineV13TournamentContext",
     "MatchEngineV13Stoppage",
+    "MatchEngineV13ClockBehaviour",
 ]

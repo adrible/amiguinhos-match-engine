@@ -58,13 +58,14 @@ class MatchEngineV13DisciplineRealism(MatchEngineV13MatchFlowRealism):
         if dogso or hard_type or severity >= 0.66:
             return base
 
-        # Directly define the final conversion threshold here rather than
-        # multiplying another lower-layer management factor. This avoids hidden
-        # stacking while retaining a non-zero dismissal route. SPA removes part
-        # of the management margin because the foul stopped a promising attack.
+        # Ordinary-contact incidents are specifically the extra low/moderate
+        # fouls added by the realism layer, so their repeat-caution conversion
+        # stays below an equivalent generic incident. SPA still removes part of
+        # the management margin, but never becomes immunity or a full first-
+        # yellow probability.
         if spa:
-            return clamp(0.060 + 0.050 * severity, 0.060, 0.105)
-        return clamp(0.035 + 0.040 * severity, 0.035, 0.060)
+            return clamp(0.042 + 0.034 * severity, 0.044, 0.066)
+        return clamp(0.018 + 0.026 * severity, 0.020, 0.038)
 
 
 MatchEngine = MatchEngineV13DisciplineRealism

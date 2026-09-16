@@ -1,6 +1,6 @@
 import copy
 
-from engine import Band, EventType, Lane, MatchConfig, PendingAction, Zone, make_generic_team
+from engine import Band, Event, EventType, Lane, MatchConfig, PendingAction, Zone, make_generic_team
 from engine_experiment_v13_stoppage import MatchEngineV13Stoppage
 
 
@@ -34,6 +34,27 @@ def test_dead_time_advances_match_clock_but_not_possession():
     diag = engine.stoppage_time_diagnostic()["current_period"]
     assert diag["dead_elapsed_seconds"] == 42.0
     assert diag["recoverable_seconds"] == 28.0
+
+
+def test_advantage_played_has_no_dead_ball_time():
+    engine = _engine()
+    event = Event(
+        engine.minute,
+        0,
+        EventType.FOUL,
+        1,
+        "advantage_played",
+        {"advantage": True, "foul_type": "trip"},
+    )
+    before_clock = engine.state.second
+    before_diag = copy.deepcopy(engine.stoppage_time_diagnostic())
+    engine._apply_clock_for_event(event, had_pending=False)
+    after_diag = engine.stoppage_time_diagnostic()
+    assert engine.state.second == before_clock
+    assert after_diag["dead_elapsed_by_marker"] == before_diag["dead_elapsed_by_marker"]
+    assert after_diag["recoverable_by_marker"] == before_diag["recoverable_by_marker"]
+    assert event.data["clock_accounted"] is True
+    assert "dead_elapsed_seconds" not in event.data
 
 
 def test_substitution_has_elapsed_and_recoverable_time():
@@ -121,11 +142,7 @@ def test_same_seed_remains_deterministic_with_stoppage_layer():
         ea = a.step()
         eb = b.step()
         assert (ea.type, ea.text_key, ea.team, ea.minute, ea.data) == (
-            eb.type,
-            eb.text_key,
-            eb.team,
-            eb.minute,
-            eb.data,
+            eb.type, eb.text_key, eb.team, eb.minute, eb.data
         )
         if a.state.ended or b.state.ended:
             break

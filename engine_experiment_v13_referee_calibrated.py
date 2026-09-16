@@ -2,23 +2,17 @@ from __future__ import annotations
 
 """Disciplinary calibration for the v1.3 contextual referee layer.
 
-The first referee implementation correctly introduced incident types, referee
-profiles, advantage, warnings, reactions and graded injuries, but an
-outcome-blind 100-match diagnostic showed too many dismissals.  This adapter
-keeps that architecture while making dismissal thresholds more realistic:
-ordinary tactical/late fouls should usually be managed with warnings/yellows;
-direct red is concentrated in DOGSO without a ball attempt, violent conduct
-and genuinely excessive-force challenges.  A cautioned player also receives a
-slightly higher practical threshold for a second yellow on ordinary offences,
-while SPA, DOGSO and hard/reckless fouls retain strong sanction pressure.
-
-This is disciplinary calibration only.  It has no access to or dependence on
-match result, opponent identity or the official final seed.
+Direct dismissal is driven by dismissal-level facts: excessive force, violent
+conduct or DOGSO. Referee strictness, aggression and discipline can influence a
+credible red-card incident, but cannot by themselves turn a routine low-severity
+contact into a straight red. This matters once ordinary foul generation is
+realistic: increasing the number of genuine minor fouls must not linearly create
+extra straight-red lottery tickets.
 """
 
 from typing import Optional
 
-from engine import Band, Lane, PlayerState, Zone, clamp
+from engine import Band, PlayerState, Zone, clamp
 from engine_experiment_v13_referee_ordering import (
     MatchEngineV13Referee as _OrderingReferee,
     RefereeProfile,
@@ -48,18 +42,26 @@ class MatchEngineV13Referee(_OrderingReferee):
         violent = bool(incident.get("violent"))
         ball_attempt = bool(incident.get("attempt_to_play_ball"))
 
-        # Direct red is deliberately concentrated in genuinely send-off-level
-        # conduct rather than being a small generic chance attached to every
-        # foul.  Ordinary fouls can still become yellow/second-yellow through
-        # the separate caution path.
+        # Context can only amplify an incident that already carries a credible
+        # dismissal signal. A strict referee should show more reds for serious
+        # conduct, not manufacture straight reds from ordinary trips/holds.
+        severe_signal = clamp((severity - 0.66) / 0.34)
+        dismissal_signal = max(
+            severe_signal,
+            1.0 if dogso else 0.0,
+            1.0 if violent else 0.0,
+        )
+        context_modifier = dismissal_signal * (
+            0.016 * max(0.0, aggression - 0.72)
+            - 0.010 * max(0.0, discipline - 0.72)
+            + 0.020 * max(0.0, strict - 0.55)
+        )
         red = (
-            0.0006
+            0.00025
             + 0.34 * max(0.0, severity - 0.75)
             + 0.13 * float(violent)
             + 0.10 * float(dogso)
-            + 0.020 * max(0.0, aggression - 0.72)
-            - 0.012 * max(0.0, discipline - 0.72)
-            + 0.030 * max(0.0, strict - 0.55)
+            + context_modifier
         )
         if dogso and not ball_attempt:
             red += 0.18
@@ -69,11 +71,22 @@ class MatchEngineV13Referee(_OrderingReferee):
             red += 0.07
         if foul_type == "elbow_or_forearm" and severity >= 0.78:
             red += 0.09
-        red = clamp(red, 0.0004, 0.58)
 
-        # Keep the established yellow logic, with only a modest upper cap. The
-        # reduction in red frequency must not turn hard fouls into no-sanction
-        # events.
+        # Routine contact has no realistic direct-red pathway unless a separate
+        # DOGSO/violent/excessive-force fact exists. Keep a tiny floor for model
+        # uncertainty rather than making any outcome literally impossible.
+        if (
+            bool(incident.get("ordinary_contact"))
+            and not dogso
+            and not violent
+            and severity < 0.66
+        ):
+            red = min(red, 0.00035)
+        red = clamp(red, 0.0002, 0.58)
+
+        # First-yellow behaviour is intentionally preserved. The population
+        # benchmark already places total cautions close to real football; the
+        # problem is dismissal conversion, not ordinary caution frequency.
         yellow = clamp(float(base["yellow"]), 0.015, 0.84)
         if severity >= 0.72 or incident.get("spa"):
             yellow = max(yellow, 0.40)
@@ -83,12 +96,7 @@ class MatchEngineV13Referee(_OrderingReferee):
 
     @staticmethod
     def _second_yellow_factor(incident: dict) -> float:
-        """Practical threshold modifier for a player already cautioned.
-
-        Referees tend not to issue a second caution for every marginal repeat
-        foul, but a promising-attack stop, DOGSO-level context or reckless
-        challenge should erase most of that leniency.
-        """
+        """Legacy base factor; the final adapter applies the active refinement."""
         severity = float(incident["severity"])
         factor = 0.36 + 0.32 * severity
         factor += 0.18 * float(bool(incident.get("spa")))
@@ -150,8 +158,6 @@ class MatchEngineV13Referee(_OrderingReferee):
         )
 
         if result is None:
-            # Hard fouls can provoke a reaction even when the generic reaction
-            # draw was calm, but this remains a minority outcome.
             if self.rng.random() >= heat * 0.65:
                 return None
             result = {
@@ -166,8 +172,6 @@ class MatchEngineV13Referee(_OrderingReferee):
         if self.rng.random() >= heat:
             return result
 
-        # Upgrade some genuinely hard-foul reactions from an appeal/protest to
-        # face-to-face confrontation. Physical retaliation remains rare.
         shove_p = clamp(
             0.015
             + 0.10 * max(0.0, severity - 0.78)
@@ -179,8 +183,6 @@ class MatchEngineV13Referee(_OrderingReferee):
         reaction = "shove" if self.rng.random() < shove_p else "confront"
         result["reaction"] = reaction
 
-        # A confrontation may draw teammates, but mass confrontations remain
-        # uncommon rather than being a scripted consequence of a hard foul.
         mass_p = clamp(
             0.025
             + 0.16 * max(0.0, severity - 0.68)
@@ -190,16 +192,11 @@ class MatchEngineV13Referee(_OrderingReferee):
             0.18,
         )
         result["mass_confrontation"] = self.rng.random() < mass_p
-
-        # If an appeal/protest had already generated a dissent caution, discard
-        # that label and reassess under the actual confrontation behaviour.
         result["sanctions"] = [
             row for row in result.get("sanctions", []) if row.get("reason") != "dissent"
         ]
         dissent_pressure = 1.0 - self.referee.dissent_tolerance
         if reaction == "shove":
-            # Retaliatory physical contact is sanctionable, but not every shove
-            # is violent conduct.
             red_p = clamp(
                 0.015
                 + 0.08 * max(0.0, severity - 0.78)

@@ -61,11 +61,16 @@ class MatchSessionV13:
                 "official final seed is reserved; use the explicit official-final "
                 "runner only when the live final is actually starting"
             )
-        if str(venue_mode) not in VENUE_MODES:
+        venue_mode = str(venue_mode)
+        if venue_mode not in VENUE_MODES:
             raise ValueError(f"venue_mode must be one of {VENUE_MODES}")
 
         home = load_team_for_v13(home_key)
         away = load_team_for_v13(away_key)
+        venue_context = None if venue_mode == "neutral" else {
+            "mode": venue_mode,
+            "source": "live_runner",
+        }
         engine = MatchEngine(
             home,
             away,
@@ -74,10 +79,7 @@ class MatchSessionV13:
                 auto_tactical_adaptation=bool(auto_adapt),
                 allow_extra_time=bool(allow_extra_time),
             ),
-            venue_context={
-                "mode": str(venue_mode),
-                "source": "live_runner",
-            },
+            venue_context=venue_context,
         )
         return cls(engine)
 

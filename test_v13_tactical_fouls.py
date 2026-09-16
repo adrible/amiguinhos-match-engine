@@ -65,6 +65,31 @@ def test_dangerous_transition_can_be_consciously_stopped():
     assert engine.stats[0].fouls == 1
 
 
+def test_promising_turnover_can_be_stopped_before_it_becomes_danger_event():
+    engine = _engine()
+    engine.state.zone = Zone(Band.MID, Lane.RIGHT)
+    engine.state.possession = 1
+    engine.state.transition_boost = 0.62
+    event = Event(
+        engine.minute,
+        1,
+        EventType.TURNOVER,
+        1,
+        "turnover",
+        {"loser": "Home CM", "reason": "dispossessed"},
+    )
+    engine._v13_tactical_foul_rng = _AlwaysZeroRng()
+    result = engine._convert_transition_to_tactical_foul(event, 0)
+    assert result.type == EventType.FOUL
+    assert result.text_key == "tactical_foul_stops_transition"
+    assert result.data["transition"] == 0.62
+    assert result.data["fouled"]
+    assert engine.state.restart == "free_kick"
+    assert engine.state.restart_team == 1
+    assert engine.tactical_foul_diagnostic(0)["attempts"] == 1
+    assert engine.tactical_foul_diagnostic(0)["committed"] == 1
+
+
 def test_tactical_foul_is_not_created_for_weak_transition():
     engine = _engine()
     engine.state.zone = Zone(Band.MID, Lane.CENTER)
@@ -84,6 +109,17 @@ def test_tactical_foul_is_not_created_for_weak_transition():
     assert result.type == EventType.DANGER
     assert engine.state.pending is not None
     assert engine.stats[0].fouls == 0
+
+
+def test_ordinary_weak_turnover_is_not_upgraded_to_tactical_foul_candidate():
+    engine = _engine()
+    engine.state.zone = Zone(Band.MID, Lane.CENTER)
+    engine.state.transition_boost = 0.40
+    event = Event(engine.minute, 1, EventType.TURNOVER, 1, "turnover", {"reason": "bad_safe_pass"})
+    engine._v13_tactical_foul_rng = _AlwaysZeroRng()
+    result = engine._convert_transition_to_tactical_foul(event, 0)
+    assert result.type == EventType.TURNOVER
+    assert engine.tactical_foul_diagnostic(0)["attempts"] == 0
 
 
 def test_same_infringement_is_less_likely_to_be_second_yellow_but_possible():
@@ -129,11 +165,7 @@ def test_same_seed_remains_deterministic_with_tactical_fouls():
         ea = a.step()
         eb = b.step()
         assert (ea.type, ea.text_key, ea.team, ea.minute, ea.data) == (
-            eb.type,
-            eb.text_key,
-            eb.team,
-            eb.minute,
-            eb.data,
+            eb.type, eb.text_key, eb.team, eb.minute, eb.data
         )
         if a.state.ended or b.state.ended:
             break

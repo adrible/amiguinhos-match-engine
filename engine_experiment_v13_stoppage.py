@@ -3,13 +3,10 @@ from __future__ import annotations
 """Causal stoppage time and physical clock for the v1.3 candidate.
 
 The ordinary engine clock historically advanced almost entirely during open
-play.  This layer separates three concepts without changing player ability:
+play. This layer separates active/live seconds, dead-ball elapsed seconds and
+recoverable lost seconds used to calculate announced added time.
 
-* active/live seconds (which still count towards possession);
-* dead-ball elapsed seconds (which do not count as possession);
-* recoverable lost seconds used to calculate announced added time.
-
-Added time is therefore a consequence of events that actually happened.  No
+Added time is therefore a consequence of events that actually happened. No
 late goal, scoreline or statistical quota is targeted by this module.
 """
 
@@ -111,43 +108,46 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         key = str(event.text_key or "")
         typ = event.type
 
-        # The referee acknowledging a foul but playing advantage does not stop
-        # the ball.  The foul still counts for discipline/statistics, but there
-        # is no dead-ball interval to recover later.
+        # Advantage means no stoppage: the foul still exists statistically and
+        # disciplinarily, but the live clock must not manufacture dead time.
         if typ == EventType.FOUL and bool(event.data.get("advantage")):
             return 0.0, 0.0, "advantage_played"
-        if typ == EventType.GOAL and key == "goal":
-            return 42.0, 28.0, "goal_celebration"
+
+        # Modern timekeeping recovers most deliberate/administrative losses,
+        # while still leaving short natural resets unrecovered. Elapsed time and
+        # recoverable time remain separate so no event can add more than it used.
+        if typ == EventType.GOAL and key in {"goal", "penalty_goal"}:
+            return 42.0, 36.0, "goal_celebration"
         if typ == EventType.SUBSTITUTION:
-            return 30.0, 22.0, "substitution"
+            return 30.0, 27.0, "substitution"
         if typ == EventType.INJURY:
             grade = str(event.data.get("grade") or event.data.get("injury_grade") or "minor")
             profile = {
-                "knock": (24.0, 12.0),
-                "minor": (36.0, 24.0),
-                "head_check": (58.0, 48.0),
-                "moderate": (82.0, 68.0),
-                "severe": (125.0, 108.0),
-                "concussion": (118.0, 104.0),
-            }.get(grade, (42.0, 28.0))
+                "knock": (24.0, 15.0),
+                "minor": (36.0, 29.0),
+                "head_check": (58.0, 51.0),
+                "moderate": (82.0, 73.0),
+                "severe": (125.0, 114.0),
+                "concussion": (118.0, 109.0),
+            }.get(grade, (42.0, 33.0))
             return profile[0], profile[1], f"injury:{grade}"
         if "var" in key:
-            return 68.0, 58.0, "var_review"
+            return 68.0, 62.0, "var_review"
         if "mass_confront" in key or "confrontation" in key:
-            return 36.0, 27.0, "confrontation"
+            return 36.0, 31.0, "confrontation"
         if typ == EventType.CARD:
-            return 20.0, 12.0, "card"
+            return 20.0, 17.0, "card"
         if typ == EventType.PENALTY:
-            return 34.0, 19.0, "penalty_setup"
+            return 34.0, 27.0, "penalty_setup"
         if typ == EventType.FREE_KICK:
-            return 18.0, 5.0, "free_kick_setup"
+            return 18.0, 8.0, "free_kick_setup"
         if typ == EventType.FOUL:
             card = event.data.get("card")
-            return (24.0, 10.0, "foul_with_card") if card else (14.0, 4.0, "foul")
+            return (24.0, 16.0, "foul_with_card") if card else (14.0, 7.0, "foul")
         if typ == EventType.CORNER:
-            return 15.0, 2.0, "corner_setup"
+            return 15.0, 4.0, "corner_setup"
         if typ == EventType.OFFSIDE:
-            return 8.0, 1.0, "offside_restart"
+            return 8.0, 2.0, "offside_restart"
         if typ in {EventType.SAVE, EventType.MISS, EventType.BLOCK, EventType.POST}:
             return 4.0, 0.0, "natural_reset"
         return 0.0, 0.0, "none"

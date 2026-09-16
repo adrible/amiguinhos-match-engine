@@ -27,7 +27,23 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
             "violent": False,
         }
         p = e._card_probabilities(0, defender, incident, Zone(Band.MID, Lane.CENTER), 1)
-        self.assertLess(p["direct_red"], 0.02)
+        self.assertLess(p["direct_red"], 0.002)
+
+    def test_strict_referee_does_not_create_straight_red_from_mild_contact(self):
+        e = self.make_engine()
+        defender = e.teams[0].by_name("Jorge Henrique")
+        e.referee.strictness = 0.95
+        incident = {
+            "type": "trip",
+            "severity": 0.38,
+            "spa": False,
+            "dogso": False,
+            "attempt_to_play_ball": True,
+            "violent": False,
+            "ordinary_contact": True,
+        }
+        p = e._card_probabilities(0, defender, incident, Zone(Band.MID, Lane.CENTER), 1)
+        self.assertLessEqual(p["direct_red"], 0.00035)
 
     def test_excessive_force_is_far_more_red_worthy_than_ordinary_trip(self):
         e = self.make_engine()
@@ -98,9 +114,25 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         }
         marginal_factor = e._second_yellow_factor(marginal)
         serious_factor = e._second_yellow_factor(serious)
-        self.assertLessEqual(marginal_factor, 0.15)
+        self.assertLessEqual(marginal_factor, 0.12)
         self.assertGreater(serious_factor, marginal_factor * 2.0)
         self.assertLess(serious_factor, 0.45)
+
+    def test_ordinary_contact_has_more_second_yellow_management_than_same_generic_trip(self):
+        e = self.make_engine()
+        generic = {
+            "type": "trip",
+            "severity": 0.42,
+            "spa": False,
+            "dogso": False,
+            "attempt_to_play_ball": True,
+            "violent": False,
+        }
+        ordinary = {**generic, "ordinary_contact": True}
+        generic_factor = e._second_yellow_factor(generic)
+        ordinary_factor = e._second_yellow_factor(ordinary)
+        self.assertGreater(generic_factor, ordinary_factor)
+        self.assertGreater(ordinary_factor, 0.0)
 
     def test_dogso_reduces_second_yellow_management_without_erasing_it(self):
         e = self.make_engine()

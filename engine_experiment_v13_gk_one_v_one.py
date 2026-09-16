@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Attacker-versus-goalkeeper one-on-one decision layer for v1.3.
 
-This sits above the existing defender 1v1 and finishing systems.  In a genuine
+This sits above the existing defender 1v1 and finishing systems. In a genuine
 box breakaway the attacker and goalkeeper independently select an approach.
 The interaction changes shot pressure/danger modestly; ordinary finishing and
 keeper attributes still resolve the shot afterwards.
@@ -20,14 +20,29 @@ class MatchEngineV13GoalkeeperOneVOne(MatchEngineV13LoadInjuries):
 
     @staticmethod
     def _is_keeper_one_v_one(p: PendingAction) -> bool:
-        return bool(
-            p.kind == "shoot"
-            and p.zone.band == Band.BOX
-            and p.body_part != "head"
-            and p.origin in {"through_ball", "transition", "dribble", "carry", "rebound", "second_ball"}
-            and float(p.danger) >= 0.50
-            and float(p.pressure) <= 0.67
-        )
+        if p.kind != "shoot" or p.zone.band != Band.BOX or p.body_part == "head":
+            return False
+        origin = str(p.origin or "")
+        danger = float(p.danger)
+        pressure = float(p.pressure)
+
+        # A through ball or direct transition can create isolation before the
+        # final shot even with modest residual pressure. Dribbles/carries need
+        # clearer separation, while rebounds/second balls count only when the
+        # scramble has genuinely left the attacker alone with the goalkeeper.
+        thresholds = {
+            "through_ball": (0.57, 0.56),
+            "transition": (0.59, 0.54),
+            "dribble": (0.60, 0.50),
+            "carry": (0.62, 0.48),
+            "rebound": (0.72, 0.30),
+            "second_ball": (0.72, 0.30),
+        }
+        profile = thresholds.get(origin)
+        if profile is None:
+            return False
+        minimum_danger, maximum_pressure = profile
+        return bool(danger >= minimum_danger and pressure <= maximum_pressure)
 
     def attacker_one_v_one_diagnostic(self, shooter: PlayerState, keeper: PlayerState, p: PendingAction) -> dict:
         finishing = clamp(shooter.effective("finishing") / 100.0)
@@ -164,6 +179,9 @@ class MatchEngineV13GoalkeeperOneVOne(MatchEngineV13LoadInjuries):
         event.data.setdefault("one_v_one_interaction", interaction["interaction"])
         event.data.setdefault("one_v_one_danger_delta", round(float(interaction["danger_delta"]), 3))
         event.data.setdefault("one_v_one_pressure_delta", round(float(interaction["pressure_delta"]), 3))
+        event.data.setdefault("one_v_one_base_danger", round(float(p.danger), 3))
+        event.data.setdefault("one_v_one_base_pressure", round(float(p.pressure), 3))
+        event.data.setdefault("one_v_one_origin", str(p.origin or ""))
         return event
 
 

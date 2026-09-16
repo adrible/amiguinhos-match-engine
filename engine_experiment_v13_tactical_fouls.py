@@ -2,10 +2,10 @@ from __future__ import annotations
 
 """Conscious tactical fouls and booked-player management for v1.3.
 
-A tactical foul can stop an actually generated dangerous transition.  The
-choice considers transition danger, coverage, score/minute context, discipline
-and existing cautions.  It never creates an attacking chance and never boosts
-technical attributes.
+A tactical foul can stop an actually generated dangerous or clearly promising
+transition. The choice considers transition danger, coverage, score/minute
+context, discipline and existing cautions. It never creates an attacking
+chance and never boosts technical attributes.
 """
 
 from copy import deepcopy
@@ -100,6 +100,43 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
 
         return max(candidates, key=score)
 
+    def _transition_carrier(self, attacking_team: int, zone: Zone) -> PlayerState:
+        """Choose a deterministic likely carrier for a promising transition.
+
+        A non-dangerous turnover does not create a PendingAction, so there is no
+        named receiver yet. Selecting the most transition-suited active player
+        avoids consuming the main match RNG solely for diagnostic attribution.
+        """
+        candidates = [
+            ps for ps in self.teams[int(attacking_team)].on_field
+            if not ps.red and ps.player.position.upper() != "GK"
+        ]
+        if not candidates:
+            return self._goalkeeper(attacking_team)
+
+        def score(ps: PlayerState) -> float:
+            pos = ps.player.position.upper()
+            role = {
+                "ST": 7.0,
+                "LW": 6.0,
+                "RW": 6.0,
+                "AM": 5.0,
+                "CM": 2.0,
+            }.get(pos, 0.0)
+            if zone.lane == Lane.LEFT and pos in {"LW", "LB", "AM"}:
+                role += 2.0
+            elif zone.lane == Lane.RIGHT and pos in {"RW", "RB", "AM"}:
+                role += 2.0
+            return (
+                0.31 * ps.effective("pace")
+                + 0.27 * ps.effective("off_ball")
+                + 0.24 * ps.effective("dribbling")
+                + 0.18 * ps.effective("anticipation")
+                + role
+            )
+
+        return max(candidates, key=lambda ps: (score(ps), ps.player.name))
+
     def _coverage_context(self, defending_team: int, zone: Zone) -> float:
         profile = self._formation_profile(defending_team)
         outfield = int(profile.get("outfield", 10))
@@ -121,7 +158,9 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
         zone: Zone,
     ) -> float:
         transition = clamp(float(transition))
-        if transition < 0.58:
+        # A cynical foul can target a promising break before it becomes a full
+        # engine DANGER event. Weak/ordinary turnovers remain ineligible.
+        if transition < 0.52:
             return 0.0
         coverage = self._coverage_context(defending_team, zone)
         game = self.game_management_diagnostic(defending_team)
@@ -130,13 +169,13 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
         discipline = clamp(fouler.effective("discipline") / 100.0)
         composure = clamp(fouler.effective("composure") / 100.0)
 
-        context = 0.04
+        context = 0.035
         if diff > 0:
             context += 0.055 + 0.055 * late
         elif diff < 0:
             context -= 0.025 * late
         context += 0.10 * max(0.0, 0.85 - coverage)
-        context += 0.09 * max(0.0, transition - 0.58) / 0.42
+        context += 0.09 * max(0.0, transition - 0.52) / 0.48
         context += 0.025 * composure
         context -= 0.055 * discipline
         if fouler.yellow:
@@ -188,16 +227,32 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
         self.stats[team].yellow += 1
         return "yellow"
 
+    def _transition_event_context(self, event: Event) -> tuple[float, int, PlayerState] | None:
+        attacking_team = int(event.team)
+        zone = self.state.zone
+        if event.type == EventType.DANGER and event.text_key == "dangerous_turnover":
+            if self.state.pending is None:
+                return None
+            transition = clamp(float(event.data.get("transition", self.state.transition_boost)))
+            victim = self.teams[attacking_team].by_name(self.state.pending.actor)
+            return transition, attacking_team, victim
+        if event.type == EventType.TURNOVER and event.text_key == "turnover":
+            transition = clamp(float(self.state.transition_boost))
+            if transition < 0.52:
+                return None
+            victim = self._transition_carrier(attacking_team, zone)
+            return transition, attacking_team, victim
+        return None
+
     def _convert_transition_to_tactical_foul(
         self,
         event: Event,
         defending_team: int,
     ) -> Event:
-        if event.type != EventType.DANGER or event.text_key != "dangerous_turnover":
+        context = self._transition_event_context(event)
+        if context is None:
             return event
-        if self.state.pending is None:
-            return event
-        transition = clamp(float(event.data.get("transition", 0.0)))
+        transition, attacking_team, victim = context
         zone = self.state.zone
         fouler = self._tactical_foul_candidate(defending_team, zone)
         p_foul = self._tactical_foul_probability(
@@ -211,8 +266,6 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
         if p_foul <= 0.0 or self._v13_tactical_foul_rng.random() >= p_foul:
             return event
 
-        attacking_team = 1 - defending_team
-        victim = self.state.pending.actor
         self.state.pending = None
         self.state.restart = "free_kick"
         self.state.restart_team = attacking_team
@@ -226,11 +279,12 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
             state["cards"][defending_team] += 1
 
         event.type = EventType.FOUL
+        event.team = attacking_team
         event.relevance = 3 if card else 2
         event.text_key = "tactical_foul_stops_transition"
         event.data = {
             "fouler": fouler.player.name,
-            "fouled": victim,
+            "fouled": victim.player.name,
             "transition": round(transition, 3),
             "zone": self._zone_data(zone),
             "card": card,

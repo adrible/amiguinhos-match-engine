@@ -28,6 +28,8 @@
     "Core benchmark uses match-level fields whose definitions map directly to engine statistics.",
     "xG, second-ball, goalkeeper-one-v-one, tactical-foul intent and other provider-dependent labels are excluded from the core index unless a like-for-like source is added.",
     "The realism index is diagnostic only and must never be used as an in-match quota or target.",
-    "Continuous unfiltered engine seed ranges are used; the reserved official-final seed is rejected."
+    "Continuous unfiltered engine seed ranges are used; the reserved official-final seed is rejected.",
+    "Card metrics are population-sensitive because benchmark teams are synthetic positional-template populations. Yellow/red gaps must be interpreted together with discipline-population diagnostics and must not, by themselves, trigger referee calibration.",
+    "Football-Data card fields are provider aggregates; second-yellow accounting can differ by competition/source convention, so yellow and red columns are not assumed to encode a universal dismissal taxonomy."
   ]
 }

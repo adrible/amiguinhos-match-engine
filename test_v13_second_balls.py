@@ -5,8 +5,17 @@ from engine_experiment_v13_second_balls import MatchEngineV13SecondBalls
 
 
 class _AlwaysZeroRng:
+    """Minimal deterministic test double representing the zero quantile."""
+
     def random(self):
         return 0.0
+
+    def uniform(self, a, b):
+        # The production spatial-context path legitimately samples uniform
+        # jitter.  This test replaces the RNG only to force the loose-ball
+        # branch, so provide the equivalent deterministic zero-quantile draw
+        # rather than requiring production code to special-case the test.
+        return float(a)
 
 
 def _engine(seed=1525):

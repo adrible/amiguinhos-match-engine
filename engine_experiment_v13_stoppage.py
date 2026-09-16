@@ -2,12 +2,12 @@ from __future__ import annotations
 
 """Causal stoppage time and physical clock for the v1.3 candidate.
 
-The ordinary engine clock historically advanced almost entirely during open
-play. This layer separates active/live seconds, dead-ball elapsed seconds and
-recoverable lost seconds used to calculate announced added time.
-
-Added time is therefore a consequence of events that actually happened. No
-late goal, scoreline or statistical quota is targeted by this module.
+The match clock separates active/live seconds, dead-ball elapsed seconds and
+recoverable lost seconds. Recovery policy is period-aware: first-half and
+extra-time periods remain conservative, while the second half reflects modern
+recovery of substitutions, cards, injuries and other administrative delays.
+This avoids using a longer first half to perturb the entire second-half match
+path while still allowing a realistic 90+ window.
 """
 
 from copy import deepcopy
@@ -48,6 +48,16 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
     @staticmethod
     def _marker_key(marker: int) -> str:
         return str(int(marker))
+
+    def _uses_modern_recovery(self) -> bool:
+        """Only regulation second half uses the modern recovery profile.
+
+        There is a strong contemporary reference for second-half recovery, while
+        no equivalent target is imposed on the first half or extra-time periods.
+        Keeping those periods conservative also prevents first-half added time
+        from reshuffling the complete second-half RNG path.
+        """
+        return self._current_base_marker() == 90
 
     def _phase_clock_factor(self) -> float:
         zone = getattr(self.state, "zone", None)
@@ -108,46 +118,49 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         key = str(event.text_key or "")
         typ = event.type
 
-        # Advantage means no stoppage: the foul still exists statistically and
-        # disciplinarily, but the live clock must not manufacture dead time.
         if typ == EventType.FOUL and bool(event.data.get("advantage")):
             return 0.0, 0.0, "advantage_played"
 
-        # Modern timekeeping recovers most deliberate/administrative losses,
-        # while still leaving short natural resets unrecovered. Elapsed time and
-        # recoverable time remain separate so no event can add more than it used.
+        modern = self._uses_modern_recovery()
+
+        def recovery(conservative: float, modern_value: float) -> float:
+            return modern_value if modern else conservative
+
         if typ == EventType.GOAL and key in {"goal", "penalty_goal"}:
-            return 42.0, 36.0, "goal_celebration"
+            return 42.0, recovery(28.0, 36.0), "goal_celebration"
         if typ == EventType.SUBSTITUTION:
-            return 30.0, 27.0, "substitution"
+            return 30.0, recovery(22.0, 27.0), "substitution"
         if typ == EventType.INJURY:
             grade = str(event.data.get("grade") or event.data.get("injury_grade") or "minor")
             profile = {
-                "knock": (24.0, 15.0),
-                "minor": (36.0, 29.0),
-                "head_check": (58.0, 51.0),
-                "moderate": (82.0, 73.0),
-                "severe": (125.0, 114.0),
-                "concussion": (118.0, 109.0),
-            }.get(grade, (42.0, 33.0))
-            return profile[0], profile[1], f"injury:{grade}"
+                "knock": (24.0, 12.0, 15.0),
+                "minor": (36.0, 24.0, 29.0),
+                "head_check": (58.0, 48.0, 51.0),
+                "moderate": (82.0, 68.0, 73.0),
+                "severe": (125.0, 108.0, 114.0),
+                "concussion": (118.0, 104.0, 109.0),
+            }.get(grade, (42.0, 28.0, 33.0))
+            elapsed, conservative, modern_value = profile
+            return elapsed, recovery(conservative, modern_value), f"injury:{grade}"
         if "var" in key:
-            return 68.0, 62.0, "var_review"
+            return 68.0, recovery(58.0, 62.0), "var_review"
         if "mass_confront" in key or "confrontation" in key:
-            return 36.0, 31.0, "confrontation"
+            return 36.0, recovery(27.0, 31.0), "confrontation"
         if typ == EventType.CARD:
-            return 20.0, 17.0, "card"
+            return 20.0, recovery(12.0, 17.0), "card"
         if typ == EventType.PENALTY:
-            return 34.0, 27.0, "penalty_setup"
+            return 34.0, recovery(19.0, 27.0), "penalty_setup"
         if typ == EventType.FREE_KICK:
-            return 18.0, 8.0, "free_kick_setup"
+            return 18.0, recovery(5.0, 8.0), "free_kick_setup"
         if typ == EventType.FOUL:
             card = event.data.get("card")
-            return (24.0, 16.0, "foul_with_card") if card else (14.0, 7.0, "foul")
+            if card:
+                return 24.0, recovery(10.0, 16.0), "foul_with_card"
+            return 14.0, recovery(4.0, 7.0), "foul"
         if typ == EventType.CORNER:
-            return 15.0, 4.0, "corner_setup"
+            return 15.0, recovery(2.0, 4.0), "corner_setup"
         if typ == EventType.OFFSIDE:
-            return 8.0, 2.0, "offside_restart"
+            return 8.0, recovery(1.0, 2.0), "offside_restart"
         if typ in {EventType.SAVE, EventType.MISS, EventType.BLOCK, EventType.POST}:
             return 4.0, 0.0, "natural_reset"
         return 0.0, 0.0, "none"

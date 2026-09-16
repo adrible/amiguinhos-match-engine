@@ -22,6 +22,21 @@ class LiveRunnerTests(unittest.TestCase):
         self.assertEqual(sum(st.shots for st in session.engine.stats), 0)
         self.assertEqual(sum(st.goals for st in session.engine.stats), 0)
 
+    def test_default_runner_venue_is_neutral(self):
+        session = MatchSessionV13.from_fixture(seed=171)
+        venue = session.snapshot()["venue"]
+        self.assertEqual(venue["mode"], "neutral")
+        self.assertAlmostEqual(venue["home_effects"]["pressure_shift"], 0.0, places=6)
+        self.assertAlmostEqual(venue["away_effects"]["pressure_shift"], 0.0, places=6)
+
+    def test_runner_can_request_explicit_home_away_context(self):
+        session = MatchSessionV13.from_fixture(seed=172, venue_mode="home_away")
+        venue = session.snapshot()["venue"]
+        self.assertEqual(venue["mode"], "home_away")
+        self.assertLess(venue["home_effects"]["pressure_shift"], 0.0)
+        self.assertGreater(venue["away_effects"]["pressure_shift"], 0.0)
+        self.assertTrue(session.pristine)
+
     def test_snapshot_does_not_advance_live_match(self):
         session = MatchSessionV13.from_fixture(seed=18)
         before_rng = session.engine.rng.getstate()

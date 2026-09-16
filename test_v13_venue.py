@@ -22,6 +22,7 @@ class VenueContextV13Tests(unittest.TestCase):
         self.assertAlmostEqual(diag["home_effects"]["pressure_shift"], 0.0, places=6)
         self.assertAlmostEqual(diag["away_effects"]["pressure_shift"], 0.0, places=6)
         self.assertAlmostEqual(diag["away_environment_strain"], 0.0, places=6)
+        self.assertTrue(all(value == 0.0 for value in diag["away_attacking_caution"].values()))
         self.assertEqual(diag["referee_bias"], 0.0)
 
     def test_home_away_context_favours_familiar_home_environment_without_rating_bonus(self):
@@ -35,6 +36,9 @@ class VenueContextV13Tests(unittest.TestCase):
         self.assertLess(away["support_shift"], 0.0)
         self.assertGreater(away["travel_load"], 0.0)
         self.assertGreater(away["environment_strain"], 0.0)
+        # Execution-context pressure remains deliberately small; the stronger
+        # venue signal belongs to attacking decisions, not player skill.
+        self.assertLess(away["pressure_shift"], 0.02)
 
     def test_shared_stadium_has_smaller_asymmetry_than_home_away(self):
         normal_engine = self.make_engine(venue_context="home_away")
@@ -45,19 +49,22 @@ class VenueContextV13Tests(unittest.TestCase):
         shared_gap = abs(shared["home_effects"]["pressure_shift"] - shared["away_effects"]["pressure_shift"])
         self.assertLess(shared_gap, normal_gap)
         self.assertLess(shared["away_environment_strain"], normal["away_environment_strain"])
+        self.assertLess(
+            shared["away_attacking_caution"][Band.BOX.value],
+            normal["away_attacking_caution"][Band.BOX.value],
+        )
 
-    def test_away_phase_strain_is_stronger_near_home_goal(self):
+    def test_away_attacking_caution_is_concentrated_in_advanced_possession(self):
         engine = self.make_engine(venue_context="home_away")
-        defensive = engine._away_phase_effects(Band.DEF)
-        midfield = engine._away_phase_effects(Band.MID)
-        attacking = engine._away_phase_effects(Band.ATT)
-        box = engine._away_phase_effects(Band.BOX)
+        defensive = engine._away_attacking_caution(Band.DEF)
+        midfield = engine._away_attacking_caution(Band.MID)
+        attacking = engine._away_attacking_caution(Band.ATT)
+        box = engine._away_attacking_caution(Band.BOX)
 
-        self.assertGreater(midfield["pressure_shift"], defensive["pressure_shift"])
-        self.assertGreater(attacking["pressure_shift"], midfield["pressure_shift"])
-        self.assertGreater(box["pressure_shift"], attacking["pressure_shift"])
-        self.assertLess(box["support_shift"], attacking["support_shift"])
-        self.assertLess(box["space_shift"], attacking["space_shift"])
+        self.assertEqual(defensive, 0.0)
+        self.assertGreater(midfield, defensive)
+        self.assertGreater(attacking, midfield)
+        self.assertGreater(box, attacking)
 
     def test_venue_diagnostic_is_rng_pure_and_does_not_mutate_player_attributes(self):
         engine = self.make_engine(venue_context="home_away")

@@ -23,6 +23,14 @@ class MatchFlowRealismTests(unittest.TestCase):
         self.assertGreater(cross, 0.30)
         self.assertEqual(weak, 0.0)
 
+    def test_wide_through_ball_deflection_can_run_behind_but_central_one_cannot(self):
+        engine = self.make_engine()
+        ctx = {"pressure": 0.72, "space": 0.30}
+        wide = engine.corner_turnover_probability(Zone(Band.ATT, Lane.RIGHT), "through_ball_cleared", ctx)
+        central = engine.corner_turnover_probability(Zone(Band.ATT, Lane.CENTER), "through_ball_cleared", ctx)
+        self.assertGreater(wide, 0.0)
+        self.assertEqual(central, 0.0)
+
     def test_forced_deflection_arms_corner_instead_of_generic_turnover(self):
         engine = self.make_engine()
         zone = Zone(Band.ATT, Lane.LEFT)
@@ -34,6 +42,22 @@ class MatchFlowRealismTests(unittest.TestCase):
         self.assertEqual(engine.state.restart_team, 0)
         self.assertEqual(engine.stats[0].corners, 1)
         self.assertEqual(event.data["corner_cause"], "deflection_or_clearance")
+
+    def test_contextual_corner_clearance_has_bounded_recorner_route(self):
+        engine = self.make_engine()
+        event = Event(
+            engine.minute,
+            1,
+            EventType.PROGRESSION,
+            2,
+            "corner_cleared_contextual",
+            {"delivery_quality": 0.78, "contact_probability": 0.64},
+        )
+        probability = engine.corner_reclear_probability(event)
+        self.assertGreater(probability, 0.10)
+        self.assertLessEqual(probability, 0.21)
+        unrelated = Event(engine.minute, 1, EventType.PROGRESSION, 2, "carry_success", {})
+        self.assertEqual(engine.corner_reclear_probability(unrelated), 0.0)
 
     def test_save_can_lead_to_corner_without_erasing_save_semantics(self):
         engine = self.make_engine()

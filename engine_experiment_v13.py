@@ -34,9 +34,10 @@ from engine_experiment_v13_numerical_advantage import MatchEngineV13NumericalAdv
 from engine_experiment_v13_load_injuries import MatchEngineV13LoadInjuries
 from engine_experiment_v13_gk_one_v_one import MatchEngineV13GoalkeeperOneVOne
 from engine_experiment_v13_penalties import MatchEngineV13Penalties
+from engine_experiment_v13_match_flow_realism import MatchEngineV13MatchFlowRealism
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13Penalties
+MatchEngine = MatchEngineV13MatchFlowRealism
 
 __all__ = [
     "ENGINE_VERSION",
@@ -72,4 +73,5 @@ __all__ = [
     "MatchEngineV13LoadInjuries",
     "MatchEngineV13GoalkeeperOneVOne",
     "MatchEngineV13Penalties",
+    "MatchEngineV13MatchFlowRealism",
 ]

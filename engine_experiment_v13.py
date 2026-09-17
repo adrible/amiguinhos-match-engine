@@ -37,9 +37,10 @@ from engine_experiment_v13_penalties import MatchEngineV13Penalties
 from engine_experiment_v13_match_flow_realism import MatchEngineV13MatchFlowRealism
 from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRealism
 from engine_experiment_v13_venue import MatchEngineV13VenueContext
+from engine_experiment_v13_rules_hardening import MatchEngineV13RulesHardening
 
 ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13VenueContext
+MatchEngine = MatchEngineV13RulesHardening
 
 __all__ = [
     "ENGINE_VERSION",
@@ -78,4 +79,5 @@ __all__ = [
     "MatchEngineV13MatchFlowRealism",
     "MatchEngineV13DisciplineRealism",
     "MatchEngineV13VenueContext",
+    "MatchEngineV13RulesHardening",
 ]

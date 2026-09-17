@@ -1,5 +1,13 @@
 from __future__ import annotations
 
+"""Canonical team loader for the active v1.3 line.
+
+The former v1.2 codebase is preserved on the ``archive-v1.2-stable`` branch.
+This branch no longer keeps a runtime compatibility shim for v1.2 ratings.
+``data/teams.json`` is therefore the canonical base ratings source for the
+active engine line; candidate-only behavioural metadata is layered separately.
+"""
+
 import json
 from dataclasses import fields
 from pathlib import Path
@@ -9,7 +17,6 @@ from engine import Player, Team, Tactics, POSITION_TEMPLATE, make_generic_team
 
 
 DEFAULT_DATABASE = Path(__file__).resolve().parent / "data" / "teams.json"
-V12_FROZEN_AMIGUINHOS = Path(__file__).resolve().parent / "data" / "v12_amiguinhos_frozen.json"
 _PLAYER_FIELDS = {f.name for f in fields(Player)}
 
 
@@ -19,18 +26,6 @@ def load_database(path: Optional[str | Path] = None) -> dict:
         data = json.load(fh)
     if "teams" not in data or not isinstance(data["teams"], dict):
         raise ValueError("Invalid teams database: missing 'teams' object.")
-
-    # Stable v1.2 must not drift when candidate-only tournament progression is
-    # edited in data/teams.json. Keep the Amiguinhos baseline literally frozen
-    # for the default stable loader; explicit custom database paths remain
-    # untouched so tests/tools can still load caller-supplied data normally.
-    if path is None:
-        with V12_FROZEN_AMIGUINHOS.open("r", encoding="utf-8") as fh:
-            frozen = json.load(fh)
-        raw_team = frozen.get("team")
-        if not isinstance(raw_team, dict):
-            raise ValueError("Invalid frozen v1.2 Amiguinhos snapshot.")
-        data["teams"]["amiguinhos_u21"] = raw_team
     return data
 
 

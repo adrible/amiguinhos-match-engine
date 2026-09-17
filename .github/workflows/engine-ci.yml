@@ -1,4 +1,4 @@
-name: Match Engine CI
+name: Match Engine Core CI
 
 on:
   push:
@@ -27,18 +27,22 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Validate team database JSON
-        run: python -m json.tool data/teams.json > /dev/null
+      - name: Validate active databases
+        run: |
+          python -m json.tool data/teams.json > /dev/null
+          python -m json.tool data/v13_player_traits.json > /dev/null
+          python -m json.tool data/v13_rosters.json > /dev/null
 
-      - name: Compile source
-        run: python -m compileall -q engine.py engine_experiment_v12.py stable_engine.py team_loader.py test_engine.py test_engine_v12.py test_team_loader.py diagnostics.py calibrate_amiguinhos.py calibrate_amiguinhos_v12.py
+      - name: Compile active engine core
+        run: >-
+          python -m compileall -q
+          engine.py team_loader.py team_loader_v13.py
+          engine_experiment_v13.py engine_experiment_v13_rules_hardening.py
+          diagnostics_v13.py
+          test_engine.py test_team_loader.py test_v13_persistence.py
 
-      - name: Run unit and regression tests
-        run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
+      - name: Run universal engine invariants
+        run: python -m unittest -v test_engine.py test_team_loader.py test_v13_persistence.py
 
-      - name: Run economical 10-match smoke simulation
-        run: python diagnostics.py 10
-
-      - name: Run 4,000-match stable v1.2 calibration
-        if: "${{ github.event_name == 'push' && github.event.head_commit.message == 'release: freeze match engine v1.2' }}"
-        run: python calibrate_amiguinhos_v12.py 1000
+      - name: Run economical active-engine smoke simulation
+        run: python diagnostics_v13.py 10

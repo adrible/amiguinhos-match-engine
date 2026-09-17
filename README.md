@@ -1,12 +1,12 @@
 # Amiguinhos Match Engine
 
-## Stable engine
+## Active engine line
 
-`main` remains the frozen **v1.2 stable** line. The v1.3 candidate is developed separately and must not be treated as stable until explicitly promoted.
+**v1.3 is the only active development line.** The former v1.2 engine is preserved unchanged for historical reference on the `archive-v1.2-stable` branch at commit `ee00e47c535796d74616462b7a9975b83ad15589`; active runtime, ratings and CI no longer maintain v1.2 compatibility.
 
-## v1.3 candidate
+## v1.3
 
-The candidate keeps the core outcome-blind simulation rules and adds contextual football behaviour, including:
+The engine keeps outcome-blind simulation rules and adds contextual football behaviour, including:
 
 - geospatial decisions by pitch band and lane;
 - creativity as perception of non-obvious options;
@@ -20,24 +20,29 @@ The candidate keeps the core outcome-blind simulation rules and adds contextual 
 - pair familiarity/shared understanding;
 - tactical adaptation with hysteresis;
 - determination/raça under adversity;
-- literal evolved v1.3 player ratings;
+- literal current player ratings;
 - exact state/RNG persistence;
 - real extra time and stateful live shootouts;
 - interactive live `p` runner;
 - contextual automatic substitutions;
+- canonical per-shot xG ledger;
 - quarantine of the declared official-final seed.
 
-### Literal evolved ratings
+### One ratings source
 
-The higher Amiguinhos ratings in v1.3 are **absolute current ratings**, not runtime buffs. If the v1.3 JSON says `passing: 88`, the loader sets passing to exactly 88. It does not add a delta to the v1.2 value.
+`data/teams.json` is the canonical base source for player OVR and execution attributes on the active line. Candidate roster entries in `data/v13_rosters.json` may define an explicit replacement roster where necessary (for example a sourced opponent pool), while `data/v13_player_traits.json` contains behavioural traits only and must not duplicate execution ratings.
 
 Creativity, boldness and determination are separate behavioural traits and do not directly add technical execution ratings.
+
+### Shot and xG accounting
+
+Every resolved shot is recorded once in engine state with a unique `shot_id` and its exact xG. Diagnostics read this ledger instead of reconstructing attempts from public narration events, so blocks, rebounds, corners, free kicks and penalties cannot silently disappear from xG calibration.
 
 ### Automatic substitutions
 
 The v1.3 coach can make substitutions autonomously at stoppages. Normal changes are contextual rather than clock quotas: fatigue, card exposure, chasing the game, protecting a lead and late freshness can justify a change. Before the normal second-half substitution window, automatic changes are emergency-only, primarily injury. A pending live action is never interrupted by a substitution.
 
-The known Amiguinhos bench remains explicit. Tournament opponents that have no bench data at all receive a deterministic, neutral candidate-only reserve pool so lack of source depth does not disable substitutions. This fallback does not alter stable v1.2 and does not replace any explicitly supplied bench.
+The known Amiguinhos bench remains explicit. Tournament opponents that have no bench data at all receive a deterministic, neutral reserve pool so lack of source depth does not disable substitutions. This fallback never replaces any explicitly supplied bench.
 
 ### Outcome policy
 

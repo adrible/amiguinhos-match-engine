@@ -25,37 +25,1972 @@
         "risk": 0.54
       },
       "players": [
-        {"name":"Christian","number":1,"position":"GK","squad":"starter","overall":83,"positions":["GK"],"attributes":{"pace":51,"passing":68,"vision":64,"technique":66,"strength":75,"positioning":83,"anticipation":83,"composure":82,"stamina":75,"reflexes":87,"handling":84,"gk_positioning":86,"one_on_one":88},"notes":"Evoluiu muito no torneio; segurança, leitura e regularidade reforçadas pelo desempenho defensivo da equipe."},
-        {"name":"Jorge Henrique","number":5,"position":"RB","squad":"starter","overall":82,"positions":["RB","DM","CM"],"attributes":{"pace":79,"passing":83,"vision":82,"technique":80,"dribbling":77,"crossing":79,"finishing":59,"long_shots":70,"heading":70,"strength":80,"tackling":84,"positioning":84,"anticipation":85,"composure":82,"off_ball":76,"stamina":87,"aggression":75,"discipline":81},"notes":"Prefere atuar como lateral-direito; vice-capitão. Evoluiu em leitura, consistência defensiva e participação na construção."},
-        {"name":"Léo","number":4,"position":"CB","squad":"starter","overall":83,"positions":["CB"],"attributes":{"pace":78,"passing":72,"vision":69,"technique":70,"dribbling":61,"heading":87,"strength":89,"tackling":85,"positioning":84,"anticipation":85,"composure":80,"off_ball":57,"stamina":84,"aggression":76,"discipline":77},"notes":"Grande evolução defensiva no campeonato; forte nos duelos, cobertura e jogo aéreo."},
-        {"name":"Igor","number":6,"position":"CB","squad":"starter","overall":81,"positions":["CB","LB"],"attributes":{"pace":82,"passing":71,"vision":69,"technique":70,"dribbling":61,"crossing":60,"finishing":45,"long_shots":49,"heading":87,"strength":85,"tackling":84,"positioning":85,"anticipation":87,"composure":79,"off_ball":58,"stamina":82,"aggression":72,"discipline":80},"notes":"Zagueiro titular ao lado de Léo; alto, rápido e inteligente, forte em cobertura, antecipação, jogo aéreo e segurança nos duelos."},
-        {"name":"João Peixoto","number":3,"position":"LB","squad":"starter","overall":80,"positions":["LB","CB"],"attributes":{"pace":69,"passing":69,"vision":65,"technique":67,"dribbling":57,"crossing":60,"finishing":44,"long_shots":46,"heading":87,"strength":91,"tackling":82,"positioning":82,"anticipation":80,"composure":76,"off_ball":56,"stamina":80,"aggression":76,"discipline":77},"notes":"Lateral-esquerdo titular de perfil defensivo; muito forte e pesado, fecha melhor o setor e pode atuar também como zagueiro."},
-        {"name":"Felipe","number":56,"position":"DM","squad":"starter","overall":79,"positions":["DM"],"attributes":{"pace":72,"passing":75,"vision":72,"technique":73,"dribbling":68,"crossing":62,"finishing":55,"long_shots":64,"heading":67,"strength":89,"tackling":86,"positioning":81,"anticipation":83,"composure":73,"off_ball":68,"stamina":86,"aggression":91,"discipline":54},"notes":"Volante forte, intenso e agressivo; melhorou leitura e consistência, mantendo a instabilidade disciplinar como fraqueza."},
-        {"name":"Mike Junior","number":8,"position":"CM","squad":"starter","overall":80,"positions":["CM","RW","LW"],"attributes":{"pace":74,"passing":85,"vision":88,"technique":83,"dribbling":79,"crossing":77,"finishing":68,"long_shots":74,"heading":62,"strength":71,"tackling":69,"positioning":77,"anticipation":84,"composure":85,"off_ball":81,"stamina":83,"aggression":62,"discipline":78},"notes":"Meia estratégico; evolução principalmente em visão, passe, tomada de decisão e controle do ritmo."},
-        {"name":"Gabriel Adib","number":10,"position":"CM","squad":"starter","overall":85,"positions":["DM","CM","AM","SS"],"attributes":{"pace":82,"passing":89,"vision":90,"technique":88,"dribbling":85,"crossing":80,"finishing":83,"long_shots":86,"heading":69,"strength":78,"tackling":83,"positioning":85,"anticipation":88,"composure":89,"off_ball":86,"stamina":88,"aggression":82,"discipline":77},"notes":"Capitão; consolidou-se como jogador de duas vias e principal articulador, com evolução técnica, mental e de liderança em campo."},
-        {"name":"Remo","number":7,"position":"RW","squad":"starter","overall":84,"positions":["RW","LW"],"preferred_foot":"L","attributes":{"pace":89,"passing":77,"vision":75,"technique":84,"dribbling":85,"crossing":85,"finishing":82,"long_shots":80,"heading":64,"strength":84,"tackling":55,"positioning":74,"anticipation":81,"composure":81,"off_ball":87,"stamina":86,"aggression":70,"discipline":76},"notes":"Canhoto; foi decisivo no torneio e evoluiu em execução, movimentação, drible, cruzamento e finalização."},
-        {"name":"Pedro Valverde","number":11,"position":"AM","squad":"starter","overall":82,"positions":["AM","SS","ST"],"attributes":{"pace":86,"passing":81,"vision":86,"technique":87,"dribbling":87,"crossing":77,"finishing":86,"long_shots":87,"heading":63,"strength":70,"tackling":50,"positioning":77,"anticipation":86,"composure":86,"off_ball":89,"stamina":81,"aggression":59,"discipline":76},"notes":"Meia-atacante/segundo atacante; amadureceu a tomada de decisão e manteve alto nível de mobilidade e ameaça ofensiva."},
-        {"name":"Gabriel Félix","number":9,"position":"ST","squad":"starter","overall":79,"positions":["ST"],"attributes":{"pace":73,"passing":73,"vision":70,"technique":79,"dribbling":72,"crossing":56,"finishing":82,"long_shots":71,"heading":93,"strength":91,"tackling":40,"positioning":73,"anticipation":84,"composure":83,"off_ball":85,"stamina":80,"aggression":71,"discipline":75},"notes":"1,91 m; pivô e principal alvo aéreo. Evoluiu em posicionamento, leitura das disputas, finalização e jogo de costas."},
-        {"name":"Arthur Peixoto","number":2,"position":"DM","squad":"bench","overall":76,"positions":["DM","RB"],"attributes":{"pace":71,"passing":74,"vision":71,"technique":72,"dribbling":67,"crossing":65,"finishing":53,"long_shots":61,"heading":70,"strength":83,"tackling":82,"positioning":79,"anticipation":79,"composure":76,"off_ball":65,"stamina":82,"aggression":78,"discipline":81},"notes":"Opção disciplinada e segura; evoluiu em leitura defensiva, passe simples e confiabilidade."},
-        {"name":"Rodrigo White","number":14,"position":"LB","squad":"bench","overall":81,"positions":["LB"],"attributes":{"pace":85,"passing":77,"vision":74,"technique":80,"dribbling":81,"crossing":85,"finishing":57,"long_shots":63,"heading":63,"strength":71,"tackling":77,"positioning":77,"anticipation":78,"composure":77,"off_ball":84,"stamina":86,"aggression":64,"discipline":76},"notes":"Reserva imediato de João na lateral esquerda; opção mais ofensiva, veloz e agressiva em ultrapassagens e cruzamentos."},
-        {"name":"Gabriel Gonzales","number":23,"position":"CB","squad":"bench","overall":75,"positions":["CB"],"attributes":{"pace":69,"passing":69,"vision":65,"technique":67,"dribbling":58,"crossing":52,"finishing":44,"long_shots":46,"heading":81,"strength":82,"tackling":78,"positioning":78,"anticipation":77,"composure":74,"off_ball":55,"stamina":78,"aggression":74,"discipline":76},"notes":"Zagueiro reserva de perfil físico; ganhou consistência, posicionamento e leitura ao longo do campeonato."}
+        {
+          "name": "Christian",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter",
+          "overall": 83,
+          "positions": [
+            "GK"
+          ],
+          "attributes": {
+            "pace": 51,
+            "passing": 68,
+            "vision": 64,
+            "technique": 66,
+            "strength": 75,
+            "positioning": 83,
+            "anticipation": 83,
+            "composure": 82,
+            "stamina": 75,
+            "reflexes": 87,
+            "handling": 84,
+            "gk_positioning": 86,
+            "one_on_one": 88
+          },
+          "notes": "Evoluiu muito no torneio; segurança, leitura e regularidade reforçadas pelo desempenho defensivo da equipe."
+        },
+        {
+          "name": "Jorge Henrique",
+          "number": 5,
+          "position": "RB",
+          "squad": "starter",
+          "overall": 82,
+          "positions": [
+            "RB",
+            "DM",
+            "CM"
+          ],
+          "attributes": {
+            "pace": 79,
+            "passing": 83,
+            "vision": 82,
+            "technique": 80,
+            "dribbling": 77,
+            "crossing": 79,
+            "finishing": 59,
+            "long_shots": 70,
+            "heading": 70,
+            "strength": 80,
+            "tackling": 84,
+            "positioning": 84,
+            "anticipation": 85,
+            "composure": 82,
+            "off_ball": 76,
+            "stamina": 87,
+            "aggression": 75,
+            "discipline": 81
+          },
+          "notes": "Prefere atuar como lateral-direito; vice-capitão. Evoluiu em leitura, consistência defensiva e participação na construção."
+        },
+        {
+          "name": "Léo",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 83,
+          "positions": [
+            "CB"
+          ],
+          "attributes": {
+            "pace": 78,
+            "passing": 72,
+            "vision": 69,
+            "technique": 70,
+            "dribbling": 61,
+            "heading": 87,
+            "strength": 89,
+            "tackling": 85,
+            "positioning": 84,
+            "anticipation": 85,
+            "composure": 80,
+            "off_ball": 57,
+            "stamina": 84,
+            "aggression": 76,
+            "discipline": 77
+          },
+          "notes": "Grande evolução defensiva no campeonato; forte nos duelos, cobertura e jogo aéreo."
+        },
+        {
+          "name": "Igor",
+          "number": 6,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 81,
+          "positions": [
+            "CB",
+            "LB"
+          ],
+          "attributes": {
+            "pace": 82,
+            "passing": 71,
+            "vision": 69,
+            "technique": 70,
+            "dribbling": 61,
+            "crossing": 60,
+            "finishing": 45,
+            "long_shots": 49,
+            "heading": 87,
+            "strength": 85,
+            "tackling": 84,
+            "positioning": 85,
+            "anticipation": 87,
+            "composure": 79,
+            "off_ball": 58,
+            "stamina": 82,
+            "aggression": 72,
+            "discipline": 80
+          },
+          "notes": "Zagueiro titular ao lado de Léo; alto, rápido e inteligente, forte em cobertura, antecipação, jogo aéreo e segurança nos duelos."
+        },
+        {
+          "name": "João Peixoto",
+          "number": 3,
+          "position": "LB",
+          "squad": "starter",
+          "overall": 80,
+          "positions": [
+            "LB",
+            "CB"
+          ],
+          "attributes": {
+            "pace": 69,
+            "passing": 69,
+            "vision": 65,
+            "technique": 67,
+            "dribbling": 57,
+            "crossing": 60,
+            "finishing": 44,
+            "long_shots": 46,
+            "heading": 87,
+            "strength": 91,
+            "tackling": 82,
+            "positioning": 82,
+            "anticipation": 80,
+            "composure": 76,
+            "off_ball": 56,
+            "stamina": 80,
+            "aggression": 76,
+            "discipline": 77
+          },
+          "notes": "Lateral-esquerdo titular de perfil defensivo; muito forte e pesado, fecha melhor o setor e pode atuar também como zagueiro."
+        },
+        {
+          "name": "Felipe",
+          "number": 56,
+          "position": "DM",
+          "squad": "starter",
+          "overall": 79,
+          "positions": [
+            "DM"
+          ],
+          "attributes": {
+            "pace": 72,
+            "passing": 75,
+            "vision": 72,
+            "technique": 73,
+            "dribbling": 68,
+            "crossing": 62,
+            "finishing": 55,
+            "long_shots": 64,
+            "heading": 67,
+            "strength": 89,
+            "tackling": 86,
+            "positioning": 81,
+            "anticipation": 83,
+            "composure": 73,
+            "off_ball": 68,
+            "stamina": 86,
+            "aggression": 91,
+            "discipline": 54
+          },
+          "notes": "Volante forte, intenso e agressivo; melhorou leitura e consistência, mantendo a instabilidade disciplinar como fraqueza."
+        },
+        {
+          "name": "Mike Junior",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter",
+          "overall": 80,
+          "positions": [
+            "CM",
+            "RW",
+            "LW"
+          ],
+          "attributes": {
+            "pace": 74,
+            "passing": 85,
+            "vision": 88,
+            "technique": 83,
+            "dribbling": 79,
+            "crossing": 77,
+            "finishing": 68,
+            "long_shots": 74,
+            "heading": 62,
+            "strength": 71,
+            "tackling": 69,
+            "positioning": 77,
+            "anticipation": 84,
+            "composure": 85,
+            "off_ball": 81,
+            "stamina": 83,
+            "aggression": 62,
+            "discipline": 78
+          },
+          "notes": "Meia estratégico; evolução principalmente em visão, passe, tomada de decisão e controle do ritmo."
+        },
+        {
+          "name": "Gabriel Adib",
+          "number": 10,
+          "position": "CM",
+          "squad": "starter",
+          "overall": 85,
+          "positions": [
+            "DM",
+            "CM",
+            "AM",
+            "SS"
+          ],
+          "attributes": {
+            "pace": 82,
+            "passing": 89,
+            "vision": 90,
+            "technique": 88,
+            "dribbling": 85,
+            "crossing": 80,
+            "finishing": 83,
+            "long_shots": 86,
+            "heading": 69,
+            "strength": 78,
+            "tackling": 83,
+            "positioning": 85,
+            "anticipation": 88,
+            "composure": 89,
+            "off_ball": 86,
+            "stamina": 88,
+            "aggression": 82,
+            "discipline": 77
+          },
+          "notes": "Capitão; consolidou-se como jogador de duas vias e principal articulador, com evolução técnica, mental e de liderança em campo."
+        },
+        {
+          "name": "Remo",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter",
+          "overall": 84,
+          "positions": [
+            "RW",
+            "LW"
+          ],
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 89,
+            "passing": 77,
+            "vision": 75,
+            "technique": 84,
+            "dribbling": 85,
+            "crossing": 85,
+            "finishing": 82,
+            "long_shots": 80,
+            "heading": 64,
+            "strength": 84,
+            "tackling": 55,
+            "positioning": 74,
+            "anticipation": 81,
+            "composure": 81,
+            "off_ball": 87,
+            "stamina": 86,
+            "aggression": 70,
+            "discipline": 76
+          },
+          "notes": "Canhoto; foi decisivo no torneio e evoluiu em execução, movimentação, drible, cruzamento e finalização."
+        },
+        {
+          "name": "Pedro Valverde",
+          "number": 11,
+          "position": "AM",
+          "squad": "starter",
+          "overall": 82,
+          "positions": [
+            "AM",
+            "SS",
+            "ST"
+          ],
+          "attributes": {
+            "pace": 86,
+            "passing": 81,
+            "vision": 86,
+            "technique": 87,
+            "dribbling": 87,
+            "crossing": 77,
+            "finishing": 86,
+            "long_shots": 87,
+            "heading": 63,
+            "strength": 70,
+            "tackling": 50,
+            "positioning": 77,
+            "anticipation": 86,
+            "composure": 86,
+            "off_ball": 89,
+            "stamina": 81,
+            "aggression": 59,
+            "discipline": 76
+          },
+          "notes": "Meia-atacante/segundo atacante; amadureceu a tomada de decisão e manteve alto nível de mobilidade e ameaça ofensiva."
+        },
+        {
+          "name": "Gabriel Félix",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter",
+          "overall": 79,
+          "positions": [
+            "ST"
+          ],
+          "attributes": {
+            "pace": 73,
+            "passing": 73,
+            "vision": 70,
+            "technique": 79,
+            "dribbling": 72,
+            "crossing": 56,
+            "finishing": 82,
+            "long_shots": 71,
+            "heading": 93,
+            "strength": 91,
+            "tackling": 40,
+            "positioning": 73,
+            "anticipation": 84,
+            "composure": 83,
+            "off_ball": 85,
+            "stamina": 80,
+            "aggression": 71,
+            "discipline": 75
+          },
+          "notes": "1,91 m; pivô e principal alvo aéreo. Evoluiu em posicionamento, leitura das disputas, finalização e jogo de costas."
+        },
+        {
+          "name": "Arthur Peixoto",
+          "number": 2,
+          "position": "DM",
+          "squad": "bench",
+          "overall": 76,
+          "positions": [
+            "DM",
+            "RB"
+          ],
+          "attributes": {
+            "pace": 71,
+            "passing": 74,
+            "vision": 71,
+            "technique": 72,
+            "dribbling": 67,
+            "crossing": 65,
+            "finishing": 53,
+            "long_shots": 61,
+            "heading": 70,
+            "strength": 83,
+            "tackling": 82,
+            "positioning": 79,
+            "anticipation": 79,
+            "composure": 76,
+            "off_ball": 65,
+            "stamina": 82,
+            "aggression": 78,
+            "discipline": 81
+          },
+          "notes": "Opção disciplinada e segura; evoluiu em leitura defensiva, passe simples e confiabilidade."
+        },
+        {
+          "name": "Rodrigo White",
+          "number": 14,
+          "position": "LB",
+          "squad": "bench",
+          "overall": 81,
+          "positions": [
+            "LB"
+          ],
+          "attributes": {
+            "pace": 85,
+            "passing": 77,
+            "vision": 74,
+            "technique": 80,
+            "dribbling": 81,
+            "crossing": 85,
+            "finishing": 57,
+            "long_shots": 63,
+            "heading": 63,
+            "strength": 71,
+            "tackling": 77,
+            "positioning": 77,
+            "anticipation": 78,
+            "composure": 77,
+            "off_ball": 84,
+            "stamina": 86,
+            "aggression": 64,
+            "discipline": 76
+          },
+          "notes": "Reserva imediato de João na lateral esquerda; opção mais ofensiva, veloz e agressiva em ultrapassagens e cruzamentos."
+        },
+        {
+          "name": "Gabriel Gonzales",
+          "number": 23,
+          "position": "CB",
+          "squad": "bench",
+          "overall": 75,
+          "positions": [
+            "CB"
+          ],
+          "attributes": {
+            "pace": 69,
+            "passing": 69,
+            "vision": 65,
+            "technique": 67,
+            "dribbling": 58,
+            "crossing": 52,
+            "finishing": 44,
+            "long_shots": 46,
+            "heading": 81,
+            "strength": 82,
+            "tackling": 78,
+            "positioning": 78,
+            "anticipation": 77,
+            "composure": 74,
+            "off_ball": 55,
+            "stamina": 78,
+            "aggression": 74,
+            "discipline": 76
+          },
+          "notes": "Zagueiro reserva de perfil físico; ganhou consistência, posicionamento e leitura ao longo do campeonato."
+        }
       ],
-      "notes":"Base defensiva titular: Jorge Henrique pela direita, Léo e Igor na zaga e João Peixoto pela esquerda em função mais defensiva. White é o reserva imediato de João e alternativa mais ofensiva para o setor. Rating pré-final atualizado por evolução individual e desempenho acumulado no Regional Internacional U21; média do XI titular = 81,6 (81,636...). Sem bônus ocultos ou tratamento especial na engine."
+      "notes": "Base defensiva titular: Jorge Henrique pela direita, Léo e Igor na zaga e João Peixoto pela esquerda em função mais defensiva. White é o reserva imediato de João e alternativa mais ofensiva para o setor. Rating pré-final atualizado por evolução individual e desempenho acumulado no Regional Internacional U21; média do XI titular = 81,6 (81,636...). Sem bônus ocultos ou tratamento especial na engine."
     },
-    "flamengo_u21":{"name":"Flamengo U21","overall":84,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.35,"tempo":0.66,"width":0.58,"pressing":0.68,"defensive_line":0.64,"compactness":0.57,"directness":0.49,"counter":0.67,"overlap_left":0.56,"overlap_right":0.54,"cross_frequency":0.45,"risk":0.6},"players":[{"name":"Caio Nunes","number":1,"position":"GK","squad":"starter","overall":82},{"name":"Renan Alves","number":2,"position":"RB","squad":"starter","overall":80},{"name":"Matheus Braga","number":3,"position":"CB","squad":"starter","overall":83},{"name":"Lucas Tavares","number":4,"position":"CB","squad":"starter","overall":82},{"name":"Davi Moura","number":6,"position":"LB","squad":"starter","overall":81},{"name":"Rafael Siqueira","number":5,"position":"DM","squad":"starter","overall":83},{"name":"André Vidal","number":8,"position":"CM","squad":"starter","overall":84},{"name":"Pedro Lins","number":10,"position":"AM","squad":"starter","overall":85},{"name":"Vinícius Prado","number":7,"position":"RW","squad":"starter","overall":84},{"name":"Gabriel Sena","number":11,"position":"LW","squad":"starter","overall":83},{"name":"João Vitor Reis","number":9,"position":"ST","squad":"starter","overall":84}]},
-    "ajax_u21":{"name":"Ajax U21","overall":80,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.2,"tempo":0.64,"width":0.6,"pressing":0.72,"defensive_line":0.68,"compactness":0.56,"directness":0.38,"counter":0.52,"overlap_left":0.5,"overlap_right":0.5,"cross_frequency":0.36,"risk":0.57},"players":[{"name":"Van Dijk","number":1,"position":"GK","squad":"starter"},{"name":"De Boer","number":2,"position":"RB","squad":"starter"},{"name":"Smit","number":3,"position":"CB","squad":"starter"},{"name":"Van Leeuwen","number":4,"position":"CB","squad":"starter"},{"name":"Bos","number":5,"position":"LB","squad":"starter"},{"name":"De Jong","number":6,"position":"DM","squad":"starter"},{"name":"Visser","number":8,"position":"CM","squad":"starter"},{"name":"Meijer","number":10,"position":"AM","squad":"starter"},{"name":"Bakker","number":7,"position":"RW","squad":"starter"},{"name":"De Wit","number":11,"position":"LW","squad":"starter"},{"name":"Mulder","number":9,"position":"ST","squad":"starter"}]},
-    "psg_u21":{"name":"PSG U21","overall":81,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.26,"tempo":0.68,"width":0.62,"pressing":0.6,"defensive_line":0.6,"compactness":0.52,"directness":0.48,"counter":0.7,"overlap_left":0.52,"overlap_right":0.52,"cross_frequency":0.4,"risk":0.62},"players":[{"name":"Moreau","number":1,"position":"GK","squad":"starter"},{"name":"Dubois","number":2,"position":"RB","squad":"starter"},{"name":"Lemaire","number":4,"position":"CB","squad":"starter"},{"name":"Kouassi","number":5,"position":"CB","squad":"starter"},{"name":"Traoré","number":3,"position":"LB","squad":"starter"},{"name":"Martin","number":6,"position":"DM","squad":"starter"},{"name":"Bensaïd","number":8,"position":"CM","squad":"starter"},{"name":"Leroy","number":10,"position":"AM","squad":"starter"},{"name":"Diallo","number":7,"position":"RW","squad":"starter"},{"name":"Camara","number":11,"position":"LW","squad":"starter"},{"name":"Mbaye","number":9,"position":"ST","squad":"starter"}]},
-    "real_madrid_u21":{"name":"Real Madrid U21","overall":84,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.4,"tempo":0.67,"width":0.59,"pressing":0.66,"defensive_line":0.64,"compactness":0.58,"directness":0.48,"counter":0.65,"overlap_left":0.54,"overlap_right":0.54,"cross_frequency":0.41,"risk":0.61},"players":[{"name":"Martín","number":1,"position":"GK","squad":"starter"},{"name":"Torres","number":2,"position":"RB","squad":"starter"},{"name":"Romero","number":4,"position":"CB","squad":"starter"},{"name":"Castillo","number":5,"position":"CB","squad":"starter"},{"name":"Vega","number":3,"position":"LB","squad":"starter"},{"name":"Mendoza","number":6,"position":"DM","squad":"starter"},{"name":"Sánchez","number":8,"position":"CM","squad":"starter"},{"name":"Navarro","number":10,"position":"AM","squad":"starter","overall":86},{"name":"Diego León","number":7,"position":"RW","squad":"starter","overall":85},{"name":"Mateo Ortega","number":11,"position":"LW","squad":"starter"},{"name":"Álvaro Ruiz","number":9,"position":"ST","squad":"starter","overall":86}]},
-    "dortmund_u21":{"name":"Borussia Dortmund U21","overall":77,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.22,"tempo":0.72,"width":0.56,"pressing":0.78,"defensive_line":0.7,"compactness":0.58,"directness":0.52,"counter":0.67,"overlap_left":0.48,"overlap_right":0.48,"cross_frequency":0.42,"risk":0.59},"players":[{"name":"Keller","number":1,"position":"GK","squad":"starter"},{"name":"Wolf","number":2,"position":"RB","squad":"starter"},{"name":"Becker","number":4,"position":"CB","squad":"starter"},{"name":"Hoffmann","number":5,"position":"CB","squad":"starter"},{"name":"Schulz","number":3,"position":"LB","squad":"starter"},{"name":"Wagner","number":6,"position":"DM","squad":"starter"},{"name":"Fischer","number":8,"position":"CM","squad":"starter"},{"name":"Krüger","number":10,"position":"AM","squad":"starter"},{"name":"Brandt","number":7,"position":"RW","squad":"starter"},{"name":"Klein","number":11,"position":"LW","squad":"starter"},{"name":"Weber","number":9,"position":"ST","squad":"starter"}]},
-    "barcelona_u21":{"name":"Barcelona U21","overall":83,"mode":"explicit","tactics":{"formation":"4-3-3","mentality":0.32,"tempo":0.63,"width":0.64,"pressing":0.72,"defensive_line":0.68,"compactness":0.6,"directness":0.3,"counter":0.48,"overlap_left":0.57,"overlap_right":0.57,"cross_frequency":0.32,"risk":0.58},"players":[{"name":"Arnau Mir","number":1,"position":"GK","squad":"starter"},{"name":"Pol Navarro","number":2,"position":"RB","squad":"starter"},{"name":"Héctor Soler","number":4,"position":"CB","squad":"starter"},{"name":"Eric Puig","number":5,"position":"CB","squad":"starter"},{"name":"Jan Costa","number":3,"position":"LB","squad":"starter"},{"name":"Oriol Font","number":6,"position":"DM","squad":"starter"},{"name":"Pau Martí","number":8,"position":"CM","squad":"starter"},{"name":"Nil Serra","number":10,"position":"AM","squad":"starter"},{"name":"Ilias Torres","number":7,"position":"RW","squad":"starter"},{"name":"Álex Roca","number":11,"position":"LW","squad":"starter"},{"name":"Marc Vidal","number":9,"position":"ST","squad":"starter"}]},
-    "benfica_u21":{"name":"Benfica U21","overall":83,"mode":"explicit","tactics":{"formation":"4-2-3-1","mentality":0.28,"tempo":0.61,"width":0.55,"pressing":0.63,"defensive_line":0.59,"compactness":0.64,"directness":0.43,"counter":0.58,"overlap_left":0.46,"overlap_right":0.46,"cross_frequency":0.43,"risk":0.55},"players":[{"name":"Gonçalo","number":1,"position":"GK","squad":"starter"},{"name":"Afonso","number":2,"position":"RB","squad":"starter"},{"name":"Nuno Lopes","number":3,"position":"CB","squad":"starter"},{"name":"Duarte","number":4,"position":"CB","squad":"starter"},{"name":"Ferreira","number":5,"position":"LB","squad":"starter"},{"name":"Rui Matos","number":6,"position":"DM","squad":"starter"},{"name":"João Melo","number":8,"position":"CM","squad":"starter"},{"name":"Tomás Silva","number":10,"position":"AM","squad":"starter","overall":85},{"name":"Diogo Reis","number":7,"position":"RW","squad":"starter"},{"name":"Miguel Costa","number":11,"position":"LW","squad":"starter"},{"name":"Tiago Neves","number":9,"position":"ST","squad":"starter"},{"name":"Pedro Azevedo","number":15,"position":"CB","squad":"bench"},{"name":"Bernardo Luz","number":18,"position":"AM","squad":"bench"}]},
-    "river_plate_u21":{"name":"River Plate U21","overall":81,"mode":"generic","generator":{"strength":81,"style":"balanced","seed":301}},
-    "porto_u21":{"name":"Porto U21","overall":78,"mode":"generic","generator":{"strength":78,"style":"balanced","seed":302}},
-    "palmeiras_u21":{"name":"Palmeiras U21","overall":82,"mode":"generic","generator":{"strength":82,"style":"balanced","seed":303}},
-    "boca_juniors_u21":{"name":"Boca Juniors U21","overall":80,"mode":"generic","generator":{"strength":80,"style":"direct","seed":304}},
-    "liverpool_u21":{"name":"Liverpool U21","overall":78,"mode":"generic","generator":{"strength":78,"style":"pressing","seed":305}},
-    "inter_u21":{"name":"Inter U21","overall":81,"mode":"generic","generator":{"strength":81,"style":"balanced","seed":306}},
-    "man_city_u21":{"name":"Manchester City U21","overall":80,"mode":"generic","generator":{"strength":80,"style":"attacking","seed":307}},
-    "bayern_u21":{"name":"Bayern U21","overall":77,"mode":"generic","generator":{"strength":77,"style":"pressing","seed":308}}
+    "flamengo_u21": {
+      "name": "Flamengo U21",
+      "overall": 84,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.35,
+        "tempo": 0.66,
+        "width": 0.58,
+        "pressing": 0.68,
+        "defensive_line": 0.64,
+        "compactness": 0.57,
+        "directness": 0.49,
+        "counter": 0.67,
+        "overlap_left": 0.56,
+        "overlap_right": 0.54,
+        "cross_frequency": 0.45,
+        "risk": 0.6
+      },
+      "players": [
+        {
+          "name": "Caio Nunes",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter",
+          "overall": 82
+        },
+        {
+          "name": "Renan Alves",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter",
+          "overall": 80
+        },
+        {
+          "name": "Matheus Braga",
+          "number": 3,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 83
+        },
+        {
+          "name": "Lucas Tavares",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 82
+        },
+        {
+          "name": "Davi Moura",
+          "number": 6,
+          "position": "LB",
+          "squad": "starter",
+          "overall": 81
+        },
+        {
+          "name": "Rafael Siqueira",
+          "number": 5,
+          "position": "DM",
+          "squad": "starter",
+          "overall": 83
+        },
+        {
+          "name": "André Vidal",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter",
+          "overall": 84
+        },
+        {
+          "name": "Pedro Lins",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter",
+          "overall": 85
+        },
+        {
+          "name": "Vinícius Prado",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter",
+          "overall": 84
+        },
+        {
+          "name": "Gabriel Sena",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter",
+          "overall": 83
+        },
+        {
+          "name": "João Vitor Reis",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter",
+          "overall": 84
+        }
+      ]
+    },
+    "ajax_u21": {
+      "name": "Ajax U21",
+      "overall": 80,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.2,
+        "tempo": 0.64,
+        "width": 0.6,
+        "pressing": 0.72,
+        "defensive_line": 0.68,
+        "compactness": 0.56,
+        "directness": 0.38,
+        "counter": 0.52,
+        "overlap_left": 0.5,
+        "overlap_right": 0.5,
+        "cross_frequency": 0.36,
+        "risk": 0.57
+      },
+      "players": [
+        {
+          "name": "Van Dijk",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "De Boer",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Smit",
+          "number": 3,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Van Leeuwen",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Bos",
+          "number": 5,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "De Jong",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "Visser",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Meijer",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter"
+        },
+        {
+          "name": "Bakker",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter"
+        },
+        {
+          "name": "De Wit",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Mulder",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter"
+        }
+      ]
+    },
+    "psg_u21": {
+      "name": "PSG U21",
+      "overall": 81,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.26,
+        "tempo": 0.68,
+        "width": 0.62,
+        "pressing": 0.6,
+        "defensive_line": 0.6,
+        "compactness": 0.52,
+        "directness": 0.48,
+        "counter": 0.7,
+        "overlap_left": 0.52,
+        "overlap_right": 0.52,
+        "cross_frequency": 0.4,
+        "risk": 0.62
+      },
+      "players": [
+        {
+          "name": "Moreau",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "Dubois",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Lemaire",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Kouassi",
+          "number": 5,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Traoré",
+          "number": 3,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "Martin",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "Bensaïd",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Leroy",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter"
+        },
+        {
+          "name": "Diallo",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter"
+        },
+        {
+          "name": "Camara",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Mbaye",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter"
+        }
+      ]
+    },
+    "real_madrid_u21": {
+      "name": "Real Madrid U21",
+      "overall": 84,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.4,
+        "tempo": 0.67,
+        "width": 0.59,
+        "pressing": 0.66,
+        "defensive_line": 0.64,
+        "compactness": 0.58,
+        "directness": 0.48,
+        "counter": 0.65,
+        "overlap_left": 0.54,
+        "overlap_right": 0.54,
+        "cross_frequency": 0.41,
+        "risk": 0.61
+      },
+      "players": [
+        {
+          "name": "Martín",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "Torres",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Romero",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Castillo",
+          "number": 5,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Vega",
+          "number": 3,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "Mendoza",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "Sánchez",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Navarro",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter",
+          "overall": 86
+        },
+        {
+          "name": "Diego León",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter",
+          "overall": 85
+        },
+        {
+          "name": "Mateo Ortega",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Álvaro Ruiz",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter",
+          "overall": 86
+        }
+      ]
+    },
+    "dortmund_u21": {
+      "name": "Borussia Dortmund U21",
+      "overall": 77,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.22,
+        "tempo": 0.72,
+        "width": 0.56,
+        "pressing": 0.78,
+        "defensive_line": 0.7,
+        "compactness": 0.58,
+        "directness": 0.52,
+        "counter": 0.67,
+        "overlap_left": 0.48,
+        "overlap_right": 0.48,
+        "cross_frequency": 0.42,
+        "risk": 0.59
+      },
+      "players": [
+        {
+          "name": "Keller",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "Wolf",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Becker",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Hoffmann",
+          "number": 5,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Schulz",
+          "number": 3,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "Wagner",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "Fischer",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Krüger",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter"
+        },
+        {
+          "name": "Brandt",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter"
+        },
+        {
+          "name": "Klein",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Weber",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter"
+        }
+      ]
+    },
+    "barcelona_u21": {
+      "name": "Barcelona U21",
+      "overall": 83,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-3-3",
+        "mentality": 0.32,
+        "tempo": 0.63,
+        "width": 0.64,
+        "pressing": 0.72,
+        "defensive_line": 0.68,
+        "compactness": 0.6,
+        "directness": 0.3,
+        "counter": 0.48,
+        "overlap_left": 0.57,
+        "overlap_right": 0.57,
+        "cross_frequency": 0.32,
+        "risk": 0.58
+      },
+      "players": [
+        {
+          "name": "Arnau Mir",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "Pol Navarro",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Héctor Soler",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Eric Puig",
+          "number": 5,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Jan Costa",
+          "number": 3,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "Oriol Font",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "Pau Martí",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Nil Serra",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter"
+        },
+        {
+          "name": "Ilias Torres",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter"
+        },
+        {
+          "name": "Álex Roca",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Marc Vidal",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter"
+        }
+      ]
+    },
+    "benfica_u21": {
+      "name": "Benfica U21",
+      "overall": 83,
+      "mode": "explicit",
+      "tactics": {
+        "formation": "4-2-3-1",
+        "mentality": 0.28,
+        "tempo": 0.61,
+        "width": 0.55,
+        "pressing": 0.63,
+        "defensive_line": 0.59,
+        "compactness": 0.64,
+        "directness": 0.43,
+        "counter": 0.58,
+        "overlap_left": 0.46,
+        "overlap_right": 0.46,
+        "cross_frequency": 0.43,
+        "risk": 0.55
+      },
+      "players": [
+        {
+          "name": "Gonçalo",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter"
+        },
+        {
+          "name": "Afonso",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter"
+        },
+        {
+          "name": "Nuno Lopes",
+          "number": 3,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Duarte",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter"
+        },
+        {
+          "name": "Ferreira",
+          "number": 5,
+          "position": "LB",
+          "squad": "starter"
+        },
+        {
+          "name": "Rui Matos",
+          "number": 6,
+          "position": "DM",
+          "squad": "starter"
+        },
+        {
+          "name": "João Melo",
+          "number": 8,
+          "position": "CM",
+          "squad": "starter"
+        },
+        {
+          "name": "Tomás Silva",
+          "number": 10,
+          "position": "AM",
+          "squad": "starter",
+          "overall": 85
+        },
+        {
+          "name": "Diogo Reis",
+          "number": 7,
+          "position": "RW",
+          "squad": "starter"
+        },
+        {
+          "name": "Miguel Costa",
+          "number": 11,
+          "position": "LW",
+          "squad": "starter"
+        },
+        {
+          "name": "Tiago Neves",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter"
+        },
+        {
+          "name": "Pedro Azevedo",
+          "number": 15,
+          "position": "CB",
+          "squad": "bench"
+        },
+        {
+          "name": "Bernardo Luz",
+          "number": 18,
+          "position": "AM",
+          "squad": "bench"
+        }
+      ]
+    },
+    "river_plate_u21": {
+      "name": "River Plate U21",
+      "overall": 81,
+      "mode": "generic",
+      "generator": {
+        "strength": 81,
+        "style": "balanced",
+        "seed": 301
+      }
+    },
+    "porto_u21": {
+      "name": "Porto U21",
+      "overall": 78,
+      "mode": "generic",
+      "generator": {
+        "strength": 78,
+        "style": "balanced",
+        "seed": 302
+      }
+    },
+    "palmeiras_u21": {
+      "name": "Palmeiras U21",
+      "overall": 82,
+      "mode": "generic",
+      "generator": {
+        "strength": 82,
+        "style": "balanced",
+        "seed": 303
+      }
+    },
+    "boca_juniors_u21": {
+      "name": "Boca Juniors U21",
+      "overall": 80,
+      "mode": "generic",
+      "generator": {
+        "strength": 80,
+        "style": "direct",
+        "seed": 304
+      }
+    },
+    "liverpool_u21": {
+      "name": "Liverpool U21",
+      "overall": 78,
+      "mode": "generic",
+      "generator": {
+        "strength": 78,
+        "style": "pressing",
+        "seed": 305
+      }
+    },
+    "inter_u21": {
+      "name": "Inter U21",
+      "overall": 81,
+      "mode": "generic",
+      "generator": {
+        "strength": 81,
+        "style": "balanced",
+        "seed": 306
+      }
+    },
+    "man_city_u21": {
+      "name": "Manchester City U21",
+      "overall": 80,
+      "mode": "generic",
+      "generator": {
+        "strength": 80,
+        "style": "attacking",
+        "seed": 307
+      }
+    },
+    "bayern_u21": {
+      "name": "Bayern U21",
+      "overall": 77,
+      "mode": "generic",
+      "generator": {
+        "strength": 77,
+        "style": "pressing",
+        "seed": 308
+      }
+    },
+    "brazil_2002": {
+      "name": "Brasil 2002",
+      "overall": 89,
+      "starting_xi_average": 88.7,
+      "mode": "explicit",
+      "ratings_revision": "v1.3-brazil-2002-estimate-1",
+      "rating_context": "Estimativas editoriais na escala 0–100 do motor, para o nível durante a Copa de 2002. Não são ratings oficiais FIFA/EA, não representam o auge de toda a carreira e não foram calibradas por placar ou adversário.",
+      "historical_context": {
+        "competition": "Copa do Mundo FIFA 2002",
+        "coach": "Luiz Felipe Scolari",
+        "captain": "Cafu",
+        "starting_lineup_reference": "Final de 30/06/2002",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Brazil_at_the_2002_FIFA_World_Cup",
+          "https://en.wikipedia.org/wiki/2002_FIFA_World_Cup_final"
+        ],
+        "metadata_only": "Contexto, capitão e funções descritas nas notas são documentação; o loader padrão não os transforma em bônus ou instruções individuais.",
+        "recommended_match_config": {
+          "max_substitutions": 3,
+          "allow_extra_time_substitution": false
+        },
+        "match_config_note": "Aplicar explicitamente na configuração da próxima partida histórica; carregar este elenco não aplica regras da competição automaticamente."
+      },
+      "tactics": {
+        "formation": "3-4-1-2",
+        "mentality": 0.16,
+        "tempo": 0.62,
+        "width": 0.7,
+        "pressing": 0.49,
+        "defensive_line": 0.48,
+        "compactness": 0.62,
+        "directness": 0.54,
+        "counter": 0.76,
+        "overlap_left": 0.8,
+        "overlap_right": 0.8,
+        "cross_frequency": 0.46,
+        "risk": 0.58
+      },
+      "players": [
+        {
+          "name": "Marcos",
+          "number": 1,
+          "position": "GK",
+          "squad": "starter",
+          "overall": 88,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 48,
+            "passing": 57,
+            "vision": 54,
+            "technique": 53,
+            "dribbling": 35,
+            "crossing": 25,
+            "finishing": 15,
+            "long_shots": 22,
+            "heading": 20,
+            "strength": 80,
+            "tackling": 20,
+            "positioning": 86,
+            "anticipation": 88,
+            "composure": 89,
+            "off_ball": 20,
+            "stamina": 74,
+            "aggression": 48,
+            "discipline": 86,
+            "reflexes": 92,
+            "handling": 88,
+            "gk_positioning": 89,
+            "one_on_one": 91
+          },
+          "notes": "Reflexos e segurança; distribuição conservadora."
+        },
+        {
+          "name": "Cafu",
+          "number": 2,
+          "position": "RB",
+          "squad": "starter",
+          "overall": 92,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 89,
+            "passing": 85,
+            "vision": 82,
+            "technique": 86,
+            "dribbling": 83,
+            "crossing": 90,
+            "finishing": 61,
+            "long_shots": 70,
+            "heading": 65,
+            "strength": 77,
+            "tackling": 86,
+            "positioning": 86,
+            "anticipation": 87,
+            "composure": 88,
+            "off_ball": 90,
+            "stamina": 97,
+            "aggression": 75,
+            "discipline": 84,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Capitão; ala direito de apoio constante e grande resistência."
+        },
+        {
+          "name": "Lúcio",
+          "number": 3,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 87,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 83,
+            "passing": 77,
+            "vision": 70,
+            "technique": 76,
+            "dribbling": 75,
+            "crossing": 47,
+            "finishing": 49,
+            "long_shots": 65,
+            "heading": 86,
+            "strength": 91,
+            "tackling": 88,
+            "positioning": 83,
+            "anticipation": 86,
+            "composure": 80,
+            "off_ball": 65,
+            "stamina": 87,
+            "aggression": 86,
+            "discipline": 73,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Zagueiro agressivo e veloz; conduz, antecipa e assume riscos."
+        },
+        {
+          "name": "Edmílson",
+          "number": 5,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 85,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 73,
+            "passing": 84,
+            "vision": 83,
+            "technique": 84,
+            "dribbling": 75,
+            "crossing": 55,
+            "finishing": 54,
+            "long_shots": 66,
+            "heading": 82,
+            "strength": 80,
+            "tackling": 84,
+            "positioning": 87,
+            "anticipation": 88,
+            "composure": 87,
+            "off_ball": 67,
+            "stamina": 83,
+            "aggression": 67,
+            "discipline": 84,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Zagueiro central com saída de bola e experiência como volante."
+        },
+        {
+          "name": "Roque Júnior",
+          "number": 4,
+          "position": "CB",
+          "squad": "starter",
+          "overall": 82,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 76,
+            "passing": 65,
+            "vision": 59,
+            "technique": 63,
+            "dribbling": 52,
+            "crossing": 39,
+            "finishing": 35,
+            "long_shots": 37,
+            "heading": 84,
+            "strength": 87,
+            "tackling": 84,
+            "positioning": 81,
+            "anticipation": 80,
+            "composure": 76,
+            "off_ball": 43,
+            "stamina": 82,
+            "aggression": 84,
+            "discipline": 69,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Defensor de cobertura e duelos; construção limitada."
+        },
+        {
+          "name": "Roberto Carlos",
+          "number": 6,
+          "position": "LB",
+          "squad": "starter",
+          "overall": 93,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 96,
+            "passing": 84,
+            "vision": 82,
+            "technique": 88,
+            "dribbling": 87,
+            "crossing": 93,
+            "finishing": 73,
+            "long_shots": 96,
+            "heading": 59,
+            "strength": 89,
+            "tackling": 83,
+            "positioning": 79,
+            "anticipation": 84,
+            "composure": 87,
+            "off_ball": 91,
+            "stamina": 94,
+            "aggression": 81,
+            "discipline": 76,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Ala esquerdo explosivo; amplitude, cruzamento e chute de longe; pode deixar espaço ao avançar."
+        },
+        {
+          "name": "Gilberto Silva",
+          "number": 8,
+          "position": "DM",
+          "squad": "starter",
+          "overall": 86,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 76,
+            "passing": 79,
+            "vision": 75,
+            "technique": 75,
+            "dribbling": 66,
+            "crossing": 44,
+            "finishing": 48,
+            "long_shots": 60,
+            "heading": 81,
+            "strength": 86,
+            "tackling": 88,
+            "positioning": 92,
+            "anticipation": 91,
+            "composure": 88,
+            "off_ball": 62,
+            "stamina": 92,
+            "aggression": 71,
+            "discipline": 89,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Protege a zaga, cobre os alas e simplifica a circulação."
+        },
+        {
+          "name": "Kléberson",
+          "number": 15,
+          "position": "CM",
+          "squad": "starter",
+          "overall": 84,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 84,
+            "passing": 84,
+            "vision": 82,
+            "technique": 83,
+            "dribbling": 80,
+            "crossing": 78,
+            "finishing": 69,
+            "long_shots": 80,
+            "heading": 54,
+            "strength": 71,
+            "tackling": 77,
+            "positioning": 79,
+            "anticipation": 83,
+            "composure": 81,
+            "off_ball": 85,
+            "stamina": 92,
+            "aggression": 73,
+            "discipline": 82,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Meio-campista móvel; condução, cobertura pelo lado direito e chegada."
+        },
+        {
+          "name": "Ronaldinho",
+          "number": 11,
+          "position": "AM",
+          "squad": "starter",
+          "overall": 90,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 87,
+            "passing": 92,
+            "vision": 94,
+            "technique": 96,
+            "dribbling": 96,
+            "crossing": 85,
+            "finishing": 81,
+            "long_shots": 87,
+            "heading": 50,
+            "strength": 70,
+            "tackling": 39,
+            "positioning": 57,
+            "anticipation": 84,
+            "composure": 86,
+            "off_ball": 89,
+            "stamina": 80,
+            "aggression": 48,
+            "discipline": 72,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Criador em 2002: improviso e drible excepcionais; ainda não é a versão do auge de 2004–2006."
+        },
+        {
+          "name": "Rivaldo",
+          "number": 10,
+          "position": "ST",
+          "squad": "starter",
+          "overall": 94,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 80,
+            "passing": 90,
+            "vision": 93,
+            "technique": 96,
+            "dribbling": 93,
+            "crossing": 83,
+            "finishing": 95,
+            "long_shots": 95,
+            "heading": 80,
+            "strength": 78,
+            "tackling": 37,
+            "positioning": 61,
+            "anticipation": 93,
+            "composure": 94,
+            "off_ball": 95,
+            "stamina": 82,
+            "aggression": 54,
+            "discipline": 71,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Segundo atacante canhoto; associação, chute e chegada; velocidade moderada."
+        },
+        {
+          "name": "Ronaldo",
+          "number": 9,
+          "position": "ST",
+          "squad": "starter",
+          "overall": 95,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 91,
+            "passing": 78,
+            "vision": 83,
+            "technique": 94,
+            "dribbling": 96,
+            "crossing": 56,
+            "finishing": 98,
+            "long_shots": 83,
+            "heading": 77,
+            "strength": 86,
+            "tackling": 25,
+            "positioning": 43,
+            "anticipation": 96,
+            "composure": 96,
+            "off_ball": 98,
+            "stamina": 77,
+            "aggression": 48,
+            "discipline": 79,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Finalizador de elite, drible curto e ataque ao espaço; físico de 2002, sem copiar a explosão pré-lesões."
+        },
+        {
+          "name": "Dida",
+          "number": 12,
+          "position": "GK",
+          "squad": "bench",
+          "overall": 86,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 48,
+            "passing": 55,
+            "vision": 52,
+            "technique": 51,
+            "dribbling": 30,
+            "crossing": 21,
+            "finishing": 12,
+            "long_shots": 18,
+            "heading": 19,
+            "strength": 86,
+            "tackling": 18,
+            "positioning": 84,
+            "anticipation": 85,
+            "composure": 86,
+            "off_ball": 18,
+            "stamina": 75,
+            "aggression": 40,
+            "discipline": 88,
+            "reflexes": 91,
+            "handling": 84,
+            "gk_positioning": 85,
+            "one_on_one": 88
+          },
+          "notes": "Envergadura e reflexos; reserva de Marcos neste recorte."
+        },
+        {
+          "name": "Rogério Ceni",
+          "number": 22,
+          "position": "GK",
+          "squad": "bench",
+          "overall": 85,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 49,
+            "passing": 84,
+            "vision": 77,
+            "technique": 81,
+            "dribbling": 45,
+            "crossing": 66,
+            "finishing": 65,
+            "long_shots": 80,
+            "heading": 22,
+            "strength": 79,
+            "tackling": 21,
+            "positioning": 83,
+            "anticipation": 84,
+            "composure": 88,
+            "off_ball": 30,
+            "stamina": 75,
+            "aggression": 55,
+            "discipline": 85,
+            "reflexes": 86,
+            "handling": 84,
+            "gk_positioning": 85,
+            "one_on_one": 82
+          },
+          "notes": "Goleiro técnico na reposição e bola parada; sem atributo de falta inventado além dos campos suportados."
+        },
+        {
+          "name": "Belletti",
+          "number": 13,
+          "position": "RB",
+          "squad": "bench",
+          "overall": 80,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 84,
+            "passing": 74,
+            "vision": 69,
+            "technique": 75,
+            "dribbling": 75,
+            "crossing": 78,
+            "finishing": 54,
+            "long_shots": 65,
+            "heading": 56,
+            "strength": 74,
+            "tackling": 77,
+            "positioning": 73,
+            "anticipation": 75,
+            "composure": 74,
+            "off_ball": 79,
+            "stamina": 86,
+            "aggression": 77,
+            "discipline": 73,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Alternativa de amplitude pela direita, com intensidade e apoio."
+        },
+        {
+          "name": "Anderson Polga",
+          "number": 14,
+          "position": "CB",
+          "squad": "bench",
+          "overall": 79,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 70,
+            "passing": 68,
+            "vision": 60,
+            "technique": 64,
+            "dribbling": 48,
+            "crossing": 38,
+            "finishing": 31,
+            "long_shots": 36,
+            "heading": 82,
+            "strength": 84,
+            "tackling": 81,
+            "positioning": 80,
+            "anticipation": 78,
+            "composure": 75,
+            "off_ball": 42,
+            "stamina": 80,
+            "aggression": 78,
+            "discipline": 75,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Reserva de zaga; duelos e jogo aéreo acima da construção."
+        },
+        {
+          "name": "Júnior",
+          "number": 16,
+          "position": "LB",
+          "squad": "bench",
+          "overall": 81,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 84,
+            "passing": 78,
+            "vision": 74,
+            "technique": 79,
+            "dribbling": 80,
+            "crossing": 82,
+            "finishing": 56,
+            "long_shots": 66,
+            "heading": 52,
+            "strength": 70,
+            "tackling": 74,
+            "positioning": 73,
+            "anticipation": 76,
+            "composure": 77,
+            "off_ball": 82,
+            "stamina": 85,
+            "aggression": 65,
+            "discipline": 79,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Lateral de apoio e combinação pelo lado esquerdo."
+        },
+        {
+          "name": "Ricardinho",
+          "number": 7,
+          "position": "AM",
+          "squad": "bench",
+          "overall": 82,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 73,
+            "passing": 87,
+            "vision": 87,
+            "technique": 86,
+            "dribbling": 82,
+            "crossing": 81,
+            "finishing": 69,
+            "long_shots": 79,
+            "heading": 47,
+            "strength": 62,
+            "tackling": 53,
+            "positioning": 65,
+            "anticipation": 79,
+            "composure": 85,
+            "off_ball": 80,
+            "stamina": 79,
+            "aggression": 49,
+            "discipline": 85,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Meia de passe e organização, sem grande imposição física."
+        },
+        {
+          "name": "Vampeta",
+          "number": 18,
+          "position": "DM",
+          "squad": "bench",
+          "overall": 81,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 74,
+            "passing": 77,
+            "vision": 72,
+            "technique": 76,
+            "dribbling": 70,
+            "crossing": 49,
+            "finishing": 53,
+            "long_shots": 66,
+            "heading": 65,
+            "strength": 83,
+            "tackling": 82,
+            "positioning": 79,
+            "anticipation": 78,
+            "composure": 76,
+            "off_ball": 69,
+            "stamina": 84,
+            "aggression": 84,
+            "discipline": 66,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Volante de duelos e circulação; maior risco disciplinar."
+        },
+        {
+          "name": "Juninho Paulista",
+          "number": 19,
+          "position": "AM",
+          "squad": "bench",
+          "overall": 86,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 86,
+            "passing": 88,
+            "vision": 90,
+            "technique": 91,
+            "dribbling": 92,
+            "crossing": 80,
+            "finishing": 74,
+            "long_shots": 81,
+            "heading": 40,
+            "strength": 52,
+            "tackling": 51,
+            "positioning": 64,
+            "anticipation": 83,
+            "composure": 85,
+            "off_ball": 87,
+            "stamina": 84,
+            "aggression": 49,
+            "discipline": 83,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Meia móvel e associativo, ágil no espaço curto; frágil no contato."
+        },
+        {
+          "name": "Denílson",
+          "number": 17,
+          "position": "LW",
+          "squad": "bench",
+          "overall": 84,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 89,
+            "passing": 75,
+            "vision": 77,
+            "technique": 88,
+            "dribbling": 95,
+            "crossing": 79,
+            "finishing": 65,
+            "long_shots": 70,
+            "heading": 43,
+            "strength": 62,
+            "tackling": 34,
+            "positioning": 46,
+            "anticipation": 70,
+            "composure": 72,
+            "off_ball": 78,
+            "stamina": 81,
+            "aggression": 42,
+            "discipline": 75,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Drible e retenção pela esquerda; decisão e finalização abaixo da habilidade."
+        },
+        {
+          "name": "Edílson",
+          "number": 20,
+          "position": "ST",
+          "squad": "bench",
+          "overall": 83,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 85,
+            "passing": 77,
+            "vision": 77,
+            "technique": 86,
+            "dribbling": 88,
+            "crossing": 67,
+            "finishing": 83,
+            "long_shots": 76,
+            "heading": 62,
+            "strength": 63,
+            "tackling": 30,
+            "positioning": 46,
+            "anticipation": 82,
+            "composure": 80,
+            "off_ball": 85,
+            "stamina": 76,
+            "aggression": 68,
+            "discipline": 65,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Atacante móvel de drible e combinação; pouco jogo aéreo."
+        },
+        {
+          "name": "Luizão",
+          "number": 21,
+          "position": "ST",
+          "squad": "bench",
+          "overall": 82,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 72,
+            "passing": 62,
+            "vision": 61,
+            "technique": 70,
+            "dribbling": 62,
+            "crossing": 36,
+            "finishing": 87,
+            "long_shots": 63,
+            "heading": 91,
+            "strength": 88,
+            "tackling": 28,
+            "positioning": 46,
+            "anticipation": 85,
+            "composure": 82,
+            "off_ball": 89,
+            "stamina": 77,
+            "aggression": 75,
+            "discipline": 69,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Centroavante de área; força, cabeceio e ataque ao cruzamento."
+        },
+        {
+          "name": "Kaká",
+          "number": 23,
+          "position": "AM",
+          "squad": "bench",
+          "overall": 79,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 86,
+            "passing": 79,
+            "vision": 80,
+            "technique": 83,
+            "dribbling": 83,
+            "crossing": 64,
+            "finishing": 74,
+            "long_shots": 76,
+            "heading": 56,
+            "strength": 62,
+            "tackling": 34,
+            "positioning": 50,
+            "anticipation": 75,
+            "composure": 74,
+            "off_ball": 82,
+            "stamina": 76,
+            "aggression": 38,
+            "discipline": 83,
+            "reflexes": 20,
+            "handling": 20,
+            "gk_positioning": 20,
+            "one_on_one": 20
+          },
+          "notes": "Jovem de 20 anos; condução vertical e potencial, sem atributos do auge de 2007."
+        }
+      ],
+      "notes": "XI da final como padrão, com Cafu e Roberto Carlos representados nas posições suportadas RB/LB, em função histórica de alas; Rivaldo como segundo atacante representado por ST. Elenco completo de 23 convocados. Todos os 22 atributos numéricos de cada jogador são explícitos, sem depender do OVR para gerar atributos. Táticas são aproximações editoriais, sem bônus de campeão ou resultado garantido."
+    }
   }
 }

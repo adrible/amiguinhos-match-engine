@@ -56,11 +56,24 @@ def run(count: int = 500, start_seed: int = 70000) -> None:
     keeper_one_v_one_choices: Counter[str] = Counter()
     penalty_styles: Counter[str] = Counter()
     penalty_targets: Counter[str] = Counter()
+    foul_actor_positions: Counter[str] = Counter()
+    common_foul_actor_positions: Counter[str] = Counter()
+    tactical_foul_actor_positions: Counter[str] = Counter()
+    distinct_foulers_per_match: list[int] = []
+    top_fouler_share_per_match: list[float] = []
 
     for seed in seeds:
         home = make_generic_team("Realism A", 78, "balanced", seed=71001)
         away = make_generic_team("Realism B", 78, "balanced", seed=72002)
         engine = MatchEngine(home, away, seed=seed)
+        player_positions = {
+            ps.player.name: ps.player.position.upper()
+            for rt in engine.teams
+            for ps in rt.on_field
+        }
+        for rt in engine.teams:
+            player_positions.update({p.name: p.position.upper() for p in rt.bench})
+
         guard = 0
         while not engine.state.ended and guard < 7000:
             engine.step()
@@ -90,6 +103,7 @@ def run(count: int = 500, start_seed: int = 70000) -> None:
         match_reds = engine.stats[0].red + engine.stats[1].red
         red_cards += match_reds
         red_matches += int(match_reds > 0)
+        match_foulers: Counter[str] = Counter()
 
         for event in engine.state.event_log:
             data = event.data or {}
@@ -118,6 +132,28 @@ def run(count: int = 500, start_seed: int = 70000) -> None:
                 second_balls += 1
                 second_ball_attack_wins += int(event.text_key in {"second_ball_attack_continues", "second_ball_attack_recovers"})
 
+            # Attribute actual foul responsibility without imposing per-player
+            # quotas. Penalty incidents count because they are team fouls too.
+            if event.type in {EventType.FOUL, EventType.PENALTY}:
+                fouler = data.get("fouler") or data.get("defender")
+                if fouler:
+                    fouler = str(fouler)
+                    position = player_positions.get(fouler, "UNKNOWN")
+                    match_foulers[fouler] += 1
+                    foul_actor_positions[position] += 1
+                    if event.text_key == "tactical_foul_stops_transition":
+                        tactical_foul_actor_positions[position] += 1
+                    else:
+                        common_foul_actor_positions[position] += 1
+
+        if match_foulers:
+            total = sum(match_foulers.values())
+            distinct_foulers_per_match.append(len(match_foulers))
+            top_fouler_share_per_match.append(max(match_foulers.values()) / total)
+        else:
+            distinct_foulers_per_match.append(0)
+            top_fouler_share_per_match.append(0.0)
+
     matches = float(count)
     goals = sum(goals_per_match)
     print(f"v1.3 realism heavy audit: {count} matches, seeds {start_seed}..{start_seed + count - 1}")
@@ -130,6 +166,14 @@ def run(count: int = 500, start_seed: int = 70000) -> None:
     print(f"stoppage_goals_90plus={stoppage_goals} share_of_goals={(stoppage_goals / goals if goals else 0.0):.3f}")
     print(f"time_waste_attempts/match={time_waste_attempts / matches:.3f} cards={time_waste_cards} by_restart={dict(time_waste_by_restart)}")
     print(f"tactical_foul_candidates/match={tactical_foul_attempts / matches:.3f} committed/match={tactical_fouls / matches:.3f} cards={tactical_foul_cards}")
+    print(f"foul_actor_positions={dict(sorted(foul_actor_positions.items()))}")
+    print(f"common_foul_actor_positions={dict(sorted(common_foul_actor_positions.items()))}")
+    print(f"tactical_foul_actor_positions={dict(sorted(tactical_foul_actor_positions.items()))}")
+    print(
+        "foul_concentration: "
+        f"mean_distinct_foulers={mean(distinct_foulers_per_match):.3f} "
+        f"mean_top_fouler_share={mean(top_fouler_share_per_match):.3f}"
+    )
     print(f"load_injuries/match={load_injuries / matches:.4f} forced_off={load_forced_off}")
     print(f"gk_one_v_ones/match={one_v_ones / matches:.3f} goal_rate={(one_v_one_goals / one_v_ones if one_v_ones else 0.0):.3f}")
     print(f"gk_one_v_one_attacker_choices={dict(one_v_one_choices)}")

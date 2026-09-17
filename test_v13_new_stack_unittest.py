@@ -4,7 +4,7 @@ from __future__ import annotations
 
 The realism-stack test modules intentionally use small plain ``test_*`` functions.
 The candidate workflow historically invokes ``python -m unittest``; importing a
-module containing only those functions does not execute them.  This adapter
+module containing only those functions does not execute them. This adapter
 registers every zero-argument ``test_*`` function as a real unittest method and
 fails loudly if a future test starts requiring a fixture/parameter.
 """
@@ -28,6 +28,7 @@ MODULES = [
     "test_v13_load_injuries",
     "test_v13_gk_one_v_one",
     "test_v13_penalties",
+    "test_v13_rules_hardening",
 ]
 
 

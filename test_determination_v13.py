@@ -4,7 +4,7 @@ import unittest
 
 from engine import Band, Lane, Zone
 from engine_experiment_v13 import MatchEngine
-from team_loader import load_team as load_stable_team
+from team_loader import load_team as load_base_team
 from team_loader_v13 import load_team_v13
 
 
@@ -16,40 +16,41 @@ class DeterminationV13Tests(unittest.TestCase):
             seed=seed,
         )
 
-    def test_stable_v12_roster_keeps_old_ratings_and_no_determination(self):
-        stable = load_stable_team("amiguinhos_u21")
-        players = {p.name: p for p in [*stable.starters, *stable.bench]}
+    def test_base_ratings_are_current_and_behaviour_traits_are_separate(self):
+        base = load_base_team("amiguinhos_u21")
+        players = {p.name: p for p in [*base.starters, *base.bench]}
         adib = players["Gabriel Adib"]
-        self.assertEqual(adib.overall, 79)
-        self.assertEqual(adib.passing, 85)
-        self.assertEqual(adib.aggression, 80)
-        self.assertEqual(adib.discipline, 74)
+        self.assertEqual(adib.overall, 85)
+        self.assertEqual(adib.passing, 89)
+        self.assertEqual(adib.vision, 90)
+        self.assertEqual(adib.aggression, 82)
+        self.assertEqual(adib.discipline, 77)
         self.assertFalse(hasattr(adib, "determination"))
 
-    def test_v13_amiguinhos_load_evolved_literal_ratings_and_traits(self):
+    def test_v13_amiguinhos_load_current_ratings_and_traits(self):
         candidate = load_team_v13("amiguinhos_u21")
         players = {p.name: p for p in [*candidate.starters, *candidate.bench]}
         adib = players["Gabriel Adib"]
         felipe = players["Felipe"]
-        self.assertEqual(adib.overall, 81)
-        self.assertEqual(adib.passing, 88)
-        self.assertEqual(adib.vision, 89)
-        self.assertEqual(adib.aggression, 80)
-        self.assertEqual(adib.discipline, 74)
+        self.assertEqual(adib.overall, 85)
+        self.assertEqual(adib.passing, 89)
+        self.assertEqual(adib.vision, 90)
+        self.assertEqual(adib.aggression, 82)
+        self.assertEqual(adib.discipline, 77)
         self.assertEqual(adib.determination, 93.0)
         self.assertEqual(felipe.determination, 94.0)
-        self.assertEqual(felipe.aggression, 90)
-        self.assertEqual(felipe.discipline, 52)
+        self.assertEqual(felipe.aggression, 91)
+        self.assertEqual(felipe.discipline, 54)
 
-    def test_non_overlaid_opponent_keeps_stable_ratings(self):
-        stable = load_stable_team("ajax_u21")
+    def test_non_overlaid_opponent_keeps_base_ratings(self):
+        base = load_base_team("ajax_u21")
         candidate = load_team_v13("ajax_u21")
-        stable_players = {p.name: p for p in stable.starters}
+        base_players = {p.name: p for p in base.starters}
         candidate_players = {p.name: p for p in candidate.starters}
-        self.assertEqual(set(candidate_players), set(stable_players))
-        for name in stable_players:
-            self.assertEqual(candidate_players[name].overall, stable_players[name].overall)
-            self.assertEqual(candidate_players[name].passing, stable_players[name].passing)
+        self.assertEqual(set(candidate_players), set(base_players))
+        for name in base_players:
+            self.assertEqual(candidate_players[name].overall, base_players[name].overall)
+            self.assertEqual(candidate_players[name].passing, base_players[name].passing)
             self.assertFalse(hasattr(candidate_players[name], "determination"))
 
     def test_determination_changes_willingness_only_under_adversity(self):
@@ -105,7 +106,7 @@ class DeterminationV13Tests(unittest.TestCase):
         self.assertLess(high["risk"], low["risk"])
         self.assertGreater(high["determination_resilience"], low["determination_resilience"])
 
-    def test_determination_and_evolved_ratings_survive_candidate_roundtrip(self):
+    def test_determination_and_ratings_survive_candidate_roundtrip(self):
         e = self.make_engine(seed=77)
         restored = MatchEngine.from_json(e.export_json())
         original = e.teams[0].by_name("Gabriel Adib").player

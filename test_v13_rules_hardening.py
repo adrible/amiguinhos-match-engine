@@ -116,3 +116,37 @@ def test_xg_diagnostic_uses_requested_chance_quality_bins():
     assert _bin_for_xg(0.100) == "0.10-0.20"
     assert _bin_for_xg(0.200) == "0.20-0.40"
     assert _bin_for_xg(0.400) == "0.40+"
+
+
+def test_canonical_shot_ledger_covers_stats_and_exact_xg():
+    engine = _engine(seed=0)
+    guard = 0
+    while sum(st.shots for st in engine.stats) < 6 and not engine.state.ended and guard < 2500:
+        engine.step()
+        guard += 1
+    assert guard < 2500
+    coverage = engine.shot_ledger_coverage()
+    rows = engine.shot_ledger_diagnostic()
+    assert coverage["complete"]
+    assert len(rows) == sum(st.shots for st in engine.stats)
+    assert len({row["shot_id"] for row in rows}) == len(rows)
+    assert abs(sum(float(row["xg"]) for row in rows) - sum(st.xg for st in engine.stats)) < 1e-8
+
+
+def test_shot_ledger_roundtrip_preserves_existing_attempts_and_future_coverage():
+    engine = _engine(seed=2026)
+    guard = 0
+    while sum(st.shots for st in engine.stats) < 3 and not engine.state.ended and guard < 2500:
+        engine.step()
+        guard += 1
+    restored = MatchEngineV13RulesHardening.from_json(engine.export_json())
+    assert restored.shot_ledger_diagnostic() == engine.shot_ledger_diagnostic()
+    assert restored.shot_ledger_coverage() == engine.shot_ledger_coverage()
+    for _ in range(80):
+        if engine.state.ended or restored.state.ended:
+            break
+        a = engine.step()
+        b = restored.step()
+        assert (a.type, a.team, a.text_key, a.data) == (b.type, b.team, b.text_key, b.data)
+    assert restored.shot_ledger_coverage()["complete"]
+    assert restored.shot_ledger_diagnostic() == engine.shot_ledger_diagnostic()

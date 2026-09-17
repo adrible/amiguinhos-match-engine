@@ -12,13 +12,24 @@ class TeamLoaderTests(unittest.TestCase):
         self.assertEqual(team.name, "🦆 Amiguinhos U21")
         self.assertEqual(len(team.starters), 11)
         self.assertEqual(len(team.bench), 3)
+        self.assertEqual(round(sum(p.overall for p in team.starters) / 11, 1), 81.6)
+
         adib = next(p for p in team.starters if p.name == "Gabriel Adib")
-        self.assertEqual(adib.overall, 79)
-        self.assertEqual(adib.vision, 86)
+        self.assertEqual(adib.overall, 85)
+        self.assertEqual(adib.vision, 90)
+        self.assertEqual(adib.passing, 89)
+
         remo = next(p for p in team.starters if p.name == "Remo")
+        self.assertEqual(remo.overall, 84)
         self.assertEqual(remo.preferred_foot, "L")
 
-    def test_load_flamengo_explicit_roster(self):
+        starters = {p.name for p in team.starters}
+        bench = {p.name for p in team.bench}
+        self.assertIn("Igor", starters)
+        self.assertIn("João Peixoto", starters)
+        self.assertIn("Rodrigo White", bench)
+
+    def test_load_flamengo_base_roster(self):
         team = load_team("flamengo_u21")
         self.assertEqual(len(team.starters), 11)
         lins = next(p for p in team.starters if p.name == "Pedro Lins")

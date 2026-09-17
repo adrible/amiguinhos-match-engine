@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from statistics import mean
 
-from engine import EventType, make_generic_team
+from engine import make_generic_team
 from engine_experiment_v13 import MatchEngine
 
 
@@ -16,33 +16,18 @@ XG_BINS = (
 )
 
 
-def _shot_xg_from_event(event) -> float | None:
-    """Recover the one xG value attached to each resolved shot attempt."""
-    data = event.data if isinstance(event.data, dict) else {}
-    if event.type in {
-        EventType.GOAL,
-        EventType.SAVE,
-        EventType.MISS,
-        EventType.BLOCK,
-        EventType.POST,
-    } and isinstance(data.get("xg"), (int, float)):
-        return float(data["xg"])
-    if event.type == EventType.CORNER and isinstance(data.get("shot_xg"), (int, float)):
-        return float(data["shot_xg"])
-    if event.type == EventType.REBOUND and isinstance(data.get("previous_xg"), (int, float)):
-        return float(data["previous_xg"])
-    return None
-
-
 def _collect_shots(engine: MatchEngine) -> list[tuple[float, int]]:
-    shots: list[tuple[float, int]] = []
-    for event in engine.state.event_log:
-        xg = _shot_xg_from_event(event)
-        if xg is None:
-            continue
-        goal = int(event.type == EventType.GOAL)
-        shots.append((xg, goal))
-    return shots
+    """Read canonical shot attempts from engine state, never from public events."""
+    coverage = engine.shot_ledger_coverage()
+    if not coverage["complete"]:
+        raise AssertionError(
+            "shot-ledger coverage failed: "
+            f"ledger={coverage['ledger_by_team']} expected={coverage['expected_by_team']}"
+        )
+    return [
+        (float(row["xg"]), int(bool(row["goal"])))
+        for row in engine.shot_ledger_diagnostic()
+    ]
 
 
 def _bin_for_xg(xg: float) -> str:
@@ -54,16 +39,16 @@ def _bin_for_xg(xg: float) -> str:
 
 def _print_xg_calibration(shots: list[tuple[float, int]], stats_xg: float) -> None:
     print("xg->goal calibration (diagnostic only; no target forcing)")
-    event_xg = sum(xg for xg, _ in shots)
+    ledger_xg = sum(xg for xg, _ in shots)
     goals = sum(goal for _, goal in shots)
     print(
         "overall: "
         f"shots={len(shots)} "
-        f"sum_xg={event_xg:.3f} "
+        f"sum_xg={ledger_xg:.3f} "
         f"goals={goals} "
-        f"goals_minus_xg={goals - event_xg:+.3f} "
-        f"goal_to_xg={(goals / event_xg if event_xg else 0.0):.3f} "
-        f"event_vs_stats_xg={event_xg - stats_xg:+.3f}"
+        f"goals_minus_xg={goals - ledger_xg:+.3f} "
+        f"goal_to_xg={(goals / ledger_xg if ledger_xg else 0.0):.3f} "
+        f"ledger_vs_stats_xg={ledger_xg - stats_xg:+.9f}"
     )
     for label, _, _ in XG_BINS:
         rows = [(xg, goal) for xg, goal in shots if _bin_for_xg(xg) == label]
@@ -105,20 +90,29 @@ def run(n: int = 100) -> None:
         for st in (a, b):
             if st.shots < st.on_target or st.on_target < st.goals or st.xg < 0:
                 raise AssertionError(f"Statistic invariant failed on seed {seed}")
+
         match_shots = _collect_shots(engine)
         if len(match_shots) != a.shots + b.shots:
             raise AssertionError(
-                f"shot-event coverage failed on seed {seed}: "
-                f"{len(match_shots)} events for {a.shots + b.shots} shots"
+                f"shot-ledger coverage failed on seed {seed}: "
+                f"{len(match_shots)} ledger rows for {a.shots + b.shots} shots"
             )
+        ledger_xg = sum(xg for xg, _ in match_shots)
+        stats_xg = float(a.xg + b.xg)
+        if abs(ledger_xg - stats_xg) > 1e-8:
+            raise AssertionError(
+                f"shot-ledger xg mismatch on seed {seed}: "
+                f"ledger={ledger_xg:.12f} stats={stats_xg:.12f}"
+            )
+
         all_shots.extend(match_shots)
-        stats_xg_total += a.xg + b.xg
+        stats_xg_total += stats_xg
         rows.append(
             (
                 a.goals + b.goals,
                 a.shots + b.shots,
                 a.on_target + b.on_target,
-                a.xg + b.xg,
+                stats_xg,
                 a.big_chances + b.big_chances,
                 int(a.goals == 0 and b.goals == 0),
             )

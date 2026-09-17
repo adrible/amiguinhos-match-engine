@@ -1,19 +1,19 @@
 from __future__ import annotations
 
-"""Structural hardening for the current v1.3 candidate.
+"""Structural hardening for the active v1.3 engine line.
 
 This top adapter fixes mechanics exposed by live/diagnostic matches:
 - historical competition substitution limits come from fixture metadata;
-- defensive engagement is spatially role-aware in every pitch band, so a high
-  press is not incorrectly attributed almost entirely to holding midfielders;
+- defensive engagement is spatially role-aware in every pitch band;
 - tactical-foul responsibility is probabilistic instead of always selecting the
   single highest-scoring player;
-- normal automatic substitutions require a positive footballing benefit after
-  accounting for freshness and the relevant match context.
+- normal automatic substitutions require a positive footballing benefit;
+- every resolved shot is captured once in a canonical, RNG-free xG ledger.
 
-No rule reads a desired score, benchmark target, team strength or future event.
+No rule reads a desired score, benchmark target, team identity or future event.
 """
 
+from copy import deepcopy
 from dataclasses import replace
 
 from engine import Band, Lane, MatchConfig, PlayerState, Zone, clamp, weighted_choice
@@ -25,9 +25,15 @@ HISTORICAL_2014_KEYS = {"brazil_2014", "germany_2014"}
 
 
 class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
-    """Competition-law, spatial engagement, foul and substitution guardrails."""
+    """Competition-law, spatial engagement, shot, foul and substitution guardrails."""
 
     def __init__(self, home, away, seed=None, config=None, **kwargs):
+        # Shot telemetry is engine state, not reconstructed later from public
+        # narration/events. It consumes no RNG and cannot affect outcomes.
+        self._v13_shot_ledger: list[dict] = []
+        self._v13_shot_seq = 0
+        self._v13_shot_baseline = [0, 0]
+
         effective_config = replace(config) if config is not None else MatchConfig()
         home_key = getattr(home, "historical_key", None)
         away_key = getattr(away, "historical_key", None)
@@ -40,6 +46,119 @@ class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
                 allow_extra_time_substitution=False,
             )
         super().__init__(home, away, seed=seed, config=effective_config, **kwargs)
+
+    def step(self):
+        """Advance one engine beat and account for every shot exactly once.
+
+        The engine contract resolves at most one shot attempt in a public step.
+        Comparing canonical statistics before/after the beat catches every shot
+        route (open play, corner, rebound, free kick, penalty, specialised v1.3
+        layers) without depending on which public event happened to represent it.
+        """
+        before = [
+            {
+                "shots": int(st.shots),
+                "xg": float(st.xg),
+                "on_target": int(st.on_target),
+                "goals": int(st.goals),
+                "blocked": int(st.blocked),
+            }
+            for st in self.stats
+        ]
+        event = super().step()
+
+        for team, st in enumerate(self.stats):
+            shot_delta = int(st.shots) - before[team]["shots"]
+            if shot_delta < 0:
+                raise RuntimeError("Shot statistics regressed during a v1.3 step.")
+            if shot_delta > 1:
+                raise RuntimeError(
+                    "A single v1.3 public step resolved more than one shot; "
+                    "split the sequence before recording the shot ledger."
+                )
+            if shot_delta == 0:
+                continue
+
+            self._v13_shot_seq += 1
+            data = event.data if event is not None and isinstance(event.data, dict) else {}
+            xg_delta = max(0.0, float(st.xg) - before[team]["xg"])
+            on_target_delta = int(st.on_target) - before[team]["on_target"]
+            goal_delta = int(st.goals) - before[team]["goals"]
+            blocked_delta = int(st.blocked) - before[team]["blocked"]
+            actor = (
+                data.get("shooter")
+                or data.get("scorer")
+                or data.get("taker")
+                or data.get("player")
+            )
+            origin = data.get("origin")
+            if not origin and str(getattr(event, "text_key", "")).startswith("penalty_"):
+                origin = "penalty"
+
+            self._v13_shot_ledger.append(
+                {
+                    "shot_id": f"S{self._v13_shot_seq:06d}",
+                    "team": int(team),
+                    "minute": round(float(getattr(event, "minute", self.minute)), 6),
+                    "actor": None if actor is None else str(actor),
+                    "origin": None if origin is None else str(origin),
+                    "xg": xg_delta,
+                    "on_target": bool(on_target_delta > 0),
+                    "goal": bool(goal_delta > 0),
+                    "blocked": bool(blocked_delta > 0),
+                    "outcome": getattr(getattr(event, "type", None), "value", None),
+                    "event_key": getattr(event, "text_key", None),
+                }
+            )
+        return event
+
+    def shot_ledger_diagnostic(self) -> list[dict]:
+        """Return an RNG-pure copy of canonical shot attempts."""
+        return deepcopy(self._v13_shot_ledger)
+
+    def shot_ledger_coverage(self) -> dict:
+        """Compare the ledger with canonical statistics since its baseline."""
+        expected_by_team = [
+            int(self.stats[i].shots) - int(self._v13_shot_baseline[i])
+            for i in (0, 1)
+        ]
+        ledger_by_team = [
+            sum(1 for row in self._v13_shot_ledger if int(row["team"]) == i)
+            for i in (0, 1)
+        ]
+        return {
+            "expected_by_team": expected_by_team,
+            "ledger_by_team": ledger_by_team,
+            "expected_total": sum(expected_by_team),
+            "ledger_total": len(self._v13_shot_ledger),
+            "complete": expected_by_team == ledger_by_team,
+        }
+
+    def export_state(self) -> dict:
+        data = super().export_state()
+        data["v13_shot_ledger"] = self.shot_ledger_diagnostic()
+        data["v13_shot_seq"] = int(self._v13_shot_seq)
+        data["v13_shot_baseline"] = [int(v) for v in self._v13_shot_baseline]
+        return data
+
+    @classmethod
+    def from_state_dict(cls, data: dict):
+        obj = super().from_state_dict(data)
+        raw = data.get("v13_shot_ledger")
+        if isinstance(raw, list):
+            obj._v13_shot_ledger = deepcopy(raw)
+            obj._v13_shot_seq = int(data.get("v13_shot_seq", len(raw)))
+            baseline = data.get("v13_shot_baseline", [0, 0])
+            if not isinstance(baseline, list) or len(baseline) != 2:
+                baseline = [0, 0]
+            obj._v13_shot_baseline = [int(baseline[0]), int(baseline[1])]
+        else:
+            # Legacy v1.3 save: previous attempts are unknowable without
+            # reconstructing public events, so start coverage from load time.
+            obj._v13_shot_ledger = []
+            obj._v13_shot_seq = 0
+            obj._v13_shot_baseline = [int(obj.stats[0].shots), int(obj.stats[1].shots)]
+        return obj
 
     @staticmethod
     def _defender_band_role_weight(position: str, zone: Zone) -> float:

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import random
 import unittest
 
 from engine import Band, Lane, Zone
@@ -14,7 +13,7 @@ from evaluation_v13 import (
     tournament_teams,
 )
 from final_protocol_v13 import OFFICIAL_FINAL_SEED
-from team_loader import load_team as load_stable_team
+from team_loader import load_database, load_team as load_base_team
 from team_loader_v13 import load_team_v13, load_v13_trait_database
 
 
@@ -149,37 +148,45 @@ class ExtendedV13ValidationTests(unittest.TestCase):
         self.assertLess(probs[1], probs[2])
         self.assertLessEqual(probs[2] - probs[0], 0.0121)
 
-    def test_literal_v13_attributes_match_json_exactly_for_entire_roster(self):
+    def test_canonical_attributes_match_base_database_exactly_for_entire_roster(self):
+        database = load_database()
+        raw_players = {
+            row["name"]: row
+            for row in database["teams"]["amiguinhos_u21"]["players"]
+        }
+        base = load_base_team("amiguinhos_u21")
+        candidate = load_team_v13("amiguinhos_u21")
+        base_players = {p.name: p for p in [*base.starters, *base.bench]}
+        candidate_players = {p.name: p for p in [*candidate.starters, *candidate.bench]}
+        self.assertEqual(set(raw_players), set(candidate_players))
+        self.assertEqual(set(base_players), set(candidate_players))
+
+        for name, candidate_player in candidate_players.items():
+            raw = raw_players[name]
+            self.assertEqual(candidate_player.overall, int(raw["overall"]), f"{name}:overall")
+            self.assertEqual(base_players[name].overall, candidate_player.overall)
+            for attr, expected in raw.get("attributes", {}).items():
+                self.assertEqual(getattr(candidate_player, attr), int(expected), f"{name}:{attr}")
+                self.assertEqual(getattr(base_players[name], attr), int(expected), f"base:{name}:{attr}")
+                self.assertLessEqual(getattr(candidate_player, attr), 95)
+
+    def test_behaviour_trait_database_does_not_duplicate_execution_ratings(self):
         database = load_v13_trait_database()
         player_data = database["teams"]["amiguinhos_u21"]["players"]
-        stable = load_stable_team("amiguinhos_u21")
-        candidate = load_team_v13("amiguinhos_u21")
-        stable_players = {p.name: p for p in [*stable.starters, *stable.bench]}
-        candidate_players = {p.name: p for p in [*candidate.starters, *candidate.bench]}
-        self.assertEqual(set(stable_players), set(candidate_players))
-        self.assertEqual(set(player_data), set(candidate_players))
+        self.assertTrue(player_data)
+        for name, row in player_data.items():
+            self.assertNotIn("attributes", row, name)
 
-        changed = 0
-        for name, candidate_player in candidate_players.items():
-            expected_attributes = player_data[name]["attributes"]
-            for attr, expected in expected_attributes.items():
-                self.assertEqual(getattr(candidate_player, attr), int(expected), f"{name}:{attr}")
-                self.assertLessEqual(getattr(candidate_player, attr), 95)
-                if getattr(stable_players[name], attr) != int(expected):
-                    changed += 1
-        self.assertGreater(changed, 0)
-
-    def test_v13_loader_does_not_treat_literal_values_as_deltas(self):
-        database = load_v13_trait_database()
-        adib_data = database["teams"]["amiguinhos_u21"]["players"]["Gabriel Adib"]
-        stable = load_stable_team("amiguinhos_u21")
+    def test_v13_loader_does_not_delta_or_replace_base_ratings(self):
+        base = load_base_team("amiguinhos_u21")
         candidate = load_team_v13("amiguinhos_u21")
-        stable_adib = {p.name: p for p in [*stable.starters, *stable.bench]}["Gabriel Adib"]
+        base_adib = {p.name: p for p in [*base.starters, *base.bench]}["Gabriel Adib"]
         candidate_adib = {p.name: p for p in [*candidate.starters, *candidate.bench]}["Gabriel Adib"]
 
-        self.assertEqual(candidate_adib.passing, adib_data["attributes"]["passing"])
-        self.assertNotEqual(candidate_adib.passing, stable_adib.passing + adib_data["attributes"]["passing"])
-        self.assertEqual(candidate_adib.overall, adib_data["attributes"]["overall"])
+        self.assertEqual(candidate_adib.passing, base_adib.passing)
+        self.assertEqual(candidate_adib.overall, base_adib.overall)
+        self.assertEqual(candidate_adib.passing, 89)
+        self.assertEqual(candidate_adib.overall, 85)
 
     def test_every_amiguinhos_player_has_explicit_determination(self):
         team = load_team_v13("amiguinhos_u21")

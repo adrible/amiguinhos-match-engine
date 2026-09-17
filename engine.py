@@ -668,6 +668,21 @@ class MatchEngine:
             return self._turnover(p.team, actor, zone, "dribble_stopped", ctx, severity=0.50)
         raise RuntimeError(f"Unknown pending kind: {p.kind}")
 
+    @staticmethod
+    def _shot_goal_probability(xg: float, block_p: float, p_on_target: float,
+                               finisher: float, keeper: float) -> float:
+        """Conditional goal probability after an unblocked shot reaches target.
+
+        xG describes the situation. Execution quality modifies conversion here.
+        A positive conversion floor would manufacture probability mass for tiny
+        chances. The denominator is the actual chance of reaching this stage;
+        only an epsilon protects division by zero. The existing upper execution
+        cap remains explicit, so extreme chances can still be ceiling-limited.
+        """
+        reach_target = max(1e-12, (1.0 - block_p) * p_on_target)
+        execution = max(0.0, 1.0 + (finisher - keeper) / 240.0)
+        return clamp(xg * execution / reach_target, 0.0, 0.86)
+
     def _resolve_shot(self, p: PendingAction) -> Event:
         team = p.team; shooter = self._named_or_fallback(team, p.actor, role="actor", zone=p.zone); opp = 1 - team
         defender = self._named_or_fallback(opp, p.defender, role="defender", zone=p.zone); keeper = self._goalkeeper(opp)
@@ -697,8 +712,7 @@ class MatchEngine:
         st.on_target += 1
         finisher = 0.45 * shooter.effective("finishing") + 0.30 * shooter.effective("composure") + 0.25 * shooter.effective("technique")
         gk = 0.40 * keeper.effective("reflexes") + 0.35 * keeper.effective("gk_positioning") + 0.25 * keeper.effective("one_on_one")
-        denom = max(0.08, (1.0 - block_p) * p_on_target)
-        p_goal_if_ot = clamp((xg / denom) * (1.0 + (finisher - gk) / 240.0), 0.06, 0.86)
+        p_goal_if_ot = self._shot_goal_probability(xg, block_p, p_on_target, finisher, gk)
         if self.rng.random() < p_goal_if_ot:
             st.goals += 1; self.state.pending = None; self.state.restart = "kickoff"; self.state.restart_team = opp; self.state.restart_zone = MID_C; self.state.transition_boost = 0.0
             return self._emit(EventType.GOAL, team, 5, "goal", scorer=shooter.player.name, keeper=keeper.player.name, xg=round(xg, 3), big_chance=big, origin=p.origin, body_part=p.body_part, danger=round(p.danger, 3), pressure=round(p.pressure, 3))

@@ -5,11 +5,11 @@ from __future__ import annotations
 This top adapter owns the *additional* sanction management for incidents tagged
 ``ordinary_contact``. The lower referee layers remain responsible for general
 fouls, DOGSO, violent/reckless conduct, tactical fouls and reaction cards. First
-cautions are deliberately unchanged; only straight-red and repeat-caution
-conversion for genuinely marginal contact are constrained.
+cautions are deliberately unchanged; only straight-red
+conversion for genuinely marginal contact is constrained.
 """
 
-from engine import PlayerState, Zone, clamp
+from engine import PlayerState, Zone
 from engine_experiment_v13_match_flow_realism import MatchEngineV13MatchFlowRealism
 
 VERSION = "1.3-candidate-discipline-realism"
@@ -46,26 +46,6 @@ class MatchEngineV13DisciplineRealism(MatchEngineV13MatchFlowRealism):
         direct_red = min(float(probs.get("direct_red", 0.0)), 0.00035)
         return {**probs, "direct_red": direct_red}
 
-    def _second_yellow_factor(self, incident: dict) -> float:
-        base = float(super()._second_yellow_factor(incident))
-        if not bool(incident.get("ordinary_contact")):
-            return base
-
-        severity = clamp(float(incident.get("severity", 0.0)))
-        spa = bool(incident.get("spa"))
-        dogso = bool(incident.get("dogso"))
-        hard_type = str(incident.get("type")) in {"reckless_tackle", "elbow_or_forearm"}
-        if dogso or hard_type or severity >= 0.66:
-            return base
-
-        # Ordinary-contact incidents are specifically the extra low/moderate
-        # fouls added by the realism layer, so their repeat-caution conversion
-        # stays below an equivalent generic incident. SPA still removes part of
-        # the management margin, but never becomes immunity or a full first-
-        # yellow probability.
-        if spa:
-            return clamp(0.042 + 0.034 * severity, 0.044, 0.066)
-        return clamp(0.018 + 0.026 * severity, 0.020, 0.038)
 
 
 MatchEngine = MatchEngineV13DisciplineRealism

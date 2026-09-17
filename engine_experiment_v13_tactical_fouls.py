@@ -200,7 +200,7 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
             and zone.lane == Lane.CENTER
             and float(transition) >= 0.90
         )
-        if central_dogso:
+        if central_dogso and self.config.direct_red_enabled:
             p_red = clamp(0.015 + 0.12 * severity - 0.035 * discipline, 0.005, 0.11)
             if self._v13_tactical_foul_rng.random() < p_red:
                 fouler.red = True
@@ -210,10 +210,8 @@ class MatchEngineV13TacticalFouls(MatchEngineV13MentalState):
                 return "direct_red"
 
         p_yellow = clamp(0.38 + 0.34 * severity - 0.10 * discipline, 0.28, 0.72)
-        if fouler.yellow:
-            # Referee management makes the same tactical infringement less
-            # likely to become a second caution, while keeping dismissal real.
-            p_yellow *= 0.38
+        # A tactical interruption is a clear caution ground. Prior booking
+        # already changes the choice to foul; it does not discount this sanction.
         if self._v13_tactical_foul_rng.random() >= p_yellow:
             return None
         if fouler.yellow:

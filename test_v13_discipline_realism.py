@@ -45,7 +45,7 @@ class DisciplineRealismTests(unittest.TestCase):
         self.assertGreater(plain_factor, 0.0)
         self.assertGreater(spa_factor, plain_factor)
         self.assertLessEqual(plain_factor, 0.060)
-        self.assertLessEqual(spa_factor, 0.125)
+        self.assertEqual(spa_factor, 1.0)
 
     def test_hard_nonordinary_foul_keeps_existing_dismissal_logic(self):
         engine = self.make_engine()

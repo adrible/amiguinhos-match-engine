@@ -65,7 +65,9 @@ class MatchEngineV13Referee(_OrderingReferee):
         )
         if dogso and not ball_attempt:
             red += 0.18
-        if zone.band == Band.BOX and dogso and ball_attempt:
+        # The DOGSO ball-challenge exception never discounts an independent
+        # violent-conduct ground for dismissal.
+        if zone.band == Band.BOX and dogso and ball_attempt and not violent:
             red -= 0.13
         if foul_type == "reckless_tackle" and severity >= 0.84:
             red += 0.07
@@ -73,9 +75,8 @@ class MatchEngineV13Referee(_OrderingReferee):
             red += 0.09
         red = clamp(red, 0.0002, 0.58)
 
-        # First-yellow behaviour is intentionally preserved. The population
-        # benchmark already places total cautions close to real football; the
-        # problem is dismissal conversion, not ordinary caution frequency.
+        # Preserve first-yellow behaviour while isolating sanction consistency
+        # from population-dependent calibration of overall caution frequency.
         yellow = clamp(float(base["yellow"]), 0.015, 0.84)
         if severity >= 0.72 or incident.get("spa"):
             yellow = max(yellow, 0.40)

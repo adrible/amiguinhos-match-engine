@@ -117,7 +117,7 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         self.assertLessEqual(marginal_factor, 0.05)
         self.assertGreater(marginal_factor, 0.0)
         self.assertGreater(serious_factor, marginal_factor * 3.0)
-        self.assertLess(serious_factor, 0.45)
+        self.assertEqual(serious_factor, 1.0)
 
     def test_spa_repeat_retains_more_second_yellow_pressure_than_routine_repeat(self):
         e = self.make_engine()
@@ -133,10 +133,10 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         routine_factor = e._second_yellow_factor(routine)
         spa_factor = e._second_yellow_factor(spa)
         self.assertGreater(spa_factor, routine_factor)
-        self.assertLessEqual(spa_factor, 0.09)
+        self.assertEqual(spa_factor, 1.0)
         self.assertGreater(spa_factor, 0.0)
 
-    def test_ordinary_contact_has_more_second_yellow_management_than_same_generic_trip(self):
+    def test_incident_source_does_not_change_second_yellow_management(self):
         e = self.make_engine()
         generic = {
             "type": "trip",
@@ -149,11 +149,11 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         ordinary = {**generic, "ordinary_contact": True}
         generic_factor = e._second_yellow_factor(generic)
         ordinary_factor = e._second_yellow_factor(ordinary)
-        self.assertGreater(generic_factor, ordinary_factor)
+        self.assertEqual(generic_factor, ordinary_factor)
         self.assertGreater(ordinary_factor, 0.0)
-        self.assertLessEqual(ordinary_factor, 0.038)
+        self.assertLessEqual(ordinary_factor, 0.05)
 
-    def test_dogso_reduces_second_yellow_management_without_erasing_it(self):
+    def test_clear_caution_grounds_have_no_second_yellow_discount(self):
         e = self.make_engine()
         serious = {
             "type": "reckless_tackle",
@@ -166,9 +166,8 @@ class RefereeCalibrationV13Tests(unittest.TestCase):
         dogso = {**serious, "dogso": True}
         serious_factor = e._second_yellow_factor(serious)
         dogso_factor = e._second_yellow_factor(dogso)
-        self.assertGreater(dogso_factor, serious_factor)
-        self.assertLessEqual(dogso_factor, 0.55)
-        self.assertLess(dogso_factor, 1.0)
+        self.assertEqual(dogso_factor, serious_factor)
+        self.assertEqual(dogso_factor, 1.0)
 
     def test_hard_foul_reaction_upgrade_can_create_confrontation_without_forcing_card(self):
         e = self.make_engine(seed=909)

@@ -55,6 +55,7 @@ jobs:
       - name: Run v1.3 candidate suite
         run: >-
           python -m unittest -v
+          test_causal_refinement_v13.py
           test_historical_2014_v13.py
           test_spatial_decisions.py
           test_offball_anticipation.py

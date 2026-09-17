@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Validate candidate databases
+      - name: Validate active v1.3 databases
         run: |
           python -m json.tool data/teams.json > /dev/null
           python -m json.tool data/v13_player_traits.json > /dev/null
@@ -39,85 +39,18 @@ jobs:
           python -m json.tool data/v13_competition_strength.json > /dev/null
           python -m json.tool data/v13_position_familiarity.json > /dev/null
 
-      - name: Compile stable and candidate source
-        run: >-
-          python -m compileall -q
-          engine.py engine_experiment_v12.py stable_engine.py team_loader.py team_loader_v13.py
-          historical_2014_v13.py tournament_state_v13.py competition_state_v13.py tournament_runner_v13.py
-          engine_experiment_v13.py engine_experiment_v13_spatial.py
-          engine_experiment_v13_offball.py engine_experiment_v13_body.py
-          engine_experiment_v13_legal_body.py engine_experiment_v13_reception.py
-          engine_experiment_v13_defense.py engine_experiment_v13_marking.py
-          engine_experiment_v13_cover.py engine_experiment_v13_communication.py
-          engine_experiment_v13_offside.py engine_experiment_v13_overload.py
-          engine_experiment_v13_errors.py engine_experiment_v13_chemistry.py
-          engine_experiment_v13_adaptation.py engine_experiment_v13_adaptation_stability.py
-          engine_experiment_v13_persistence.py engine_experiment_v13_knockout.py
-          engine_experiment_v13_determination.py engine_experiment_v13_substitutions.py
-          engine_experiment_v13_referee.py engine_experiment_v13_referee_ordering.py
-          engine_experiment_v13_referee_calibrated.py engine_experiment_v13_referee_final.py
-          engine_experiment_v13_referee_extended.py engine_experiment_v13_referee_complete.py
-          engine_experiment_v13_adaptation_inertia.py
-          engine_experiment_v13_combinations.py engine_experiment_v13_runs.py
-          engine_experiment_v13_thirdman.py engine_experiment_v13_pressing_triggers.py
-          engine_experiment_v13_duels.py engine_experiment_v13_collective.py
-          engine_experiment_v13_scanning.py engine_experiment_v13_passing_texture.py
-          engine_experiment_v13_deception.py engine_experiment_v13_transition_structure.py
-          engine_experiment_v13_space_manipulation.py
-          engine_experiment_v13_dribbling.py engine_experiment_v13_one_v_one.py
-          engine_experiment_v13_box_movement.py engine_experiment_v13_crossing_aerial.py
-          engine_experiment_v13_finishing.py engine_experiment_v13_shot_preparation.py
-          engine_experiment_v13_passing_lanes.py engine_experiment_v13_line_breaking.py
-          engine_experiment_v13_pressing_traps.py engine_experiment_v13_quick_free_kick.py
-          engine_experiment_v13_tactical_memory.py engine_experiment_v13_individual_adaptation.py
-          engine_experiment_v13_player_habits.py engine_experiment_v13_tempo_control.py
-          engine_experiment_v13_transition_choice.py engine_experiment_v13_keeper_crosses.py
-          engine_experiment_v13_restarts.py engine_experiment_v13_rebounds.py
-          engine_experiment_v13_injuries.py engine_experiment_v13_roles.py
-          engine_experiment_v13_corners.py engine_experiment_v13_throwins.py
-          engine_experiment_v13_positions.py engine_experiment_v13_substitution_strategy.py
-          engine_experiment_v13_rotations.py engine_experiment_v13_instructions.py
-          engine_experiment_v13_ratings.py engine_experiment_v13_environment.py
-          engine_experiment_v13_game_management.py engine_experiment_v13_set_piece_routines.py
-          engine_experiment_v13_leadership.py engine_experiment_v13_awards.py
-          engine_experiment_v13_tournament.py engine_experiment_v13_stoppage.py
-          engine_experiment_v13_clock_behaviour.py engine_experiment_v13_mental_state.py
-          engine_experiment_v13_tactical_fouls.py engine_experiment_v13_mismatches.py
-          engine_experiment_v13_micro_adjustments.py engine_experiment_v13_second_balls.py
-          engine_experiment_v13_set_piece_defense.py engine_experiment_v13_offensive_communication.py
-          engine_experiment_v13_numerical_advantage.py engine_experiment_v13_load_injuries.py
-          engine_experiment_v13_gk_one_v_one.py engine_experiment_v13_penalties.py
-          final_protocol_v13.py diagnostics_v13.py calibration_v13.py evaluation_v13.py
-          substitution_diagnostics_v13.py referee_diagnostics_v13.py runner_v13.py
-          test_engine.py test_engine_v12.py test_team_loader.py test_historical_2014_v13.py
-          test_spatial_decisions.py test_offball_anticipation.py
-          test_body_orientation.py test_v13_legal_body_actions.py test_v13_reception.py
-          test_defensive_intelligence.py test_marking_handoffs.py test_defensive_cover.py
-          test_defensive_communication.py test_offside_line.py test_overload_reactions.py
-          test_defensive_errors.py test_shared_understanding.py test_tactical_adaptation.py
-          test_adaptation_stability.py test_adaptation_inertia_v13.py
-          test_v13_player_traits.py test_determination_v13.py
-          test_auto_substitutions_v13.py test_v13_reserve_pool.py test_referee_fouls_v13.py
-          test_referee_calibration_v13.py test_referee_extended_v13.py
-          test_extended_validation_v13.py test_calibration_v13.py
-          test_v13_persistence.py test_runner_v13.py test_final_protocol_v13.py test_knockout_v13.py
-          test_v13_collective_play.py test_v13_advanced_collective.py test_v13_duel_box.py
-          test_v13_final_third_intelligence.py test_v13_match_intelligence.py
-          test_v13_kickoff.py test_v13_restarts.py test_v13_rebounds.py
-          test_v13_injury_management.py test_v13_roles.py test_v13_corners.py
-          test_v13_throwins.py test_v13_positions.py test_v13_substitution_strategy.py
-          test_v13_rotations.py test_v13_individual_instructions.py test_v13_ratings.py
-          test_v13_environment.py test_v13_game_management.py
-          test_v13_set_piece_routines.py test_v13_leadership_awards.py
-          test_tournament_state_v13.py test_v13_tournament_context.py test_v13_competition_complete.py
-          test_v13_stoppage_time.py test_v13_clock_behaviour.py test_v13_mental_state.py
-          test_v13_tactical_fouls.py test_v13_mismatches.py test_v13_micro_adjustments.py
-          test_v13_second_balls.py test_v13_set_piece_defense.py
-          test_v13_offensive_communication.py test_v13_numerical_advantage.py
-          test_v13_load_injuries.py test_v13_gk_one_v_one.py test_v13_penalties.py
+      - name: Compile active v1.3 source
+        run: |
+          find . -maxdepth 1 -name '*.py' \
+            ! -name 'engine_experiment_v12.py' \
+            ! -name 'stable_engine.py' \
+            ! -name 'test_engine_v12.py' \
+            ! -name 'diagnostics.py' \
+            ! -name 'calibrate_amiguinhos_v12.py' \
+            -print0 | xargs -0 python -m py_compile
 
-      - name: Run stable v1.2 regression suite
-        run: python -m unittest -v test_engine.py test_engine_v12.py test_team_loader.py
+      - name: Run active core invariants
+        run: python -m unittest -v test_engine.py test_team_loader.py
 
       - name: Run v1.3 candidate suite
         run: >-
@@ -189,6 +122,7 @@ jobs:
           test_v13_load_injuries.py
           test_v13_gk_one_v_one.py
           test_v13_penalties.py
+          test_v13_new_stack_unittest.py
 
       - name: Run economical 10-match v1.3 smoke simulation
         run: python diagnostics_v13.py 10

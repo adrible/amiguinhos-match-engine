@@ -98,6 +98,9 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
             - 0.12 * keeper_pos
             - 0.07 * keeper_1v1
         )
+        # Kept as a diagnostic finishing signal for backwards compatibility.
+        # It must NOT be folded into PendingAction.danger because xG describes
+        # the chance situation; finisher/keeper quality belongs to conversion.
         danger_delta = clamp(
             (execution - 0.55) * 0.055 + type_delta,
             -0.045,
@@ -118,7 +121,10 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
             shooter = self._named_or_fallback(p.team, p.actor, role="actor", zone=p.zone)
         keeper = self._goalkeeper(1 - p.team)
         diag = self.shot_selection_diagnostic(shooter, p, keeper)
-        p.danger = clamp(float(p.danger) + float(diag["danger_delta"]))
+
+        # Deliberately do not mutate p.danger here. The base conversion stage
+        # already applies shooter-vs-keeper quality after xG is calculated.
+        # Feeding execution back into danger double-counted finishing inside xG.
         event = super()._resolve_shot(p)
         event.data.setdefault("shot_type", diag["shot_type"])
         event.data.setdefault("shot_target", diag["target_zone"])

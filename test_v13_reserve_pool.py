@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import unittest
 
-from team_loader import load_team as load_stable_team
+from team_loader import load_team as load_base_team
 from team_loader_v13 import load_team_v13
 
 
 class V13ReservePoolTests(unittest.TestCase):
-    def test_stable_v12_opponent_without_bench_stays_untouched(self):
-        stable = load_stable_team("flamengo_u21")
-        self.assertEqual(stable.bench, [])
-        self.assertEqual(stable.name, "Flamengo U21")
+    def test_base_flamengo_entry_remains_available_before_explicit_u20_overlay(self):
+        base = load_base_team("flamengo_u21")
+        self.assertEqual(base.bench, [])
+        self.assertEqual(base.name, "Flamengo U21")
 
     def test_v13_uses_real_flamengo_u20_roster_instead_of_synthetic_names(self):
         candidate = load_team_v13("flamengo_u21")
@@ -45,14 +45,14 @@ class V13ReservePoolTests(unittest.TestCase):
         self.assertNotIn("Rodrigo White", starter_names)
         self.assertEqual(candidate.tactics.formation, "4-2-3-1")
 
-    def test_amiguinhos_evolved_ratings_survive_roster_reorder(self):
+    def test_amiguinhos_current_ratings_survive_roster_reorder(self):
         candidate = load_team_v13("amiguinhos_u21")
         igor = next(player for player in candidate.starters if player.name == "Igor")
         white = next(player for player in candidate.bench if player.name == "Rodrigo White")
-        self.assertEqual(igor.overall, 75)
+        self.assertEqual(igor.overall, 81)
         self.assertEqual(igor.pace, 82)
-        self.assertEqual(white.overall, 77)
-        self.assertEqual(white.crossing, 84)
+        self.assertEqual(white.overall, 81)
+        self.assertEqual(white.crossing, 85)
 
     def test_flamengo_u20_pool_is_deterministic(self):
         first = load_team_v13("flamengo_u21")

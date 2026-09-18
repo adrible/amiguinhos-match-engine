@@ -239,6 +239,51 @@ class LiveRunnerTests(unittest.TestCase):
         self.assertFalse(duplicate_packet["narrate"])
         self.assertEqual(duplicate_packet["skip_reason"], "card_already_narrated")
 
+    def test_second_half_public_clock_resets_after_first_half_stoppage(self):
+        session = MatchSessionV13.from_fixture(seed=47)
+
+        period_end = Event(
+            48.47,
+            1,
+            EventType.PERIOD_END,
+            5,
+            "period_end",
+            {"marker": 45},
+        )
+        session.engine.state.event_log.append(period_end)
+        session.engine.state.second = 48.47 * 60.0
+        session.engine.state.restart = "kickoff"
+        session.engine.state.restart_team = 1
+
+        restored = MatchSessionV13.from_json(session.export_json())
+        self.assertEqual(restored.narrator_state.period_anchor_marker, 45)
+        self.assertAlmostEqual(restored.narrator_state.last_display_second, 45 * 60.0, places=6)
+
+        kickoff = Event(
+            48.55,
+            1,
+            EventType.PROGRESSION,
+            2,
+            "kickoff_direct_launch",
+            {"taker": "Rin Itoshi", "receiver": "Oliver Aiku"},
+        )
+        before = continuity_snapshot(restored.engine)
+        restored.engine.state.event_log.append(kickoff)
+        restored.engine.state.second = 48.55 * 60.0
+        restored.engine.state.restart = None
+        restored.engine.state.restart_team = None
+
+        packet = build_narration_packet(
+            restored,
+            kickoff,
+            restored.narrator_state,
+            before,
+        )
+        self.assertTrue(packet["narrate"])
+        self.assertEqual(packet["continuity"]["previous_display_clock"], "45:00")
+        self.assertEqual(packet["clock"], "45:05")
+        self.assertEqual(packet["main_event"]["clock"], "45:05")
+
     def test_pending_continuity_does_not_expose_danger(self):
         session = MatchSessionV13.from_fixture(seed=46)
         # Find a live pending action naturally; do not alter physics to create it.

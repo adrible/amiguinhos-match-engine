@@ -66,6 +66,7 @@ def run_to_step(step: int) -> dict:
         "seed": SEED,
         "seed_basis": SEED_BASIS,
         "state_sha256": state_hash,
+        "snapshot": session.snapshot(),
         "packet": packet,
     }
 

@@ -1,0 +1,37 @@
+name: Interdimensional Tournament Round 1
+
+on:
+  push:
+    branches:
+      - tournament-interdimensional-20260918
+    paths:
+      - run_tournament_round1_v13.py
+      - data/tournaments/torneio_16_times_engine_v13.json
+      - .github/workflows/interdimensional-round1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  simulate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate tournament pack
+        run: python -m json.tool data/tournaments/torneio_16_times_engine_v13.json > /dev/null
+
+      - name: Run official first round
+        run: python run_tournament_round1_v13.py
+
+      - name: Upload official round result
+        uses: actions/upload-artifact@v4
+        with:
+          name: tournament-interdimensional-round1
+          path: artifacts/tournament_interdimensional_round1_result.json

@@ -72,19 +72,29 @@ class NarrationStateV13:
     narrated_incidents: set[str] = field(default_factory=set)
     recent_signatures: dict[str, float] = field(default_factory=dict)
     recent_cards: dict[str, float] = field(default_factory=dict)
+    period_anchor_marker: int = 0
 
     @classmethod
     def for_engine(cls, engine: Any) -> "NarrationStateV13":
-        # Existing log entries are historical and must not be re-narrated. More
-        # importantly, a restored live session must anchor its narration clock to
-        # the actual engine clock rather than restarting at 00:00.
+        # Existing log entries are historical and must not be re-narrated.
+        # Presentation time is period-aware: stoppage time remains attached to
+        # the period that produced it, while a restored second-half session
+        # resumes from the 45:00 public clock rather than the accumulated raw
+        # simulation clock.
         state = getattr(engine, "state", None)
         log = getattr(state, "event_log", []) or []
         try:
-            second = max(0.0, float(getattr(state, "second", 0.0)))
+            raw_second = max(0.0, float(getattr(state, "second", 0.0)))
         except (TypeError, ValueError):
-            second = 0.0
-        return cls(consumed_log_index=len(log), last_display_second=second)
+            raw_second = 0.0
+        public_second, anchor = _public_clock_components(
+            engine, raw_second, include_current_period_end=True
+        )
+        return cls(
+            consumed_log_index=len(log),
+            last_display_second=public_second,
+            period_anchor_marker=anchor,
+        )
 
 
 def _event_type(event: Any) -> str:
@@ -112,6 +122,73 @@ def format_clock_from_second(second: float) -> str:
     total = max(0, int(round(float(second))))
     minutes, seconds = divmod(total, 60)
     return f"{minutes:02d}:{seconds:02d}"
+
+
+def _period_end_points(engine: Any) -> list[tuple[float, int]]:
+    points: list[tuple[float, int]] = []
+    state = getattr(engine, "state", None)
+    for event in (getattr(state, "event_log", []) or []):
+        if _event_type(event) != "period_end":
+            continue
+        data = getattr(event, "data", {}) or {}
+        try:
+            marker = int(data.get("marker"))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        points.append((minute_to_second(getattr(event, "minute", 0.0)), marker))
+    return points
+
+
+def _public_clock_components(
+    engine: Any,
+    raw_second: float,
+    *,
+    include_current_period_end: bool = False,
+) -> tuple[float, int]:
+    """Map accumulated engine time to the public football match clock.
+
+    The engine intentionally keeps a continuous physical clock, so first-half
+    stoppage time is still present internally when the second half starts.
+    Public presentation must not carry that stoppage into the second-half
+    minute count. The latest completed period gives the cumulative offset.
+    """
+    raw_second = max(0.0, float(raw_second))
+    latest_end_second: float | None = None
+    latest_marker = 0
+    tolerance = 0.51 if include_current_period_end else -0.51
+    for end_second, marker in _period_end_points(engine):
+        if end_second <= raw_second + tolerance and marker >= latest_marker:
+            latest_end_second = end_second
+            latest_marker = marker
+
+    if latest_end_second is None:
+        return raw_second, 0
+
+    cumulative_offset = max(0.0, latest_end_second - latest_marker * 60.0)
+    return max(latest_marker * 60.0, raw_second - cumulative_offset), latest_marker
+
+
+def format_match_clock(
+    engine: Any,
+    raw_second: float,
+    *,
+    include_current_period_end: bool = False,
+) -> str:
+    public_second, anchor = _public_clock_components(
+        engine,
+        raw_second,
+        include_current_period_end=include_current_period_end,
+    )
+
+    markers = list(getattr(getattr(engine, "state", None), "period_markers", []) or [])
+    next_marker = next((int(m) for m in markers if int(m) > anchor), None)
+    if next_marker is not None and public_second > next_marker * 60.0 + 0.51:
+        added = public_second - next_marker * 60.0
+        added_total = max(0, int(round(added)))
+        added_minutes, added_seconds = divmod(added_total, 60)
+        return f"{next_marker:02d}+{added_minutes:02d}:{added_seconds:02d}"
+
+    return format_clock_from_second(public_second)
 
 
 def _is_hidden_key(key: Any) -> bool:
@@ -157,7 +234,10 @@ def event_fact(event: Any, session: Any) -> dict:
         facts.pop("card", None)
 
     return {
-        "clock": format_clock_from_second(minute_to_second(getattr(event, "minute", 0.0))),
+        "clock": format_match_clock(
+            session.engine,
+            minute_to_second(getattr(event, "minute", 0.0)),
+        ),
         "type": etype,
         "team": getattr(event, "team", None),
         "team_name": _team_name(session, getattr(event, "team", None)),
@@ -319,8 +399,16 @@ def build_narration_packet(
     narrator_state.consumed_log_index = len(log)
 
     raw_second = minute_to_second(getattr(main_event, "minute", 0.0))
-    previous_second = narrator_state.last_display_second
-    stale_clock = raw_second + 0.51 < previous_second
+    public_second, event_anchor = _public_clock_components(engine, raw_second)
+
+    if event_anchor != narrator_state.period_anchor_marker:
+        previous_second = event_anchor * 60.0
+        narrator_state.last_display_second = previous_second
+        narrator_state.period_anchor_marker = event_anchor
+    else:
+        previous_second = narrator_state.last_display_second
+
+    stale_clock = public_second + 0.51 < previous_second
 
     inc_id = incident_id(main_event)
     duplicate_incident = inc_id in narrator_state.narrated_incidents
@@ -339,23 +427,36 @@ def build_narration_packet(
     else:
         reason = None
         narrator_state.narrated_incidents.add(inc_id)
-        narrator_state.last_display_second = max(previous_second, raw_second)
+        narrator_state.last_display_second = max(previous_second, public_second)
 
-    display_second = max(previous_second, raw_second)
+    display_second = max(previous_second, public_second)
     after = continuity_snapshot(engine)
+    packet_clock = format_match_clock(engine, raw_second)
+
+    # A period-end event belongs to the period that just finished, so its own
+    # display remains in added time (e.g. 45+03:28). Only subsequent events
+    # adopt the next period's base clock.
+    if _event_type(main_event) == "period_end":
+        data = getattr(main_event, "data", {}) or {}
+        try:
+            marker = int(data.get("marker"))
+        except (TypeError, ValueError, AttributeError):
+            marker = event_anchor
+        narrator_state.period_anchor_marker = marker
+        narrator_state.last_display_second = marker * 60.0
 
     return {
         "command": "P_RESULT",
         "sequence": len(log),
         "narrate": narrate,
         "skip_reason": reason,
-        "clock": format_clock_from_second(display_second),
+        "clock": packet_clock,
         "score": _score(session),
         "main_event": event_fact(main_event, session),
         "bridge_events": _bridge_events(generated, main_event, session),
         "continuity": {
             "previous_display_clock": format_clock_from_second(previous_second),
-            "raw_event_clock": format_clock_from_second(raw_second),
+            "raw_event_clock": packet_clock,
             "clock_must_not_go_back": True,
             "possession_before": before.get("possession"),
             "possession_after": after.get("possession"),

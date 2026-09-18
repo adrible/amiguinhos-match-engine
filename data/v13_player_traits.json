@@ -59,6 +59,14 @@
           "determination": 80
         }
       }
+    },
+    "danganlock": {
+      "players": {
+        "Makoto Naegi": {
+          "determination": 99,
+          "basis": "Valor explicitamente fornecido em dl-database_exportacao.txt; não altera OVR nem atributos técnicos."
+        }
+      }
     }
   }
 }

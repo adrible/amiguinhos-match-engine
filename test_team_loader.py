@@ -3,9 +3,35 @@ import unittest
 from team_loader import list_teams, load_team
 
 
+TOURNAMENT_TEAMS = {
+    "amiguinhos_u21",
+    "flamengo_u21",
+    "ajax_u21",
+    "psg_u21",
+    "real_madrid_u21",
+    "dortmund_u21",
+    "barcelona_u21",
+    "benfica_u21",
+    "river_plate_u21",
+    "porto_u21",
+    "palmeiras_u21",
+    "boca_juniors_u21",
+    "liverpool_u21",
+    "inter_u21",
+    "man_city_u21",
+    "bayern_u21",
+}
+
+
 class TeamLoaderTests(unittest.TestCase):
     def test_database_contains_all_16_tournament_teams(self):
-        self.assertEqual(len(list_teams()), 16)
+        teams = set(list_teams())
+        self.assertTrue(TOURNAMENT_TEAMS.issubset(teams))
+
+    def test_database_allows_extra_fixture_teams(self):
+        teams = set(list_teams())
+        self.assertIn("brazil_2002", teams)
+        self.assertIn("danganlock", teams)
 
     def test_load_amiguinhos_explicit_roster(self):
         team = load_team("amiguinhos_u21")

@@ -190,6 +190,28 @@ def test_same_seed_remains_deterministic_with_stoppage_layer():
     assert a.snapshot() == b.snapshot()
 
 
+
+def test_second_half_boundary_is_anchored_to_public_90_after_first_half_added_time():
+    engine = _engine()
+    engine.state.second = 48.0 * 60.0
+    engine._emit(EventType.PERIOD_END, engine.state.possession, 5, "period_end", marker=45)
+    engine.state.period_index = 1
+
+    state = engine._ensure_stoppage_state()
+    state["recoverable_by_marker"]["90"] = 244.0
+
+    engine.state.second = 90.0 * 60.0
+    assert engine._check_period_boundary() is None
+
+    engine.state.second = 93.0 * 60.0
+    announcement = engine._check_period_boundary()
+    assert announcement is not None
+    assert announcement.type == EventType.INFO
+    assert announcement.text_key == "stoppage_time_announced"
+    assert announcement.data["marker"] == 90
+    assert announcement.data["added_minutes"] == 5
+
+
 def load_tests(loader, tests, pattern):
     """Expose all new plain-function realism tests to the unittest-only CI."""
     from test_v13_new_stack_unittest import NewRealismStackFunctionTests

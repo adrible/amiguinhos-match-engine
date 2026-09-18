@@ -221,16 +221,36 @@ class MatchEngineV13Stoppage(MatchEngineV13TournamentContext):
         state["extension_seconds_by_marker"].setdefault(key, 0.0)
         return announced
 
+    def _period_base_second(self, marker: int) -> float:
+        """Map a public period marker to the continuous raw physical clock."""
+        previous_marker = 0
+        previous_end_second = 0.0
+        for event in (getattr(self.state, "event_log", []) or []):
+            if event.type != EventType.PERIOD_END:
+                continue
+            data = event.data if isinstance(event.data, dict) else {}
+            try:
+                completed_marker = int(data.get("marker"))
+            except (TypeError, ValueError):
+                continue
+            if completed_marker >= int(marker) or completed_marker < previous_marker:
+                continue
+            previous_marker = completed_marker
+            previous_end_second = max(0.0, float(event.minute) * 60.0)
+        if previous_marker <= 0:
+            return float(marker) * 60.0
+        return previous_end_second + (float(marker) - float(previous_marker)) * 60.0
+
     def _period_target_second(self, marker: int) -> float:
         state = self._ensure_stoppage_state()
         key = self._marker_key(marker)
-        return marker * 60.0 + self._announced_seconds(marker) + float(state["extension_seconds_by_marker"].get(key, 0.0))
+        return self._period_base_second(marker) + self._announced_seconds(marker) + float(state["extension_seconds_by_marker"].get(key, 0.0))
 
     def _check_period_boundary(self):
         marker = self._current_base_marker()
         if marker is None:
             return None
-        base_second = float(marker) * 60.0
+        base_second = self._period_base_second(marker)
         if self.state.second < base_second:
             return None
         state = self._ensure_stoppage_state()

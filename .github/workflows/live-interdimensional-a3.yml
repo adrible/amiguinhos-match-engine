@@ -1,0 +1,36 @@
+name: Live Interdimensional A3
+
+on:
+  push:
+    branches:
+      - tournament-interdimensional-20260918
+    paths:
+      - live/interdimensional_a3_step.txt
+
+permissions:
+  contents: read
+
+jobs:
+  live-step:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate requested live step
+        shell: bash
+        run: |
+          STEP="$(tr -d '[:space:]' < live/interdimensional_a3_step.txt)"
+          if ! [[ "$STEP" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Invalid live step: $STEP"
+            exit 1
+          fi
+          echo "LIVE_STEP=$STEP" >> "$GITHUB_ENV"
+
+      - name: Advance only through requested narration step
+        run: python live_interdimensional_a3.py "$LIVE_STEP"

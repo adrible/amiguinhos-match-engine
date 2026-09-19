@@ -74,7 +74,20 @@ def build_session() -> MatchSessionV13:
         venue_context={"mode":"neutral","source":"interdimensional_tournament_live"},
     )
     tournament = build_tournament()
+    tournament.update_live(FIXTURE_ID, 0, 0, 0.0)
     engine.set_tournament_context(tournament.context_for_fixture(FIXTURE_ID))
+
+    # Refresh competition context before every raw engine beat. This matters in
+    # the final group match: DanganLock can remain qualified while trailing by
+    # a limited margin, so generic "losing = chase" logic would be incorrect.
+    original_step = engine.step
+    def tournament_aware_step():
+        home_goals, away_goals = engine.score
+        tournament.update_live(FIXTURE_ID, home_goals, away_goals, engine.minute)
+        engine.set_tournament_context(tournament.context_for_fixture(FIXTURE_ID))
+        return original_step()
+    engine.step = tournament_aware_step
+
     session = MatchSessionV13(engine)
     if not session.pristine:
         raise RuntimeError("live fixture must be pristine at construction")

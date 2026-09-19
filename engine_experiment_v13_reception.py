@@ -442,6 +442,8 @@ class MatchEngineV13Reception(MatchEngineV13LegalBody):
                 round(float(plan.get("first_time_probability", 0.0)), 3),
             )
         elif plan.get("mode") == "dummy":
+            event.relevance = max(event.relevance, 2)
+            event.data["pass_purpose"] = "let_ball_run_to_teammate"
             event.data["first_time"] = True
             event.data["reception_body_part"] = "no_touch"
         else:

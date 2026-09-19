@@ -208,6 +208,16 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             urgency = float(urgency_fn(team).get("restart_urgency", 0.0))
             if urgency < 0.62:
                 return "normal"
+        # A decision for this restart, not a fresh random draw on each query.
+        # The public period clock excludes earlier halves' added time.
+        from narration_packet_v13 import _public_clock_components
+        public_second, _ = _public_clock_components(self, self.state.second)
+        if public_second < 89 * 60:
+            return "normal"
+        from engine_experiment_v13_passing_texture import _stable_fraction
+        willingness = .22 if public_second < 90 * 60 else .48
+        if _stable_fraction("keeper-joins", self.seed, team, self.state.second, self.state.restart) >= willingness:
+            return "normal"
         return "keeper_up"
 
     def _ensure_keeper_exposure_state(self) -> None:
@@ -226,6 +236,8 @@ class MatchEngineV13Spatial(_StableMatchEngine):
     def _clear_keeper_up(self, team: Optional[int] = None) -> None:
         self._ensure_keeper_exposure_state()
         if team is None or self._v13_keeper_up_team == team:
+            if self._v13_keeper_up_team is not None:
+                self._v13_keeper_returned = self._v13_keeper_up_team
             self._v13_keeper_up_team = None
             self._v13_keeper_up_until = 0.0
 
@@ -243,6 +255,7 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             "team": self._v13_keeper_up_team,
             "until": self._v13_keeper_up_until,
         }
+        data["v13_keeper_returned"] = getattr(self, "_v13_keeper_returned", None)
         data["v13_open_goal_shot"] = getattr(self, "_v13_open_goal_shot", None)
         return data
 
@@ -252,6 +265,7 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         keeper = data.get("v13_keeper_up", {})
         obj._v13_keeper_up_team = keeper.get("team")
         obj._v13_keeper_up_until = float(keeper.get("until", 0.0))
+        obj._v13_keeper_returned = data.get("v13_keeper_returned")
         obj._v13_open_goal_shot = data.get("v13_open_goal_shot")
         return obj
 
@@ -305,6 +319,15 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             self._clear_keeper_up(new_team)
 
     def _emit(self, typ, team, relevance, text_key, **data):
+        self._ensure_keeper_exposure_state()
+        if self._v13_keeper_up_team is not None:
+            self._keeper_is_exposed(self._v13_keeper_up_team)
+        returned = getattr(self, "_v13_keeper_returned", None)
+        if returned is not None:
+            data["keeper_returned_team"] = returned
+            self._v13_keeper_returned = None
+        if self._v13_keeper_up_team is not None:
+            data["empty_goal_team"] = self._v13_keeper_up_team
         event = super()._emit(typ, team, relevance, text_key, **data)
         if getattr(typ, "value", typ) == "goal":
             self._clear_keeper_up()

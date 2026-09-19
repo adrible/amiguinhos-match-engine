@@ -27,6 +27,16 @@ HISTORICAL_2014_KEYS = {"brazil_2014", "germany_2014"}
 class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
     """Competition-law, spatial engagement, shot, foul and substitution guardrails."""
 
+    def _resolve_pending(self):
+        from dataclasses import asdict
+        pending = self.state.pending
+        action = asdict(pending) if pending is not None else None
+        event = super()._resolve_pending()
+        if action is not None:
+            event.data["resolved_pending_action"] = action
+            event.relevance = max(2, event.relevance)
+        return event
+
     def __init__(self, home, away, seed=None, config=None, **kwargs):
         # Shot telemetry is engine state, not reconstructed later from public
         # narration/events. It consumes no RNG and cannot affect outcomes.
@@ -108,6 +118,11 @@ class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
                     "blocked": bool(blocked_delta > 0),
                     "outcome": getattr(getattr(event, "type", None), "value", None),
                     "event_key": getattr(event, "text_key", None),
+                    "shot_target": data.get("shot_target"),
+                    "intended_goal_position": deepcopy(data.get("intended_goal_position")),
+                    "actual_goal_position": deepcopy(data.get("actual_goal_position")),
+                    "keeper_goal_position": deepcopy(data.get("keeper_goal_position")),
+                    "keeper_exposed": bool(data.get("keeper_exposed", False)),
                 }
             )
         return event

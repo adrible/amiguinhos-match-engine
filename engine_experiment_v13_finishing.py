@@ -114,6 +114,12 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
             "danger_delta": danger_delta,
         }
 
+    def _prepare_spatial_shot(self, p, shooter, keeper):
+        # Called by the base resolver after legal body/first-touch preparation,
+        # before any block, miss, save or goal roll. Use the actual selected foot.
+        from spatial_shot_v13 import shot_geometry
+        return shot_geometry(self, p, shooter, keeper, self.shot_selection_diagnostic(shooter, p, keeper))
+
     def _resolve_shot(self, p):
         try:
             shooter = self.teams[p.team].by_name(p.actor)
@@ -125,7 +131,22 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
         # Deliberately do not mutate p.danger here. The base conversion stage
         # already applies shooter-vs-keeper quality after xG is calculated.
         # Feeding execution back into danger double-counted finishing inside xG.
-        event = super()._resolve_shot(p)
+        previous = getattr(self, "_active_spatial_shot", None)
+        self._active_spatial_shot = None
+        try:
+            event = super()._resolve_shot(p)
+            spatial = self._active_spatial_shot
+        finally:
+            self._active_spatial_shot = previous
+        if spatial is None:
+            return event
+        blocked = event.type.value == "block" or bool(event.data.get("blocked")) or (event.type.value == "corner" and event.data.get("shot_xg") is not None)
+        spatial["shot_reached_goal_plane"] = not blocked
+        if blocked:
+            spatial["projected_goal_position"] = spatial["actual_goal_position"]
+            spatial["actual_goal_position"] = None
+            spatial["actual_shot_region"] = "blocked"
+        event.data.update(spatial)
         event.data.setdefault("shot_type", diag["shot_type"])
         event.data.setdefault("shot_target", diag["target_zone"])
         event.data.setdefault(
@@ -134,7 +155,7 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
         )
         event.data.setdefault(
             "shot_keeper_difficulty",
-            round(float(diag["keeper_difficulty"]), 3),
+            round(float(spatial["keeper_difficulty"]), 3),
         )
         return event
 

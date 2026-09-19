@@ -1,4 +1,4 @@
-name: Interdimensional Quarterfinals Non-Dangan
+name: Interdimensional Quarterfinals Leg 1 Non-Dangan
 
 on:
   push:
@@ -26,11 +26,11 @@ jobs:
       - name: Validate tournament pack
         run: python -m json.tool data/tournaments/torneio_16_times_engine_v13.json > /dev/null
 
-      - name: Run non-Dangan quarterfinals
+      - name: Run non-Dangan quarterfinal first legs
         run: python run_interdimensional_quarterfinals_non_dangan_v13.py
 
-      - name: Upload quarterfinal result
+      - name: Upload quarterfinal first-leg result
         uses: actions/upload-artifact@v4
         with:
-          name: tournament-interdimensional-quarterfinals-non-dangan
-          path: artifacts/tournament_interdimensional_quarterfinals_non_dangan_result.json
+          name: tournament-interdimensional-quarterfinals-leg1-non-dangan
+          path: artifacts/tournament_interdimensional_quarterfinals_leg1_non_dangan_result.json

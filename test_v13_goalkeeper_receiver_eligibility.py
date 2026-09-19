@@ -61,6 +61,45 @@ class GoalkeeperAttackingReceiverEligibilityTests(unittest.TestCase):
         self.assertNotEqual(target.player.position.upper(), "GK")
         self.assertIsNone(engine._v13_forced_target)
 
+    def test_canonical_safe_pass_outside_defensive_third_never_targets_goalkeeper(self):
+        engine = self._engine(MatchEngine)
+        actor = self._first_outfielder(engine)
+        for band in (Band.MID, Band.ATT, Band.BOX):
+            zone = Zone(band, Lane.CENTER)
+            for _ in range(500):
+                target = engine._choose_target(
+                    0, zone, attacking=False, exclude=actor.player.name
+                )
+                self.assertNotEqual(target.player.position.upper(), "GK")
+
+    def test_quick_combination_cannot_promote_goalkeeper_into_advanced_open_play(self):
+        engine = self._engine(MatchEngine)
+        goalkeeper = self._goalkeeper(engine)
+        outfielder = self._first_outfielder(engine)
+        engine._ensure_combination_state()
+        engine._v13_combination_history = [{
+            "team": 0,
+            "actor": outfielder.player.name,
+            "target": goalkeeper.player.name,
+            "second": float(engine.state.second),
+            "kind": "safe_pass",
+            "first_time": False,
+        }]
+        zone = Zone(Band.ATT, Lane.CENTER)
+        for _ in range(200):
+            actor = engine._choose_actor(0, zone)
+            self.assertNotEqual(actor.player.position.upper(), "GK")
+
+    def test_goalkeeper_cannot_choose_open_play_shot_without_keeper_up(self):
+        engine = self._engine(MatchEngine)
+        goalkeeper = self._goalkeeper(engine)
+        zone = Zone(Band.ATT, Lane.CENTER)
+        tactics = engine.teams[0].team.tactics
+        ctx = engine._context(goalkeeper, zone)
+        for _ in range(200):
+            decision = engine._choose_decision(goalkeeper, zone, tactics, ctx)
+            self.assertNotEqual(decision, "shoot")
+
 
 if __name__ == "__main__":
     unittest.main()

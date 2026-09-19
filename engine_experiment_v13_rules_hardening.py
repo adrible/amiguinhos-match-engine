@@ -322,6 +322,60 @@ class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
             return None
         return profile
 
+    def _choose_actor(self, team: int, zone: Zone) -> PlayerState:
+        """Final goalkeeper guardrail against advanced open-play teleporting."""
+        actor = super()._choose_actor(team, zone)
+        if actor.player.position.upper() != "GK":
+            return actor
+        if zone.band == Band.DEF or self._keeper_attack_mode(team, zone) == "keeper_up":
+            return actor
+        eligible = [
+            ps for ps in self.teams[team].on_field
+            if not ps.red and ps.player.position.upper() != "GK"
+        ]
+        if not eligible:
+            return actor
+        return weighted_choice(
+            self.rng,
+            [(ps, 0.75 + 0.25 * ps.energy) for ps in eligible],
+        )
+
+    def _choose_target(self, team, zone, attacking=True, exclude=None):
+        """Keep ordinary passes from placing the goalkeeper in an advanced zone."""
+        target = super()._choose_target(
+            team, zone, attacking=attacking, exclude=exclude
+        )
+        if target.player.position.upper() != "GK":
+            return target
+        allowed = (
+            (not attacking and zone.band == Band.DEF)
+            or self._keeper_attack_mode(team, zone) == "keeper_up"
+        )
+        if allowed:
+            return target
+        eligible = [
+            ps for ps in self.teams[team].on_field
+            if not ps.red
+            and ps.player.position.upper() != "GK"
+            and ps.player.name != exclude
+        ]
+        if not eligible:
+            return target
+        return weighted_choice(
+            self.rng,
+            [(ps, 0.75 + 0.25 * ps.energy) for ps in eligible],
+        )
+
+    def _choose_decision(self, actor, zone, tactics, ctx):
+        """A goalkeeper cannot shoot unless the explicit keeper-up state permits it."""
+        decision = super()._choose_decision(actor, zone, tactics, ctx)
+        if actor.player.position.upper() != "GK" or decision != "shoot":
+            return decision
+        team = self._team_for_player_state(actor)
+        if team is not None and self._keeper_attack_mode(team, zone) == "keeper_up":
+            return decision
+        return "long_ball" if zone.band == Band.DEF else "safe_pass"
+
     def auto_substitution_diagnostic(self):
         candidate = self._best_auto_substitution()
         if candidate is None:

@@ -187,24 +187,28 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         home, away = self.score
         diff = (home - away) if team == 0 else (away - home)
         minute = self.minute
-        if diff >= 0 or minute < 86.0:
+
+        # A goalkeeper may join the attack only in the explicit late-emergency
+        # case: exactly one goal behind, final minutes, and an attacking
+        # corner/free kick. There is no generic open-play or tiny-probability
+        # route that can move him forward.
+        if diff != -1 or minute < 89.0:
             return "normal"
 
         restart_attacking = (
             self.state.restart_team == team
             and self.state.restart in {"corner", "free_kick"}
-        )
-        if (
-            minute >= 89.0
-            and restart_attacking
             and zone.band in {Band.ATT, Band.BOX}
-        ):
-            return "keeper_up"
-        if minute >= 92.0 and zone.band in {Band.ATT, Band.BOX}:
-            return "keeper_up"
-        if minute >= 88.0 and zone.band == Band.MID:
-            return "high_support"
-        return "normal"
+        )
+        if not restart_attacking:
+            return "normal"
+
+        urgency_fn = getattr(self, "clock_behaviour_diagnostic", None)
+        if callable(urgency_fn):
+            urgency = float(urgency_fn(team).get("restart_urgency", 0.0))
+            if urgency < 0.62:
+                return "normal"
+        return "keeper_up"
 
     def _ensure_keeper_exposure_state(self) -> None:
         if not hasattr(self, "_v13_keeper_up_team"):
@@ -1009,7 +1013,27 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         transient and consumed immediately by the action execution.
         """
         if not attacking:
-            return super()._choose_target(team, zone, attacking=False, exclude=exclude)
+            target = super()._choose_target(team, zone, attacking=False, exclude=exclude)
+            if (
+                target.player.position.upper() != "GK"
+                or zone.band == Band.DEF
+                or self._keeper_attack_mode(team, zone) == "keeper_up"
+            ):
+                return target
+            # A backwards/safe pass from midfield or the attacking third must
+            # not teleport the goalkeeper into that same advanced zone.
+            eligible = [
+                ps for ps in self.teams[team].on_field
+                if not ps.red
+                and ps.player.position.upper() != "GK"
+                and ps.player.name != exclude
+            ]
+            if not eligible:
+                return target
+            return weighted_choice(
+                self.rng,
+                [(ps, 0.75 + 0.25 * ps.energy) for ps in eligible],
+            )
 
         marker = getattr(self, "_v13_forced_target", None)
         if marker is not None:

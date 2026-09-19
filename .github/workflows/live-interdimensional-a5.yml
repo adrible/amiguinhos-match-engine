@@ -1,0 +1,31 @@
+name: Live Interdimensional A5
+
+on:
+  push:
+    branches:
+      - tournament-interdimensional-20260918
+    paths:
+      - live/interdimensional_a5_step.txt
+      - live_interdimensional_a5.py
+      - .github/workflows/live-interdimensional-a5.yml
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run live packet
+        shell: bash
+        run: |
+          STEP="$(tr -d '[:space:]' < live/interdimensional_a5_step.txt)"
+          if [ "$STEP" = "0" ]; then
+            echo "LIVE_READY"
+          else
+            python live_interdimensional_a5.py "$STEP"
+          fi

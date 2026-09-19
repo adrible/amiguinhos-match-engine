@@ -136,6 +136,12 @@ class Player:
     one_on_one: int = 40
 
     preferred_foot: str = "R"
+    # Optional v1.3 attributes; old rosters use explicit derived fallbacks.
+    gk_reach: Optional[int] = None
+    gk_jump: Optional[int] = None
+    gk_agility: Optional[int] = None
+    balance: Optional[int] = None
+    weak_foot: Optional[int] = None
 
     def attr(self, name: str) -> int:
         return int(getattr(self, name))
@@ -687,6 +693,9 @@ class MatchEngine:
         team = p.team; shooter = self._named_or_fallback(team, p.actor, role="actor", zone=p.zone); opp = 1 - team
         defender = self._named_or_fallback(opp, p.defender, role="defender", zone=p.zone); keeper = self._goalkeeper(opp)
         xg = self._calculate_xg(p, shooter, defender, keeper); big = xg >= 0.30; st = self.stats[team]
+        prepare_spatial = getattr(self, "_prepare_spatial_shot", None)
+        if prepare_spatial is not None:
+            self._active_spatial_shot = prepare_spatial(p, shooter, keeper)
         st.shots += 1; st.xg += xg
         if big: st.big_chances += 1
         pressure = clamp(p.pressure)
@@ -700,9 +709,11 @@ class MatchEngine:
         technique = 0.40 * shooter.effective("finishing") + 0.25 * shooter.effective("technique") + 0.20 * shooter.effective("composure") + 0.15 * (shooter.effective("heading") if p.body_part == "head" else shooter.effective("finishing"))
         base_acc = {Band.BOX: 0.56, Band.ATT: 0.31, Band.MID: 0.18, Band.DEF: 0.08}[p.zone.band]
         p_on_target = clamp(base_acc + (technique - 72.0) / 170.0 + 0.12 * p.danger - 0.20 * pressure, 0.10, 0.86)
-        if self.rng.random() >= p_on_target:
+        spatial = getattr(self, "_active_spatial_shot", None)
+        on_target = spatial["spatial_on_target"] if spatial else self.rng.random() < p_on_target
+        if not on_target:
             post_p = clamp(0.018 + 0.08 * xg, 0.015, 0.055)
-            if self.rng.random() < post_p:
+            if (spatial["spatial_hits_frame"] if spatial else self.rng.random() < post_p):
                 st.posts += 1
                 if self.rng.random() < 0.42 and p.rebound_depth < 2: return self._create_rebound(team, p, shooter, xg, blocked=False, post=True)
                 self._switch_possession(opp, DEF_C, transition=0.0)
@@ -713,11 +724,20 @@ class MatchEngine:
         finisher = 0.45 * shooter.effective("finishing") + 0.30 * shooter.effective("composure") + 0.25 * shooter.effective("technique")
         gk = 0.40 * keeper.effective("reflexes") + 0.35 * keeper.effective("gk_positioning") + 0.25 * keeper.effective("one_on_one")
         p_goal_if_ot = self._shot_goal_probability(xg, block_p, p_on_target, finisher, gk)
+        if spatial:
+            # Situation xG remains untouched. Geometry and specialist keeper
+            # ability affect conversion only, after physical on-target execution.
+            p_goal_if_ot = self._shot_goal_probability(xg, block_p, p_on_target, finisher, spatial["keeper_ability"])
+            p_goal_if_ot = clamp(p_goal_if_ot * spatial["spatial_conversion_multiplier"], 0., .98)
+            if spatial["keeper_exposed"]:
+                p_goal_if_ot = 1.0  # An unblocked, in-frame ball cannot be saved by an absent keeper.
         if self.rng.random() < p_goal_if_ot:
             st.goals += 1; self.state.pending = None; self.state.restart = "kickoff"; self.state.restart_team = opp; self.state.restart_zone = MID_C; self.state.transition_boost = 0.0
             return self._emit(EventType.GOAL, team, 5, "goal", scorer=shooter.player.name, keeper=keeper.player.name, xg=round(xg, 3), big_chance=big, origin=p.origin, body_part=p.body_part, danger=round(p.danger, 3), pressure=round(p.pressure, 3))
         self.stats[opp].saves += 1
         spill = clamp(0.20 + (78.0 - keeper.effective("handling")) / 190.0 + 0.08 * xg - 0.10 * p.rebound_depth, 0.07, 0.34)
+        if spatial:
+            spill = clamp(spill + .06 * spatial["keeper_difficulty"] + .002 * (spatial["shot_speed_mps"] - 24), .07, .45)
         if self.rng.random() < spill and p.rebound_depth < 2: return self._create_rebound(team, p, shooter, xg, blocked=False)
         self._switch_possession(opp, DEF_C, transition=0.0)
         return self._emit(EventType.SAVE, team, 4 if big else 3, "shot_saved", shooter=shooter.player.name, keeper=keeper.player.name, xg=round(xg, 3), big_chance=big, body_part=p.body_part, origin=p.origin, danger=round(p.danger, 3), pressure=round(p.pressure, 3))

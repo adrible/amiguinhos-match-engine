@@ -155,7 +155,7 @@ class MatchEngineV13GoalkeeperOneVOne(MatchEngineV13LoadInjuries):
         }
 
     def _resolve_shot(self, p: PendingAction):
-        if not self._is_keeper_one_v_one(p):
+        if self._keeper_is_exposed(1 - p.team) or not self._is_keeper_one_v_one(p):
             return super()._resolve_shot(p)
         try:
             shooter = self.teams[p.team].by_name(p.actor)

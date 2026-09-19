@@ -45,6 +45,11 @@ _HIDDEN_DATA_TOKENS = (
     "roll",
     "threshold",
     "relevance",
+    "multiplier",
+    "attribute_weights",
+    "ability",
+    "spread",
+    "difficulty",
     "score_delta",
 )
 
@@ -59,6 +64,12 @@ NARRATOR_RULES = [
     "Never display a clock earlier than continuity.previous_display_clock.",
     "If an action remains pending, end naturally on anticipation; never say that the engine or system stopped.",
     "Do not turn repeated tactical background adjustments into separate headline events unless the packet explicitly marks them narratable.",
+    "Describe shot_target as intention only; actual_shot_region and the outcome describe where the ball went. A blocked ball never reached the goal plane.",
+    "Resolve resolved_pending_action before describing the resulting shot, clearance or keeper claim.",
+    "Describe a successful deception or dribble_move when it creates separation; do not invent a successful duel from a failed attempt.",
+    "Use pass_technique together with pass_purpose and pass_technique_executed; a technique attempt does not guarantee a completed pass.",
+    "Mention keeper_returned_team, keeper_up and empty_goal_team when present; never invent a counterattack.",
+    "Use circulation_summary for the uneventful interval and match the emotional tone to contextual_emotion without inventing chances.",
     "Use the scoreboard and clock from this packet as authoritative for the narration.",
 ]
 
@@ -327,7 +338,7 @@ def _is_background_repeat(event: Any, state: NarrationStateV13, raw_second: floa
     # Repeated info events such as the same screen-center micro-adjustment should
     # not repeatedly interrupt live commentary. Four minutes is a narration
     # cooldown only; it does not alter tactics or engine state.
-    if _event_type(event) != "info":
+    if _event_type(event) != "info" or event.data.get("resolved_pending_action") or event.data.get("deception_success") or event.data.get("pass_technique"):
         return False
     sig = _signature(event)
     previous = state.recent_signatures.get(sig)
@@ -379,7 +390,7 @@ def _bridge_events(events: Iterable[Any], main_event: Any, session: Any) -> list
     for event in events:
         if event is main_event:
             continue
-        if _event_type(event) in BRIDGE_TYPES:
+        if (_event_type(event) in BRIDGE_TYPES or event.text_key in {"player_reaction_to_foul", "mass_confrontation", "referee_warning"} or event.data.get("resolved_pending_action") or event.data.get("deception_success") or event.data.get("dribble_move") or event.data.get("pass_technique")):
             bridges.append(event_fact(event, session))
     return bridges
 
@@ -445,8 +456,25 @@ def build_narration_packet(
         narrator_state.period_anchor_marker = marker
         narrator_state.last_display_second = marker * 60.0
 
+    # Summaries are grounded in actual low-relevance pass records, not time alone.
+    circulation = [e for e in generated if e.text_key == "safe_pass"]
+    summary = None
+    elapsed = raw_second - float(before.get("second", raw_second))
+    if elapsed >= 90 and len(circulation) >= 3:
+        summary = {"elapsed_seconds": round(elapsed), "safe_passes": len(circulation),
+                   "teams": sorted({e.team for e in circulation if e.team in (0, 1)})}
+    h, a = engine.score
+    emotion = "normal"
+    if public_second >= 85 * 60 and abs(h - a) <= 1:
+        emotion = "late_close_match"
+    if main_event.data.get("open_goal") or main_event.data.get("empty_goal_team") is not None:
+        emotion = "exposed_goal"
+    elif main_event.type.value in {"goal", "save", "post", "penalty"} and public_second >= 85 * 60:
+        emotion = "decisive_late_chance"
     return {
         "command": "P_RESULT",
+        "circulation_summary": summary,
+        "contextual_emotion": emotion,
         "sequence": len(log),
         "narrate": narrate,
         "skip_reason": reason,

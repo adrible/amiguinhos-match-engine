@@ -1,0 +1,36 @@
+name: Live Brazil 2002 x DanganLock
+
+on:
+  push:
+    branches:
+      - v1.3-spatial-creativity-boldness
+    paths:
+      - live/brazil2002_danganlock_step.txt
+
+permissions:
+  contents: read
+
+jobs:
+  live-step:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate requested live step
+        shell: bash
+        run: |
+          STEP="$(tr -d '[:space:]' < live/brazil2002_danganlock_step.txt)"
+          if ! [[ "$STEP" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Invalid live step: $STEP"
+            exit 1
+          fi
+          echo "LIVE_STEP=$STEP" >> "$GITHUB_ENV"
+
+      - name: Run exactly through requested narration step
+        run: python live_brazil2002_danganlock.py "$LIVE_STEP"

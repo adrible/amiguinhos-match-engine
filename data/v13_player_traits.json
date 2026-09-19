@@ -1,0 +1,72 @@
+{
+  "version": "1.3-behavioural-traits",
+  "description": "Behaviour-only metadata for the active v1.3 line. Player OVR and execution attributes live only in data/teams.json (or an explicit roster entry in data/v13_rosters.json); this file must not duplicate ratings.",
+  "teams": {
+    "amiguinhos_u21": {
+      "players": {
+        "Christian": {
+          "determination": 82
+        },
+        "Jorge Henrique": {
+          "creativity": 78,
+          "boldness": 61,
+          "determination": 91,
+          "basis": "Intelligent, versatile and combative vice-captain; high persistence without turning controlled decision-making into recklessness."
+        },
+        "Léo": {
+          "determination": 86
+        },
+        "João Peixoto": {
+          "determination": 87
+        },
+        "Rodrigo White": {
+          "determination": 82
+        },
+        "Felipe": {
+          "determination": 94
+        },
+        "Mike Junior": {
+          "creativity": 89,
+          "boldness": 64,
+          "determination": 83,
+          "basis": "Strategic passer whose vision is elite while determination helps him keep offering and competing under adverse match context."
+        },
+        "Gabriel Adib": {
+          "creativity": 92,
+          "boldness": 86,
+          "determination": 93,
+          "basis": "Captain and high-level two-way creator; strong will to keep demanding the ball, recovering and attempting decisive actions under pressure."
+        },
+        "Remo": {
+          "creativity": 72,
+          "boldness": 82,
+          "determination": 88,
+          "basis": "Direct power winger with strong willingness to attack space and repeat high-intensity actions."
+        },
+        "Pedro Valverde": {
+          "determination": 84
+        },
+        "Gabriel Félix": {
+          "determination": 89
+        },
+        "Arthur Peixoto": {
+          "determination": 86
+        },
+        "Igor": {
+          "determination": 84
+        },
+        "Gabriel Gonzales": {
+          "determination": 80
+        }
+      }
+    },
+    "danganlock": {
+      "players": {
+        "Makoto Naegi": {
+          "determination": 99,
+          "basis": "Valor explicitamente fornecido em dl-database_exportacao.txt; não altera OVR nem atributos técnicos."
+        }
+      }
+    }
+  }
+}

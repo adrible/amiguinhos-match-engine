@@ -1,0 +1,31 @@
+name: Match Engine v1.3 Realism Heavy Audit
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: v13-realism-heavy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  realism-heavy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile realism diagnostics
+        run: python -m py_compile realism_diagnostics_v13.py
+
+      - name: Run 1000-match score distribution audit
+        run: python diagnostics_v13.py 1000
+
+      - name: Run 500-match realism-system audit
+        run: python realism_diagnostics_v13.py 500 --start-seed 70000

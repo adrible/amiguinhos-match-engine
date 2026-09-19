@@ -1,0 +1,23 @@
+name: Interdimensional A6 Brazil vs Bastard
+
+on:
+  push:
+    branches:
+      - tournament-interdimensional-20260918
+    paths:
+      - run_interdimensional_a6.py
+      - .github/workflows/interdimensional-a6.yml
+
+permissions:
+  contents: read
+
+jobs:
+  simulate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run A6
+        run: python run_interdimensional_a6.py

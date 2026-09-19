@@ -4,9 +4,30 @@ x = -3.66..3.66, z = 0..2.44. Coordinates outside the frame are misses.
 The pre-shot xG is never changed here. Independent deterministic draws keep
 intention, placement error and keeper positioning separate and replayable.
 """
-from math import cos, log, pi, sqrt, hypot
+from math import cos, log, pi, sqrt, hypot, erf
 from engine import Band, Lane, clamp
 from engine_experiment_v13_passing_texture import _stable_fraction
+
+
+# A goal-plane error scale, not a target shot count. Freeze before holdout runs.
+DISPERSION_SCALE = 1.80
+
+
+def reference_target_probability(distance, pressure):
+    """In-frame probability for ordinary execution across the intention mix.
+
+    Integrate the same independent normal placement model against the goal
+    mouth, excluding the frame. Reference skill/balance are fixed, so actual
+    shooter skill, chosen target, weak foot and difficult techniques retain
+    their real accuracy trade-offs. The chosen target is never normalized away.
+    """
+    spread = DISPERSION_SCALE * (1.20 - .75 * .60 + .18 * pressure + .18 * .30) * (distance / 12) ** .48
+    def interval(lo, hi, mean, sigma):
+        return .5 * (erf((hi-mean)/(sigma*sqrt(2))) - erf((lo-mean)/(sigma*sqrt(2))))
+    targets = [(.16,0.,.8),(.18,3.12,2.12),(.18,2.8,1.2),(.21,2.95,.28),
+               (.05,2.85,.75),(.05,2.85,1.15),(.05,2.85,1.55),(.12,2.25,.45)]
+    return sum(weight * interval(-3.59,3.59,x,spread*1.9) * interval(-2.37,2.37,z,spread)
+               for weight,x,z in targets)
 
 
 def attribute(player, name, fallback):
@@ -83,7 +104,7 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     weak_skill = attribute(shooter, 'weak_foot', shooter.effective('technique') * .72) / 100
     distance = {Band.BOX: 12., Band.ATT: 24., Band.MID: 40., Band.DEF: 65.}[p.zone.band]
     # Goal-plane spread grows with distance, pressure and difficult body shapes.
-    spread = 1.45 * (1.20 - .75 * quality + .18 * p.pressure + .18 * (1 - balance)
+    spread = DISPERSION_SCALE * (1.20 - .75 * quality + .18 * p.pressure + .18 * (1 - balance)
               + (.20 * (1 - weak_skill) if weak else 0)) * (distance / 12) ** .48
     spread *= {'volley': 1.22, 'first_time': 1.10, 'outside_foot': 1.16,
                'chip': 1.14, 'toe_poke': 1.12}.get(shot_type, 1)
@@ -101,5 +122,6 @@ def shot_geometry(engine, p, shooter, keeper, selection):
                 actual_goal_position={'x': x, 'z': z}, actual_shot_region=actual,
                 keeper_goal_position={'x': keeper_x, 'z': .8}, shot_speed_mps=speed,
                 shot_distance_m=distance, shot_foot='head' if p.body_part == 'head' else 'weak' if weak else 'strong',
+                reference_on_target_probability=reference_target_probability(distance, p.pressure),
                 shot_execution_spread=spread, spatial_on_target=on_target and not frame,
                 spatial_hits_frame=frame, keeper_exposed=exposed, open_goal=exposed, **response)

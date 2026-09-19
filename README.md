@@ -60,3 +60,7 @@ The known Amiguinhos bench remains explicit. Tournament opponents that have no b
 The engine never chooses a winner, score, shot count or goal total in advance. Statistics are consequences, not quotas. Multi-seed diagnostics use contiguous, unfiltered schedules and retain all results.
 
 The official final seed is reserved and must never be previewed, dry-run, calibration-tested or seed-shopped. Only the explicit live official-final runner may unlock it when the real simulation starts.
+
+## Calibração geral em campo neutro
+
+A revisão de 19/09/2026 calibra a precisão espacial e sua conversão, preservando o xG da situação. Em `mode="neutral"`, nenhum lado recebe vantagem de torcida, familiaridade ou viagem, inclusive com metadados antigos assimétricos. Use `compare_general_engine_v13.py --neutral` para comparar agregados sem distinguir mando. Resultados, limitações e reprodução: [calibração neutra](NEUTRAL_CALIBRATION_v13_20260919.md).

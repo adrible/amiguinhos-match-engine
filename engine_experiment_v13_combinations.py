@@ -7,7 +7,7 @@ selected again quickly and contextual technique, vision and anticipation make a
 fast continuation or return pass plausible.
 """
 
-from engine import EventType, PlayerState, Zone, clamp
+from engine import Band, EventType, PlayerState, Zone, clamp
 from engine_experiment_v13_adaptation_inertia import MatchEngineV13AdaptationInertia
 
 VERSION = "1.3-candidate-quick-combinations"
@@ -104,6 +104,14 @@ class MatchEngineV13Combinations(MatchEngineV13AdaptationInertia):
                 receiver = self.teams[team].by_name(link["target"])
             except KeyError:
                 receiver = None
+            if receiver is not None and not receiver.red:
+                if receiver.player.position.upper() == "GK":
+                    keeper_continuity_ok = (
+                        zone.band == Band.DEF
+                        or self._keeper_attack_mode(team, zone) == "keeper_up"
+                    )
+                    if not keeper_continuity_ok:
+                        receiver = None
             if receiver is not None and not receiver.red:
                 technique = clamp(receiver.effective("technique") / 100.0)
                 anticipation = clamp(receiver.effective("anticipation") / 100.0)

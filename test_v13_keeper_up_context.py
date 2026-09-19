@@ -21,11 +21,22 @@ class KeeperUpContextTests(unittest.TestCase):
         gk = e._goalkeeper(0)
         self.assertFalse(e._contextual_attacking_receiver_eligible(0, Zone(Band.BOX, Lane.CENTER), gk))
 
-    def test_94th_minute_one_goal_down_enables_keeper_up(self):
+    def test_94th_minute_one_goal_down_attacking_corner_enables_keeper_up(self):
         e = self.engine(); self.set_score(e, 0, 1); e.state.second = 94 * 60
         z = Zone(Band.BOX, Lane.CENTER)
+        e.state.restart = 'corner'; e.state.restart_team = 0; e.state.restart_zone = z
         self.assertEqual(e._keeper_attack_mode(0, z), 'keeper_up')
         self.assertTrue(e._contextual_attacking_receiver_eligible(0, z, e._goalkeeper(0)))
+
+    def test_94th_minute_one_goal_down_open_play_does_not_send_keeper(self):
+        e = self.engine(); self.set_score(e, 0, 1); e.state.second = 94 * 60
+        self.assertEqual(e._keeper_attack_mode(0, Zone(Band.BOX, Lane.CENTER)), 'normal')
+
+    def test_two_goals_down_does_not_send_keeper_even_late(self):
+        e = self.engine(); self.set_score(e, 0, 2); e.state.second = 94 * 60
+        z = Zone(Band.BOX, Lane.CENTER)
+        e.state.restart = 'corner'; e.state.restart_team = 0; e.state.restart_zone = z
+        self.assertEqual(e._keeper_attack_mode(0, z), 'normal')
 
     def test_draw_at_94_does_not_send_keeper(self):
         e = self.engine(); self.set_score(e, 1, 1); e.state.second = 94 * 60

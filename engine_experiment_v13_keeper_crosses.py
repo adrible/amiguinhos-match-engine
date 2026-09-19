@@ -509,7 +509,7 @@ class MatchEngineV13KeeperCrosses(MatchEngineV13TransitionChoice):
         relevant = p.origin in {"cross", "corner", "free_kick"} and p.zone.band == Band.BOX
         diag = None
         failed_command = False
-        if relevant:
+        if relevant and not self._keeper_is_exposed(1 - p.team):
             keeper = self._goalkeeper(1 - p.team)
             try:
                 attacker = self.teams[p.team].by_name(p.actor)

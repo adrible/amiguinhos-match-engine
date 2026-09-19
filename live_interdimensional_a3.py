@@ -49,19 +49,26 @@ def build_session() -> MatchSessionV13:
     return session
 
 
-def run_to_step(step: int) -> dict:
+def run_to_step(step: int, count: int = 1) -> dict:
     if step < 1:
         raise ValueError("step must be >= 1; step 0 is preparation only")
     session = build_session()
-    packet = None
-    for _ in range(step):
-        packet = session.press_p_packet()
+    for _ in range(step - 1):
+        if session.engine.state.ended:
+            raise ValueError("requested step is beyond the end of this match")
+        session.press_p_packet()
+    packets = session.press_p_batch(count)
+    if not packets:
+        raise ValueError("match has already ended")
+    packet = packets[-1]
     assert packet is not None
     state_hash = hashlib.sha256(session.export_json().encode("utf-8")).hexdigest()
     return {
         "fixture_id": FIXTURE_ID,
         "fixture": f"{HOME_KEY} x {AWAY_KEY}",
-        "step": step,
+        "step": step + len(packets) - 1,
+        "first_step": step,
+        "packets": packets,
         "seed": SEED,
         "seed_basis": SEED_BASIS,
         "state_sha256": state_hash,
@@ -72,10 +79,10 @@ def run_to_step(step: int) -> dict:
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
-        raise SystemExit("usage: python live_interdimensional_a3.py STEP")
+    if len(sys.argv) not in (2, 3):
+        raise SystemExit("usage: python live_interdimensional_a3.py STEP [COUNT]")
     step = int(sys.argv[1])
-    result = run_to_step(step)
+    result = run_to_step(step, int(sys.argv[2]) if len(sys.argv) == 3 else 1)
     print("LIVE_PACKET_BEGIN")
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     print("LIVE_PACKET_END")

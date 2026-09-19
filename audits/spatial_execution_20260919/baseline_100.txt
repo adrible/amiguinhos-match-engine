@@ -1,0 +1,14 @@
+v1.3 candidate smoke: 100 matches
+goals/match=2.090
+shots/match=24.580
+sot/match=8.340
+xg/match=2.285
+big_chances/match=1.470
+zero_zero_rate=14.0%
+xg->goal calibration (diagnostic only; no target forcing)
+overall: shots=2458 sum_xg=228.494 goals=209 goals_minus_xg=-19.494 goal_to_xg=0.915 ledger_vs_stats_xg=+0.000000000
+0.00-0.05: shots=1287 avg_xg=0.0076 goal_rate=0.0054 goals=7 sum_xg=9.737 delta_rate=-0.0021 goal_to_xg=0.719
+0.05-0.10: shots=279 avg_xg=0.0722 goal_rate=0.0645 goals=18 sum_xg=20.146 delta_rate=-0.0077 goal_to_xg=0.893
+0.10-0.20: shots=359 avg_xg=0.1319 goal_rate=0.0919 goals=33 sum_xg=47.340 delta_rate=-0.0399 goal_to_xg=0.697
+0.20-0.40: shots=520 avg_xg=0.2732 goal_rate=0.2712 goals=141 sum_xg=142.077 delta_rate=-0.0021 goal_to_xg=0.992
+0.40+: shots=13 avg_xg=0.7072 goal_rate=0.7692 goals=10 sum_xg=9.194 delta_rate=+0.0620 goal_to_xg=1.088

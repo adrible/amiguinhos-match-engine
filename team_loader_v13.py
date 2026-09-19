@@ -57,6 +57,11 @@ _ALLOWED_ATTRIBUTES = {
     "handling",
     "gk_positioning",
     "one_on_one",
+    "gk_reach",
+    "gk_jump",
+    "gk_agility",
+    "balance",
+    "weak_foot",
     "aggression",
     "discipline",
 }

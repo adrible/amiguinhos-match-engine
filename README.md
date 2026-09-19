@@ -4,6 +4,17 @@
 
 **v1.3 is the only active development line.** The former v1.2 engine is preserved unchanged for historical reference on the `archive-v1.2-stable` branch at commit `ee00e47c535796d74616462b7a9975b83ad15589`; active runtime, ratings and CI no longer maintain v1.2 compatibility.
 
+## General runtime and branches
+
+The general active engine lives on `v1.3-spatial-creativity-boldness` and is
+imported with `from engine_experiment_v13 import MatchEngine`. Spatial finishing,
+creative passes, goalkeeper exposure and `MatchSessionV13.press_p_batch(N)` apply
+to every fixture and competition using this runtime, not only the
+interdimensional tournament. `runner_v13.py` accepts `p 5x` and `p 10x`.
+Tournament branches carry fixture/session data; they are not the sole location
+for engine improvements. Pin older completed matches to their original commit
+for exact replay. The historical `main`/v1.2 snapshot is not the active v1.3 runtime.
+
 ## v1.3
 
 The engine keeps outcome-blind simulation rules and adds contextual football behaviour, including:

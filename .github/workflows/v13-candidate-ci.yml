@@ -2,7 +2,7 @@ name: Match Engine v1.3 Candidate CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, v1.3-spatial-creativity-boldness, tournament-interdimensional-20260918]
   workflow_dispatch:
     inputs:
       heavy_validation:
@@ -55,6 +55,9 @@ jobs:
       - name: Run v1.3 candidate suite
         run: >-
           python -m unittest -v
+          test_spatial_execution_narration_v13.py
+          test_v13_keeper_up_context.py
+          test_v13_open_goal_decision.py
           test_causal_refinement_v13.py
           test_historical_2014_v13.py
           test_spatial_decisions.py

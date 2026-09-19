@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """v1.3 advanced collective stage 3: disguise, feints and deliberate pauses."""
 
-from engine import PlayerState, Zone, clamp
+from engine import Lane, PlayerState, Zone, clamp
 from engine_experiment_v13_passing_texture import (
     MatchEngineV13PassingTexture,
     _stable_fraction,
@@ -192,9 +192,50 @@ class MatchEngineV13Deception(MatchEngineV13PassingTexture):
             scale *= float(marker.get("clock_scale", 1.0))
         return clamp(scale, 0.20, 1.20)
 
+    def creative_pass_diagnostic(self, actor, zone, decision, ctx):
+        if decision not in {"safe_pass", "progressive_pass", "through_ball", "switch", "long_ball", "cross", "cutback"}:
+            return {"attempt": False}
+        pressure = clamp(float(ctx.get("pressure", .5)))
+        support = clamp(float(ctx.get("support", .5)))
+        technique = actor.effective("technique") / 100
+        vision = actor.effective("vision") / 100
+        composure = actor.effective("composure") / 100
+        creativity = self._creativity(actor)
+        preferred = str(actor.player.preferred_foot).upper()
+        awkward = (zone.lane == Lane.LEFT and preferred == "R") or (zone.lane == Lane.RIGHT and preferred == "L")
+        choices = []
+        if awkward:
+            choices += [("outside_foot", "avoid_weak_foot", .12), ("rabona", "solve_awkward_angle", .26)]
+        if pressure > .35 and support > .48:
+            choices += [("backheel", "release_support_under_pressure", .16),
+                        ("first_time", "accelerate_combination", .09)]
+        if pressure > .30 and vision > .65:
+            choices += [("no_look", "disguise_passing_lane", .13), ("disguised", "deceive_marker", .08)]
+        if decision in {"through_ball", "cross", "switch", "long_ball"}:
+            choices += [("chipped", "clear_defensive_line", .14), ("curled", "bend_around_marker", .12)]
+        if not choices:
+            return {"attempt": False}
+        key = (self.seed, self.state.second, actor.player.name, decision)
+        probability = clamp(.015 + .38 * creativity ** 3 + .12 * self._boldness(actor) ** 2 - .06 * pressure, .01, .48)
+        if _stable_fraction("creative-pass-attempt", *key) >= probability:
+            return {"attempt": False, "attempt_probability": probability}
+        choice = min(len(choices) - 1, int(_stable_fraction("creative-pass-type", *key) * len(choices)))
+        style, purpose, difficulty = choices[choice]
+        success_p = clamp(.30 + .32 * technique + .22 * vision + .16 * composure - .25 * pressure - difficulty, .08, .92)
+        success = _stable_fraction("creative-pass-execution", *key) < success_p
+        return dict(attempt=True, technique=style, purpose=purpose, success=success,
+                    difficulty=difficulty, success_probability=success_p, attempt_probability=probability)
+
     def _execute_decision(self, team, actor, zone, decision, ctx):
-        diag = self.deception_diagnostic(actor, zone, decision, ctx)
+        creative = self.creative_pass_diagnostic(actor, zone, decision, ctx)
+        # One intentional technique per action; avoid contradictory no-look/rabona labels.
+        diag = {"attempt": False} if creative["attempt"] else self.deception_diagnostic(actor, zone, decision, ctx)
         adjusted = dict(ctx)
+        if creative["attempt"]:
+            delta = -.07 if creative["success"] else .10 + creative["difficulty"]
+            adjusted["pressure"] = clamp(float(adjusted.get("pressure", .5)) + delta)
+            adjusted["space"] = clamp(float(adjusted.get("space", .5)) - delta * .6)
+            adjusted["defensive_quality"] = clamp(float(adjusted.get("defensive_quality", .55)) + delta * .4)
         if diag["attempt"]:
             quality = float(diag["quality"])
             if diag["success"]:
@@ -216,9 +257,17 @@ class MatchEngineV13Deception(MatchEngineV13PassingTexture):
                 )
 
         event = super()._execute_decision(team, actor, zone, decision, adjusted)
+        if creative["attempt"]:
+            event.data.update(pass_technique=creative["technique"], pass_purpose=creative["purpose"],
+                              pass_technique_executed=creative["success"],
+                              creative_pass_difficulty=creative["difficulty"])
+            if creative["success"]:
+                event.relevance = max(event.relevance, 2)
         if diag["attempt"]:
             event.data.setdefault("deception", diag["type"])
             event.data.setdefault("deception_success", bool(diag["success"]))
+            if diag["success"]:
+                event.relevance = max(event.relevance, 2)
             event.data.setdefault("deception_quality", round(float(diag["quality"]), 3))
             event.data.setdefault(
                 "deception_attempt_probability",

@@ -142,9 +142,20 @@ class MatchSessionV13:
         forcing the caller to understand engine bookkeeping.
         """
         packet = None
-        for _ in range(16):
-            before = continuity_snapshot(self.engine)
+        before = continuity_snapshot(self.engine)
+        for _ in range(256):
             event = self.engine.advance_until_relevant(min_relevance=min_relevance)
+            # Consume only already-decided immediate aftermath, never a future
+            # restart or deferred advantage card. All records remain in the log.
+            queue = getattr(self.engine, "_referee_event_queue", [])
+            if event.type in {EventType.FOUL, EventType.PENALTY, EventType.CARD} or event.text_key in {"player_reaction_to_foul", "mass_confrontation"}:
+                for _ in range(32):
+                    if not queue or abs(queue[0].minute - event.minute) >= .001:
+                        break
+                    aftermath = self.engine.step()
+                    if aftermath.type in {EventType.PERIOD_END, EventType.MATCH_END}:
+                        event = aftermath
+                        break
             packet = build_narration_packet(
                 self,
                 event,
@@ -155,7 +166,21 @@ class MatchSessionV13:
                 return packet
         if packet is None:  # defensive; loop always executes at least once
             raise RuntimeError("failed to build narration packet")
-        return packet
+        raise RuntimeError("no narratable event found within 256 relevant records")
+
+    def press_p_batch(self, count: int, *, min_relevance: Optional[int] = None) -> list[dict]:
+        """Return N distinct live moments, stopping at the first period boundary."""
+        if isinstance(count, bool) or not isinstance(count, int) or not 1 <= count <= 100:
+            raise ValueError("count must be an integer between 1 and 100")
+        packets = []
+        for _ in range(count):
+            if self.engine.state.ended:
+                break
+            packet = self.press_p_packet(min_relevance=min_relevance)
+            packets.append(packet)
+            if packet["main_event"]["type"] in {"period_end", "match_end"}:
+                break
+        return packets
 
     def step_once(self) -> Event:
         """Advance exactly one engine beat; useful for debugging only."""
@@ -226,6 +251,7 @@ def _print_packet(packet: dict) -> None:
 def _print_help() -> None:
     print("Comandos:")
     print("  p              avança ao próximo momento narrável e retorna NarrationPacket")
+    print("  p Nx           retorna os próximos N lances (ex.: p 5x, p 10x)")
     print("  p N            usa relevância mínima N apenas neste avanço")
     print("  .              avança exatamente um beat e mostra evento bruto (debug)")
     print("  s              mostra o snapshot atual sem avançar")
@@ -260,16 +286,20 @@ def run_cli(session: MatchSessionV13) -> None:
             print(json.dumps(session.snapshot(), ensure_ascii=False, indent=2, sort_keys=True))
             continue
         if command == "p":
-            threshold = None
-            if len(parts) > 1:
-                try:
-                    threshold = int(parts[1])
-                except ValueError:
-                    print("Relevância precisa ser um inteiro.")
-                    continue
-            packet = session.press_p_packet(min_relevance=threshold)
-            _print_packet(packet)
-            if packet.get("main_event", {}).get("type") == EventType.MATCH_END.value:
+            try:
+                if len(parts) > 2:
+                    raise ValueError("Use p, p Nx ou p N (relevância).")
+                if len(parts) == 2 and parts[1].lower().endswith("x"):
+                    packets = session.press_p_batch(int(parts[1][:-1]))
+                else:
+                    threshold = int(parts[1]) if len(parts) == 2 else None
+                    packets = [session.press_p_packet(min_relevance=threshold)]
+            except ValueError as exc:
+                print(f"Comando inválido: {exc}")
+                continue
+            for packet in packets:
+                _print_packet(packet)
+            if session.engine.state.ended:
                 print("Fim de jogo.")
             continue
         if command == ".":

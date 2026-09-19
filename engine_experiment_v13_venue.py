@@ -67,6 +67,10 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
             "away_travel_load": clamp(float(raw.get("away_travel_load", defaults["away_travel_load"]))),
             "source": str(raw.get("source", "explicit")),
         }
+        if mode == "neutral":
+            # Neutral is a contract, not merely the absence of explicit overrides.
+            # Neither listing order nor stale venue metadata may create an edge.
+            out.update(cls.DEFAULTS["neutral"])
         return out
 
     def _venue_effects(self, team: int) -> dict:

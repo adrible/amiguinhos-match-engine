@@ -727,7 +727,9 @@ class MatchEngine:
         if spatial:
             # Situation xG remains untouched. Geometry and specialist keeper
             # ability affect conversion only, after physical on-target execution.
-            p_goal_if_ot = self._shot_goal_probability(xg, block_p, p_on_target, finisher, spatial["keeper_ability"])
+            p_goal_if_ot = self._shot_goal_probability(
+                xg, block_p, spatial.get("reference_on_target_probability", p_on_target),
+                finisher, spatial["keeper_ability"])
             p_goal_if_ot = clamp(p_goal_if_ot * spatial["spatial_conversion_multiplier"], 0., .98)
             if spatial["keeper_exposed"]:
                 p_goal_if_ot = 1.0  # An unblocked, in-frame ball cannot be saved by an absent keeper.

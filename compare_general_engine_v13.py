@@ -14,11 +14,42 @@ import subprocess
 import sys
 
 
-def worker(root, start, count, output):
+def worker(root, start, count, output, neutral=False, mirror=False):
     sys.path.insert(0, str(Path(root).resolve()))
     import real_match_benchmark_v13 as bench
+    if neutral:
+        bench.BENCHMARK_VENUE_MODE = "neutral"
+    if mirror:
+        original = bench.MatchEngine
+        def swapped(home, away, **kwargs):
+            return original(away, home, **kwargs)
+        bench.MatchEngine = swapped
     rows, _ = bench.simulate_engine_population(count, start)
     Path(output).write_text(json.dumps({'start': start, 'rows': rows}), encoding='utf-8')
+
+
+def neutral_comparison(bench, real, simulated, seasons):
+    """Same aggregate scales; neutral comparisons never score home/away slots.
+
+    League aggregates are a broad reference, not a neutral-only dataset.
+    This index is not interchangeable with the original home_away index.
+    """
+    from collections import Counter
+    excluded = {'home_goals_per_match', 'away_goals_per_match', 'home_win_rate',
+                'away_win_rate', 'result_distribution', 'scoreline_distribution'}
+    result = bench.compare(real, simulated, seasons)
+    components = [c for c in result['components'] if c['name'] not in excluded]
+    def unordered(summary):
+        result = Counter()
+        for score, fraction in summary['scoreline_distribution'].items():
+            result['-'.join(sorted(score.split('-')))] += fraction
+        return dict(result)
+    distance = bench._js_distance(unordered(real), unordered(simulated))
+    components.append({'name': 'unordered_scoreline_distribution', 'kind': 'distribution',
+                       'weight': 2., 'distance': distance, 'score': 100 * (1-distance)})
+    return {'realism_index': sum(c['score']*c['weight'] for c in components)/sum(c['weight'] for c in components),
+            'components': components, 'scope': 'neutral aggregate reference; no directional home/away metrics',
+            'largest_gaps': sorted([c for c in components if c['kind']=='scalar'],key=lambda c:c['standardised_gap'],reverse=True)[:8]}
 
 
 def main():
@@ -30,12 +61,14 @@ def main():
     parser.add_argument('--matches', type=int, default=300)
     parser.add_argument('--start-seed', type=int, default=91000)
     parser.add_argument('--workers', type=int, default=4)
+    parser.add_argument('--neutral', action='store_true')
+    parser.add_argument('--mirror', action='store_true')
     parser.add_argument('--worker-root')
     parser.add_argument('--worker-start', type=int)
     parser.add_argument('--worker-count', type=int)
     args = parser.parse_args()
     if args.worker_root:
-        worker(args.worker_root, args.worker_start, args.worker_count, args.output)
+        worker(args.worker_root, args.worker_start, args.worker_count, args.output, args.neutral, args.mirror)
         return
     if args.matches <= 0 or not args.baseline or not args.cache or not args.output:
         parser.error('positive matches, baseline, cache and output are required')
@@ -57,7 +90,7 @@ def main():
     def run(job):
         label, root, start, count, path = job
         subprocess.run([sys.executable, str(Path(__file__).resolve()), '--worker-root', str(root),
-                        '--worker-start', str(start), '--worker-count', str(count), '--output', str(path)], check=True)
+                        '--worker-start', str(start), '--worker-count', str(count), '--output', str(path)] + (['--neutral'] if args.neutral else []) + (['--mirror'] if args.mirror else []), check=True)
         print(f'{label}: {start}..{start+count-1} complete', flush=True)
         return label, json.loads(path.read_text())
     grouped = {'before': [], 'after': []}
@@ -66,8 +99,8 @@ def main():
             label, result = future.result()
             grouped[label].append(result)
     report = {'seed_range': [args.start_seed, args.start_seed+args.matches-1],
-              'real_match_count': len(real_rows), 'engine_matches_per_version': args.matches,
-              'venue_mode': bench.BENCHMARK_VENUE_MODE, 'real': real,
+              'mirrored': args.mirror, 'real_match_count': len(real_rows), 'engine_matches_per_version': args.matches,
+              'venue_mode': 'neutral' if args.neutral else bench.BENCHMARK_VENUE_MODE, 'real': real,
               'sources': [{'league': d['league'], 'season': d['season'], 'url': d['source'],
                            'matches': d['metrics']['matches']} for d in seasons],
               'source_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(args.cache.glob('*.csv'))},
@@ -82,7 +115,7 @@ def main():
         # Runtime content hashes identify a tested worktree even before its audit commit.
         runtime_hashes = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.glob('*.py')) if not p.name.startswith('test_')}
         report['versions'][label] = {'checkout_head': head, 'runtime_sha256': runtime_hashes,
-                                    'summary': summary, 'comparison': bench.compare(real, summary, seasons)}
+                                    'summary': summary, 'comparison': (neutral_comparison(bench, real, summary, seasons) if args.neutral else bench.compare(real, summary, seasons))}
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True), encoding='utf-8')
     print(json.dumps({label: data['comparison']['realism_index'] for label, data in report['versions'].items()}), flush=True)
 

@@ -1,30 +1,30 @@
 from __future__ import annotations
 
-"""Interdimensional Tournament — quarterfinals batch (DanganLock fixture excluded).
+"""Interdimensional Tournament — quarterfinal first legs (DanganLock fixture excluded).
 
-Runs the three non-DanganLock quarterfinals on the active v1.3 candidate.
-Knockout rules are enabled: tied regulation -> extra time -> penalty shootout.
-One deterministic seed per fixture; no retries.
+Runs only the first leg of the three non-DanganLock quarterfinal ties on the
+active v1.3 candidate. A first-leg draw is valid: there is no extra time and no
+penalty shootout. One deterministic seed per fixture; no retries.
 """
 
 import hashlib
 import json
 from pathlib import Path
 
-from engine import MatchConfig, EventType
+from engine import MatchConfig
 from engine_experiment_v13 import MatchEngine
 from narration_packet_v13 import format_match_clock
 import run_tournament_round1_v13 as base
 
 PACK_PATH = Path("data/tournaments/torneio_16_times_engine_v13.json")
-RESULT_PATH = Path("artifacts/tournament_interdimensional_quarterfinals_non_dangan_result.json")
-TOURNAMENT_BASIS = "interdimensional-16|2026-09-19|quarterfinals|v1.3"
+RESULT_PATH = Path("artifacts/tournament_interdimensional_quarterfinals_leg1_non_dangan_result.json")
+TOURNAMENT_BASIS = "interdimensional-16|2026-09-19|quarterfinals|leg-1|v1.3"
 
 FIXTURES = [
-    ("QF1", "ajax_1995", "argentina_2022"),
-    # QF2 Royal Academy / Teikoku x DanganLock intentionally preserved for live play.
-    ("QF3", "real_madrid_2017", "japan_u20_tsubasa"),
-    ("QF4", "france_1998", "man_utd_2008"),
+    ("QF1-L1", "ajax_1995", "argentina_2022"),
+    # QF2-L1 Royal Academy / Teikoku x DanganLock intentionally preserved for live play.
+    ("QF3-L1", "real_madrid_2017", "japan_u20_tsubasa"),
+    ("QF4-L1", "france_1998", "man_utd_2008"),
 ]
 
 
@@ -40,9 +40,9 @@ def run_fixture(pack: dict, fixture_id: str, home_key: str, away_key: str) -> di
 
     config = MatchConfig(
         regulation_minutes=90,
-        allow_extra_time=True,
+        allow_extra_time=False,
         max_substitutions=5,
-        allow_extra_time_substitution=True,
+        allow_extra_time_substitution=False,
         relevant_threshold=2,
         direct_red_enabled=True,
         injuries_enabled=True,
@@ -54,15 +54,14 @@ def run_fixture(pack: dict, fixture_id: str, home_key: str, away_key: str) -> di
         away,
         seed=seed,
         config=config,
-        venue_context={"mode": "neutral", "source": "interdimensional_quarterfinals"},
+        venue_context={"mode": "neutral", "source": "interdimensional_quarterfinals_leg1"},
     )
 
     beats = 0
-    final_event = None
     while not engine.state.ended:
-        final_event = engine.step()
+        engine.step()
         beats += 1
-        if beats > 30000:
+        if beats > 25000:
             raise RuntimeError(f"{fixture_id} exceeded safety beat limit")
 
     snapshot = engine.snapshot()
@@ -72,35 +71,32 @@ def run_fixture(pack: dict, fixture_id: str, home_key: str, away_key: str) -> di
     hp = 100.0 * float(engine.stats[0].possession_seconds) / total_poss if total_poss else 50.0
     ap = 100.0 - hp
 
-    shootout = getattr(engine, "_v13_shootout", None)
-    shootout_score = None
-    winner_side = None
-    decided_by = "match"
-
-    if isinstance(shootout, dict) and shootout.get("complete"):
-        shootout_score = list(shootout.get("goals", [0, 0]))
-        winner_side = int(shootout["winner"])
-        decided_by = "penalties"
-    elif engine.score[0] != engine.score[1]:
-        winner_side = 0 if engine.score[0] > engine.score[1] else 1
-        if float(engine.minute) > 105.0:
-            decided_by = "extra_time"
+    if engine.score[0] > engine.score[1]:
+        leg_winner_side = 0
+        leg_winner_key = home_key
+        leg_winner_name = home.name
+    elif engine.score[1] > engine.score[0]:
+        leg_winner_side = 1
+        leg_winner_key = away_key
+        leg_winner_name = away.name
     else:
-        raise RuntimeError(f"{fixture_id} ended unresolved")
+        leg_winner_side = None
+        leg_winner_key = None
+        leg_winner_name = None
 
     mom = (snapshot.get("awards", {}).get("man_of_the_match") or {})
     return {
         "fixture_id": fixture_id,
+        "leg": 1,
+        "tie_status": "open_for_second_leg",
         "home_key": home_key,
         "away_key": away_key,
         "home_name": home.name,
         "away_name": away.name,
         "score": [int(engine.score[0]), int(engine.score[1])],
-        "winner_side": winner_side,
-        "winner_key": home_key if winner_side == 0 else away_key,
-        "winner_name": home.name if winner_side == 0 else away.name,
-        "decided_by": decided_by,
-        "shootout_score": shootout_score,
+        "leg_winner_side": leg_winner_side,
+        "leg_winner_key": leg_winner_key,
+        "leg_winner_name": leg_winner_name,
         "seed": seed,
         "seed_basis": basis,
         "home": {**h, "possession_pct": round(hp, 1)},
@@ -124,9 +120,11 @@ def main() -> None:
     payload = {
         "competition": pack["competition"],
         "stage": "quarterfinals",
+        "leg": 1,
+        "format": "two_legged",
         "engine": "v1.3 active candidate",
         "excluded_fixture": {
-            "fixture_id": "QF2",
+            "fixture_id": "QF2-L1",
             "home_key": "teikoku",
             "away_key": "danganlock",
             "status": "preserved_for_live_play",
@@ -134,10 +132,10 @@ def main() -> None:
         "configuration": {
             "venue_mode": "neutral",
             "regulation_minutes": 90,
-            "allow_extra_time": True,
-            "penalty_shootout_if_still_tied": True,
+            "allow_extra_time": False,
+            "penalty_shootout": False,
             "max_substitutions": 5,
-            "allow_extra_time_substitution": True,
+            "allow_extra_time_substitution": False,
             "injuries_enabled": True,
             "direct_red_enabled": True,
             "auto_tactical_adaptation": True,
@@ -150,9 +148,9 @@ def main() -> None:
         json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
         encoding="utf-8",
     )
-    print("INTERDIMENSIONAL_QF_NON_DANGAN_RESULT_BEGIN")
+    print("INTERDIMENSIONAL_QF_LEG1_NON_DANGAN_RESULT_BEGIN")
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
-    print("INTERDIMENSIONAL_QF_NON_DANGAN_RESULT_END")
+    print("INTERDIMENSIONAL_QF_LEG1_NON_DANGAN_RESULT_END")
 
 
 if __name__ == "__main__":

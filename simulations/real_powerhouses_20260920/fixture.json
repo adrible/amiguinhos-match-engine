@@ -1,0 +1,1065 @@
+{
+  "schema_version": "amiguinhos-real-historical-fixture-v13-1",
+  "note": "Custom scouting ratings for simulation only; not official game ratings. Missing execution attributes are deterministically filled from the engine POSITION_TEMPLATE around OVR, then explicit overrides below are applied.",
+  "fixture": {
+    "home": "FC Barcelona 2010/11",
+    "away": "Real Madrid 2016/17",
+    "venue_mode": "neutral",
+    "regulation_minutes": 90,
+    "extra_time": false,
+    "max_substitutions": 3,
+    "auto_tactical_adaptation": true,
+    "seed_basis": "barcelona_2010_11|real_madrid_2016_17|amiguinhos-match-engine-v1.3|all-p|2026-09-20"
+  },
+  "teams": [
+    {
+      "key": "barcelona_2010_11",
+      "name": "FC Barcelona 2010/11",
+      "formation": "4-3-3",
+      "tactics": {
+        "formation": "4-3-3",
+        "mentality": 0.22,
+        "tempo": 0.66,
+        "width": 0.62,
+        "pressing": 0.87,
+        "defensive_line": 0.86,
+        "compactness": 0.83,
+        "directness": 0.23,
+        "counter": 0.38,
+        "overlap_left": 0.48,
+        "overlap_right": 0.82,
+        "cross_frequency": 0.3,
+        "risk": 0.72
+      },
+      "starters": [
+        {
+          "number": 1,
+          "name": "Víctor Valdés",
+          "position": "GK",
+          "overall": 88,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 70,
+            "passing": 86,
+            "vision": 82,
+            "technique": 83,
+            "composure": 86,
+            "reflexes": 89,
+            "handling": 86,
+            "gk_positioning": 88,
+            "one_on_one": 88,
+            "gk_reach": 84,
+            "gk_jump": 82,
+            "gk_agility": 90,
+            "stamina": 84,
+            "discipline": 88
+          },
+          "traits": {
+            "creativity": 78,
+            "boldness": 82,
+            "determination": 88
+          }
+        },
+        {
+          "number": 2,
+          "name": "Dani Alves",
+          "position": "RB",
+          "overall": 92,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 93,
+            "passing": 90,
+            "vision": 88,
+            "technique": 92,
+            "dribbling": 91,
+            "crossing": 93,
+            "finishing": 75,
+            "long_shots": 84,
+            "heading": 68,
+            "strength": 73,
+            "tackling": 83,
+            "positioning": 84,
+            "anticipation": 85,
+            "composure": 88,
+            "off_ball": 92,
+            "stamina": 95,
+            "aggression": 84,
+            "discipline": 72,
+            "balance": 91,
+            "weak_foot": 78
+          },
+          "traits": {
+            "creativity": 92,
+            "boldness": 94,
+            "determination": 89
+          }
+        },
+        {
+          "number": 3,
+          "name": "Gerard Piqué",
+          "position": "CB",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 78,
+            "passing": 89,
+            "vision": 85,
+            "technique": 88,
+            "dribbling": 78,
+            "crossing": 70,
+            "finishing": 65,
+            "long_shots": 70,
+            "heading": 92,
+            "strength": 89,
+            "tackling": 91,
+            "positioning": 92,
+            "anticipation": 92,
+            "composure": 93,
+            "off_ball": 75,
+            "stamina": 86,
+            "aggression": 78,
+            "discipline": 84,
+            "balance": 84,
+            "weak_foot": 74
+          },
+          "traits": {
+            "creativity": 84,
+            "boldness": 81,
+            "determination": 90
+          }
+        },
+        {
+          "number": 5,
+          "name": "Carles Puyol",
+          "position": "CB",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 82,
+            "passing": 79,
+            "vision": 76,
+            "technique": 78,
+            "dribbling": 70,
+            "crossing": 68,
+            "finishing": 60,
+            "long_shots": 65,
+            "heading": 93,
+            "strength": 91,
+            "tackling": 94,
+            "positioning": 95,
+            "anticipation": 95,
+            "composure": 92,
+            "off_ball": 74,
+            "stamina": 91,
+            "aggression": 94,
+            "discipline": 82,
+            "balance": 88,
+            "weak_foot": 70
+          },
+          "traits": {
+            "creativity": 70,
+            "boldness": 88,
+            "determination": 95
+          }
+        },
+        {
+          "number": 22,
+          "name": "Éric Abidal",
+          "position": "LB",
+          "overall": 88,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 88,
+            "passing": 82,
+            "vision": 80,
+            "technique": 82,
+            "dribbling": 82,
+            "crossing": 82,
+            "finishing": 60,
+            "long_shots": 65,
+            "heading": 85,
+            "strength": 88,
+            "tackling": 91,
+            "positioning": 91,
+            "anticipation": 90,
+            "composure": 88,
+            "off_ball": 82,
+            "stamina": 90,
+            "aggression": 80,
+            "discipline": 86,
+            "balance": 86,
+            "weak_foot": 68
+          },
+          "traits": {
+            "creativity": 76,
+            "boldness": 77,
+            "determination": 90
+          }
+        },
+        {
+          "number": 16,
+          "name": "Sergio Busquets",
+          "position": "DM",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 70,
+            "passing": 93,
+            "vision": 94,
+            "technique": 94,
+            "dribbling": 88,
+            "crossing": 74,
+            "finishing": 67,
+            "long_shots": 73,
+            "heading": 77,
+            "strength": 82,
+            "tackling": 90,
+            "positioning": 95,
+            "anticipation": 95,
+            "composure": 95,
+            "off_ball": 88,
+            "stamina": 91,
+            "aggression": 78,
+            "discipline": 89,
+            "balance": 92,
+            "weak_foot": 78
+          },
+          "traits": {
+            "creativity": 88,
+            "boldness": 80,
+            "determination": 90
+          }
+        },
+        {
+          "number": 6,
+          "name": "Xavi Hernández",
+          "position": "CM",
+          "overall": 95,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 72,
+            "passing": 95,
+            "vision": 95,
+            "technique": 95,
+            "dribbling": 92,
+            "crossing": 91,
+            "finishing": 75,
+            "long_shots": 85,
+            "heading": 55,
+            "strength": 70,
+            "tackling": 78,
+            "positioning": 90,
+            "anticipation": 95,
+            "composure": 95,
+            "off_ball": 93,
+            "stamina": 91,
+            "aggression": 62,
+            "discipline": 95,
+            "balance": 94,
+            "weak_foot": 86
+          },
+          "traits": {
+            "creativity": 95,
+            "boldness": 88,
+            "determination": 90
+          }
+        },
+        {
+          "number": 8,
+          "name": "Andrés Iniesta",
+          "position": "CM",
+          "overall": 94,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 86,
+            "passing": 94,
+            "vision": 95,
+            "technique": 95,
+            "dribbling": 95,
+            "crossing": 89,
+            "finishing": 84,
+            "long_shots": 82,
+            "heading": 58,
+            "strength": 68,
+            "tackling": 72,
+            "positioning": 88,
+            "anticipation": 94,
+            "composure": 95,
+            "off_ball": 94,
+            "stamina": 88,
+            "aggression": 58,
+            "discipline": 94,
+            "balance": 95,
+            "weak_foot": 90
+          },
+          "traits": {
+            "creativity": 95,
+            "boldness": 92,
+            "determination": 89
+          }
+        },
+        {
+          "number": 17,
+          "name": "Pedro Rodríguez",
+          "position": "RW",
+          "overall": 89,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 92,
+            "passing": 86,
+            "vision": 85,
+            "technique": 90,
+            "dribbling": 90,
+            "crossing": 88,
+            "finishing": 89,
+            "long_shots": 83,
+            "heading": 73,
+            "strength": 70,
+            "tackling": 72,
+            "positioning": 88,
+            "anticipation": 88,
+            "composure": 89,
+            "off_ball": 94,
+            "stamina": 94,
+            "aggression": 75,
+            "discipline": 86,
+            "balance": 89,
+            "weak_foot": 88
+          },
+          "traits": {
+            "creativity": 84,
+            "boldness": 87,
+            "determination": 91
+          }
+        },
+        {
+          "number": 10,
+          "name": "Lionel Messi",
+          "position": "ST",
+          "overall": 95,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 95,
+            "passing": 94,
+            "vision": 95,
+            "technique": 95,
+            "dribbling": 95,
+            "crossing": 90,
+            "finishing": 95,
+            "long_shots": 94,
+            "heading": 70,
+            "strength": 78,
+            "tackling": 45,
+            "positioning": 90,
+            "anticipation": 95,
+            "composure": 95,
+            "off_ball": 95,
+            "stamina": 89,
+            "aggression": 68,
+            "discipline": 93,
+            "balance": 95,
+            "weak_foot": 88
+          },
+          "traits": {
+            "creativity": 95,
+            "boldness": 95,
+            "determination": 93
+          }
+        },
+        {
+          "number": 7,
+          "name": "David Villa",
+          "position": "LW",
+          "overall": 92,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 91,
+            "passing": 87,
+            "vision": 88,
+            "technique": 92,
+            "dribbling": 90,
+            "crossing": 87,
+            "finishing": 94,
+            "long_shots": 92,
+            "heading": 82,
+            "strength": 76,
+            "tackling": 55,
+            "positioning": 90,
+            "anticipation": 91,
+            "composure": 94,
+            "off_ball": 95,
+            "stamina": 88,
+            "aggression": 74,
+            "discipline": 90,
+            "balance": 89,
+            "weak_foot": 93
+          },
+          "traits": {
+            "creativity": 88,
+            "boldness": 90,
+            "determination": 92
+          }
+        }
+      ],
+      "bench": [
+        {
+          "number": 13,
+          "name": "José Manuel Pinto",
+          "position": "GK",
+          "overall": 79,
+          "attributes": {
+            "reflexes": 81,
+            "handling": 78,
+            "gk_positioning": 79,
+            "one_on_one": 78,
+            "passing": 80,
+            "composure": 80
+          }
+        },
+        {
+          "number": 14,
+          "name": "Javier Mascherano",
+          "position": "CB",
+          "overall": 90,
+          "attributes": {
+            "pace": 83,
+            "passing": 86,
+            "vision": 84,
+            "technique": 84,
+            "tackling": 93,
+            "positioning": 93,
+            "anticipation": 94,
+            "composure": 91,
+            "strength": 87,
+            "stamina": 93,
+            "aggression": 93,
+            "discipline": 80
+          },
+          "traits": {
+            "determination": 95
+          }
+        },
+        {
+          "number": 21,
+          "name": "Adriano Correia",
+          "position": "LB",
+          "overall": 84,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 90,
+            "passing": 83,
+            "technique": 86,
+            "dribbling": 86,
+            "crossing": 86,
+            "tackling": 81,
+            "stamina": 89
+          }
+        },
+        {
+          "number": 15,
+          "name": "Seydou Keita",
+          "position": "CM",
+          "overall": 84,
+          "attributes": {
+            "passing": 84,
+            "vision": 82,
+            "technique": 84,
+            "heading": 86,
+            "strength": 88,
+            "tackling": 85,
+            "stamina": 91,
+            "off_ball": 84
+          }
+        },
+        {
+          "number": 11,
+          "name": "Thiago Alcântara",
+          "position": "CM",
+          "overall": 85,
+          "attributes": {
+            "passing": 89,
+            "vision": 90,
+            "technique": 91,
+            "dribbling": 90,
+            "composure": 88,
+            "off_ball": 85
+          },
+          "traits": {
+            "creativity": 91,
+            "boldness": 89
+          }
+        },
+        {
+          "number": 9,
+          "name": "Bojan Krkić",
+          "position": "ST",
+          "overall": 83,
+          "attributes": {
+            "pace": 88,
+            "technique": 87,
+            "dribbling": 87,
+            "finishing": 85,
+            "off_ball": 87,
+            "composure": 83
+          }
+        },
+        {
+          "number": 20,
+          "name": "Ibrahim Afellay",
+          "position": "LW",
+          "overall": 84,
+          "attributes": {
+            "pace": 90,
+            "passing": 85,
+            "technique": 88,
+            "dribbling": 89,
+            "crossing": 85,
+            "finishing": 82,
+            "long_shots": 84
+          }
+        }
+      ]
+    },
+    {
+      "key": "real_madrid_2016_17",
+      "name": "Real Madrid 2016/17",
+      "formation": "4-3-1-2",
+      "tactics": {
+        "formation": "4-3-1-2",
+        "mentality": 0.18,
+        "tempo": 0.64,
+        "width": 0.7,
+        "pressing": 0.65,
+        "defensive_line": 0.64,
+        "compactness": 0.68,
+        "directness": 0.56,
+        "counter": 0.84,
+        "overlap_left": 0.86,
+        "overlap_right": 0.74,
+        "cross_frequency": 0.56,
+        "risk": 0.68
+      },
+      "starters": [
+        {
+          "number": 1,
+          "name": "Keylor Navas",
+          "position": "GK",
+          "overall": 89,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 72,
+            "passing": 75,
+            "vision": 72,
+            "technique": 76,
+            "composure": 88,
+            "reflexes": 95,
+            "handling": 88,
+            "gk_positioning": 89,
+            "one_on_one": 94,
+            "gk_reach": 88,
+            "gk_jump": 94,
+            "gk_agility": 95,
+            "stamina": 84,
+            "discipline": 90
+          },
+          "traits": {
+            "creativity": 70,
+            "boldness": 88,
+            "determination": 93
+          }
+        },
+        {
+          "number": 2,
+          "name": "Dani Carvajal",
+          "position": "RB",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 92,
+            "passing": 86,
+            "vision": 83,
+            "technique": 88,
+            "dribbling": 87,
+            "crossing": 90,
+            "finishing": 70,
+            "long_shots": 76,
+            "heading": 78,
+            "strength": 82,
+            "tackling": 90,
+            "positioning": 91,
+            "anticipation": 91,
+            "composure": 88,
+            "off_ball": 90,
+            "stamina": 95,
+            "aggression": 86,
+            "discipline": 80,
+            "balance": 88,
+            "weak_foot": 78
+          },
+          "traits": {
+            "creativity": 82,
+            "boldness": 89,
+            "determination": 93
+          }
+        },
+        {
+          "number": 5,
+          "name": "Raphaël Varane",
+          "position": "CB",
+          "overall": 90,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 91,
+            "passing": 84,
+            "vision": 80,
+            "technique": 84,
+            "dribbling": 75,
+            "crossing": 68,
+            "finishing": 60,
+            "long_shots": 65,
+            "heading": 90,
+            "strength": 89,
+            "tackling": 92,
+            "positioning": 91,
+            "anticipation": 92,
+            "composure": 91,
+            "off_ball": 74,
+            "stamina": 88,
+            "aggression": 78,
+            "discipline": 86,
+            "balance": 87,
+            "weak_foot": 72
+          },
+          "traits": {
+            "creativity": 72,
+            "boldness": 79,
+            "determination": 91
+          }
+        },
+        {
+          "number": 4,
+          "name": "Sergio Ramos",
+          "position": "CB",
+          "overall": 94,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 85,
+            "passing": 87,
+            "vision": 83,
+            "technique": 88,
+            "dribbling": 80,
+            "crossing": 82,
+            "finishing": 74,
+            "long_shots": 85,
+            "heading": 95,
+            "strength": 92,
+            "tackling": 94,
+            "positioning": 94,
+            "anticipation": 94,
+            "composure": 93,
+            "off_ball": 82,
+            "stamina": 92,
+            "aggression": 94,
+            "discipline": 72,
+            "balance": 90,
+            "weak_foot": 77
+          },
+          "traits": {
+            "creativity": 81,
+            "boldness": 92,
+            "determination": 95
+          }
+        },
+        {
+          "number": 12,
+          "name": "Marcelo",
+          "position": "LB",
+          "overall": 94,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 91,
+            "passing": 92,
+            "vision": 91,
+            "technique": 95,
+            "dribbling": 95,
+            "crossing": 94,
+            "finishing": 80,
+            "long_shots": 87,
+            "heading": 70,
+            "strength": 78,
+            "tackling": 82,
+            "positioning": 84,
+            "anticipation": 86,
+            "composure": 92,
+            "off_ball": 94,
+            "stamina": 91,
+            "aggression": 78,
+            "discipline": 78,
+            "balance": 95,
+            "weak_foot": 85
+          },
+          "traits": {
+            "creativity": 94,
+            "boldness": 95,
+            "determination": 91
+          }
+        },
+        {
+          "number": 14,
+          "name": "Casemiro",
+          "position": "DM",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 77,
+            "passing": 84,
+            "vision": 82,
+            "technique": 84,
+            "dribbling": 78,
+            "crossing": 75,
+            "finishing": 75,
+            "long_shots": 87,
+            "heading": 91,
+            "strength": 94,
+            "tackling": 95,
+            "positioning": 94,
+            "anticipation": 93,
+            "composure": 87,
+            "off_ball": 82,
+            "stamina": 93,
+            "aggression": 95,
+            "discipline": 75,
+            "balance": 88,
+            "weak_foot": 72
+          },
+          "traits": {
+            "creativity": 75,
+            "boldness": 87,
+            "determination": 95
+          }
+        },
+        {
+          "number": 19,
+          "name": "Luka Modrić",
+          "position": "CM",
+          "overall": 94,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 84,
+            "passing": 94,
+            "vision": 95,
+            "technique": 95,
+            "dribbling": 94,
+            "crossing": 89,
+            "finishing": 80,
+            "long_shots": 88,
+            "heading": 62,
+            "strength": 70,
+            "tackling": 83,
+            "positioning": 91,
+            "anticipation": 94,
+            "composure": 95,
+            "off_ball": 94,
+            "stamina": 93,
+            "aggression": 72,
+            "discipline": 92,
+            "balance": 95,
+            "weak_foot": 89
+          },
+          "traits": {
+            "creativity": 95,
+            "boldness": 90,
+            "determination": 93
+          }
+        },
+        {
+          "number": 8,
+          "name": "Toni Kroos",
+          "position": "CM",
+          "overall": 93,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 70,
+            "passing": 95,
+            "vision": 95,
+            "technique": 94,
+            "dribbling": 87,
+            "crossing": 94,
+            "finishing": 79,
+            "long_shots": 92,
+            "heading": 70,
+            "strength": 76,
+            "tackling": 82,
+            "positioning": 90,
+            "anticipation": 93,
+            "composure": 95,
+            "off_ball": 90,
+            "stamina": 90,
+            "aggression": 65,
+            "discipline": 94,
+            "balance": 87,
+            "weak_foot": 87
+          },
+          "traits": {
+            "creativity": 94,
+            "boldness": 85,
+            "determination": 90
+          }
+        },
+        {
+          "number": 22,
+          "name": "Isco",
+          "position": "AM",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 82,
+            "passing": 92,
+            "vision": 94,
+            "technique": 95,
+            "dribbling": 95,
+            "crossing": 87,
+            "finishing": 84,
+            "long_shots": 86,
+            "heading": 62,
+            "strength": 72,
+            "tackling": 70,
+            "positioning": 89,
+            "anticipation": 92,
+            "composure": 93,
+            "off_ball": 90,
+            "stamina": 85,
+            "aggression": 64,
+            "discipline": 91,
+            "balance": 95,
+            "weak_foot": 86
+          },
+          "traits": {
+            "creativity": 95,
+            "boldness": 94,
+            "determination": 88
+          }
+        },
+        {
+          "number": 7,
+          "name": "Cristiano Ronaldo",
+          "position": "ST",
+          "overall": 95,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 94,
+            "passing": 87,
+            "vision": 88,
+            "technique": 94,
+            "dribbling": 93,
+            "crossing": 89,
+            "finishing": 95,
+            "long_shots": 95,
+            "heading": 95,
+            "strength": 91,
+            "tackling": 40,
+            "positioning": 95,
+            "anticipation": 95,
+            "composure": 95,
+            "off_ball": 95,
+            "stamina": 93,
+            "aggression": 82,
+            "discipline": 88,
+            "balance": 92,
+            "weak_foot": 90
+          },
+          "traits": {
+            "creativity": 90,
+            "boldness": 95,
+            "determination": 95
+          }
+        },
+        {
+          "number": 9,
+          "name": "Karim Benzema",
+          "position": "ST",
+          "overall": 91,
+          "preferred_foot": "R",
+          "attributes": {
+            "pace": 86,
+            "passing": 91,
+            "vision": 92,
+            "technique": 93,
+            "dribbling": 91,
+            "crossing": 82,
+            "finishing": 92,
+            "long_shots": 86,
+            "heading": 88,
+            "strength": 86,
+            "tackling": 50,
+            "positioning": 92,
+            "anticipation": 93,
+            "composure": 93,
+            "off_ball": 94,
+            "stamina": 87,
+            "aggression": 70,
+            "discipline": 91,
+            "balance": 88,
+            "weak_foot": 88
+          },
+          "traits": {
+            "creativity": 92,
+            "boldness": 86,
+            "determination": 88
+          }
+        }
+      ],
+      "bench": [
+        {
+          "number": 13,
+          "name": "Kiko Casilla",
+          "position": "GK",
+          "overall": 82,
+          "attributes": {
+            "reflexes": 84,
+            "handling": 82,
+            "gk_positioning": 82,
+            "one_on_one": 81,
+            "gk_reach": 87,
+            "gk_jump": 85
+          }
+        },
+        {
+          "number": 6,
+          "name": "Nacho Fernández",
+          "position": "CB",
+          "overall": 86,
+          "attributes": {
+            "pace": 85,
+            "passing": 82,
+            "tackling": 88,
+            "positioning": 89,
+            "anticipation": 88,
+            "heading": 86,
+            "strength": 85,
+            "discipline": 89
+          }
+        },
+        {
+          "number": 3,
+          "name": "Pepe",
+          "position": "CB",
+          "overall": 90,
+          "attributes": {
+            "pace": 82,
+            "tackling": 94,
+            "positioning": 92,
+            "anticipation": 92,
+            "heading": 91,
+            "strength": 94,
+            "aggression": 95,
+            "discipline": 68
+          },
+          "traits": {
+            "determination": 94
+          }
+        },
+        {
+          "number": 16,
+          "name": "Mateo Kovačić",
+          "position": "CM",
+          "overall": 88,
+          "attributes": {
+            "pace": 87,
+            "passing": 89,
+            "vision": 89,
+            "technique": 91,
+            "dribbling": 92,
+            "tackling": 81,
+            "stamina": 91
+          },
+          "traits": {
+            "creativity": 90,
+            "boldness": 89
+          }
+        },
+        {
+          "number": 10,
+          "name": "James Rodríguez",
+          "position": "AM",
+          "overall": 90,
+          "preferred_foot": "L",
+          "attributes": {
+            "passing": 92,
+            "vision": 94,
+            "technique": 93,
+            "dribbling": 89,
+            "crossing": 91,
+            "finishing": 87,
+            "long_shots": 93,
+            "composure": 91
+          },
+          "traits": {
+            "creativity": 94,
+            "boldness": 88
+          }
+        },
+        {
+          "number": 11,
+          "name": "Gareth Bale",
+          "position": "RW",
+          "overall": 93,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 95,
+            "passing": 87,
+            "technique": 92,
+            "dribbling": 92,
+            "crossing": 91,
+            "finishing": 93,
+            "long_shots": 94,
+            "heading": 88,
+            "strength": 88,
+            "off_ball": 94,
+            "stamina": 91
+          },
+          "traits": {
+            "boldness": 94,
+            "determination": 92
+          }
+        },
+        {
+          "number": 21,
+          "name": "Álvaro Morata",
+          "position": "ST",
+          "overall": 88,
+          "attributes": {
+            "pace": 90,
+            "finishing": 89,
+            "heading": 90,
+            "strength": 86,
+            "off_ball": 91,
+            "composure": 87,
+            "stamina": 88
+          }
+        },
+        {
+          "number": 20,
+          "name": "Marco Asensio",
+          "position": "RW",
+          "overall": 87,
+          "preferred_foot": "L",
+          "attributes": {
+            "pace": 89,
+            "passing": 87,
+            "vision": 88,
+            "technique": 91,
+            "dribbling": 90,
+            "finishing": 88,
+            "long_shots": 91,
+            "composure": 88
+          },
+          "traits": {
+            "creativity": 90,
+            "boldness": 90
+          }
+        }
+      ]
+    }
+  ]
+}

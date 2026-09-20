@@ -15,6 +15,12 @@ from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRea
 
 VERSION = "1.3-candidate-venue-context"
 
+# Calibrated only for ordinary league-style home/away fixtures. The five-league
+# benchmark showed roughly half the real directional home advantage, so the
+# existing contextual pressure/support/space shifts are doubled without
+# changing ratings, finishing, neutral venues, shared stadiums or travel fatigue.
+HOME_AWAY_CONTEXT_SCALE = 2.0
+
 
 class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
     MODES = {"neutral", "home_away", "shared_stadium"}

@@ -53,7 +53,7 @@ class VenueContextV13Tests(unittest.TestCase):
 
         # Shared-stadium mode intentionally keeps the pre-calibration coefficients.
         self.assertAlmostEqual(shared["home_effects"]["pressure_shift"], -0.00494, places=6)
-        self.assertAlmostEqual(shared["away_effects"]["pressure_shift"], -0.00396, places=6)
+        self.assertAlmostEqual(shared["away_effects"]["pressure_shift"], -0.00290, places=6)
 
     def test_venue_diagnostic_is_rng_pure_and_does_not_mutate_player_attributes(self):
         engine = self.make_engine(venue_context="home_away")

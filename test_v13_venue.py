@@ -45,11 +45,12 @@ class VenueContextV13Tests(unittest.TestCase):
         normal = self.make_engine(venue_context="home_away").venue_diagnostic()
         shared = self.make_engine(venue_context="shared_stadium").venue_diagnostic()
 
-        # Current league calibration doubles only the contextual home/away shifts.
-        self.assertAlmostEqual(normal["home_effects"]["pressure_shift"], -0.02144, places=6)
-        self.assertAlmostEqual(normal["away_effects"]["pressure_shift"], 0.02000, places=6)
-        self.assertAlmostEqual(normal["home_effects"]["support_shift"], 0.01824, places=6)
-        self.assertAlmostEqual(normal["away_effects"]["support_shift"], -0.01400, places=6)
+        # League calibration strengthens the familiar home environment while
+        # preserving the already-modelled visitor disadvantage at baseline.
+        self.assertAlmostEqual(normal["home_effects"]["pressure_shift"], -0.03216, places=6)
+        self.assertAlmostEqual(normal["away_effects"]["pressure_shift"], 0.01000, places=6)
+        self.assertAlmostEqual(normal["home_effects"]["support_shift"], 0.02736, places=6)
+        self.assertAlmostEqual(normal["away_effects"]["support_shift"], -0.00700, places=6)
 
         # Shared-stadium mode intentionally keeps the pre-calibration coefficients.
         self.assertAlmostEqual(shared["home_effects"]["pressure_shift"], -0.00494, places=6)

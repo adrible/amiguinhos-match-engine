@@ -15,11 +15,15 @@ from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRea
 
 VERSION = "1.3-candidate-venue-context"
 
-# Calibrated only for ordinary league-style home/away fixtures. The five-league
-# benchmark showed roughly half the real directional home advantage, so the
-# existing contextual pressure/support/space shifts are doubled without
-# changing ratings, finishing, neutral venues, shared stadiums or travel fatigue.
-HOME_AWAY_CONTEXT_SCALE = 2.0
+# Calibrated only for ordinary league-style home/away fixtures. The baseline
+# showed roughly half the real directional home advantage. A symmetric 2x
+# experiment reached the right result gap but suppressed total scoring, so the
+# final candidate strengthens the familiar home environment while keeping the
+# already-modelled visitor familiarity/travel penalty at baseline strength.
+# Ratings, finishing, neutral venues, shared stadiums and travel fatigue are
+# unchanged.
+HOME_CONTEXT_SCALE = 3.0
+AWAY_CONTEXT_SCALE = 1.0
 
 
 class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
@@ -92,7 +96,10 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
 
         # Small contextual shifts only. They influence the situation perceived
         # by the decision model, never a player's underlying execution skill.
-        context_scale = HOME_AWAY_CONTEXT_SCALE if venue["mode"] == "home_away" else 1.0
+        if venue["mode"] == "home_away":
+            context_scale = HOME_CONTEXT_SCALE if team == 0 else AWAY_CONTEXT_SCALE
+        else:
+            context_scale = 1.0
         pressure_shift = context_scale * (
             -0.020 * (familiarity - 0.50)
             -0.018 * crowd_edge

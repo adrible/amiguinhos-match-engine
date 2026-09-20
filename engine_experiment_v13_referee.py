@@ -281,8 +281,8 @@ class MatchEngineV13Referee(MatchEngineV13Substitutions):
             0.02
             + 0.50 * severity
             + 0.16 * float(bool(incident.get("spa")))
-            + 0.17 * persistent
-            + 0.09 * float(warned)
+            + 0.27 * persistent
+            + 0.13 * float(warned)
             + 0.11 * aggression
             - 0.09 * discipline
             + 0.18 * (strict - 0.50)

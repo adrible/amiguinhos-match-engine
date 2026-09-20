@@ -99,12 +99,12 @@ def shot_geometry(engine, p, shooter, keeper, selection):
         tx, tz = 0., .8
     elif target == 'high_far_corner':
         tx, tz = opposite * 3.12, 2.12
-    elif target == 'mid_far_corner':
-        tx, tz = opposite * 2.8, 1.20
-    elif target == 'low_far_corner':
-        tx, tz = opposite * 2.95, .28
-    elif target == 'near_post':
-        tx, tz = (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
+    elif target in {'mid_far_corner', 'far_post', 'far_corner'}:
+        target, tx, tz = 'mid_far_corner', opposite * 2.8, 1.20
+    elif target in {'low_far_corner', 'low_corner'}:
+        target, tx, tz = 'low_far_corner', opposite * 2.95, .28
+    elif target in {'near_post', 'near_corner'}:
+        target, tx, tz = 'near_post', (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
     elif target in {'counterstep', 'wrong_foot'}:
         target, tx, tz = 'counterstep', -opposite * 2.25, .45
     elif target == 'central_chip':

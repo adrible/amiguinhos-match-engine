@@ -1,0 +1,28 @@
+name: Real Powerhouses All-P Simulation
+
+on:
+  push:
+    branches:
+      - simulation-real-powerhouses-20260920
+    paths:
+      - simulations/real_powerhouses_20260920/fixture.json
+      - simulations/real_powerhouses_20260920/run_all_p.py
+      - .github/workflows/real-powerhouses-all-p.yml
+
+permissions:
+  contents: read
+
+jobs:
+  simulate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run complete all-p simulation
+        run: python simulations/real_powerhouses_20260920/run_all_p.py

@@ -203,12 +203,18 @@ class MatchEngineV13Deception(MatchEngineV13PassingTexture):
         creativity = self._creativity(actor)
         preferred = str(actor.player.preferred_foot).upper()
         awkward = (zone.lane == Lane.LEFT and preferred == "R") or (zone.lane == Lane.RIGHT and preferred == "L")
+        reception = getattr(self, "_v13_reception_plan", None) or {}
+        first_touch = (reception.get("actor") == actor.player.name
+                       and reception.get("zone") == zone
+                       and reception.get("mode") == "first_time")
         choices = []
         if awkward:
             choices += [("outside_foot", "avoid_weak_foot", .12), ("rabona", "solve_awkward_angle", .26)]
         if pressure > .35 and support > .48:
-            choices += [("backheel", "release_support_under_pressure", .16),
-                        ("first_time", "accelerate_combination", .09)]
+            choices += [("backheel", "release_support_under_pressure", .16)]
+        if first_touch and support > .48:
+            choices += [("first_time", "accelerate_combination", .09),
+                        ("backheel_return", "return_ball_without_turning", .19)]
         if pressure > .30 and vision > .65:
             choices += [("no_look", "disguise_passing_lane", .13), ("disguised", "deceive_marker", .08)]
         if decision in {"through_ball", "cross", "switch", "long_ball"}:
@@ -219,8 +225,18 @@ class MatchEngineV13Deception(MatchEngineV13PassingTexture):
         probability = clamp(.015 + .38 * creativity ** 3 + .12 * self._boldness(actor) ** 2 - .06 * pressure, .01, .48)
         if _stable_fraction("creative-pass-attempt", *key) >= probability:
             return {"attempt": False, "attempt_probability": probability}
-        choice = min(len(choices) - 1, int(_stable_fraction("creative-pass-type", *key) * len(choices)))
-        style, purpose, difficulty = choices[choice]
+        # Difficult techniques remain possible, but suitability depends on skill
+        # rather than an equal lottery among every available trick.
+        weights = [max(.02, (1.0 - cost) ** 3 *
+                       (max(.05, technique - .45) ** 2 if style == "rabona" else 1.0))
+                   for style, _, cost in choices]
+        pick = _stable_fraction("creative-pass-type", *key) * sum(weights)
+        style, purpose, difficulty = choices[-1]
+        for option, weight in zip(choices, weights):
+            pick -= weight
+            if pick <= 0:
+                style, purpose, difficulty = option
+                break
         success_p = clamp(.30 + .32 * technique + .22 * vision + .16 * composure - .25 * pressure - difficulty, .08, .92)
         success = _stable_fraction("creative-pass-execution", *key) < success_p
         return dict(attempt=True, technique=style, purpose=purpose, success=success,

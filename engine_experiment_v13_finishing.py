@@ -57,19 +57,33 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
         else:
             shot_type = "low_driven" if fraction < 0.54 else "power"
 
-        preferred = str(getattr(shooter.player, "preferred_foot", "R")).upper()
+        # The target is selected here before resolution and is the same intent
+        # consumed by the goal-plane model. Reuse the spatial draw key so this
+        # refactor does not silently reshuffle the calibrated target mix.
+        target_fraction = _stable_fraction(
+            "goal-plane-v1",
+            "target",
+            self.seed,
+            self.state.second,
+            p.team,
+            p.actor,
+            p.origin,
+            p.rebound_depth,
+        )
         if shot_type == "chip":
             target = "central_chip"
-        elif p.zone.lane == Lane.LEFT:
-            target = "far_post" if preferred in {"R", "B", "BOTH"} else "near_post"
-        elif p.zone.lane == Lane.RIGHT:
-            target = "far_post" if preferred in {"L", "B", "BOTH"} else "near_post"
-        elif shot_type in {"placed", "across_goal"}:
-            target = "low_far_corner" if fraction < 0.60 else "high_far_corner"
-        elif shot_type == "low_driven":
-            target = "low_corner"
+        elif target_fraction < 0.16:
+            target = "central"
+        elif target_fraction < 0.34:
+            target = "high_far_corner"
+        elif target_fraction < 0.52:
+            target = "mid_far_corner"
+        elif target_fraction < 0.73:
+            target = "low_far_corner"
+        elif target_fraction < 0.88:
+            target = "near_post"
         else:
-            target = "far_corner" if fraction < 0.54 else "near_corner"
+            target = "counterstep"
 
         execution = clamp(
             0.35 * finishing

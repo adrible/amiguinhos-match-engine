@@ -38,16 +38,22 @@ def attribute(player, name, fallback):
 def keeper_response(keeper, x, z, keeper_x, distance, speed, shot_type):
     reflex = keeper.effective('reflexes') / 100
     positioning = keeper.effective('gk_positioning') / 100
+    handling = keeper.effective('handling') / 100
     agility = attribute(keeper, 'gk_agility', (keeper.effective('reflexes') + keeper.effective('pace')) / 2) / 100
     reach = attribute(keeper, 'gk_reach', keeper.effective('gk_positioning')) / 100
     jump = attribute(keeper, 'gk_jump', (keeper.effective('strength') + keeper.effective('reflexes')) / 2) / 100
     close = clamp((18 - distance) / 14)
     high = clamp(z / 2.44)
+    centrality = 1 - clamp(abs(x - keeper_x) / 3.66)
+    controllable_pace = 1 - clamp((speed - 14) / 20)
+    handling_weight = .04 + .12 * centrality * (1 - .55 * high) + .07 * controllable_pace
     weights = {'reflexes': .22 + .25 * close, 'gk_positioning': .24,
                'gk_agility': .18 * (1 - high), 'gk_reach': .18,
-               'gk_jump': .22 * high, 'one_on_one': .20 * close}
+               'gk_jump': .22 * high, 'one_on_one': .20 * close,
+               'handling': handling_weight}
     values = dict(reflexes=reflex, gk_positioning=positioning, gk_agility=agility,
-                  gk_reach=reach, gk_jump=jump, one_on_one=keeper.effective('one_on_one') / 100)
+                  gk_reach=reach, gk_jump=jump, one_on_one=keeper.effective('one_on_one') / 100,
+                  handling=handling)
     ability = sum(weights[k] * values[k] for k in weights) / sum(weights.values())
     travel = hypot(x - keeper_x, max(0, z - .8))
     flight = distance / speed
@@ -71,20 +77,42 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     keeper_x = side * (1.15 + .45 * keeper.effective('gk_positioning') / 100)
     keeper_x += (draw('keeper-offset') - .5) * (1.2 - keeper.effective('gk_positioning') / 120)
     shot_type = selection['shot_type']
-    r = draw('target')
     opposite = -1 if keeper_x > 0 else 1
-    if r < .16:
-        target, tx, tz = 'central', 0., .8
-    elif r < .34:
-        target, tx, tz = 'high_far_corner', opposite * 3.12, 2.12
-    elif r < .52:
+    # Consume the attacker's already-selected intent. The fallback keeps
+    # backwards compatibility for old callers that do not provide target_zone.
+    target = str(selection.get('target_zone') or '')
+    if not target:
+        r = draw('target')
+        if r < .16:
+            target = 'central'
+        elif r < .34:
+            target = 'high_far_corner'
+        elif r < .52:
+            target = 'mid_far_corner'
+        elif r < .73:
+            target = 'low_far_corner'
+        elif r < .88:
+            target = 'near_post'
+        else:
+            target = 'counterstep'
+    if target == 'central':
+        tx, tz = 0., .8
+    elif target == 'high_far_corner':
+        tx, tz = opposite * 3.12, 2.12
+    elif target in {'mid_far_corner', 'far_post', 'far_corner'}:
         target, tx, tz = 'mid_far_corner', opposite * 2.8, 1.20
-    elif r < .73:
+    elif target in {'low_far_corner', 'low_corner'}:
         target, tx, tz = 'low_far_corner', opposite * 2.95, .28
-    elif r < .88:
+    elif target in {'near_post', 'near_corner'}:
         target, tx, tz = 'near_post', (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
+    elif target in {'counterstep', 'wrong_foot'}:
+        target, tx, tz = 'counterstep', -opposite * 2.25, .45
+    elif target == 'central_chip':
+        tx, tz = opposite * .7, 1.95
     else:
-        target, tx, tz = 'wrong_foot', -opposite * 2.25, .45
+        # Unknown experimental labels degrade to a central intention instead of
+        # creating an impossible coordinate or silently changing the outcome.
+        target, tx, tz = 'central', 0., .8
     if shot_type == 'chip':
         target, tx, tz = 'central_chip', opposite * .7, 1.95
     elif p.body_part == 'head' and draw('header') < .55:

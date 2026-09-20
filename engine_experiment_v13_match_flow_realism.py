@@ -15,6 +15,11 @@ VERSION = "1.3-candidate-match-flow-realism"
 
 
 class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
+    # Fixture cadence varies, but should not dominate tactical tempo or make
+    # every phase of an otherwise ordinary match uniformly frantic/sluggish.
+    MATCH_FLOW_LOG_MU = -0.065
+    MATCH_FLOW_LOG_SIGMA = 0.24
+
     _CORNER_TURNOVER_BASE = {
         "cross_stopped": 0.34,
         "cross_cleared": 0.28,

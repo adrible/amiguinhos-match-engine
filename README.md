@@ -68,3 +68,5 @@ A revisão de 19/09/2026 calibra a precisão espacial e sua conversão, preserva
 A [revisão de contato e disciplina de 20/09/2026](CONTACT_CALIBRATION_v13_20260920.md) considera espaço livre no contato faltoso e reforça a reincidência na decisão de amarelo. Inclui validação independente e diagnóstico pareado da ordem dos times, com as regressões do índice global documentadas.
 
 [Alvos do chute e passes criativos](TARGET_PASS_VARIETY_v13_20260920.md): meio alto e cantos bilaterais explícitos, técnicas de primeira ligadas à recepção e escolha ponderada de passes difíceis; comparação real e regressões documentadas.
+
+[Calibração de ritmo e ambiente](CADENCE_CALIBRATION_v13_20260920.md): clima invariável à ordem dos times, menor dispersão de ritmo e validação de 300 confrontos nas duas ordens (600 partidas por versão), com incerteza e resultados individuais preservados.

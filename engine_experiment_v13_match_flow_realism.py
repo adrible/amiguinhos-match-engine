@@ -184,6 +184,12 @@ class MatchEngineV13MatchFlowRealism(MatchEngineV13Penalties):
             + 0.014 * transition
         ) * whistle_factor
 
+        # Pressure alone does not imply physical contact: a carrier with space
+        # can release the ball before the opponent reaches the duel. Preserve
+        # fully contested interventions and discount open, low-pressure actions.
+        space = clamp(float(ctx.get("space", 0.5)))
+        probability *= 1.0 - 0.35 * space * (1.0 - pressure)
+
         # A booked player should manage borderline physical interventions more
         # carefully. This changes whether marginal contact is attempted, not the
         # referee's sanction once an actual foul occurs.

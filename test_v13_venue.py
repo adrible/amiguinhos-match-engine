@@ -41,6 +41,20 @@ class VenueContextV13Tests(unittest.TestCase):
         shared_gap = abs(shared["home_effects"]["pressure_shift"] - shared["away_effects"]["pressure_shift"])
         self.assertLess(shared_gap, normal_gap)
 
+    def test_home_away_scale_is_surgical_and_does_not_change_shared_stadium(self):
+        normal = self.make_engine(venue_context="home_away").venue_diagnostic()
+        shared = self.make_engine(venue_context="shared_stadium").venue_diagnostic()
+
+        # Current league calibration doubles only the contextual home/away shifts.
+        self.assertAlmostEqual(normal["home_effects"]["pressure_shift"], -0.02144, places=6)
+        self.assertAlmostEqual(normal["away_effects"]["pressure_shift"], 0.02000, places=6)
+        self.assertAlmostEqual(normal["home_effects"]["support_shift"], 0.01824, places=6)
+        self.assertAlmostEqual(normal["away_effects"]["support_shift"], -0.01400, places=6)
+
+        # Shared-stadium mode intentionally keeps the pre-calibration coefficients.
+        self.assertAlmostEqual(shared["home_effects"]["pressure_shift"], -0.00494, places=6)
+        self.assertAlmostEqual(shared["away_effects"]["pressure_shift"], -0.00396, places=6)
+
     def test_venue_diagnostic_is_rng_pure_and_does_not_mutate_player_attributes(self):
         engine = self.make_engine(venue_context="home_away")
         before_rng = engine.rng.getstate()

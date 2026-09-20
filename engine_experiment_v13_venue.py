@@ -86,17 +86,18 @@ class MatchEngineV13VenueContext(MatchEngineV13DisciplineRealism):
 
         # Small contextual shifts only. They influence the situation perceived
         # by the decision model, never a player's underlying execution skill.
-        pressure_shift = (
+        context_scale = HOME_AWAY_CONTEXT_SCALE if venue["mode"] == "home_away" else 1.0
+        pressure_shift = context_scale * (
             -0.020 * (familiarity - 0.50)
             -0.018 * crowd_edge
             +0.014 * travel
         )
-        support_shift = (
+        support_shift = context_scale * (
             +0.018 * (familiarity - 0.50)
             +0.014 * crowd_edge
             -0.008 * travel
         )
-        space_shift = (
+        space_shift = context_scale * (
             +0.007 * (familiarity - 0.50)
             +0.004 * crowd_edge
             -0.003 * travel

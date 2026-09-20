@@ -66,3 +66,5 @@ The official final seed is reserved and must never be previewed, dry-run, calibr
 A revisão de 19/09/2026 calibra a precisão espacial e sua conversão, preservando o xG da situação. Em `mode="neutral"`, nenhum lado recebe vantagem de torcida, familiaridade ou viagem, inclusive com metadados antigos assimétricos. Use `compare_general_engine_v13.py --neutral` para comparar agregados sem distinguir mando. Resultados, limitações e reprodução: [calibração neutra](NEUTRAL_CALIBRATION_v13_20260919.md).
 
 A [revisão de contato e disciplina de 20/09/2026](CONTACT_CALIBRATION_v13_20260920.md) considera espaço livre no contato faltoso e reforça a reincidência na decisão de amarelo. Inclui validação independente e diagnóstico pareado da ordem dos times, com as regressões do índice global documentadas.
+
+[Alvos do chute e passes criativos](TARGET_PASS_VARIETY_v13_20260920.md): meio alto e cantos bilaterais explícitos, técnicas de primeira ligadas à recepção e escolha ponderada de passes difíceis; comparação real e regressões documentadas.

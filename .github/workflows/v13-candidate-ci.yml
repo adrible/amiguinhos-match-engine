@@ -55,6 +55,7 @@ jobs:
       - name: Run v1.3 candidate suite
         run: >-
           python -m unittest -v
+          test_target_pass_variety_v13.py
           test_contact_calibration_v13.py
           test_neutral_calibration_v13.py
           test_spatial_execution_narration_v13.py

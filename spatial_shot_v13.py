@@ -24,7 +24,7 @@ def reference_target_probability(distance, pressure):
     spread = DISPERSION_SCALE * (1.20 - .75 * .60 + .18 * pressure + .18 * .30) * (distance / 12) ** .48
     def interval(lo, hi, mean, sigma):
         return .5 * (erf((hi-mean)/(sigma*sqrt(2))) - erf((lo-mean)/(sigma*sqrt(2))))
-    targets = [(.16,0.,.8),(.18,3.12,2.12),(.18,2.8,1.2),(.21,2.95,.28),
+    targets = [(.08,0.,.8),(.08,0.,1.95),(.18,3.12,2.12),(.18,2.8,1.2),(.21,2.95,.28),
                (.05,2.85,.75),(.05,2.85,1.15),(.05,2.85,1.55),(.12,2.25,.45)]
     return sum(weight * interval(-3.59,3.59,x,spread*1.9) * interval(-2.37,2.37,z,spread)
                for weight,x,z in targets)
@@ -73,14 +73,19 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     shot_type = selection['shot_type']
     r = draw('target')
     opposite = -1 if keeper_x > 0 else 1
-    if r < .16:
+    # Prefer the exposed side, but retain a near-side option to wrong-foot
+    # the keeper. The sign is spatial, never a home/away identity.
+    target_side = opposite if draw('target-side') < .72 else -opposite
+    if r < .08:
         target, tx, tz = 'central', 0., .8
+    elif r < .16:
+        target, tx, tz = 'high_center', 0., 1.95
     elif r < .34:
-        target, tx, tz = 'high_far_corner', opposite * 3.12, 2.12
+        target, tx, tz = ('high_far_corner' if target_side == opposite else 'high_near_corner'), target_side * 3.12, 2.12
     elif r < .52:
-        target, tx, tz = 'mid_far_corner', opposite * 2.8, 1.20
+        target, tx, tz = ('mid_far_corner' if target_side == opposite else 'mid_near_corner'), target_side * 2.8, 1.20
     elif r < .73:
-        target, tx, tz = 'low_far_corner', opposite * 2.95, .28
+        target, tx, tz = ('low_far_corner' if target_side == opposite else 'low_near_corner'), target_side * 2.95, .28
     elif r < .88:
         target, tx, tz = 'near_post', (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
     else:
@@ -88,7 +93,7 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     if shot_type == 'chip':
         target, tx, tz = 'central_chip', opposite * .7, 1.95
     elif p.body_part == 'head' and draw('header') < .55:
-        shot_type, target, tz = 'downward_header', 'low_far_corner', .23
+        shot_type, target, tx, tz = 'downward_header', ('low_far_corner' if target_side == opposite else 'low_near_corner'), target_side * 2.95, .23
     elif p.body_part != 'head' and p.pressure > .65 and draw('toe') < .23:
         shot_type = 'toe_poke'
     elif p.body_part != 'head' and side and shooter.effective('technique') > 80 and draw('outside') < .16:
@@ -117,8 +122,9 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     frame = (abs(abs(x) - 3.66) <= .07 and z <= 2.51) or (abs(z - 2.44) <= .07 and abs(x) <= 3.73)
     exposed = getattr(engine, '_keeper_is_exposed', lambda team: False)(1 - p.team)
     response = keeper_response(keeper, x, z, keeper_x, distance, speed, shot_type)
+    intended = ('high' if tz > 1.65 else 'low' if tz < .65 else 'mid') + ('_center' if abs(tx) < 1.2 else '_left' if tx < 0 else '_right')
     actual = ('high' if z > 1.65 else 'low' if z < .65 else 'mid') + ('_center' if abs(x) < 1.2 else '_left' if x < 0 else '_right')
-    return dict(shot_type=shot_type, shot_target=target, intended_goal_position={'x': tx, 'z': tz},
+    return dict(shot_type=shot_type, shot_target=target, intended_shot_region=intended, intended_goal_position={'x': tx, 'z': tz},
                 actual_goal_position={'x': x, 'z': z}, actual_shot_region=actual,
                 keeper_goal_position={'x': keeper_x, 'z': .8}, shot_speed_mps=speed,
                 shot_distance_m=distance, shot_foot='head' if p.body_part == 'head' else 'weak' if weak else 'strong',

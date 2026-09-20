@@ -25,4 +25,4 @@ jobs:
           python-version: "3.11"
 
       - name: Run complete all-p simulation
-        run: python simulations/real_powerhouses_20260920/run_all_p.py
+        run: PYTHONPATH=. python simulations/real_powerhouses_20260920/run_all_p.py

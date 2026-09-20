@@ -27,6 +27,27 @@ class SpatialExecutionTests(unittest.TestCase):
         self.assertEqual(g, shot_geometry(e, p, a, k, d))
         self.assertGreater(g['shot_speed_mps'], 0)
 
+    def test_selected_target_is_the_physical_intention(self):
+        e, a, p, k = self.setup_shot()
+        for second in range(80):
+            e.state.second = second
+            selection = e.shot_selection_diagnostic(a, p, k)
+            g = shot_geometry(e, p, a, k, selection)
+            self.assertEqual(g['shot_target'], selection['target_zone'])
+
+    def test_handling_contributes_to_spatial_save_response(self):
+        e, a, p, k = self.setup_shot()
+        original = k.player.handling
+        try:
+            k.player.handling = 40
+            weak = keeper_response(k, 0, .55, 0, 12, 18, 'placed')
+            k.player.handling = 95
+            strong = keeper_response(k, 0, .55, 0, 12, 18, 'placed')
+        finally:
+            k.player.handling = original
+        self.assertLess(strong['spatial_conversion_multiplier'], weak['spatial_conversion_multiplier'])
+        self.assertGreater(strong['keeper_attribute_weights']['handling'], 0)
+
     def test_corner_harder_to_save_and_near_post_position_exposes_far_side(self):
         e, a, p, k = self.setup_shot()
         center = keeper_response(k, 0, .8, 0, 12, 24, 'placed')

@@ -284,12 +284,15 @@ class MatchState:
 class MatchEngine:
     """Event-driven football simulator."""
 
+    MATCH_FLOW_LOG_MU = -0.04
+    MATCH_FLOW_LOG_SIGMA = 0.32
+
     def __init__(self, home: Team, away: Team, seed: Optional[int] = None, config: Optional[MatchConfig] = None):
         if len(home.starters) != 11 or len(away.starters) != 11:
             raise ValueError("Each team must have exactly 11 starters.")
         self.rng = random.Random(seed)
         self.seed = seed
-        self.match_flow = clamp(self.rng.lognormvariate(-0.04, 0.32), 0.35, 1.65)
+        self.match_flow = clamp(self.rng.lognormvariate(self.MATCH_FLOW_LOG_MU, self.MATCH_FLOW_LOG_SIGMA), 0.35, 1.65)
         self.config = config or MatchConfig()
         self.teams = [
             TeamRuntime(home, [PlayerState(p) for p in home.starters], list(home.bench)),

@@ -576,7 +576,7 @@ class MatchEngine:
         return self._turnover(team, actor, zone, "bad_safe_pass", ctx, severity=0.25)
 
     def _progressive_action(self, team, actor, zone, kind, ctx) -> Event:
-        target = self._choose_target(team, zone, attacking=True, exclude=actor.player.name)
+        target = self._choose_target(team, zone, attacking=True, exclude=actor.player.name, action=kind)
         pass_attr, vision, tech = actor.effective("passing"), actor.effective("vision"), actor.effective("technique")
         difficulty = {"progressive_pass": 0.44, "switch": 0.50, "long_ball": 0.57}[kind]
         score = 0.38 * pass_attr + 0.25 * vision + 0.15 * tech + 13.0 * ctx["support"] + 10.0 * ctx["space"] - 22.0 * ctx["pressure"] - 22.0 * difficulty
@@ -651,7 +651,7 @@ class MatchEngine:
         zone = p.zone; ctx = self._spatial_context(p.team, zone)
         if p.kind == "shoot": return self._resolve_shot(p)
         if p.kind in ("cross", "cutback", "through_ball"):
-            target = self.teams[p.team].by_name(p.target) if p.target else self._choose_target(p.team, zone, attacking=True, exclude=actor.player.name)
+            target = self.teams[p.team].by_name(p.target) if p.target else self._choose_target(p.team, zone, attacking=True, exclude=actor.player.name, action=p.kind)
             defender = self._named_or_fallback(1 - p.team, p.defender, role="defender", zone=zone)
             attr = "crossing" if p.kind in ("cross", "cutback") else "passing"
             atk = 0.42 * actor.effective(attr) + 0.26 * actor.effective("vision") + 0.18 * actor.effective("technique") + 0.14 * target.effective("off_ball")
@@ -944,13 +944,39 @@ class MatchEngine:
             w *= 0.75 + 0.25 * ps.energy; weights.append((ps, w))
         return weighted_choice(self.rng, weights)
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None) -> PlayerState:
+    def _attacking_target_quality(self, ps: PlayerState, action: Optional[str] = None) -> float:
+        """Return contextual attacking movement quality without hard-selecting a star.
+
+        The old target model was mostly position-driven, so elite attackers and
+        ordinary players in the same role were too similar as receivers. This
+        keeps selection probabilistic but lets the action reward the attributes
+        that actually make a player a plausible target.
+        """
+        off_ball = ps.effective("off_ball")
+        anticipation = ps.effective("anticipation")
+        finishing = ps.effective("finishing")
+        composure = ps.effective("composure")
+        technique = ps.effective("technique")
+        heading = ps.effective("heading")
+        strength = ps.effective("strength")
+
+        if action == "cross":
+            return 0.32 * off_ball + 0.25 * anticipation + 0.28 * heading + 0.15 * strength
+        if action in ("through_ball", "cutback"):
+            return 0.36 * off_ball + 0.22 * anticipation + 0.27 * finishing + 0.15 * composure
+        return 0.42 * off_ball + 0.22 * anticipation + 0.18 * technique + 0.18 * finishing
+
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None) -> PlayerState:
         rt = self.teams[team]; weights = []
         for ps in rt.on_field:
             if ps.player.name == exclude: continue
             pos = ps.player.position.upper()
             if attacking:
-                w = {"ST": 1.55, "AM": 1.35, "LW": 1.25, "RW": 1.25, "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35, "CB": 0.12, "GK": 0.01}.get(pos, 0.5) * (0.70 + 0.30 * ps.effective("off_ball") / 100.0)
+                base = {"ST": 1.55, "AM": 1.35, "LW": 1.25, "RW": 1.25, "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35, "CB": 0.12, "GK": 0.01}.get(pos, 0.5)
+                quality = self._attacking_target_quality(ps, action)
+                # Context matters, but never enough to turn selection into a quota.
+                # A strong target is preferred rather than guaranteed.
+                w = base * (0.55 + 0.65 * quality / 100.0)
             else:
                 w = {"CB": 1.1, "LB": 0.95, "RB": 0.95, "DM": 1.2, "CM": 1.1, "AM": 0.65, "LW": 0.55, "RW": 0.55, "ST": 0.35, "GK": 0.20}.get(pos, 0.6) * (0.75 + 0.25 * ps.effective("positioning") / 100.0)
             if zone.lane == Lane.LEFT and pos in ("LB", "LW"): w *= 1.25

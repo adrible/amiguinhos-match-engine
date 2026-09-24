@@ -2,6 +2,7 @@
 
 - Advance exactly one narratable event per user `p`.
 - Do not repeat an incident that was already narrated in the immediately previous step.
+- User-facing narration must never mention `p`, press/advance counts, `step`, `sequence`, command names, or labels such as `4º p`. Commands remain an internal control interface only; present each returned moment only by match clock and football action.
 - Foul, immediate reaction and public warning/card are one packet. Do not repeat aftermath or count suppressed records as a press.
 - For batch requests such as `p 5x`, stop immediately when a `period_end` event is reached, even if the batch still has unused presses. Do not consume the next period kickoff until the user sends another `p`.
 - Never invent cards, shots, restarts, or outcomes not present in the authoritative packet.

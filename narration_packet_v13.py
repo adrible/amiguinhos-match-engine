@@ -56,6 +56,7 @@ _HIDDEN_DATA_TOKENS = (
 NARRATOR_RULES = [
     "Narrate as a live football commentator in pt-BR.",
     "Never mention the simulation engine, code, RNG, internal state or that an event was returned by a command.",
+    "Never mention `p`, press/advance counts, step/sequence numbers or command names in user-facing narration; identify moments only by the match clock and football action.",
     "Never expose internal probabilities, danger values, execution scores, rolls, thresholds or hidden ratings.",
     "Never invent an action that is not supported by main_event, bridge_events or continuity.",
     "Never announce the same incident twice. If multiple records belong to one incident, consolidate them.",

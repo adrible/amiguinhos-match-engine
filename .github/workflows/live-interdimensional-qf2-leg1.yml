@@ -1,0 +1,32 @@
+name: Live Interdimensional QF2 Leg 1
+
+on:
+  push:
+    branches:
+      - tournament-interdimensional-20260918
+    paths:
+      - live/interdimensional_qf2_leg1_step.txt
+      - live_interdimensional_qf2_leg1.py
+      - .github/workflows/live-interdimensional-qf2-leg1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate tournament pack
+        run: python -m json.tool data/tournaments/torneio_16_times_engine_v13.json > /dev/null
+
+      - name: Run live QF2 first-leg state
+        shell: bash
+        run: |
+          STEP="$(tr -d '[:space:]' < live/interdimensional_qf2_leg1_step.txt)"
+          python live_interdimensional_qf2_leg1.py "$STEP"

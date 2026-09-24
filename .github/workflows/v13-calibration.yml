@@ -1,0 +1,66 @@
+name: Match Engine v1.3 Broad Calibration
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_seed:
+        description: First seed in the contiguous unfiltered range
+        required: true
+        default: "0"
+        type: string
+      count:
+        description: Number of consecutive seeds to simulate
+        required: true
+        default: "100"
+        type: string
+      auto_adapt:
+        description: Enable contextual in-match tactical adaptation
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  calibration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate candidate databases
+        run: |
+          python -m json.tool data/teams.json > /dev/null
+          python -m json.tool data/v13_player_traits.json > /dev/null
+
+      - name: Run contiguous unfiltered Amiguinhos x Flamengo batch
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=("${{ inputs.count }}" "--start-seed" "${{ inputs.start_seed }}")
+          if [[ "${{ inputs.auto_adapt }}" == "true" ]]; then
+            args+=("--auto-adapt")
+          fi
+          python calibration_v13.py "${args[@]}" > v13_calibration.json
+          python -m json.tool v13_calibration.json > /dev/null
+
+      - name: Print compact summary
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("v13_calibration.json").read_text(encoding="utf-8"))
+          summary = {k: v for k, v in data.items() if k != "matches"}
+          print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload full calibration artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13-calibration-${{ inputs.start_seed }}-${{ inputs.count }}
+          path: v13_calibration.json
+          if-no-files-found: error

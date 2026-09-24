@@ -1,0 +1,181 @@
+name: Match Engine v1.3 Candidate CI
+
+on:
+  pull_request:
+    branches: [main, v1.3-spatial-creativity-boldness, tournament-interdimensional-20260918]
+  workflow_dispatch:
+    inputs:
+      heavy_validation:
+        description: Run the full high-cost simulation and calibration battery
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: v13-candidate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  candidate-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Validate active v1.3 databases
+        run: |
+          python -m json.tool data/teams.json > /dev/null
+          python -m json.tool data/v13_player_traits.json > /dev/null
+          python -m json.tool data/v13_rosters.json > /dev/null
+          python -m json.tool data/v13_competition_strength.json > /dev/null
+          python -m json.tool data/v13_position_familiarity.json > /dev/null
+
+      - name: Compile active v1.3 source
+        run: |
+          find . -maxdepth 1 -name '*.py' \
+            ! -name 'engine_experiment_v12.py' \
+            ! -name 'stable_engine.py' \
+            ! -name 'test_engine_v12.py' \
+            ! -name 'diagnostics.py' \
+            ! -name 'calibrate_amiguinhos_v12.py' \
+            -print0 | xargs -0 python -m py_compile
+
+      - name: Run active core invariants
+        run: python -m unittest -v test_engine.py test_team_loader.py
+
+      - name: Run v1.3 candidate suite
+        run: >-
+          python -m unittest -v
+          test_cadence_calibration_v13.py
+          test_target_pass_variety_v13.py
+          test_contact_calibration_v13.py
+          test_neutral_calibration_v13.py
+          test_spatial_execution_narration_v13.py
+          test_v13_keeper_up_context.py
+          test_v13_open_goal_decision.py
+          test_causal_refinement_v13.py
+          test_historical_2014_v13.py
+          test_spatial_decisions.py
+          test_offball_anticipation.py
+          test_body_orientation.py
+          test_v13_legal_body_actions.py
+          test_v13_reception.py
+          test_defensive_intelligence.py
+          test_marking_handoffs.py
+          test_defensive_cover.py
+          test_defensive_communication.py
+          test_offside_line.py
+          test_overload_reactions.py
+          test_defensive_errors.py
+          test_shared_understanding.py
+          test_tactical_adaptation.py
+          test_adaptation_stability.py
+          test_adaptation_inertia_v13.py
+          test_v13_player_traits.py
+          test_determination_v13.py
+          test_auto_substitutions_v13.py
+          test_v13_reserve_pool.py
+          test_referee_fouls_v13.py
+          test_referee_calibration_v13.py
+          test_referee_extended_v13.py
+          test_extended_validation_v13.py
+          test_calibration_v13.py
+          test_v13_persistence.py
+          test_runner_v13.py
+          test_final_protocol_v13.py
+          test_knockout_v13.py
+          test_v13_collective_play.py
+          test_v13_advanced_collective.py
+          test_v13_duel_box.py
+          test_v13_final_third_intelligence.py
+          test_v13_match_intelligence.py
+          test_v13_kickoff.py
+          test_v13_restarts.py
+          test_v13_rebounds.py
+          test_v13_injury_management.py
+          test_v13_roles.py
+          test_v13_corners.py
+          test_v13_throwins.py
+          test_v13_positions.py
+          test_v13_substitution_strategy.py
+          test_v13_rotations.py
+          test_v13_individual_instructions.py
+          test_v13_ratings.py
+          test_v13_environment.py
+          test_v13_game_management.py
+          test_v13_set_piece_routines.py
+          test_v13_leadership_awards.py
+          test_tournament_state_v13.py
+          test_v13_tournament_context.py
+          test_v13_competition_complete.py
+          test_v13_stoppage_time.py
+          test_v13_clock_behaviour.py
+          test_v13_mental_state.py
+          test_v13_tactical_fouls.py
+          test_v13_mismatches.py
+          test_v13_micro_adjustments.py
+          test_v13_second_balls.py
+          test_v13_set_piece_defense.py
+          test_v13_offensive_communication.py
+          test_v13_numerical_advantage.py
+          test_v13_load_injuries.py
+          test_v13_gk_one_v_one.py
+          test_v13_penalties.py
+          test_v13_new_stack_unittest.py
+
+      - name: Run economical 10-match v1.3 smoke simulation
+        run: python diagnostics_v13.py 10
+
+  heavy-validation:
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.heavy_validation) }}
+    needs: candidate-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run 100-match v1.3 generic smoke simulation
+        run: python diagnostics_v13.py 100
+
+      - name: Run 100-seed Amiguinhos x Flamengo calibration
+        run: python calibration_v13.py 100 --start-seed 0 --compact
+
+      - name: Run 24-seed Amiguinhos x Flamengo adaptation stress
+        run: python calibration_v13.py 24 --start-seed 0 --auto-adapt --compact
+
+      - name: Probe uncapped adaptation demand on same 24 seeds
+        run: >-
+          python calibration_v13.py 24 --start-seed 0 --auto-adapt
+          --uncapped-adaptation-diagnostic --compact
+
+      - name: Run 100-match automatic substitution diagnostics
+        run: python substitution_diagnostics_v13.py 100 --start-seed 50000
+
+      - name: Run 100-match referee and foul diagnostics
+        run: python referee_diagnostics_v13.py 100 --start-seed 60000 --compact
+
+      - name: Run 300-match all-opponent home-away evaluation
+        run: python evaluation_v13.py --count 10 --base-seed 1000 --compact
+
+      - name: Run additional 300-seed Amiguinhos x Flamengo stress
+        run: python calibration_v13.py 300 --start-seed 20000 --compact
+
+      - name: Compare 120 identical seeds with and without auto adaptation
+        run: python evaluation_v13.py --adaptation-ab --count 120 --base-seed 30000 --compact
+
+      - name: Run 120 final-like knockout matches with adaptation and extra time
+        run: python evaluation_v13.py --knockout --count 120 --base-seed 40000 --compact

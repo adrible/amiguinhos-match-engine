@@ -1,0 +1,27 @@
+name: Direct 9-Match Brazil 2002 x DanganLock
+
+on:
+  push:
+    branches:
+      - v1.3-spatial-creativity-boldness
+    paths:
+      - batch_brazil2002_danganlock_9.py
+      - .github/workflows/direct-brazil2002-danganlock-9.yml
+
+permissions:
+  contents: read
+
+jobs:
+  batch:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run nine complete direct simulations
+        run: python batch_brazil2002_danganlock_9.py

@@ -51,11 +51,11 @@ class MatchEngineV13ThirdMan(MatchEngineV13Runs):
             "quality": score,
         }
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_third_man_state()
         marker = getattr(self, "_v13_forced_space_target", None)
         if marker and marker.get("team") == team and marker.get("actor") == exclude:
-            return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+            return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
         if attacking and exclude:
             diag = self.third_man_diagnostic(team, exclude)
             if diag["available"] and self.rng.random() < diag["probability"]:
@@ -66,7 +66,7 @@ class MatchEngineV13ThirdMan(MatchEngineV13Runs):
                 if candidate is not None:
                     self._v13_third_man_hint = diag
                     return candidate
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _execute_decision(self, team, actor, zone, decision, ctx):
         self._ensure_third_man_state()

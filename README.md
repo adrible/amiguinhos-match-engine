@@ -15,6 +15,19 @@ Tournament branches carry fixture/session data; they are not the sole location
 for engine improvements. Pin older completed matches to their original commit
 for exact replay. The historical `main`/v1.2 snapshot is not the active v1.3 runtime.
 
+## Candidate validation and freeze snapshot
+
+`v1.3-spatial-creativity-boldness` remains the active candidate; PR #2 stays in
+draft until promotion is explicitly approved. `v1.3-final-freeze` is a snapshot
+of the validated candidate, not a second development line or an authorization
+to run the official final. Its history retains the previous freeze snapshot.
+The final-match release gate remains defined in
+[V13_FREEZE_AND_FINAL_PROTOCOL.md](V13_FREEZE_AND_FINAL_PROTOCOL.md).
+
+The November 2026 integration repairs action-aware receiver selection through
+all v1.3 layers and reconciles PR #6 with the current bilateral/high-centre shot
+intentions. See [validation notes](V13_INTEGRATION_FIXES_20261101.md).
+
 ## v1.3
 
 The engine keeps outcome-blind simulation rules and adds contextual football behaviour, including:

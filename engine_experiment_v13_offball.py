@@ -586,10 +586,10 @@ class MatchEngineV13OffBall(MatchEngineV13Spatial):
             self._v13_receiver_context = None
         return decision
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None) -> PlayerState:
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None) -> PlayerState:
         if not attacking:
             self._v13_receiver_context = None
-            return super()._choose_target(team, zone, attacking=False, exclude=exclude)
+            return super()._choose_target(team, zone, attacking=False, exclude=exclude, action=action)
 
         ctx_marker = getattr(self, "_v13_receiver_context", None)
         context = None
@@ -638,10 +638,12 @@ class MatchEngineV13OffBall(MatchEngineV13Spatial):
 
         if actor is None:
             self._v13_receiver_context = None
-            return super()._choose_target(team, zone, attacking=True, exclude=exclude)
+            return super()._choose_target(team, zone, attacking=True, exclude=exclude, action=action)
 
         use_ctx = context or {"pressure": 0.50, "space": 0.50, "space_behind": 0.40, "support": 0.50}
-        target = weighted_choice(self.rng, self._base_target_weights(team, zone, actor, use_ctx))
+        target = weighted_choice(self.rng, self._action_target_weights(
+            self._base_target_weights(team, zone, actor, use_ctx), action
+        ))
         movement = self._best_movement(team, actor, target, zone, use_ctx)
         self._v13_active_movement = {
             "team": team, "actor": actor.player.name, "target": target.player.name,

@@ -355,10 +355,10 @@ class MatchEngineV13RulesHardening(MatchEngineV13VenueContext):
             [(ps, 0.75 + 0.25 * ps.energy) for ps in eligible],
         )
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         """Keep ordinary passes from placing the goalkeeper in an advanced zone."""
         target = super()._choose_target(
-            team, zone, attacking=attacking, exclude=exclude
+            team, zone, attacking=attacking, exclude=exclude, action=action
         )
         if target.player.position.upper() != "GK":
             return target

@@ -132,7 +132,7 @@ class MatchEngineV13Combinations(MatchEngineV13AdaptationInertia):
         passing = clamp(actor.effective("passing") / 100.0)
         return clamp(base + 0.035 + 0.075 * technique + 0.045 * passing, 0.0, 0.72)
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_combination_state()
         if attacking and exclude:
             try:
@@ -153,7 +153,7 @@ class MatchEngineV13Combinations(MatchEngineV13AdaptationInertia):
                         if self.rng.random() < p:
                             self._v13_combo_target_hint = {"actor": exclude, "target": return_name, "kind": "give_and_go", "probability": p}
                             return candidate
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _execute_decision(self, team, actor, zone, decision, ctx):
         self._ensure_combination_state()

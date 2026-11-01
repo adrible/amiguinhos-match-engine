@@ -89,7 +89,7 @@ class MatchEngineV13BoxMovement(MatchEngineV13OneVOne):
             "candidate_count": len(rows),
         }
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_box_movement_state()
         marker = self._v13_box_target_override
         if attacking and marker and marker.get("team") == team:
@@ -99,7 +99,7 @@ class MatchEngineV13BoxMovement(MatchEngineV13OneVOne):
                     return self.teams[team].by_name(target)
                 except KeyError:
                     pass
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _create_or_resolve_danger(self, team, actor, zone, kind, ctx):
         self._ensure_box_movement_state()

@@ -43,7 +43,7 @@ class MatchEngineV13Duels(MatchEngineV13PressingTriggers):
             out.append((action, weight * mod))
         return out
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_duel_state()
         marker = self._v13_second_ball_selection
         if marker and marker.get("team") == team and attacking:
@@ -61,7 +61,7 @@ class MatchEngineV13Duels(MatchEngineV13PressingTriggers):
                 rows.append((ps, max(1.0, score)))
             if rows:
                 return weighted_choice(self.rng, rows)
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _create_rebound(self, team, p, shooter, xg, blocked=False, post=False):
         self._ensure_duel_state()

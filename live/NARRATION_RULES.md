@@ -11,4 +11,5 @@
 - Live replay scripts accept `STEP COUNT`: STEP is the first requested press, and the output includes all `packets` plus the final `step`. Pin historical matches to their original commit; a revised engine changes seeded replay.
 - A pending setup must be resolved from `resolved_pending_action`, including clearances and keeper claims, before moving to a new attack.
 - Target is intention. Describe the outcome using actual placement; do not narrate an intended top-corner shot as executed there after a miss or block.
+- `counterstep` is an intended contrapé finish: narrate the intent, then use `actual_shot_region` for where the ball really travelled.
 - Use circulation summaries and emotional context only when supported by the packet. Omit saved steps and internal metrics from user-facing commentary.

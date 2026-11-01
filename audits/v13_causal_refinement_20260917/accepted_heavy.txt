@@ -1,0 +1,23 @@
+v1.3 realism heavy audit: 500 matches, seeds 70000..70499
+goals/match=2.432
+final_minute mean=97.43 median=97.49 p95=100.63
+1H_added_minutes mean=2.254 median=2.00 p95=4.00
+2H_added_minutes mean=5.856 median=6.00 p95=8.05
+late_goals_70plus=320 share_of_goals=0.263
+very_late_goals_85plus=152 share_of_goals=0.125
+stoppage_goals_90plus=99 share_of_goals=0.081
+time_waste_attempts/match=0.772 cards=39 by_restart={'goal_kick': 135, 'free_kick': 168, 'corner': 47, 'throw_in': 34, 'kickoff': 2}
+tactical_foul_candidates/match=10.604 committed/match=0.510 cards=86
+foul_actor_positions={'AM': 1216, 'CB': 2467, 'CM': 1266, 'DM': 1565, 'GK': 15, 'LB': 1153, 'LW': 982, 'RB': 1182, 'RW': 969, 'ST': 919}
+common_foul_actor_positions={'AM': 1197, 'CB': 2406, 'CM': 1229, 'DM': 1526, 'GK': 15, 'LB': 1129, 'LW': 966, 'RB': 1153, 'RW': 948, 'ST': 910}
+tactical_foul_actor_positions={'AM': 19, 'CB': 61, 'CM': 37, 'DM': 39, 'LB': 24, 'LW': 16, 'RB': 29, 'RW': 21, 'ST': 9}
+foul_concentration: mean_distinct_foulers=14.426 mean_top_fouler_share=0.152
+load_injuries/match=0.0980 forced_off=3
+gk_one_v_ones/match=2.218 goal_rate=0.254
+gk_one_v_one_attacker_choices={'shoot_early': 242, 'power_finish': 218, 'round_keeper': 167, 'placed_finish': 282, 'chip': 200}
+gk_one_v_one_keeper_choices={'rush': 273, 'spread': 309, 'anticipate': 266, 'hold_line': 261}
+live_penalties/match=0.1680 conversion=0.750
+penalty_styles={'placed': 33, 'stutter': 23, 'power': 28} targets={'center': 14, 'high_right': 14, 'low_right': 23, 'low_left': 20, 'high_left': 13}
+general_second_balls/match=5.662 attacking_recovery_rate=0.450
+red_cards/match=0.164 red_match_rate=0.154
+top_scorelines=[('1-1', 65), ('0-1', 58), ('0-0', 53), ('1-0', 43), ('2-1', 40), ('1-2', 39), ('0-2', 33), ('2-0', 31), ('2-2', 30), ('3-1', 23), ('1-3', 14), ('3-2', 10)]

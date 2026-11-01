@@ -1,5 +1,13 @@
 from __future__ import annotations
 
+"""Canonical team loader for the active v1.3 line.
+
+The former v1.2 codebase is preserved on the ``archive-v1.2-stable`` branch.
+This branch no longer keeps a runtime compatibility shim for v1.2 ratings.
+``data/teams.json`` is therefore the canonical base ratings source for the
+active engine line; candidate-only behavioural metadata is layered separately.
+"""
+
 import json
 from dataclasses import fields
 from pathlib import Path

@@ -1,0 +1,60 @@
+{
+  "controlled_opportunities": 3000,
+  "scope": "Synthetic high-skill opportunities; not match rates. Executed technique does not guarantee completed pass.",
+  "intended_regions": {
+    "low_right": 514,
+    "mid_left": 412,
+    "mid_center": 178,
+    "mid_right": 338,
+    "high_center": 352,
+    "high_right": 330,
+    "low_left": 716,
+    "high_left": 160
+  },
+  "actual_regions": {
+    "mid_right": 414,
+    "low_left": 335,
+    "mid_left": 413,
+    "mid_center": 226,
+    "high_right": 467,
+    "low_right": 292,
+    "high_left": 379,
+    "high_center": 270,
+    "low_center": 204
+  },
+  "shot_types": {
+    "downward_header": 232,
+    "across_goal": 390,
+    "outside_foot": 344,
+    "chip": 135,
+    "volley": 73,
+    "low_driven": 545,
+    "first_time": 251,
+    "nutmeg": 212,
+    "directed_header": 197,
+    "toe_poke": 293,
+    "placed": 328
+  },
+  "pass_attempts": {
+    "chipped": 121,
+    "backheel": 113,
+    "curled": 124,
+    "first_time": 153,
+    "backheel_return": 112,
+    "no_look": 118,
+    "outside_foot": 136,
+    "rabona": 21,
+    "disguised": 133
+  },
+  "pass_technique_executed": {
+    "chipped": 79,
+    "backheel": 73,
+    "curled": 70,
+    "first_time": 97,
+    "backheel_return": 74,
+    "no_look": 78,
+    "outside_foot": 83,
+    "rabona": 15,
+    "disguised": 94
+  }
+}

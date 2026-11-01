@@ -1,0 +1,24 @@
+{
+  "version": "1.3-candidate-position-familiarity",
+  "description": "Candidate-only positional familiarity and initial deployment metadata. Values describe comfort in a role, not a hidden ability boost. Execution remains driven by the player's existing attributes.",
+  "teams": {
+    "amiguinhos_u21": {
+      "players": {
+        "Christian": {"primary":"GK","starting_position":"GK","familiarity":{"GK":1.00}},
+        "Jorge Henrique": {"primary":"RB","starting_position":"RB","familiarity":{"RB":1.00,"DM":0.92,"CM":0.84}},
+        "Léo": {"primary":"CB","starting_position":"CB","familiarity":{"CB":1.00}},
+        "João Peixoto": {"primary":"CB","starting_position":"LB","familiarity":{"CB":1.00,"LB":0.78}},
+        "Rodrigo White": {"primary":"LB","familiarity":{"LB":1.00}},
+        "Felipe": {"primary":"DM","starting_position":"DM","familiarity":{"DM":1.00}},
+        "Mike Junior": {"primary":"CM","starting_position":"LW","familiarity":{"CM":1.00,"RW":0.84,"LW":0.86}},
+        "Gabriel Adib": {"primary":"CM","starting_position":"CM","familiarity":{"CM":1.00,"DM":0.92,"AM":0.95,"ST":0.70}},
+        "Remo": {"primary":"RW","starting_position":"RW","familiarity":{"RW":1.00,"LW":0.90}},
+        "Pedro Valverde": {"primary":"AM","starting_position":"AM","familiarity":{"AM":1.00,"ST":0.90}},
+        "Gabriel Félix": {"primary":"ST","starting_position":"ST","familiarity":{"ST":1.00}},
+        "Arthur Peixoto": {"primary":"DM","familiarity":{"DM":1.00,"RB":0.86}},
+        "Igor": {"primary":"CB","starting_position":"CB","familiarity":{"CB":1.00,"LB":0.76}},
+        "Gabriel Gonzales": {"primary":"CB","familiarity":{"CB":1.00}}
+      }
+    }
+  }
+}

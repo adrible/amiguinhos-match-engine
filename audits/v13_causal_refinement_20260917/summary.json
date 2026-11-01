@@ -1,0 +1,5314 @@
+{
+  "baseline_commit": "3097bee23f3808867877366ecafd7c8afe132a5f",
+  "branch": "v1.3-spatial-creativity-boldness",
+  "reference_matches": 5329,
+  "real": {
+    "metrics": {
+      "matches": 5329,
+      "goals_per_match": 2.825295552636517,
+      "shots_per_match": 25.274723212610247,
+      "sot_per_match": 8.878401200975793,
+      "fouls_per_match": 23.838994182773504,
+      "corners_per_match": 9.688496903734285,
+      "yellow_per_match": 4.137924563708013,
+      "red_per_match": 0.1940326515293676,
+      "home_goals_per_match": 1.5501970350910115,
+      "away_goals_per_match": 1.2750985175455056,
+      "home_win_rate": 0.43647963970726217,
+      "draw_rate": 0.25201726402702196,
+      "away_win_rate": 0.3115030962657159,
+      "zero_zero_rate": 0.060611747044473634,
+      "btts_rate": 0.5485081628823419,
+      "over_2_5_rate": 0.5348095327453556,
+      "clean_sheet_rate": 0.4514918371176581
+    },
+    "scoreline_distribution": {
+      "0-0": 0.060611747044473634,
+      "0-1": 0.06980671795834115,
+      "0-2": 0.05348095327453556,
+      "0-3": 0.02514543066241321,
+      "0-4+": 0.015387502345655845,
+      "1-0": 0.09363858134734472,
+      "1-1": 0.12197410395946706,
+      "1-2": 0.0699943704259711,
+      "1-3": 0.0281478701444924,
+      "1-4+": 0.014636892475136049,
+      "2-0": 0.06567836367048227,
+      "2-1": 0.08650778757740664,
+      "2-2": 0.058547569900544195,
+      "2-3": 0.02233064364796397,
+      "2-4+": 0.009194970913867517,
+      "3-0": 0.040157628072809155,
+      "3-1": 0.044285982360668046,
+      "3-2": 0.02570838806530306,
+      "3-3": 0.009382623381497467,
+      "3-4+": 0.0031900919497091385,
+      "4+-0": 0.027584912741602553,
+      "4+-1": 0.02796021767686245,
+      "4+-2": 0.016701069619065492,
+      "4+-3": 0.008069056108087821,
+      "4+-4+": 0.0018765246762994933
+    },
+    "total_goal_distribution": {
+      "0": 0.060611747044473634,
+      "1": 0.16344529930568588,
+      "2": 0.2411334209044849,
+      "3": 0.22180521673860012,
+      "4": 0.15762807280915744,
+      "5": 0.08425595796584726,
+      "6+": 0.0711202852317508
+    },
+    "result_distribution": {
+      "H": 0.43647963970726217,
+      "D": 0.25201726402702196,
+      "A": 0.3115030962657159
+    }
+  },
+  "seed_schedules": {
+    "benchmark": [
+      91000,
+      91299
+    ],
+    "generic": [
+      0,
+      999
+    ],
+    "heavy": [
+      70000,
+      70499
+    ]
+  },
+  "reserved_seed_never_simulated": true,
+  "venue_changes": false,
+  "benchmark_variants": {
+    "baseline": {
+      "summary": {
+        "metrics": {
+          "matches": 300,
+          "goals_per_match": 2.9466666666666668,
+          "shots_per_match": 25.833333333333332,
+          "sot_per_match": 9.546666666666667,
+          "fouls_per_match": 25.64,
+          "corners_per_match": 9.86,
+          "yellow_per_match": 3.35,
+          "red_per_match": 0.06666666666666667,
+          "home_goals_per_match": 1.5533333333333332,
+          "away_goals_per_match": 1.3933333333333333,
+          "home_win_rate": 0.39666666666666667,
+          "draw_rate": 0.24,
+          "away_win_rate": 0.36333333333333334,
+          "zero_zero_rate": 0.07,
+          "btts_rate": 0.5433333333333333,
+          "over_2_5_rate": 0.5266666666666666,
+          "clean_sheet_rate": 0.45666666666666667
+        },
+        "scoreline_distribution": {
+          "0-0": 0.07,
+          "0-1": 0.056666666666666664,
+          "0-2": 0.08,
+          "0-3": 0.03333333333333333,
+          "0-4+": 0.01,
+          "1-0": 0.10333333333333333,
+          "1-1": 0.11666666666666667,
+          "1-2": 0.07666666666666666,
+          "1-3": 0.023333333333333334,
+          "1-4+": 0.016666666666666666,
+          "2-0": 0.04666666666666667,
+          "2-1": 0.056666666666666664,
+          "2-2": 0.03666666666666667,
+          "2-3": 0.04,
+          "2-4+": 0.023333333333333334,
+          "3-0": 0.023333333333333334,
+          "3-1": 0.03666666666666667,
+          "3-2": 0.016666666666666666,
+          "3-3": 0.016666666666666666,
+          "3-4+": 0.0033333333333333335,
+          "4+-0": 0.03333333333333333,
+          "4+-1": 0.043333333333333335,
+          "4+-2": 0.016666666666666666,
+          "4+-3": 0.02
+        },
+        "total_goal_distribution": {
+          "0": 0.07,
+          "1": 0.16,
+          "2": 0.24333333333333335,
+          "3": 0.19,
+          "4": 0.12333333333333334,
+          "5": 0.10333333333333333,
+          "6+": 0.11
+        },
+        "result_distribution": {
+          "H": 0.39666666666666667,
+          "D": 0.24,
+          "A": 0.36333333333333334
+        }
+      },
+      "comparison": {
+        "realism_index": 81.16442257222455,
+        "components": [
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 2.9466666666666668,
+            "delta": 0.12137111403014966,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.45733352005271877,
+            "score": 90.07054635821893,
+            "weight": 1.4
+          },
+          {
+            "name": "shots_per_match",
+            "kind": "scalar",
+            "real": 25.274723212610247,
+            "engine": 25.833333333333332,
+            "delta": 0.5586101207230847,
+            "scale": 1.4,
+            "standardised_gap": 0.39900722908791764,
+            "score": 92.34825413149996,
+            "weight": 1.1
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.546666666666667,
+            "delta": 0.6682654656908742,
+            "scale": 0.7,
+            "standardised_gap": 0.9546649509869632,
+            "score": 63.400871136150926,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.64,
+            "delta": 1.8010058172264962,
+            "scale": 2.2,
+            "standardised_gap": 0.8186390078302255,
+            "score": 71.52773477355522,
+            "weight": 0.75
+          },
+          {
+            "name": "corners_per_match",
+            "kind": "scalar",
+            "real": 9.688496903734285,
+            "engine": 9.86,
+            "delta": 0.17150309626571492,
+            "scale": 0.75,
+            "standardised_gap": 0.22867079502095322,
+            "score": 97.4193659305434,
+            "weight": 0.75
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.35,
+            "delta": -0.7879245637080126,
+            "scale": 0.7,
+            "standardised_gap": 1.125606519582875,
+            "score": 53.07336318879179,
+            "weight": 0.75
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.06666666666666667,
+            "delta": -0.12736598486270095,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 1.9915155595483611,
+            "score": 13.764641225895904,
+            "weight": 0.65
+          },
+          {
+            "name": "home_goals_per_match",
+            "kind": "scalar",
+            "real": 1.5501970350910115,
+            "engine": 1.5533333333333332,
+            "delta": 0.0031362982423217556,
+            "scale": 0.1590156749928401,
+            "standardised_gap": 0.01972320176902668,
+            "score": 99.98055165703438,
+            "weight": 0.7
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.3933333333333333,
+            "delta": 0.11823481578782769,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 0.8863457212972012,
+            "score": 67.51608171672228,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.39666666666666667,
+            "delta": -0.0398129730405955,
+            "scale": 0.035,
+            "standardised_gap": 1.1375135154455855,
+            "score": 52.363076032780995,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.24,
+            "delta": -0.012017264027021968,
+            "scale": 0.03,
+            "standardised_gap": 0.4005754675673989,
+            "score": 92.29037286178394,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.36333333333333334,
+            "delta": 0.05183023706761747,
+            "scale": 0.035,
+            "standardised_gap": 1.4808639162176418,
+            "score": 33.4045198878471,
+            "weight": 0.65
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.07,
+            "delta": 0.009388252955526373,
+            "scale": 0.02,
+            "standardised_gap": 0.46941264777631864,
+            "score": 89.56781689711845,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5433333333333333,
+            "delta": -0.005174829549008608,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.12576443080871594,
+            "score": 99.21228426689734,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.5266666666666666,
+            "delta": -0.00814286607868897,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.13093318966899667,
+            "score": 99.14648826277308,
+            "weight": 0.8
+          },
+          {
+            "name": "clean_sheet_rate",
+            "kind": "scalar",
+            "real": 0.4514918371176581,
+            "engine": 0.45666666666666667,
+            "delta": 0.005174829549008553,
+            "scale": 0.045,
+            "standardised_gap": 0.11499621220019006,
+            "score": 99.34097471879791,
+            "weight": 0.7
+          },
+          {
+            "name": "result_distribution",
+            "kind": "distribution",
+            "distance": 0.04721757107003447,
+            "score": 95.27824289299656,
+            "weight": 1.25
+          },
+          {
+            "name": "total_goal_distribution",
+            "kind": "distribution",
+            "distance": 0.07997238373601066,
+            "score": 92.00276162639894,
+            "weight": 1.75
+          },
+          {
+            "name": "scoreline_distribution",
+            "kind": "distribution",
+            "distance": 0.144758478091114,
+            "score": 85.5241521908886,
+            "weight": 2.0
+          }
+        ],
+        "largest_gaps": [
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.06666666666666667,
+            "delta": -0.12736598486270095,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 1.9915155595483611,
+            "score": 13.764641225895904,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.36333333333333334,
+            "delta": 0.05183023706761747,
+            "scale": 0.035,
+            "standardised_gap": 1.4808639162176418,
+            "score": 33.4045198878471,
+            "weight": 0.65
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.39666666666666667,
+            "delta": -0.0398129730405955,
+            "scale": 0.035,
+            "standardised_gap": 1.1375135154455855,
+            "score": 52.363076032780995,
+            "weight": 0.65
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.35,
+            "delta": -0.7879245637080126,
+            "scale": 0.7,
+            "standardised_gap": 1.125606519582875,
+            "score": 53.07336318879179,
+            "weight": 0.75
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.546666666666667,
+            "delta": 0.6682654656908742,
+            "scale": 0.7,
+            "standardised_gap": 0.9546649509869632,
+            "score": 63.400871136150926,
+            "weight": 1.1
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.3933333333333333,
+            "delta": 0.11823481578782769,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 0.8863457212972012,
+            "score": 67.51608171672228,
+            "weight": 0.7
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.64,
+            "delta": 1.8010058172264962,
+            "scale": 2.2,
+            "standardised_gap": 0.8186390078302255,
+            "score": 71.52773477355522,
+            "weight": 0.75
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.07,
+            "delta": 0.009388252955526373,
+            "scale": 0.02,
+            "standardised_gap": 0.46941264777631864,
+            "score": 89.56781689711845,
+            "weight": 0.8
+          }
+        ]
+      },
+      "card_events": {
+        "card:yellow": 996,
+        "card:direct_red": 14,
+        "card:second_yellow_red": 6
+      },
+      "groups": {
+        "booked:routine": {
+          "n": 365,
+          "none": 360,
+          "yellow_sum": 49.67556216619712,
+          "effective_yellow_sum": 2.638489244908395,
+          "expected_red": 0.4965894668215282,
+          "expected_second": 2.5699055719812995,
+          "second_yellow_red": 3,
+          "direct_red": 2
+        },
+        "booked:spa": {
+          "n": 73,
+          "none": 71,
+          "yellow_sum": 31.505482289028787,
+          "effective_yellow_sum": 2.6057534165708955,
+          "expected_red": 0.02177385698121683,
+          "expected_second": 2.604495731852125,
+          "second_yellow_red": 2
+        },
+        "dogso:False:final_third": {
+          "n": 11,
+          "direct_red": 3,
+          "yellow_sum": 4.499438069258932,
+          "effective_yellow_sum": 4.499438069258932,
+          "expected_red": 3.093195485830755,
+          "expected_second": 0.0,
+          "yellow": 3,
+          "none": 5
+        },
+        "dogso:True:box": {
+          "n": 2,
+          "yellow": 2,
+          "yellow_sum": 1.28,
+          "effective_yellow_sum": 1.28,
+          "expected_red": 0.0004,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 12,
+          "direct_red": 3,
+          "yellow_sum": 4.984002471496706,
+          "effective_yellow_sum": 4.984002471496706,
+          "expected_red": 1.2280769973930534,
+          "expected_second": 0.0,
+          "yellow": 6,
+          "none": 3
+        },
+        "low_xg_body:chest": {
+          "n": 136,
+          "xg": 1.5590954310349792,
+          "floor_active": 109,
+          "old_expected": 2.5800728222891554,
+          "no_floor_expected": 1.4909508612061686
+        },
+        "low_xg_body:head": {
+          "n": 779,
+          "xg": 8.30224233244416,
+          "floor_active": 632,
+          "old_expected": 15.690349421298114,
+          "no_floor_expected": 8.02047976127745
+        },
+        "low_xg_body:knee": {
+          "n": 59,
+          "xg": 0.6926746350035953,
+          "floor_active": 45,
+          "old_expected": 1.1773602280323,
+          "no_floor_expected": 0.6699880554211951
+        },
+        "low_xg_body:left_foot": {
+          "n": 700,
+          "xg": 4.16462475242275,
+          "floor_active": 638,
+          "old_expected": 9.55758404591078,
+          "no_floor_expected": 4.050827155303203
+        },
+        "low_xg_body:right_foot": {
+          "n": 1702,
+          "xg": 12.281404907691003,
+          "floor_active": 1502,
+          "old_expected": 25.01811371550241,
+          "no_floor_expected": 11.971987630850007
+        },
+        "low_xg_body:shin": {
+          "n": 37,
+          "xg": 0.41762346379378024,
+          "floor_active": 30,
+          "old_expected": 0.7125246202621262,
+          "no_floor_expected": 0.4056127154646233
+        },
+        "low_xg_body:shoulder": {
+          "n": 20,
+          "xg": 0.20655799002994168,
+          "floor_active": 16,
+          "old_expected": 0.32771328012493933,
+          "no_floor_expected": 0.19838015884447333
+        },
+        "low_xg_body:thigh": {
+          "n": 215,
+          "xg": 2.0377078868691543,
+          "floor_active": 185,
+          "old_expected": 3.7234989334869675,
+          "no_floor_expected": 1.9763506877261336
+        },
+        "low_xg_origin:carry": {
+          "n": 47,
+          "xg": 0.6437840643084272,
+          "floor_active": 35,
+          "old_expected": 0.8156018010158043,
+          "no_floor_expected": 0.6226136795746399
+        },
+        "low_xg_origin:corner": {
+          "n": 723,
+          "xg": 8.76754895550529,
+          "floor_active": 569,
+          "old_expected": 17.59112941360532,
+          "no_floor_expected": 8.350509344876805
+        },
+        "low_xg_origin:cross": {
+          "n": 77,
+          "xg": 2.842426750219056,
+          "floor_active": 11,
+          "old_expected": 2.9059643552316743,
+          "no_floor_expected": 2.8146443412624707
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08988960914311313,
+          "floor_active": 0,
+          "old_expected": 0.08893173723509751,
+          "no_floor_expected": 0.08893173723509751
+        },
+        "low_xg_origin:dummy": {
+          "n": 8,
+          "xg": 0.15657669806097446,
+          "floor_active": 3,
+          "old_expected": 0.16823443742648278,
+          "no_floor_expected": 0.15275319870761522
+        },
+        "low_xg_origin:free_kick": {
+          "n": 200,
+          "xg": 4.00730540659613,
+          "floor_active": 82,
+          "old_expected": 4.905624312593823,
+          "no_floor_expected": 3.968885402612473
+        },
+        "low_xg_origin:open_play": {
+          "n": 2122,
+          "xg": 6.474984265090123,
+          "floor_active": 2120,
+          "old_expected": 22.99749191776833,
+          "no_floor_expected": 6.282476944085615
+        },
+        "low_xg_origin:progression": {
+          "n": 292,
+          "xg": 4.025539095427933,
+          "floor_active": 222,
+          "old_expected": 5.712157892899851,
+          "no_floor_expected": 3.921546957441463
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 81,
+          "xg": 1.341231627347503,
+          "floor_active": 35,
+          "old_expected": 1.5519991244246822,
+          "no_floor_expected": 1.3291144317241828
+        },
+        "low_xg_origin:rebound": {
+          "n": 2,
+          "xg": 0.09136452788941266,
+          "floor_active": 0,
+          "old_expected": 0.08330892329208431,
+          "no_floor_expected": 0.08330892329208431
+        },
+        "low_xg_origin:second_ball": {
+          "n": 91,
+          "xg": 1.081016873604714,
+          "floor_active": 80,
+          "old_expected": 1.828033066849293,
+          "no_floor_expected": 1.0310519807164145
+        },
+        "low_xg_origin:transition": {
+          "n": 3,
+          "xg": 0.14026352609668852,
+          "floor_active": 0,
+          "old_expected": 0.1387400845643889,
+          "no_floor_expected": 0.1387400845643889
+        },
+        "low_xg_total": {
+          "n": 3648,
+          "xg": 29.66193139928938,
+          "floor_active": 3157,
+          "old_expected": 58.78721706690679,
+          "no_floor_expected": 28.784577026093228
+        },
+        "severity:0.30-0.50": {
+          "n": 2673,
+          "none": 2347,
+          "yellow_sum": 356.800021721237,
+          "effective_yellow_sum": 318.02035201954254,
+          "expected_red": 4.185226412099628,
+          "expected_second": 2.1897127409767956,
+          "yellow": 321,
+          "direct_red": 5
+        },
+        "severity:0.50-0.66": {
+          "n": 868,
+          "yellow": 201,
+          "yellow_sum": 205.63859680867773,
+          "effective_yellow_sum": 188.1133130468651,
+          "expected_red": 0.7976892481079053,
+          "expected_second": 1.124585874457171,
+          "none": 661,
+          "second_yellow_red": 4,
+          "direct_red": 2
+        },
+        "severity:0.66-0.75": {
+          "n": 126,
+          "none": 68,
+          "yellow_sum": 50.725924942120244,
+          "effective_yellow_sum": 48.801230427644704,
+          "expected_red": 0.27590827199729256,
+          "expected_second": 0.5367463939562555,
+          "yellow": 58
+        },
+        "severity:0.75-0.84": {
+          "n": 73,
+          "yellow": 41,
+          "yellow_sum": 42.4954537423881,
+          "effective_yellow_sum": 40.74228829317867,
+          "expected_red": 4.448670421812327,
+          "expected_second": 0.5669186132203778,
+          "none": 28,
+          "direct_red": 3,
+          "second_yellow_red": 1
+        },
+        "severity:<0.30": {
+          "n": 3546,
+          "yellow": 130,
+          "yellow_sum": 151.93480719715637,
+          "effective_yellow_sum": 136.80608818684243,
+          "expected_red": 0.8864999999999983,
+          "expected_second": 0.4807296834923614,
+          "none": 3416
+        },
+        "severity:>=0.84": {
+          "n": 18,
+          "none": 8,
+          "yellow_sum": 10.491422799164454,
+          "effective_yellow_sum": 9.666153442923829,
+          "expected_red": 3.0382012588204876,
+          "expected_second": 0.27570799773046384,
+          "yellow": 7,
+          "direct_red": 3
+        },
+        "source:ordinary": {
+          "n": 4221,
+          "none": 4062,
+          "yellow_sum": 179.81053555907448,
+          "effective_yellow_sum": 161.66470556125543,
+          "expected_red": 1.0552499999999974,
+          "expected_second": 0.4700461760575257,
+          "yellow": 159
+        },
+        "source:other": {
+          "n": 3083,
+          "yellow": 599,
+          "yellow_sum": 638.2756916516694,
+          "effective_yellow_sum": 580.4847198557421,
+          "expected_red": 12.57694561283765,
+          "expected_second": 4.7043551277759,
+          "none": 2466,
+          "direct_red": 13,
+          "second_yellow_red": 5
+        },
+        "violent": {
+          "n": 25,
+          "yellow": 14,
+          "yellow_sum": 14.638855433108327,
+          "effective_yellow_sum": 14.228180446743062,
+          "expected_red": 5.381055733774295,
+          "expected_second": 0.1255072945197993,
+          "none": 8,
+          "direct_red": 3
+        },
+        "xg:.05-.10": {
+          "n": 936,
+          "xg": 69.28226088292128,
+          "goals": 83,
+          "sot": 405
+        },
+        "xg:.10-.20": {
+          "n": 1110,
+          "xg": 153.9021586859697,
+          "goals": 145,
+          "sot": 534
+        },
+        "xg:.20-.40": {
+          "n": 2002,
+          "xg": 565.0326546622189,
+          "goals": 555,
+          "sot": 989
+        },
+        "xg:.40+": {
+          "n": 54,
+          "xg": 36.04665565902448,
+          "goals": 38,
+          "sot": 52
+        },
+        "xg:<0.05": {
+          "n": 3648,
+          "xg": 29.661931399289333,
+          "goals": 63,
+          "sot": 884
+        }
+      },
+      "paired_difference_vs_baseline": {
+        "goals": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "shots": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "sot": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "fouls": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "yellow": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "red": {
+          "mean_delta": 0,
+          "normal_approx_95_percent_interval": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "second_yellow_only": {
+      "summary": {
+        "metrics": {
+          "matches": 300,
+          "goals_per_match": 2.966666666666667,
+          "shots_per_match": 25.83,
+          "sot_per_match": 9.5,
+          "fouls_per_match": 25.606666666666666,
+          "corners_per_match": 9.853333333333333,
+          "yellow_per_match": 3.47,
+          "red_per_match": 0.17,
+          "home_goals_per_match": 1.5433333333333332,
+          "away_goals_per_match": 1.4233333333333333,
+          "home_win_rate": 0.3933333333333333,
+          "draw_rate": 0.22333333333333333,
+          "away_win_rate": 0.38333333333333336,
+          "zero_zero_rate": 0.06666666666666667,
+          "btts_rate": 0.5433333333333333,
+          "over_2_5_rate": 0.5266666666666666,
+          "clean_sheet_rate": 0.45666666666666667
+        },
+        "scoreline_distribution": {
+          "0-0": 0.06666666666666667,
+          "0-1": 0.06333333333333334,
+          "0-2": 0.07666666666666666,
+          "0-3": 0.03333333333333333,
+          "0-4+": 0.01,
+          "1-0": 0.10333333333333333,
+          "1-1": 0.11333333333333333,
+          "1-2": 0.08333333333333333,
+          "1-3": 0.03,
+          "1-4+": 0.016666666666666666,
+          "2-0": 0.05,
+          "2-1": 0.05,
+          "2-2": 0.03,
+          "2-3": 0.04,
+          "2-4+": 0.023333333333333334,
+          "3-0": 0.023333333333333334,
+          "3-1": 0.04,
+          "3-2": 0.02,
+          "3-3": 0.013333333333333334,
+          "3-4+": 0.006666666666666667,
+          "4+-0": 0.03,
+          "4+-1": 0.04,
+          "4+-2": 0.013333333333333334,
+          "4+-3": 0.02,
+          "4+-4+": 0.0033333333333333335
+        },
+        "total_goal_distribution": {
+          "0": 0.06666666666666667,
+          "1": 0.16666666666666666,
+          "2": 0.24,
+          "3": 0.19,
+          "4": 0.12,
+          "5": 0.10666666666666667,
+          "6+": 0.11
+        },
+        "result_distribution": {
+          "H": 0.3933333333333333,
+          "D": 0.22333333333333333,
+          "A": 0.38333333333333336
+        }
+      },
+      "comparison": {
+        "realism_index": 82.08606197262705,
+        "components": [
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 2.966666666666667,
+            "delta": 0.14137111403014968,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.5326947002984753,
+            "score": 86.77237964084605,
+            "weight": 1.4
+          },
+          {
+            "name": "shots_per_match",
+            "kind": "scalar",
+            "real": 25.274723212610247,
+            "engine": 25.83,
+            "delta": 0.5552767873897508,
+            "scale": 1.4,
+            "standardised_gap": 0.39662627670696493,
+            "score": 92.43576624278185,
+            "weight": 1.1
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.5,
+            "delta": 0.6215987990242073,
+            "scale": 0.7,
+            "standardised_gap": 0.8879982843202963,
+            "score": 67.41716839952713,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.606666666666666,
+            "delta": 1.7676724838931612,
+            "scale": 2.2,
+            "standardised_gap": 0.8034874926787096,
+            "score": 72.41215054679245,
+            "weight": 0.75
+          },
+          {
+            "name": "corners_per_match",
+            "kind": "scalar",
+            "real": 9.688496903734285,
+            "engine": 9.853333333333333,
+            "delta": 0.16483642959904898,
+            "scale": 0.75,
+            "standardised_gap": 0.2197819061320653,
+            "score": 97.61372835052197,
+            "weight": 0.75
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.47,
+            "delta": -0.6679245637080125,
+            "scale": 0.7,
+            "standardised_gap": 0.9541779481543036,
+            "score": 63.43034708802621,
+            "weight": 0.75
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.17,
+            "delta": -0.024032651529367594,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 0.3757785056153989,
+            "score": 93.18301320648094,
+            "weight": 0.65
+          },
+          {
+            "name": "home_goals_per_match",
+            "kind": "scalar",
+            "real": 1.5501970350910115,
+            "engine": 1.5433333333333332,
+            "delta": -0.006863701757678253,
+            "scale": 0.1590156749928401,
+            "standardised_gap": 0.04316368029747571,
+            "score": 99.90688821111252,
+            "weight": 0.7
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.4233333333333333,
+            "delta": 0.1482348157878277,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 1.1112403216037003,
+            "score": 53.93300670612008,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.3933333333333333,
+            "delta": -0.043146306373928855,
+            "scale": 0.035,
+            "standardised_gap": 1.2327516106836816,
+            "score": 46.774207030442824,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.22333333333333333,
+            "delta": -0.02868393069368863,
+            "scale": 0.03,
+            "standardised_gap": 0.9561310231229544,
+            "score": 63.3121288182685,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.38333333333333336,
+            "delta": 0.07183023706761749,
+            "scale": 0.035,
+            "standardised_gap": 2.0522924876462136,
+            "score": 12.172970469994441,
+            "weight": 0.65
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.06666666666666667,
+            "delta": 0.006054919622193032,
+            "scale": 0.02,
+            "standardised_gap": 0.3027459811096516,
+            "score": 95.52066594911369,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5433333333333333,
+            "delta": -0.005174829549008608,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.12576443080871594,
+            "score": 99.21228426689734,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.5266666666666666,
+            "delta": -0.00814286607868897,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.13093318966899667,
+            "score": 99.14648826277308,
+            "weight": 0.8
+          },
+          {
+            "name": "clean_sheet_rate",
+            "kind": "scalar",
+            "real": 0.4514918371176581,
+            "engine": 0.45666666666666667,
+            "delta": 0.005174829549008553,
+            "scale": 0.045,
+            "standardised_gap": 0.11499621220019006,
+            "score": 99.34097471879791,
+            "weight": 0.7
+          },
+          {
+            "name": "result_distribution",
+            "kind": "distribution",
+            "distance": 0.06416518493758064,
+            "score": 93.58348150624194,
+            "weight": 1.25
+          },
+          {
+            "name": "total_goal_distribution",
+            "kind": "distribution",
+            "distance": 0.08266119718346289,
+            "score": 91.73388028165371,
+            "weight": 1.75
+          },
+          {
+            "name": "scoreline_distribution",
+            "kind": "distribution",
+            "distance": 0.14424113139695394,
+            "score": 85.5758868603046,
+            "weight": 2.0
+          }
+        ],
+        "largest_gaps": [
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.38333333333333336,
+            "delta": 0.07183023706761749,
+            "scale": 0.035,
+            "standardised_gap": 2.0522924876462136,
+            "score": 12.172970469994441,
+            "weight": 0.65
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.3933333333333333,
+            "delta": -0.043146306373928855,
+            "scale": 0.035,
+            "standardised_gap": 1.2327516106836816,
+            "score": 46.774207030442824,
+            "weight": 0.65
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.4233333333333333,
+            "delta": 0.1482348157878277,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 1.1112403216037003,
+            "score": 53.93300670612008,
+            "weight": 0.7
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.22333333333333333,
+            "delta": -0.02868393069368863,
+            "scale": 0.03,
+            "standardised_gap": 0.9561310231229544,
+            "score": 63.3121288182685,
+            "weight": 0.65
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.47,
+            "delta": -0.6679245637080125,
+            "scale": 0.7,
+            "standardised_gap": 0.9541779481543036,
+            "score": 63.43034708802621,
+            "weight": 0.75
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.5,
+            "delta": 0.6215987990242073,
+            "scale": 0.7,
+            "standardised_gap": 0.8879982843202963,
+            "score": 67.41716839952713,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.606666666666666,
+            "delta": 1.7676724838931612,
+            "scale": 2.2,
+            "standardised_gap": 0.8034874926787096,
+            "score": 72.41215054679245,
+            "weight": 0.75
+          },
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 2.966666666666667,
+            "delta": 0.14137111403014968,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.5326947002984753,
+            "score": 86.77237964084605,
+            "weight": 1.4
+          }
+        ]
+      },
+      "card_events": {
+        "card:yellow": 1001,
+        "card:second_yellow_red": 37,
+        "card:direct_red": 14
+      },
+      "groups": {
+        "booked:routine": {
+          "n": 360,
+          "none": 352,
+          "yellow_sum": 47.67627391247292,
+          "effective_yellow_sum": 5.62465529786223,
+          "expected_red": 0.2265992504340333,
+          "expected_second": 5.543753449196902,
+          "second_yellow_red": 7,
+          "direct_red": 1
+        },
+        "booked:spa": {
+          "n": 66,
+          "none": 36,
+          "yellow_sum": 28.119419873163583,
+          "effective_yellow_sum": 28.119419873163583,
+          "expected_red": 0.30319098353426355,
+          "expected_second": 27.95810704875119,
+          "second_yellow_red": 29,
+          "direct_red": 1
+        },
+        "dogso:False:final_third": {
+          "n": 13,
+          "direct_red": 4,
+          "yellow_sum": 5.442689031711525,
+          "effective_yellow_sum": 5.442689031711525,
+          "expected_red": 3.6572070945866617,
+          "expected_second": 0.38523615422145685,
+          "none": 6,
+          "yellow": 3
+        },
+        "dogso:True:box": {
+          "n": 2,
+          "yellow": 2,
+          "yellow_sum": 1.28,
+          "effective_yellow_sum": 1.28,
+          "expected_red": 0.0004,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 12,
+          "direct_red": 3,
+          "yellow_sum": 4.984002471496706,
+          "effective_yellow_sum": 4.984002471496706,
+          "expected_red": 1.2280769973930534,
+          "expected_second": 0.0,
+          "yellow": 6,
+          "none": 3
+        },
+        "low_xg_body:chest": {
+          "n": 137,
+          "xg": 1.4737765817611248,
+          "floor_active": 112,
+          "old_expected": 2.5207847154543748,
+          "no_floor_expected": 1.4089970189552374
+        },
+        "low_xg_body:head": {
+          "n": 764,
+          "xg": 8.129719406909066,
+          "floor_active": 620,
+          "old_expected": 15.39143901455636,
+          "no_floor_expected": 7.855058119060695
+        },
+        "low_xg_body:knee": {
+          "n": 59,
+          "xg": 0.6478690912338088,
+          "floor_active": 46,
+          "old_expected": 1.1523288849066091,
+          "no_floor_expected": 0.6278292465878031
+        },
+        "low_xg_body:left_foot": {
+          "n": 685,
+          "xg": 4.124402921372351,
+          "floor_active": 623,
+          "old_expected": 9.386484205368228,
+          "no_floor_expected": 4.011779233932961
+        },
+        "low_xg_body:right_foot": {
+          "n": 1699,
+          "xg": 12.444372204582939,
+          "floor_active": 1494,
+          "old_expected": 25.11660612235591,
+          "no_floor_expected": 12.134172923408409
+        },
+        "low_xg_body:shin": {
+          "n": 41,
+          "xg": 0.479620869414189,
+          "floor_active": 33,
+          "old_expected": 0.8016774951769962,
+          "no_floor_expected": 0.4666757285162523
+        },
+        "low_xg_body:shoulder": {
+          "n": 22,
+          "xg": 0.21989790773174978,
+          "floor_active": 18,
+          "old_expected": 0.35322597631912916,
+          "no_floor_expected": 0.21144783514579546
+        },
+        "low_xg_body:thigh": {
+          "n": 219,
+          "xg": 2.1370106265654685,
+          "floor_active": 187,
+          "old_expected": 3.857434692220973,
+          "no_floor_expected": 2.072749754592141
+        },
+        "low_xg_origin:carry": {
+          "n": 47,
+          "xg": 0.6137570544763689,
+          "floor_active": 36,
+          "old_expected": 0.7903534342217615,
+          "no_floor_expected": 0.592721240393723
+        },
+        "low_xg_origin:corner": {
+          "n": 713,
+          "xg": 8.675370163392822,
+          "floor_active": 560,
+          "old_expected": 17.32911091027475,
+          "no_floor_expected": 8.262490566238803
+        },
+        "low_xg_origin:cross": {
+          "n": 76,
+          "xg": 2.8400386133589928,
+          "floor_active": 10,
+          "old_expected": 2.8980370240641364,
+          "no_floor_expected": 2.81430226162492
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08988960914311313,
+          "floor_active": 0,
+          "old_expected": 0.08893173723509751,
+          "no_floor_expected": 0.08893173723509751
+        },
+        "low_xg_origin:dummy": {
+          "n": 8,
+          "xg": 0.15657669806097446,
+          "floor_active": 3,
+          "old_expected": 0.16823443742648278,
+          "no_floor_expected": 0.15275319870761522
+        },
+        "low_xg_origin:free_kick": {
+          "n": 210,
+          "xg": 4.1660141865396545,
+          "floor_active": 87,
+          "old_expected": 5.131149988801055,
+          "no_floor_expected": 4.1255910344967415
+        },
+        "low_xg_origin:open_play": {
+          "n": 2102,
+          "xg": 6.4149842650901245,
+          "floor_active": 2100,
+          "old_expected": 22.79214419180422,
+          "no_floor_expected": 6.225480035146669
+        },
+        "low_xg_origin:progression": {
+          "n": 293,
+          "xg": 4.061132651826432,
+          "floor_active": 222,
+          "old_expected": 5.769807829600607,
+          "no_floor_expected": 3.957195280151436
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 77,
+          "xg": 1.3698618005015253,
+          "floor_active": 32,
+          "old_expected": 1.5588129212942727,
+          "no_floor_expected": 1.358694209793587
+        },
+        "low_xg_origin:rebound": {
+          "n": 2,
+          "xg": 0.09136452788941266,
+          "floor_active": 0,
+          "old_expected": 0.08330892329208431,
+          "no_floor_expected": 0.08330892329208431
+        },
+        "low_xg_origin:second_ball": {
+          "n": 94,
+          "xg": 1.0864402869917418,
+          "floor_active": 83,
+          "old_expected": 1.8782587270003617,
+          "no_floor_expected": 1.0354103917748263
+        },
+        "low_xg_origin:transition": {
+          "n": 2,
+          "xg": 0.0912397522995329,
+          "floor_active": 0,
+          "old_expected": 0.0918309813437881,
+          "no_floor_expected": 0.0918309813437881
+        },
+        "low_xg_total": {
+          "n": 3626,
+          "xg": 29.656669609570713,
+          "floor_active": 3133,
+          "old_expected": 58.579981106358574,
+          "no_floor_expected": 28.78870986019927
+        },
+        "severity:0.30-0.50": {
+          "n": 2676,
+          "none": 2321,
+          "yellow_sum": 356.1164920899686,
+          "effective_yellow_sum": 337.3515397949042,
+          "expected_red": 4.469161209340991,
+          "expected_second": 19.6936646653267,
+          "yellow": 326,
+          "direct_red": 6,
+          "second_yellow_red": 23
+        },
+        "severity:0.50-0.66": {
+          "n": 854,
+          "yellow": 198,
+          "yellow_sum": 201.2542424401417,
+          "effective_yellow_sum": 191.22475511262817,
+          "expected_red": 1.0745160596224517,
+          "expected_second": 7.43749751780555,
+          "none": 646,
+          "second_yellow_red": 8,
+          "direct_red": 2
+        },
+        "severity:0.66-0.75": {
+          "n": 122,
+          "none": 65,
+          "yellow_sum": 49.17864966194575,
+          "effective_yellow_sum": 49.17864966194575,
+          "expected_red": 0.27465689345873995,
+          "expected_second": 1.8516526743818167,
+          "yellow": 55,
+          "second_yellow_red": 2
+        },
+        "severity:0.75-0.84": {
+          "n": 74,
+          "yellow": 43,
+          "yellow_sum": 43.08319790213443,
+          "effective_yellow_sum": 43.08319790213443,
+          "expected_red": 4.212052142311273,
+          "expected_second": 2.3035150261412483,
+          "none": 25,
+          "second_yellow_red": 3,
+          "direct_red": 3
+        },
+        "severity:<0.30": {
+          "n": 3545,
+          "yellow": 125,
+          "yellow_sum": 151.92787804081118,
+          "effective_yellow_sum": 138.67069904877846,
+          "expected_red": 0.8862499999999982,
+          "expected_second": 1.6938254780875777,
+          "none": 3420
+        },
+        "severity:>=0.84": {
+          "n": 18,
+          "none": 9,
+          "yellow_sum": 10.490297516326931,
+          "effective_yellow_sum": 10.490297516326931,
+          "expected_red": 3.042878411991155,
+          "expected_second": 0.5217051362052134,
+          "yellow": 7,
+          "direct_red": 2
+        },
+        "source:ordinary": {
+          "n": 4210,
+          "none": 4056,
+          "yellow_sum": 179.39132264374422,
+          "effective_yellow_sum": 161.76988649578644,
+          "expected_red": 1.0524999999999973,
+          "expected_second": 0.6093310208610679,
+          "yellow": 154
+        },
+        "source:other": {
+          "n": 3079,
+          "yellow": 600,
+          "yellow_sum": 632.6594350075843,
+          "effective_yellow_sum": 608.2292525409316,
+          "expected_red": 12.90701471672461,
+          "expected_second": 32.892529477087045,
+          "none": 2430,
+          "second_yellow_red": 36,
+          "direct_red": 13
+        },
+        "violent": {
+          "n": 24,
+          "yellow": 13,
+          "yellow_sum": 14.057730150270805,
+          "effective_yellow_sum": 14.057730150270805,
+          "expected_red": 5.1375859268122195,
+          "expected_second": 0.0,
+          "none": 9,
+          "direct_red": 2
+        },
+        "xg:.05-.10": {
+          "n": 929,
+          "xg": 68.73931413024143,
+          "goals": 82,
+          "sot": 397
+        },
+        "xg:.10-.20": {
+          "n": 1118,
+          "xg": 155.16134772735683,
+          "goals": 144,
+          "sot": 530
+        },
+        "xg:.20-.40": {
+          "n": 2021,
+          "xg": 571.4162976245512,
+          "goals": 564,
+          "sot": 999
+        },
+        "xg:.40+": {
+          "n": 55,
+          "xg": 36.45254010840208,
+          "goals": 38,
+          "sot": 52
+        },
+        "xg:<0.05": {
+          "n": 3626,
+          "xg": 29.656669609570663,
+          "goals": 62,
+          "sot": 872
+        }
+      },
+      "paired_difference_vs_baseline": {
+        "goals": {
+          "mean_delta": 0.02,
+          "normal_approx_95_percent_interval": [
+            -0.04134863073250798,
+            0.08134863073250798
+          ]
+        },
+        "shots": {
+          "mean_delta": -0.0033333333333333335,
+          "normal_approx_95_percent_interval": [
+            -0.13568204988246968,
+            0.12901538321580303
+          ]
+        },
+        "sot": {
+          "mean_delta": -0.04666666666666667,
+          "normal_approx_95_percent_interval": [
+            -0.1318291223894457,
+            0.03849578905611236
+          ]
+        },
+        "fouls": {
+          "mean_delta": -0.03333333333333333,
+          "normal_approx_95_percent_interval": [
+            -0.1686690885109868,
+            0.10200242184432015
+          ]
+        },
+        "yellow": {
+          "mean_delta": 0.12,
+          "normal_approx_95_percent_interval": [
+            0.04663432191972618,
+            0.19336567808027383
+          ]
+        },
+        "red": {
+          "mean_delta": 0.10333333333333333,
+          "normal_approx_95_percent_interval": [
+            0.06417888190673277,
+            0.1424877847599339
+          ]
+        }
+      }
+    },
+    "rejected_recognition": {
+      "summary": {
+        "metrics": {
+          "matches": 300,
+          "goals_per_match": 3.02,
+          "shots_per_match": 25.976666666666667,
+          "sot_per_match": 9.543333333333333,
+          "fouls_per_match": 25.53,
+          "corners_per_match": 9.876666666666667,
+          "yellow_per_match": 3.453333333333333,
+          "red_per_match": 0.25,
+          "home_goals_per_match": 1.5733333333333333,
+          "away_goals_per_match": 1.4466666666666668,
+          "home_win_rate": 0.3933333333333333,
+          "draw_rate": 0.22666666666666666,
+          "away_win_rate": 0.38,
+          "zero_zero_rate": 0.07,
+          "btts_rate": 0.5533333333333333,
+          "over_2_5_rate": 0.5366666666666666,
+          "clean_sheet_rate": 0.44666666666666666
+        },
+        "scoreline_distribution": {
+          "0-0": 0.07,
+          "0-1": 0.06,
+          "0-2": 0.08,
+          "0-3": 0.02666666666666667,
+          "0-4+": 0.013333333333333334,
+          "1-0": 0.09333333333333334,
+          "1-1": 0.11,
+          "1-2": 0.07666666666666666,
+          "1-3": 0.03666666666666667,
+          "1-4+": 0.016666666666666666,
+          "2-0": 0.05,
+          "2-1": 0.05,
+          "2-2": 0.03333333333333333,
+          "2-3": 0.043333333333333335,
+          "2-4+": 0.02,
+          "3-0": 0.02666666666666667,
+          "3-1": 0.04,
+          "3-2": 0.02666666666666667,
+          "3-3": 0.013333333333333334,
+          "3-4+": 0.006666666666666667,
+          "4+-0": 0.02666666666666667,
+          "4+-1": 0.043333333333333335,
+          "4+-2": 0.013333333333333334,
+          "4+-3": 0.02,
+          "4+-4+": 0.0033333333333333335
+        },
+        "total_goal_distribution": {
+          "0": 0.07,
+          "1": 0.15333333333333332,
+          "2": 0.24,
+          "3": 0.18,
+          "4": 0.12666666666666668,
+          "5": 0.11666666666666667,
+          "6+": 0.11333333333333333
+        },
+        "result_distribution": {
+          "H": 0.3933333333333333,
+          "D": 0.22666666666666666,
+          "A": 0.38
+        }
+      },
+      "comparison": {
+        "realism_index": 79.5410166769472,
+        "components": [
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 3.02,
+            "delta": 0.1947044473634829,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.7336578476204924,
+            "score": 76.40462777433635,
+            "weight": 1.4
+          },
+          {
+            "name": "shots_per_match",
+            "kind": "scalar",
+            "real": 25.274723212610247,
+            "engine": 25.976666666666667,
+            "delta": 0.7019434540564191,
+            "scale": 1.4,
+            "standardised_gap": 0.5013881814688709,
+            "score": 88.18837324724244,
+            "weight": 1.1
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.543333333333333,
+            "delta": 0.6649321323575403,
+            "scale": 0.7,
+            "standardised_gap": 0.9499030462250577,
+            "score": 63.68902701472864,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.53,
+            "delta": 1.6910058172264968,
+            "scale": 2.2,
+            "standardised_gap": 0.7686390078302258,
+            "score": 74.42316298348518,
+            "weight": 0.75
+          },
+          {
+            "name": "corners_per_match",
+            "kind": "scalar",
+            "real": 9.688496903734285,
+            "engine": 9.876666666666667,
+            "delta": 0.1881697629323824,
+            "scale": 0.75,
+            "standardised_gap": 0.25089301724317653,
+            "score": 96.901648674567,
+            "weight": 0.75
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.453333333333333,
+            "delta": -0.6845912303746795,
+            "scale": 0.7,
+            "standardised_gap": 0.977987471963828,
+            "score": 61.98797646960163,
+            "weight": 0.75
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.25,
+            "delta": 0.055967348470632394,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 0.8751146974294746,
+            "score": 68.1872310394549,
+            "weight": 0.65
+          },
+          {
+            "name": "home_goals_per_match",
+            "kind": "scalar",
+            "real": 1.5501970350910115,
+            "engine": 1.5733333333333333,
+            "delta": 0.023136298242321773,
+            "scale": 0.1590156749928401,
+            "standardised_gap": 0.14549696590203146,
+            "score": 98.94711370979702,
+            "weight": 0.7
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.4466666666666668,
+            "delta": 0.17156814912116114,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 1.2861583440643114,
+            "score": 43.73149461024568,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.3933333333333333,
+            "delta": -0.043146306373928855,
+            "scale": 0.035,
+            "standardised_gap": 1.2327516106836816,
+            "score": 46.774207030442824,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.22666666666666666,
+            "delta": -0.025350597360355304,
+            "scale": 0.03,
+            "standardised_gap": 0.8450199120118435,
+            "score": 69.97519766134329,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.38,
+            "delta": 0.06849690373428413,
+            "scale": 0.035,
+            "standardised_gap": 1.9570543924081178,
+            "score": 14.733727280685455,
+            "weight": 0.65
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.07,
+            "delta": 0.009388252955526373,
+            "scale": 0.02,
+            "standardised_gap": 0.46941264777631864,
+            "score": 89.56781689711845,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5533333333333333,
+            "delta": 0.004825170450991401,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.11726662870281898,
+            "score": 99.31478526526307,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.5366666666666666,
+            "delta": 0.0018571339213110383,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.029861779084901195,
+            "score": 99.95542364570454,
+            "weight": 0.8
+          },
+          {
+            "name": "clean_sheet_rate",
+            "kind": "scalar",
+            "real": 0.4514918371176581,
+            "engine": 0.44666666666666666,
+            "delta": -0.004825170450991456,
+            "scale": 0.045,
+            "standardised_gap": 0.10722601002203236,
+            "score": 99.42677835946354,
+            "weight": 0.7
+          },
+          {
+            "name": "result_distribution",
+            "kind": "distribution",
+            "distance": 0.061197420470950975,
+            "score": 93.8802579529049,
+            "weight": 1.25
+          },
+          {
+            "name": "total_goal_distribution",
+            "kind": "distribution",
+            "distance": 0.09252306446351836,
+            "score": 90.74769355364816,
+            "weight": 1.75
+          },
+          {
+            "name": "scoreline_distribution",
+            "kind": "distribution",
+            "distance": 0.13871837178334157,
+            "score": 86.12816282166584,
+            "weight": 2.0
+          }
+        ],
+        "largest_gaps": [
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.38,
+            "delta": 0.06849690373428413,
+            "scale": 0.035,
+            "standardised_gap": 1.9570543924081178,
+            "score": 14.733727280685455,
+            "weight": 0.65
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.4466666666666668,
+            "delta": 0.17156814912116114,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 1.2861583440643114,
+            "score": 43.73149461024568,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.3933333333333333,
+            "delta": -0.043146306373928855,
+            "scale": 0.035,
+            "standardised_gap": 1.2327516106836816,
+            "score": 46.774207030442824,
+            "weight": 0.65
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.453333333333333,
+            "delta": -0.6845912303746795,
+            "scale": 0.7,
+            "standardised_gap": 0.977987471963828,
+            "score": 61.98797646960163,
+            "weight": 0.75
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.543333333333333,
+            "delta": 0.6649321323575403,
+            "scale": 0.7,
+            "standardised_gap": 0.9499030462250577,
+            "score": 63.68902701472864,
+            "weight": 1.1
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.25,
+            "delta": 0.055967348470632394,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 0.8751146974294746,
+            "score": 68.1872310394549,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.22666666666666666,
+            "delta": -0.025350597360355304,
+            "scale": 0.03,
+            "standardised_gap": 0.8450199120118435,
+            "score": 69.97519766134329,
+            "weight": 0.65
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.53,
+            "delta": 1.6910058172264968,
+            "scale": 2.2,
+            "standardised_gap": 0.7686390078302258,
+            "score": 74.42316298348518,
+            "weight": 0.75
+          }
+        ]
+      },
+      "card_events": {
+        "card:yellow": 993,
+        "card:second_yellow_red": 40,
+        "card:direct_red": 35
+      },
+      "groups": {
+        "booked:routine": {
+          "n": 357,
+          "none": 347,
+          "yellow_sum": 48.15321108134675,
+          "effective_yellow_sum": 6.199588626469685,
+          "expected_red": 0.2480158582104062,
+          "expected_second": 6.1056864119619085,
+          "second_yellow_red": 9,
+          "direct_red": 1
+        },
+        "booked:spa": {
+          "n": 67,
+          "none": 36,
+          "yellow_sum": 28.812493668702317,
+          "effective_yellow_sum": 28.812493668702317,
+          "expected_red": 0.9078554887510961,
+          "expected_second": 28.32606531148185,
+          "second_yellow_red": 30,
+          "direct_red": 1
+        },
+        "dogso:False:final_third": {
+          "n": 13,
+          "direct_red": 11,
+          "yellow_sum": 5.355735149852727,
+          "effective_yellow_sum": 5.355735149852727,
+          "expected_red": 11.493974650460949,
+          "expected_second": 0.06029388986226305,
+          "none": 2
+        },
+        "dogso:True:box": {
+          "n": 2,
+          "yellow": 2,
+          "yellow_sum": 1.28,
+          "effective_yellow_sum": 1.28,
+          "expected_red": 0.0004,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 11,
+          "direct_red": 10,
+          "yellow_sum": 4.582917076688203,
+          "effective_yellow_sum": 4.582917076688203,
+          "expected_red": 9.227796662513185,
+          "expected_second": 0.0,
+          "yellow": 1
+        },
+        "low_xg_body:chest": {
+          "n": 132,
+          "xg": 1.3796346684652743,
+          "floor_active": 109,
+          "old_expected": 2.3968527222412095,
+          "no_floor_expected": 1.3177227146990087
+        },
+        "low_xg_body:head": {
+          "n": 776,
+          "xg": 8.185908131268164,
+          "floor_active": 632,
+          "old_expected": 15.636508826026954,
+          "no_floor_expected": 7.91134870460903
+        },
+        "low_xg_body:knee": {
+          "n": 56,
+          "xg": 0.608378064178863,
+          "floor_active": 44,
+          "old_expected": 1.0899080435675956,
+          "no_floor_expected": 0.5881186475867127
+        },
+        "low_xg_body:left_foot": {
+          "n": 687,
+          "xg": 4.1647944722883805,
+          "floor_active": 624,
+          "old_expected": 9.46864311339263,
+          "no_floor_expected": 4.052407684598032
+        },
+        "low_xg_body:right_foot": {
+          "n": 1696,
+          "xg": 12.43840775750657,
+          "floor_active": 1490,
+          "old_expected": 25.151837811294545,
+          "no_floor_expected": 12.130511356553257
+        },
+        "low_xg_body:shin": {
+          "n": 40,
+          "xg": 0.4531492422400575,
+          "floor_active": 32,
+          "old_expected": 0.7732802444841677,
+          "no_floor_expected": 0.44069443153457644
+        },
+        "low_xg_body:shoulder": {
+          "n": 25,
+          "xg": 0.3079252726916384,
+          "floor_active": 19,
+          "old_expected": 0.454662298451473,
+          "no_floor_expected": 0.2942362609726387
+        },
+        "low_xg_body:thigh": {
+          "n": 220,
+          "xg": 2.2452089455395945,
+          "floor_active": 185,
+          "old_expected": 3.9610448577054513,
+          "no_floor_expected": 2.174279242163968
+        },
+        "low_xg_origin:carry": {
+          "n": 46,
+          "xg": 0.6367195924052157,
+          "floor_active": 34,
+          "old_expected": 0.796274196465574,
+          "no_floor_expected": 0.6146214184469461
+        },
+        "low_xg_origin:corner": {
+          "n": 720,
+          "xg": 8.745737613240946,
+          "floor_active": 566,
+          "old_expected": 17.513491908553384,
+          "no_floor_expected": 8.3260826404715
+        },
+        "low_xg_origin:cross": {
+          "n": 77,
+          "xg": 2.892911747050829,
+          "floor_active": 10,
+          "old_expected": 2.947810703494119,
+          "no_floor_expected": 2.8640759410549026
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08988960914311313,
+          "floor_active": 0,
+          "old_expected": 0.08893173723509751,
+          "no_floor_expected": 0.08893173723509751
+        },
+        "low_xg_origin:dummy": {
+          "n": 7,
+          "xg": 0.12749294170715259,
+          "floor_active": 3,
+          "old_expected": 0.140038990693238,
+          "no_floor_expected": 0.12455775197437047
+        },
+        "low_xg_origin:free_kick": {
+          "n": 210,
+          "xg": 4.091030037039984,
+          "floor_active": 90,
+          "old_expected": 5.1007600708252685,
+          "no_floor_expected": 4.051344477349527
+        },
+        "low_xg_origin:open_play": {
+          "n": 2106,
+          "xg": 6.459228263889643,
+          "floor_active": 2103,
+          "old_expected": 22.946512882889447,
+          "no_floor_expected": 6.271163866563395
+        },
+        "low_xg_origin:progression": {
+          "n": 290,
+          "xg": 4.111142022297352,
+          "floor_active": 216,
+          "old_expected": 5.801832296921446,
+          "no_floor_expected": 4.007514512408586
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 76,
+          "xg": 1.3873863872707093,
+          "floor_active": 31,
+          "old_expected": 1.5621927237655961,
+          "no_floor_expected": 1.3760592006309516
+        },
+        "low_xg_origin:rebound": {
+          "n": 2,
+          "xg": 0.09136452788941266,
+          "floor_active": 0,
+          "old_expected": 0.08330892329208431,
+          "no_floor_expected": 0.08330892329208431
+        },
+        "low_xg_origin:second_ball": {
+          "n": 94,
+          "xg": 1.059264059944652,
+          "floor_active": 82,
+          "old_expected": 1.8597525016850127,
+          "no_floor_expected": 1.009827591946079
+        },
+        "low_xg_origin:transition": {
+          "n": 2,
+          "xg": 0.0912397522995329,
+          "floor_active": 0,
+          "old_expected": 0.0918309813437881,
+          "no_floor_expected": 0.0918309813437881
+        },
+        "low_xg_total": {
+          "n": 3632,
+          "xg": 29.783406554178566,
+          "floor_active": 3135,
+          "old_expected": 58.93273791716402,
+          "no_floor_expected": 28.909319042717197
+        },
+        "severity:0.30-0.50": {
+          "n": 2666,
+          "none": 2306,
+          "yellow_sum": 352.20166838366566,
+          "effective_yellow_sum": 333.57153793406536,
+          "expected_red": 15.525438299276155,
+          "expected_second": 19.4255695886498,
+          "yellow": 322,
+          "direct_red": 14,
+          "second_yellow_red": 24
+        },
+        "severity:0.50-0.66": {
+          "n": 860,
+          "yellow": 201,
+          "yellow_sum": 201.82913746790396,
+          "effective_yellow_sum": 191.9524562381988,
+          "expected_red": 4.606708500690586,
+          "expected_second": 8.474696542806043,
+          "none": 644,
+          "second_yellow_red": 9,
+          "direct_red": 6
+        },
+        "severity:0.66-0.75": {
+          "n": 123,
+          "none": 63,
+          "yellow_sum": 49.2777764392044,
+          "effective_yellow_sum": 49.2777764392044,
+          "expected_red": 1.7711767331212886,
+          "expected_second": 1.8516526743818167,
+          "yellow": 57,
+          "second_yellow_red": 2,
+          "direct_red": 1
+        },
+        "severity:0.75-0.84": {
+          "n": 75,
+          "yellow": 38,
+          "yellow_sum": 43.66524833158266,
+          "effective_yellow_sum": 43.66524833158266,
+          "expected_red": 10.893457967342943,
+          "expected_second": 2.8705133936309526,
+          "none": 24,
+          "second_yellow_red": 4,
+          "direct_red": 9
+        },
+        "severity:<0.30": {
+          "n": 3515,
+          "yellow": 123,
+          "yellow_sum": 149.26114621120212,
+          "effective_yellow_sum": 135.81433543563054,
+          "expected_red": 0.8787499999999981,
+          "expected_second": 1.287614387769954,
+          "none": 3392
+        },
+        "severity:>=0.84": {
+          "n": 19,
+          "none": 9,
+          "yellow_sum": 11.073725499365828,
+          "effective_yellow_sum": 11.073725499365828,
+          "expected_red": 5.325272141827396,
+          "expected_second": 0.5217051362052134,
+          "yellow": 6,
+          "direct_red": 4
+        },
+        "source:ordinary": {
+          "n": 4175,
+          "none": 4022,
+          "yellow_sum": 176.58385131976087,
+          "effective_yellow_sum": 158.79713588047662,
+          "expected_red": 1.0437499999999975,
+          "expected_second": 0.6143006533473536,
+          "yellow": 153
+        },
+        "source:other": {
+          "n": 3083,
+          "yellow": 594,
+          "yellow_sum": 630.7248510131637,
+          "effective_yellow_sum": 606.5579439975713,
+          "expected_red": 37.95705364225834,
+          "expected_second": 33.81745107009642,
+          "none": 2416,
+          "second_yellow_red": 39,
+          "direct_red": 34
+        },
+        "violent": {
+          "n": 23,
+          "yellow": 8,
+          "yellow_sum": 13.475454788483312,
+          "effective_yellow_sum": 13.475454788483312,
+          "expected_red": 14.200915685614921,
+          "expected_second": 0.0,
+          "none": 6,
+          "direct_red": 9
+        },
+        "xg:.05-.10": {
+          "n": 937,
+          "xg": 69.34028069021326,
+          "goals": 81,
+          "sot": 392
+        },
+        "xg:.10-.20": {
+          "n": 1122,
+          "xg": 155.49494480373903,
+          "goals": 143,
+          "sot": 525
+        },
+        "xg:.20-.40": {
+          "n": 2046,
+          "xg": 579.2096567834457,
+          "goals": 579,
+          "sot": 1026
+        },
+        "xg:.40+": {
+          "n": 56,
+          "xg": 36.92239376035726,
+          "goals": 39,
+          "sot": 53
+        },
+        "xg:<0.05": {
+          "n": 3632,
+          "xg": 29.783406554178516,
+          "goals": 64,
+          "sot": 867
+        }
+      },
+      "paired_difference_vs_baseline": {
+        "goals": {
+          "mean_delta": 0.07333333333333333,
+          "normal_approx_95_percent_interval": [
+            -0.01743771157544409,
+            0.16410437824211077
+          ]
+        },
+        "shots": {
+          "mean_delta": 0.14333333333333334,
+          "normal_approx_95_percent_interval": [
+            -0.076346573122928,
+            0.36301323978959465
+          ]
+        },
+        "sot": {
+          "mean_delta": -0.0033333333333333335,
+          "normal_approx_95_percent_interval": [
+            -0.12275408294009407,
+            0.11608741627342742
+          ]
+        },
+        "fouls": {
+          "mean_delta": -0.11,
+          "normal_approx_95_percent_interval": [
+            -0.30184476119216413,
+            0.08184476119216412
+          ]
+        },
+        "yellow": {
+          "mean_delta": 0.10333333333333333,
+          "normal_approx_95_percent_interval": [
+            0.011761376097977796,
+            0.19490529056868888
+          ]
+        },
+        "red": {
+          "mean_delta": 0.18333333333333332,
+          "normal_approx_95_percent_interval": [
+            0.12822287703725105,
+            0.2384437896294156
+          ]
+        }
+      }
+    },
+    "rejected_recognition_plus_shot_fix": {
+      "summary": {
+        "metrics": {
+          "matches": 300,
+          "goals_per_match": 2.8933333333333335,
+          "shots_per_match": 26.1,
+          "sot_per_match": 9.523333333333333,
+          "fouls_per_match": 25.58,
+          "corners_per_match": 9.863333333333333,
+          "yellow_per_match": 3.45,
+          "red_per_match": 0.2633333333333333,
+          "home_goals_per_match": 1.5166666666666666,
+          "away_goals_per_match": 1.3766666666666667,
+          "home_win_rate": 0.38333333333333336,
+          "draw_rate": 0.24333333333333335,
+          "away_win_rate": 0.37333333333333335,
+          "zero_zero_rate": 0.08,
+          "btts_rate": 0.5233333333333333,
+          "over_2_5_rate": 0.5066666666666667,
+          "clean_sheet_rate": 0.4766666666666667
+        },
+        "scoreline_distribution": {
+          "0-0": 0.08,
+          "0-1": 0.07333333333333333,
+          "0-2": 0.07333333333333333,
+          "0-3": 0.03,
+          "0-4+": 0.013333333333333334,
+          "1-0": 0.09333333333333334,
+          "1-1": 0.11666666666666667,
+          "1-2": 0.06666666666666667,
+          "1-3": 0.04,
+          "1-4+": 0.02,
+          "2-0": 0.056666666666666664,
+          "2-1": 0.04,
+          "2-2": 0.03666666666666667,
+          "2-3": 0.03666666666666667,
+          "2-4+": 0.013333333333333334,
+          "3-0": 0.03,
+          "3-1": 0.03666666666666667,
+          "3-2": 0.02,
+          "3-3": 0.01,
+          "3-4+": 0.006666666666666667,
+          "4+-0": 0.02666666666666667,
+          "4+-1": 0.043333333333333335,
+          "4+-2": 0.016666666666666666,
+          "4+-3": 0.016666666666666666,
+          "4+-4+": 0.0033333333333333335
+        },
+        "total_goal_distribution": {
+          "0": 0.08,
+          "1": 0.16666666666666666,
+          "2": 0.24666666666666667,
+          "3": 0.16666666666666666,
+          "4": 0.13,
+          "5": 0.11333333333333333,
+          "6+": 0.09666666666666666
+        },
+        "result_distribution": {
+          "H": 0.38333333333333336,
+          "D": 0.24333333333333335,
+          "A": 0.37333333333333335
+        }
+      },
+      "comparison": {
+        "realism_index": 79.49632044234488,
+        "components": [
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 2.8933333333333335,
+            "delta": 0.06803778069681643,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.2563703727307018,
+            "score": 96.76712336950207,
+            "weight": 1.4
+          },
+          {
+            "name": "shots_per_match",
+            "kind": "scalar",
+            "real": 25.274723212610247,
+            "engine": 26.1,
+            "delta": 0.825276787389754,
+            "scale": 1.4,
+            "standardised_gap": 0.58948341956411,
+            "score": 84.05109056952264,
+            "weight": 1.1
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.523333333333333,
+            "delta": 0.6449321323575408,
+            "scale": 0.7,
+            "standardised_gap": 0.9213316176536297,
+            "score": 65.4145173163441,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.58,
+            "delta": 1.741005817226494,
+            "scale": 2.2,
+            "standardised_gap": 0.7913662805574971,
+            "score": 73.11546405671456,
+            "weight": 0.75
+          },
+          {
+            "name": "corners_per_match",
+            "kind": "scalar",
+            "real": 9.688496903734285,
+            "engine": 9.863333333333333,
+            "delta": 0.17483642959904877,
+            "scale": 0.75,
+            "standardised_gap": 0.23311523946539836,
+            "score": 97.31944631279364,
+            "weight": 0.75
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.45,
+            "delta": -0.6879245637080125,
+            "scale": 0.7,
+            "standardised_gap": 0.9827493767257321,
+            "score": 61.69926493213307,
+            "weight": 0.75
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.2633333333333333,
+            "delta": 0.0693006818039657,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 1.0835968979369532,
+            "score": 55.59421045784666,
+            "weight": 0.65
+          },
+          {
+            "name": "home_goals_per_match",
+            "kind": "scalar",
+            "real": 1.5501970350910115,
+            "engine": 1.5166666666666666,
+            "delta": -0.03353036842434487,
+            "scale": 0.1590156749928401,
+            "standardised_gap": 0.21086203247481494,
+            "score": 97.80138980436566,
+            "weight": 0.7
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.3766666666666667,
+            "delta": 0.10156814912116108,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 0.7614042766824801,
+            "score": 74.83621680692137,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.38333333333333336,
+            "delta": -0.05314630637392881,
+            "scale": 0.035,
+            "standardised_gap": 1.5184658963979658,
+            "score": 31.57295332714713,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.24333333333333335,
+            "delta": -0.008683930693688613,
+            "scale": 0.03,
+            "standardised_gap": 0.2894643564562871,
+            "score": 95.89706524303885,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.37333333333333335,
+            "delta": 0.06183023706761748,
+            "scale": 0.035,
+            "standardised_gap": 1.7665782019319278,
+            "score": 21.00521865470675,
+            "weight": 0.65
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.08,
+            "delta": 0.019388252955526368,
+            "scale": 0.02,
+            "standardised_gap": 0.9694126477763184,
+            "score": 62.50769974996208,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5233333333333333,
+            "delta": -0.025174829549008626,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.6118265498317857,
+            "score": 82.93061733201071,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.5066666666666667,
+            "delta": -0.028142866078688877,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.45252312717679066,
+            "score": 90.2678711302001,
+            "weight": 0.8
+          },
+          {
+            "name": "clean_sheet_rate",
+            "kind": "scalar",
+            "real": 0.4514918371176581,
+            "engine": 0.4766666666666667,
+            "delta": 0.02517482954900857,
+            "scale": 0.045,
+            "standardised_gap": 0.5594406566446349,
+            "score": 85.51426993444856,
+            "weight": 0.7
+          },
+          {
+            "name": "result_distribution",
+            "kind": "distribution",
+            "distance": 0.05757226752889815,
+            "score": 94.2427732471102,
+            "weight": 1.25
+          },
+          {
+            "name": "total_goal_distribution",
+            "kind": "distribution",
+            "distance": 0.08803097705990039,
+            "score": 91.19690229400996,
+            "weight": 1.75
+          },
+          {
+            "name": "scoreline_distribution",
+            "kind": "distribution",
+            "distance": 0.13171135823417804,
+            "score": 86.8288641765822,
+            "weight": 2.0
+          }
+        ],
+        "largest_gaps": [
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.37333333333333335,
+            "delta": 0.06183023706761748,
+            "scale": 0.035,
+            "standardised_gap": 1.7665782019319278,
+            "score": 21.00521865470675,
+            "weight": 0.65
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.38333333333333336,
+            "delta": -0.05314630637392881,
+            "scale": 0.035,
+            "standardised_gap": 1.5184658963979658,
+            "score": 31.57295332714713,
+            "weight": 0.65
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.2633333333333333,
+            "delta": 0.0693006818039657,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 1.0835968979369532,
+            "score": 55.59421045784666,
+            "weight": 0.65
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.45,
+            "delta": -0.6879245637080125,
+            "scale": 0.7,
+            "standardised_gap": 0.9827493767257321,
+            "score": 61.69926493213307,
+            "weight": 0.75
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.08,
+            "delta": 0.019388252955526368,
+            "scale": 0.02,
+            "standardised_gap": 0.9694126477763184,
+            "score": 62.50769974996208,
+            "weight": 0.8
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.523333333333333,
+            "delta": 0.6449321323575408,
+            "scale": 0.7,
+            "standardised_gap": 0.9213316176536297,
+            "score": 65.4145173163441,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.58,
+            "delta": 1.741005817226494,
+            "scale": 2.2,
+            "standardised_gap": 0.7913662805574971,
+            "score": 73.11546405671456,
+            "weight": 0.75
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.3766666666666667,
+            "delta": 0.10156814912116108,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 0.7614042766824801,
+            "score": 74.83621680692137,
+            "weight": 0.7
+          }
+        ]
+      },
+      "card_events": {
+        "card:yellow": 990,
+        "card:second_yellow_red": 42,
+        "card:direct_red": 37
+      },
+      "groups": {
+        "booked:routine": {
+          "n": 362,
+          "none": 353,
+          "yellow_sum": 49.305115023444486,
+          "effective_yellow_sum": 6.026470836770778,
+          "expected_red": 0.24647416073026793,
+          "expected_second": 5.934231086248907,
+          "second_yellow_red": 8,
+          "direct_red": 1
+        },
+        "booked:spa": {
+          "n": 72,
+          "none": 38,
+          "yellow_sum": 30.77927685568717,
+          "effective_yellow_sum": 30.77927685568717,
+          "expected_red": 0.9092662181536766,
+          "expected_second": 30.292278745503424,
+          "second_yellow_red": 33,
+          "direct_red": 1
+        },
+        "dogso:False:final_third": {
+          "n": 15,
+          "direct_red": 13,
+          "yellow_sum": 6.1557351498527275,
+          "effective_yellow_sum": 6.1557351498527275,
+          "expected_red": 13.201451854230314,
+          "expected_second": 0.06029388986226305,
+          "none": 2
+        },
+        "dogso:True:box": {
+          "n": 2,
+          "yellow": 2,
+          "yellow_sum": 1.28,
+          "effective_yellow_sum": 1.28,
+          "expected_red": 0.0004,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 12,
+          "direct_red": 10,
+          "yellow_sum": 4.98816560974106,
+          "effective_yellow_sum": 4.98816560974106,
+          "expected_red": 10.050453568532399,
+          "expected_second": 0.0,
+          "yellow": 1,
+          "none": 1
+        },
+        "low_xg_body:chest": {
+          "n": 124,
+          "xg": 1.2278649089707223,
+          "floor_active": 104,
+          "old_expected": 2.1840956420483546,
+          "no_floor_expected": 1.171627559211093
+        },
+        "low_xg_body:head": {
+          "n": 783,
+          "xg": 8.167798180499833,
+          "floor_active": 641,
+          "old_expected": 15.649613863392446,
+          "no_floor_expected": 7.884317372953127
+        },
+        "low_xg_body:knee": {
+          "n": 63,
+          "xg": 0.709480224504675,
+          "floor_active": 49,
+          "old_expected": 1.2323677007374716,
+          "no_floor_expected": 0.6815523102671265
+        },
+        "low_xg_body:left_foot": {
+          "n": 678,
+          "xg": 4.087390984152551,
+          "floor_active": 617,
+          "old_expected": 9.301745532041291,
+          "no_floor_expected": 3.9673849225169184
+        },
+        "low_xg_body:right_foot": {
+          "n": 1709,
+          "xg": 12.35304848600773,
+          "floor_active": 1507,
+          "old_expected": 25.261945910827926,
+          "no_floor_expected": 12.062182006053739
+        },
+        "low_xg_body:shin": {
+          "n": 39,
+          "xg": 0.4934474711858806,
+          "floor_active": 30,
+          "old_expected": 0.7867013031553806,
+          "no_floor_expected": 0.4767251129940778
+        },
+        "low_xg_body:shoulder": {
+          "n": 25,
+          "xg": 0.3092668792738584,
+          "floor_active": 19,
+          "old_expected": 0.4705247848429204,
+          "no_floor_expected": 0.29575920159348407
+        },
+        "low_xg_body:thigh": {
+          "n": 220,
+          "xg": 2.1788923609457282,
+          "floor_active": 187,
+          "old_expected": 3.9174949770564993,
+          "no_floor_expected": 2.109242874181343
+        },
+        "low_xg_origin:carry": {
+          "n": 48,
+          "xg": 0.6599707741931827,
+          "floor_active": 35,
+          "old_expected": 0.8145413122714877,
+          "no_floor_expected": 0.6316605134391314
+        },
+        "low_xg_origin:corner": {
+          "n": 720,
+          "xg": 8.836338393201633,
+          "floor_active": 564,
+          "old_expected": 17.569561051132506,
+          "no_floor_expected": 8.41280286645774
+        },
+        "low_xg_origin:cross": {
+          "n": 70,
+          "xg": 2.6391528140789347,
+          "floor_active": 10,
+          "old_expected": 2.6949958535675695,
+          "no_floor_expected": 2.6103039577668157
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08988960914311313,
+          "floor_active": 0,
+          "old_expected": 0.08893173723509751,
+          "no_floor_expected": 0.08893173723509751
+        },
+        "low_xg_origin:dummy": {
+          "n": 8,
+          "xg": 0.1304929417071526,
+          "floor_active": 4,
+          "old_expected": 0.15196047388792114,
+          "no_floor_expected": 0.12751462558165289
+        },
+        "low_xg_origin:free_kick": {
+          "n": 211,
+          "xg": 4.026680212641495,
+          "floor_active": 95,
+          "old_expected": 5.113587376671229,
+          "no_floor_expected": 3.990937946958252
+        },
+        "low_xg_origin:open_play": {
+          "n": 2116,
+          "xg": 6.489228263889642,
+          "floor_active": 2113,
+          "old_expected": 23.021010624394464,
+          "no_floor_expected": 6.3000951693286735
+        },
+        "low_xg_origin:progression": {
+          "n": 292,
+          "xg": 4.133433684823806,
+          "floor_active": 219,
+          "old_expected": 5.8457541736227645,
+          "no_floor_expected": 4.030307537896756
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 78,
+          "xg": 1.3825053892438113,
+          "floor_active": 33,
+          "old_expected": 1.5670315115369537,
+          "no_floor_expected": 1.3701285906498346
+        },
+        "low_xg_origin:rebound": {
+          "n": 1,
+          "xg": 0.04337628981143939,
+          "floor_active": 0,
+          "old_expected": 0.039251014928326854,
+          "no_floor_expected": 0.039251014928326854
+        },
+        "low_xg_origin:second_ball": {
+          "n": 95,
+          "xg": 1.096121122806766,
+          "floor_active": 81,
+          "old_expected": 1.8978645848539808,
+          "no_floor_expected": 1.0468573995286272
+        },
+        "low_xg_total": {
+          "n": 3641,
+          "xg": 29.52718949554099,
+          "floor_active": 3154,
+          "old_expected": 58.80448971410227,
+          "no_floor_expected": 28.64879135977088
+        },
+        "severity:0.30-0.50": {
+          "n": 2673,
+          "none": 2302,
+          "yellow_sum": 357.7153072736558,
+          "effective_yellow_sum": 338.00201313767496,
+          "expected_red": 16.37204775586488,
+          "expected_second": 21.014970098136004,
+          "yellow": 329,
+          "direct_red": 15,
+          "second_yellow_red": 27
+        },
+        "severity:0.50-0.66": {
+          "n": 863,
+          "yellow": 203,
+          "yellow_sum": 204.34249514439105,
+          "effective_yellow_sum": 195.23097322665845,
+          "expected_red": 5.429865406709801,
+          "expected_second": 8.158438274654072,
+          "none": 646,
+          "second_yellow_red": 8,
+          "direct_red": 6
+        },
+        "severity:0.66-0.75": {
+          "n": 122,
+          "none": 65,
+          "yellow_sum": 48.30502840025765,
+          "effective_yellow_sum": 48.30502840025765,
+          "expected_red": 0.9270643145987717,
+          "expected_second": 2.9164485457950096,
+          "yellow": 53,
+          "second_yellow_red": 3,
+          "direct_red": 1
+        },
+        "severity:0.75-0.84": {
+          "n": 70,
+          "yellow": 37,
+          "yellow_sum": 40.76441470397136,
+          "effective_yellow_sum": 40.76441470397136,
+          "expected_red": 8.782767858085835,
+          "expected_second": 2.2927805950809903,
+          "none": 23,
+          "second_yellow_red": 3,
+          "direct_red": 7
+        },
+        "severity:<0.30": {
+          "n": 3524,
+          "yellow": 119,
+          "yellow_sum": 152.6388110811151,
+          "effective_yellow_sum": 138.1849829481547,
+          "expected_red": 1.7431177471806396,
+          "expected_second": 1.3221671818810607,
+          "none": 3404,
+          "direct_red": 1
+        },
+        "severity:>=0.84": {
+          "n": 22,
+          "none": 10,
+          "yellow_sum": 12.816566464304257,
+          "effective_yellow_sum": 12.816566464304257,
+          "expected_red": 6.5960162228109915,
+          "expected_second": 0.5217051362052134,
+          "yellow": 6,
+          "direct_red": 6
+        },
+        "source:ordinary": {
+          "n": 4173,
+          "none": 4025,
+          "yellow_sum": 176.9458804375618,
+          "effective_yellow_sum": 158.39167077666522,
+          "expected_red": 1.0432499999999978,
+          "expected_second": 0.6406544742275305,
+          "yellow": 148
+        },
+        "source:other": {
+          "n": 3101,
+          "yellow": 599,
+          "yellow_sum": 639.6367426301331,
+          "effective_yellow_sum": 614.9123081043562,
+          "expected_red": 38.807629305250884,
+          "expected_second": 35.58585535752482,
+          "none": 2425,
+          "second_yellow_red": 41,
+          "direct_red": 36
+        },
+        "violent": {
+          "n": 21,
+          "yellow": 7,
+          "yellow_sum": 12.317183569831611,
+          "effective_yellow_sum": 12.317183569831611,
+          "expected_red": 12.4172725106284,
+          "expected_second": 0.0,
+          "none": 5,
+          "direct_red": 9
+        },
+        "xg:.05-.10": {
+          "n": 938,
+          "xg": 69.37871640814829,
+          "goals": 77,
+          "sot": 385
+        },
+        "xg:.10-.20": {
+          "n": 1144,
+          "xg": 158.3933205530176,
+          "goals": 147,
+          "sot": 537
+        },
+        "xg:.20-.40": {
+          "n": 2048,
+          "xg": 579.993210410797,
+          "goals": 573,
+          "sot": 1024
+        },
+        "xg:.40+": {
+          "n": 59,
+          "xg": 38.934734971491075,
+          "goals": 41,
+          "sot": 55
+        },
+        "xg:<0.05": {
+          "n": 3641,
+          "xg": 29.52718949554094,
+          "goals": 30,
+          "sot": 856
+        }
+      },
+      "paired_difference_vs_baseline": {
+        "goals": {
+          "mean_delta": -0.05333333333333334,
+          "normal_approx_95_percent_interval": [
+            -0.16689947731924604,
+            0.06023281065257937
+          ]
+        },
+        "shots": {
+          "mean_delta": 0.26666666666666666,
+          "normal_approx_95_percent_interval": [
+            -0.011803774666691635,
+            0.5451371080000249
+          ]
+        },
+        "sot": {
+          "mean_delta": -0.023333333333333334,
+          "normal_approx_95_percent_interval": [
+            -0.18951561289670013,
+            0.14284894623003344
+          ]
+        },
+        "fouls": {
+          "mean_delta": -0.06,
+          "normal_approx_95_percent_interval": [
+            -0.30616470979371935,
+            0.18616470979371938
+          ]
+        },
+        "yellow": {
+          "mean_delta": 0.1,
+          "normal_approx_95_percent_interval": [
+            -0.009310517781496483,
+            0.2093105177814965
+          ]
+        },
+        "red": {
+          "mean_delta": 0.19666666666666666,
+          "normal_approx_95_percent_interval": [
+            0.1376243812446421,
+            0.2557089520886912
+          ]
+        }
+      }
+    },
+    "accepted": {
+      "summary": {
+        "metrics": {
+          "matches": 300,
+          "goals_per_match": 2.8333333333333335,
+          "shots_per_match": 25.913333333333334,
+          "sot_per_match": 9.486666666666666,
+          "fouls_per_match": 25.65,
+          "corners_per_match": 9.83,
+          "yellow_per_match": 3.4966666666666666,
+          "red_per_match": 0.18333333333333332,
+          "home_goals_per_match": 1.4733333333333334,
+          "away_goals_per_match": 1.36,
+          "home_win_rate": 0.38,
+          "draw_rate": 0.24666666666666667,
+          "away_win_rate": 0.37333333333333335,
+          "zero_zero_rate": 0.07666666666666666,
+          "btts_rate": 0.5166666666666667,
+          "over_2_5_rate": 0.49,
+          "clean_sheet_rate": 0.48333333333333334
+        },
+        "scoreline_distribution": {
+          "0-0": 0.07666666666666666,
+          "0-1": 0.07666666666666666,
+          "0-2": 0.07,
+          "0-3": 0.03666666666666667,
+          "0-4+": 0.01,
+          "1-0": 0.10333333333333333,
+          "1-1": 0.12666666666666668,
+          "1-2": 0.07,
+          "1-3": 0.03333333333333333,
+          "1-4+": 0.023333333333333334,
+          "2-0": 0.056666666666666664,
+          "2-1": 0.04,
+          "2-2": 0.03333333333333333,
+          "2-3": 0.03333333333333333,
+          "2-4+": 0.013333333333333334,
+          "3-0": 0.02666666666666667,
+          "3-1": 0.03666666666666667,
+          "3-2": 0.013333333333333334,
+          "3-3": 0.01,
+          "3-4+": 0.006666666666666667,
+          "4+-0": 0.02666666666666667,
+          "4+-1": 0.04,
+          "4+-2": 0.016666666666666666,
+          "4+-3": 0.016666666666666666,
+          "4+-4+": 0.0033333333333333335
+        },
+        "total_goal_distribution": {
+          "0": 0.07666666666666666,
+          "1": 0.18,
+          "2": 0.25333333333333335,
+          "3": 0.17333333333333334,
+          "4": 0.12,
+          "5": 0.1,
+          "6+": 0.09666666666666666
+        },
+        "result_distribution": {
+          "H": 0.38,
+          "D": 0.24666666666666667,
+          "A": 0.37333333333333335
+        }
+      },
+      "comparison": {
+        "realism_index": 80.97865968792858,
+        "components": [
+          {
+            "name": "goals_per_match",
+            "kind": "scalar",
+            "real": 2.825295552636517,
+            "engine": 2.8333333333333335,
+            "delta": 0.008037780696816377,
+            "scale": 0.2653886249495963,
+            "standardised_gap": 0.030286831993432066,
+            "score": 99.95414590659435,
+            "weight": 1.4
+          },
+          {
+            "name": "shots_per_match",
+            "kind": "scalar",
+            "real": 25.274723212610247,
+            "engine": 25.913333333333334,
+            "delta": 0.6386101207230865,
+            "scale": 1.4,
+            "standardised_gap": 0.45615008623077613,
+            "score": 90.11924478313401,
+            "weight": 1.1
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.486666666666666,
+            "delta": 0.6082654656908737,
+            "scale": 0.7,
+            "standardised_gap": 0.8689506652726767,
+            "score": 68.55474044033092,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.65,
+            "delta": 1.8110058172264942,
+            "scale": 2.2,
+            "standardised_gap": 0.8231844623756791,
+            "score": 71.26133230808705,
+            "weight": 0.75
+          },
+          {
+            "name": "corners_per_match",
+            "kind": "scalar",
+            "real": 9.688496903734285,
+            "engine": 9.83,
+            "delta": 0.14150309626571556,
+            "scale": 0.75,
+            "standardised_gap": 0.18867079502095407,
+            "score": 98.23591203791993,
+            "weight": 0.75
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.4966666666666666,
+            "delta": -0.6412578970413461,
+            "scale": 0.7,
+            "standardised_gap": 0.9160827100590658,
+            "score": 65.7307215798833,
+            "weight": 0.75
+          },
+          {
+            "name": "red_per_match",
+            "kind": "scalar",
+            "real": 0.1940326515293676,
+            "engine": 0.18333333333333332,
+            "delta": -0.010699318196034285,
+            "scale": 0.0639543006591348,
+            "standardised_gap": 0.16729630510792035,
+            "score": 98.61034343876376,
+            "weight": 0.65
+          },
+          {
+            "name": "home_goals_per_match",
+            "kind": "scalar",
+            "real": 1.5501970350910115,
+            "engine": 1.4733333333333334,
+            "delta": -0.0768637017576781,
+            "scale": 0.1590156749928401,
+            "standardised_gap": 0.483371854762991,
+            "score": 88.97416182415408,
+            "weight": 0.7
+          },
+          {
+            "name": "away_goals_per_match",
+            "kind": "scalar",
+            "real": 1.2750985175455056,
+            "engine": 1.36,
+            "delta": 0.08490148245449447,
+            "scale": 0.1333958216831988,
+            "standardised_gap": 0.6364628320677589,
+            "score": 81.66518000465058,
+            "weight": 0.7
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.38,
+            "delta": -0.056479639707262164,
+            "scale": 0.035,
+            "standardised_gap": 1.6137039916360616,
+            "score": 27.198175658584926,
+            "weight": 0.65
+          },
+          {
+            "name": "draw_rate",
+            "kind": "scalar",
+            "real": 0.25201726402702196,
+            "engine": 0.24666666666666667,
+            "delta": -0.005350597360355286,
+            "scale": 0.03,
+            "standardised_gap": 0.17835324534517621,
+            "score": 98.42208755833654,
+            "weight": 0.65
+          },
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.37333333333333335,
+            "delta": 0.06183023706761748,
+            "scale": 0.035,
+            "standardised_gap": 1.7665782019319278,
+            "score": 21.00521865470675,
+            "weight": 0.65
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.07666666666666666,
+            "delta": 0.016054919622193027,
+            "scale": 0.02,
+            "standardised_gap": 0.8027459811096513,
+            "score": 72.45528629898857,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5166666666666667,
+            "delta": -0.031841496215675225,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.7738472561728073,
+            "score": 74.12481770662123,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.49,
+            "delta": -0.044809532745355596,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.720514741766621,
+            "score": 77.13826334023143,
+            "weight": 0.8
+          },
+          {
+            "name": "clean_sheet_rate",
+            "kind": "scalar",
+            "real": 0.4514918371176581,
+            "engine": 0.48333333333333334,
+            "delta": 0.031841496215675225,
+            "scale": 0.045,
+            "standardised_gap": 0.7075888047927827,
+            "score": 77.8535289717518,
+            "weight": 0.7
+          },
+          {
+            "name": "result_distribution",
+            "kind": "distribution",
+            "distance": 0.05871209709316461,
+            "score": 94.12879029068354,
+            "weight": 1.25
+          },
+          {
+            "name": "total_goal_distribution",
+            "kind": "distribution",
+            "distance": 0.08345339083231737,
+            "score": 91.65466091676826,
+            "weight": 1.75
+          },
+          {
+            "name": "scoreline_distribution",
+            "kind": "distribution",
+            "distance": 0.13855427708829648,
+            "score": 86.14457229117035,
+            "weight": 2.0
+          }
+        ],
+        "largest_gaps": [
+          {
+            "name": "away_win_rate",
+            "kind": "scalar",
+            "real": 0.3115030962657159,
+            "engine": 0.37333333333333335,
+            "delta": 0.06183023706761748,
+            "scale": 0.035,
+            "standardised_gap": 1.7665782019319278,
+            "score": 21.00521865470675,
+            "weight": 0.65
+          },
+          {
+            "name": "home_win_rate",
+            "kind": "scalar",
+            "real": 0.43647963970726217,
+            "engine": 0.38,
+            "delta": -0.056479639707262164,
+            "scale": 0.035,
+            "standardised_gap": 1.6137039916360616,
+            "score": 27.198175658584926,
+            "weight": 0.65
+          },
+          {
+            "name": "yellow_per_match",
+            "kind": "scalar",
+            "real": 4.137924563708013,
+            "engine": 3.4966666666666666,
+            "delta": -0.6412578970413461,
+            "scale": 0.7,
+            "standardised_gap": 0.9160827100590658,
+            "score": 65.7307215798833,
+            "weight": 0.75
+          },
+          {
+            "name": "sot_per_match",
+            "kind": "scalar",
+            "real": 8.878401200975793,
+            "engine": 9.486666666666666,
+            "delta": 0.6082654656908737,
+            "scale": 0.7,
+            "standardised_gap": 0.8689506652726767,
+            "score": 68.55474044033092,
+            "weight": 1.1
+          },
+          {
+            "name": "fouls_per_match",
+            "kind": "scalar",
+            "real": 23.838994182773504,
+            "engine": 25.65,
+            "delta": 1.8110058172264942,
+            "scale": 2.2,
+            "standardised_gap": 0.8231844623756791,
+            "score": 71.26133230808705,
+            "weight": 0.75
+          },
+          {
+            "name": "zero_zero_rate",
+            "kind": "scalar",
+            "real": 0.060611747044473634,
+            "engine": 0.07666666666666666,
+            "delta": 0.016054919622193027,
+            "scale": 0.02,
+            "standardised_gap": 0.8027459811096513,
+            "score": 72.45528629898857,
+            "weight": 0.8
+          },
+          {
+            "name": "btts_rate",
+            "kind": "scalar",
+            "real": 0.5485081628823419,
+            "engine": 0.5166666666666667,
+            "delta": -0.031841496215675225,
+            "scale": 0.04114700409115972,
+            "standardised_gap": 0.7738472561728073,
+            "score": 74.12481770662123,
+            "weight": 0.8
+          },
+          {
+            "name": "over_2_5_rate",
+            "kind": "scalar",
+            "real": 0.5348095327453556,
+            "engine": 0.49,
+            "delta": -0.044809532745355596,
+            "scale": 0.062191000610879475,
+            "standardised_gap": 0.720514741766621,
+            "score": 77.13826334023143,
+            "weight": 0.8
+          }
+        ]
+      },
+      "card_events": {
+        "card:yellow": 1007,
+        "card:second_yellow_red": 39,
+        "card:direct_red": 16
+      },
+      "groups": {
+        "booked:routine": {
+          "n": 364,
+          "none": 357,
+          "yellow_sum": 48.86717799614928,
+          "effective_yellow_sum": 5.454298206378686,
+          "expected_red": 0.22480755295389504,
+          "expected_second": 5.375058131524709,
+          "second_yellow_red": 6,
+          "direct_red": 1
+        },
+        "booked:spa": {
+          "n": 72,
+          "none": 39,
+          "yellow_sum": 30.49053965453163,
+          "effective_yellow_sum": 30.49053965453163,
+          "expected_red": 0.30485171293684404,
+          "expected_second": 30.32855599300737,
+          "second_yellow_red": 32,
+          "direct_red": 1
+        },
+        "dogso:False:final_third": {
+          "n": 15,
+          "direct_red": 6,
+          "yellow_sum": 6.242689031711525,
+          "effective_yellow_sum": 6.242689031711525,
+          "expected_red": 4.217707094586662,
+          "expected_second": 0.38523615422145685,
+          "none": 6,
+          "yellow": 3
+        },
+        "dogso:True:box": {
+          "n": 2,
+          "yellow": 2,
+          "yellow_sum": 1.28,
+          "effective_yellow_sum": 1.28,
+          "expected_red": 0.0004,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 13,
+          "direct_red": 3,
+          "yellow_sum": 5.389251004549563,
+          "effective_yellow_sum": 5.389251004549563,
+          "expected_red": 1.3310804486891052,
+          "expected_second": 0.0,
+          "yellow": 6,
+          "none": 4
+        },
+        "low_xg_body:chest": {
+          "n": 131,
+          "xg": 1.3280068222665724,
+          "floor_active": 109,
+          "old_expected": 2.3337338057873827,
+          "no_floor_expected": 1.268443915339412
+        },
+        "low_xg_body:head": {
+          "n": 772,
+          "xg": 8.185633624288892,
+          "floor_active": 628,
+          "old_expected": 15.444910234351376,
+          "no_floor_expected": 7.899744494367214
+        },
+        "low_xg_body:knee": {
+          "n": 64,
+          "xg": 0.7429712515596207,
+          "floor_active": 49,
+          "old_expected": 1.2597976013707266,
+          "no_floor_expected": 0.7153309435987137
+        },
+        "low_xg_body:left_foot": {
+          "n": 672,
+          "xg": 4.000248709319155,
+          "floor_active": 613,
+          "old_expected": 9.16728258753196,
+          "no_floor_expected": 3.8815501864589574
+        },
+        "low_xg_body:right_foot": {
+          "n": 1714,
+          "xg": 12.448684633002765,
+          "floor_active": 1511,
+          "old_expected": 25.294494761188336,
+          "no_floor_expected": 12.152996897817207
+        },
+        "low_xg_body:shin": {
+          "n": 39,
+          "xg": 0.473620869414189,
+          "floor_active": 31,
+          "old_expected": 0.7733149770110724,
+          "no_floor_expected": 0.46092283313861715
+        },
+        "low_xg_body:shoulder": {
+          "n": 21,
+          "xg": 0.21823951431396976,
+          "floor_active": 17,
+          "old_expected": 0.3430555051978314,
+          "no_floor_expected": 0.20989394547008716
+        },
+        "low_xg_body:thigh": {
+          "n": 219,
+          "xg": 2.070694041971602,
+          "floor_active": 189,
+          "old_expected": 3.8166476544565358,
+          "no_floor_expected": 2.0073949572325263
+        },
+        "low_xg_origin:carry": {
+          "n": 49,
+          "xg": 0.6370082362643358,
+          "floor_active": 37,
+          "old_expected": 0.8086205500276752,
+          "no_floor_expected": 0.6097603353859082
+        },
+        "low_xg_origin:corner": {
+          "n": 713,
+          "xg": 8.794629172945161,
+          "floor_active": 558,
+          "old_expected": 17.394599980887428,
+          "no_floor_expected": 8.378950732273875
+        },
+        "low_xg_origin:cross": {
+          "n": 71,
+          "xg": 2.631298209729597,
+          "floor_active": 11,
+          "old_expected": 2.6954927555881283,
+          "no_floor_expected": 2.605765970054298
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08988960914311313,
+          "floor_active": 0,
+          "old_expected": 0.08893173723509751,
+          "no_floor_expected": 0.08893173723509751
+        },
+        "low_xg_origin:dummy": {
+          "n": 8,
+          "xg": 0.15657669806097446,
+          "floor_active": 3,
+          "old_expected": 0.16823443742648278,
+          "no_floor_expected": 0.15275319870761522
+        },
+        "low_xg_origin:free_kick": {
+          "n": 212,
+          "xg": 4.1279916177709,
+          "floor_active": 92,
+          "old_expected": 5.168949236841816,
+          "no_floor_expected": 4.09055574366491
+        },
+        "low_xg_origin:open_play": {
+          "n": 2108,
+          "xg": 6.432984265090124,
+          "floor_active": 2106,
+          "old_expected": 22.81598667166057,
+          "no_floor_expected": 6.242797110611438
+        },
+        "low_xg_origin:progression": {
+          "n": 296,
+          "xg": 4.078478546824941,
+          "floor_active": 226,
+          "old_expected": 5.79596410898763,
+          "no_floor_expected": 3.974355019561821
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 77,
+          "xg": 1.352569470642326,
+          "floor_active": 32,
+          "old_expected": 1.5408358231427561,
+          "no_floor_expected": 1.3407171116420702
+        },
+        "low_xg_origin:rebound": {
+          "n": 1,
+          "xg": 0.04337628981143939,
+          "floor_active": 0,
+          "old_expected": 0.039251014928326854,
+          "no_floor_expected": 0.039251014928326854
+        },
+        "low_xg_origin:second_ball": {
+          "n": 95,
+          "xg": 1.1232973498538565,
+          "floor_active": 82,
+          "old_expected": 1.9163708101693298,
+          "no_floor_expected": 1.0724401993573744
+        },
+        "low_xg_total": {
+          "n": 3632,
+          "xg": 29.468099466136778,
+          "floor_active": 3147,
+          "old_expected": 58.43323712689519,
+          "no_floor_expected": 28.596278173422704
+        },
+        "severity:0.30-0.50": {
+          "n": 2684,
+          "none": 2316,
+          "yellow_sum": 361.8223138455261,
+          "effective_yellow_sum": 341.950436424481,
+          "expected_red": 4.751161209340991,
+          "expected_second": 22.089385934193814,
+          "yellow": 334,
+          "direct_red": 7,
+          "second_yellow_red": 27
+        },
+        "severity:0.50-0.66": {
+          "n": 853,
+          "yellow": 199,
+          "yellow_sum": 202.51094573938695,
+          "effective_yellow_sum": 193.13014696595292,
+          "expected_red": 1.1770195109185042,
+          "expected_second": 6.7258919841959806,
+          "none": 646,
+          "second_yellow_red": 6,
+          "direct_red": 2
+        },
+        "severity:0.66-0.75": {
+          "n": 122,
+          "none": 67,
+          "yellow_sum": 48.7908636623029,
+          "effective_yellow_sum": 48.7908636623029,
+          "expected_red": 0.14602356008287806,
+          "expected_second": 2.9164485457950096,
+          "yellow": 52,
+          "second_yellow_red": 3
+        },
+        "severity:0.75-0.84": {
+          "n": 69,
+          "yellow": 41,
+          "yellow_sum": 40.18236427452313,
+          "effective_yellow_sum": 40.18236427452313,
+          "expected_red": 3.5777836456937524,
+          "expected_second": 1.7257822275912866,
+          "none": 23,
+          "second_yellow_red": 2,
+          "direct_red": 3
+        },
+        "severity:<0.30": {
+          "n": 3551,
+          "yellow": 123,
+          "yellow_sum": 155.55237545751064,
+          "effective_yellow_sum": 141.39217186221913,
+          "expected_red": 1.1677499999999972,
+          "expected_second": 1.724400296550783,
+          "none": 3427,
+          "direct_red": 1
+        },
+        "severity:>=0.84": {
+          "n": 21,
+          "none": 10,
+          "yellow_sum": 12.233138481265359,
+          "effective_yellow_sum": 12.233138481265359,
+          "expected_red": 3.6666349743566764,
+          "expected_second": 0.5217051362052134,
+          "yellow": 9,
+          "direct_red": 2
+        },
+        "source:ordinary": {
+          "n": 4212,
+          "none": 4061,
+          "yellow_sum": 180.83280046723937,
+          "effective_yellow_sum": 162.29638152952344,
+          "expected_red": 1.0529999999999977,
+          "expected_second": 0.6404537478360538,
+          "yellow": 151
+        },
+        "source:other": {
+          "n": 3088,
+          "yellow": 607,
+          "yellow_sum": 640.2592009932755,
+          "effective_yellow_sum": 615.3827401412208,
+          "expected_red": 13.433372900392804,
+          "expected_second": 35.063160376696054,
+          "none": 2428,
+          "second_yellow_red": 38,
+          "direct_red": 15
+        },
+        "violent": {
+          "n": 22,
+          "yellow": 13,
+          "yellow_sum": 12.899458931619105,
+          "effective_yellow_sum": 12.899458931619105,
+          "expected_red": 4.898605930993865,
+          "expected_second": 0.0,
+          "none": 7,
+          "direct_red": 2
+        },
+        "xg:.05-.10": {
+          "n": 929,
+          "xg": 68.79122077228048,
+          "goals": 77,
+          "sot": 387
+        },
+        "xg:.10-.20": {
+          "n": 1138,
+          "xg": 158.21879704773045,
+          "goals": 148,
+          "sot": 543
+        },
+        "xg:.20-.40": {
+          "n": 2017,
+          "xg": 570.7465269195848,
+          "goals": 557,
+          "sot": 995
+        },
+        "xg:.40+": {
+          "n": 58,
+          "xg": 38.4648813195359,
+          "goals": 40,
+          "sot": 54
+        },
+        "xg:<0.05": {
+          "n": 3632,
+          "xg": 29.46809946613673,
+          "goals": 28,
+          "sot": 867
+        }
+      },
+      "paired_difference_vs_baseline": {
+        "goals": {
+          "mean_delta": -0.11333333333333333,
+          "normal_approx_95_percent_interval": [
+            -0.21043259036111625,
+            -0.016234076305550404
+          ]
+        },
+        "shots": {
+          "mean_delta": 0.08,
+          "normal_approx_95_percent_interval": [
+            -0.13347498418790088,
+            0.29347498418790086
+          ]
+        },
+        "sot": {
+          "mean_delta": -0.06,
+          "normal_approx_95_percent_interval": [
+            -0.19772808070269046,
+            0.07772808070269047
+          ]
+        },
+        "fouls": {
+          "mean_delta": 0.01,
+          "normal_approx_95_percent_interval": [
+            -0.20336361142435835,
+            0.22336361142435837
+          ]
+        },
+        "yellow": {
+          "mean_delta": 0.14666666666666667,
+          "normal_approx_95_percent_interval": [
+            0.03646907001213194,
+            0.2568642633212014
+          ]
+        },
+        "red": {
+          "mean_delta": 0.11666666666666667,
+          "normal_approx_95_percent_interval": [
+            0.07280717343218457,
+            0.16052615990114877
+          ]
+        }
+      }
+    }
+  },
+  "generic_variants": {
+    "baseline": {
+      "summary": {
+        "metrics": {
+          "matches": 1000,
+          "goals_per_match": 2.332,
+          "shots_per_match": 24.722,
+          "sot_per_match": 8.525,
+          "fouls_per_match": 23.069,
+          "corners_per_match": 9.33,
+          "yellow_per_match": 2.633,
+          "red_per_match": 0.044,
+          "home_goals_per_match": 1.192,
+          "away_goals_per_match": 1.14,
+          "home_win_rate": 0.363,
+          "draw_rate": 0.302,
+          "away_win_rate": 0.335,
+          "zero_zero_rate": 0.109,
+          "btts_rate": 0.487,
+          "over_2_5_rate": 0.416,
+          "clean_sheet_rate": 0.513
+        },
+        "scoreline_distribution": {
+          "0-0": 0.109,
+          "0-1": 0.117,
+          "0-2": 0.055,
+          "0-3": 0.025,
+          "0-4+": 0.006,
+          "1-0": 0.113,
+          "1-1": 0.131,
+          "1-2": 0.068,
+          "1-3": 0.029,
+          "1-4+": 0.01,
+          "2-0": 0.059,
+          "2-1": 0.082,
+          "2-2": 0.056,
+          "2-3": 0.017,
+          "2-4+": 0.005,
+          "3-0": 0.018,
+          "3-1": 0.033,
+          "3-2": 0.024,
+          "3-3": 0.006,
+          "3-4+": 0.003,
+          "4+-0": 0.011,
+          "4+-1": 0.011,
+          "4+-2": 0.01,
+          "4+-3": 0.002
+        },
+        "total_goal_distribution": {
+          "0": 0.109,
+          "1": 0.23,
+          "2": 0.245,
+          "3": 0.193,
+          "4": 0.13,
+          "5": 0.062,
+          "6+": 0.031
+        },
+        "result_distribution": {
+          "H": 0.363,
+          "D": 0.302,
+          "A": 0.335
+        }
+      },
+      "total_xg": 2307.111538262889,
+      "total_goals": 2332,
+      "goals_per_xg": 1.0107877149952837,
+      "groups": {
+        "booked:routine": {
+          "n": 768,
+          "none": 764,
+          "yellow_sum": 99.92502419687443,
+          "effective_yellow_sum": 5.5088461440231145,
+          "expected_red": 1.3391988354328601,
+          "expected_second": 5.326318864687435,
+          "second_yellow_red": 4
+        },
+        "booked:spa": {
+          "n": 143,
+          "none": 136,
+          "yellow_sum": 63.46710007617979,
+          "effective_yellow_sum": 6.898973391485962,
+          "expected_red": 0.7382991064523501,
+          "expected_second": 6.746288006718685,
+          "second_yellow_red": 7
+        },
+        "dogso:False:box": {
+          "n": 5,
+          "direct_red": 2,
+          "yellow_sum": 1.0825925645997923,
+          "effective_yellow_sum": 1.0825925645997923,
+          "expected_red": 1.651131844650813,
+          "expected_second": 0.0,
+          "none": 2,
+          "yellow": 1
+        },
+        "dogso:False:final_third": {
+          "n": 4,
+          "none": 3,
+          "yellow_sum": 1.6,
+          "effective_yellow_sum": 1.6,
+          "expected_red": 1.124967051599533,
+          "expected_second": 0.0,
+          "yellow": 1
+        },
+        "dogso:True:box": {
+          "n": 5,
+          "yellow": 5,
+          "yellow_sum": 3.211103508058566,
+          "effective_yellow_sum": 3.211103508058566,
+          "expected_red": 0.001,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 4,
+          "none": 3,
+          "yellow_sum": 1.6176414838462536,
+          "effective_yellow_sum": 1.6176414838462536,
+          "expected_red": 0.40465575714457264,
+          "expected_second": 0.0,
+          "yellow": 1
+        },
+        "low_xg_body:chest": {
+          "n": 417,
+          "xg": 4.129909194287985,
+          "floor_active": 348,
+          "old_expected": 7.361267678176887,
+          "no_floor_expected": 3.994613204888463
+        },
+        "low_xg_body:head": {
+          "n": 2609,
+          "xg": 26.734032786808385,
+          "floor_active": 2129,
+          "old_expected": 50.30648225215407,
+          "no_floor_expected": 25.972334126442995
+        },
+        "low_xg_body:knee": {
+          "n": 228,
+          "xg": 2.215611362165158,
+          "floor_active": 193,
+          "old_expected": 3.913978868946885,
+          "no_floor_expected": 2.151838185090734
+        },
+        "low_xg_body:left_foot": {
+          "n": 2597,
+          "xg": 14.706736845712426,
+          "floor_active": 2395,
+          "old_expected": 34.23205858172874,
+          "no_floor_expected": 14.375921221590067
+        },
+        "low_xg_body:right_foot": {
+          "n": 6235,
+          "xg": 39.34538509142786,
+          "floor_active": 5659,
+          "old_expected": 88.07336901069871,
+          "no_floor_expected": 38.52206878806061
+        },
+        "low_xg_body:shin": {
+          "n": 135,
+          "xg": 1.2017131279063527,
+          "floor_active": 116,
+          "old_expected": 2.197377017166254,
+          "no_floor_expected": 1.1656667865160322
+        },
+        "low_xg_body:shoulder": {
+          "n": 52,
+          "xg": 0.5119099541484453,
+          "floor_active": 43,
+          "old_expected": 0.9111695131260404,
+          "no_floor_expected": 0.5021219012765701
+        },
+        "low_xg_body:thigh": {
+          "n": 704,
+          "xg": 7.27719552790327,
+          "floor_active": 587,
+          "old_expected": 12.599878845352263,
+          "no_floor_expected": 7.054702656359244
+        },
+        "low_xg_origin:carry": {
+          "n": 193,
+          "xg": 2.7733117852957383,
+          "floor_active": 130,
+          "old_expected": 3.5353322098319206,
+          "no_floor_expected": 2.6956258741549206
+        },
+        "low_xg_origin:corner": {
+          "n": 2299,
+          "xg": 26.014618926270764,
+          "floor_active": 1839,
+          "old_expected": 54.08794604847931,
+          "no_floor_expected": 24.837675509360043
+        },
+        "low_xg_origin:cross": {
+          "n": 219,
+          "xg": 8.878224002338268,
+          "floor_active": 9,
+          "old_expected": 8.95604955815069,
+          "no_floor_expected": 8.925337391025943
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08701123159790321,
+          "floor_active": 0,
+          "old_expected": 0.08077592920121913,
+          "no_floor_expected": 0.08077592920121913
+        },
+        "low_xg_origin:dummy": {
+          "n": 35,
+          "xg": 0.5317883510578231,
+          "floor_active": 14,
+          "old_expected": 0.6305878095529114,
+          "no_floor_expected": 0.5171742525923949
+        },
+        "low_xg_origin:free_kick": {
+          "n": 528,
+          "xg": 9.592786981594458,
+          "floor_active": 260,
+          "old_expected": 12.762976486785247,
+          "no_floor_expected": 9.630906900972871
+        },
+        "low_xg_origin:open_play": {
+          "n": 8239,
+          "xg": 25.225007360282458,
+          "floor_active": 8226,
+          "old_expected": 89.28641214105285,
+          "no_floor_expected": 24.629416829339405
+        },
+        "low_xg_origin:progression": {
+          "n": 945,
+          "xg": 15.22359073518359,
+          "floor_active": 653,
+          "old_expected": 20.060103248581814,
+          "no_floor_expected": 14.887238567885545
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 219,
+          "xg": 3.469775475920404,
+          "floor_active": 93,
+          "old_expected": 3.9996964644916653,
+          "no_floor_expected": 3.427172703859031
+        },
+        "low_xg_origin:rebound": {
+          "n": 3,
+          "xg": 0.13942212665308035,
+          "floor_active": 0,
+          "old_expected": 0.1341683937435362,
+          "no_floor_expected": 0.1341683937435362
+        },
+        "low_xg_origin:second_ball": {
+          "n": 295,
+          "xg": 4.186956914165396,
+          "floor_active": 246,
+          "old_expected": 6.061533477478699,
+          "no_floor_expected": 3.9737745180900035
+        },
+        "low_xg_total": {
+          "n": 12977,
+          "xg": 96.12249389035975,
+          "floor_active": 11470,
+          "old_expected": 199.59558176734978,
+          "no_floor_expected": 93.73926687022492
+        },
+        "severity:0.30-0.50": {
+          "n": 8056,
+          "none": 7118,
+          "yellow_sum": 1026.805396897082,
+          "effective_yellow_sum": 956.7407234696142,
+          "expected_red": 3.9846521158054236,
+          "expected_second": 3.969555091314048,
+          "yellow": 932,
+          "direct_red": 3,
+          "second_yellow_red": 3
+        },
+        "severity:0.50-0.66": {
+          "n": 2632,
+          "none": 2051,
+          "yellow_sum": 619.1423078756892,
+          "effective_yellow_sum": 585.9105447102593,
+          "expected_red": 1.239235712635248,
+          "expected_second": 2.177469960161773,
+          "yellow": 579,
+          "second_yellow_red": 1,
+          "direct_red": 1
+        },
+        "severity:0.66-0.75": {
+          "n": 329,
+          "yellow": 127,
+          "yellow_sum": 134.8222471679105,
+          "effective_yellow_sum": 128.4045540984301,
+          "expected_red": 0.9984875470842288,
+          "expected_second": 1.748314895073427,
+          "none": 201,
+          "second_yellow_red": 1
+        },
+        "severity:0.75-0.84": {
+          "n": 221,
+          "yellow": 123,
+          "yellow_sum": 128.46420013650012,
+          "effective_yellow_sum": 122.5215155819942,
+          "expected_red": 12.703135830112915,
+          "expected_second": 2.1792387040475174,
+          "none": 85,
+          "direct_red": 10,
+          "second_yellow_red": 3
+        },
+        "severity:<0.30": {
+          "n": 11180,
+          "none": 10794,
+          "yellow_sum": 455.81202773978066,
+          "effective_yellow_sum": 423.2443687639023,
+          "expected_red": 2.7949999999999844,
+          "expected_second": 0.8551883361745772,
+          "yellow": 384,
+          "direct_red": 2
+        },
+        "severity:>=0.84": {
+          "n": 88,
+          "none": 34,
+          "yellow_sum": 51.427855857493185,
+          "effective_yellow_sum": 48.6680243127102,
+          "expected_red": 15.042978051907335,
+          "expected_second": 1.1428398846347767,
+          "direct_red": 14,
+          "yellow": 37,
+          "second_yellow_red": 3
+        },
+        "source:ordinary": {
+          "n": 13116,
+          "none": 12660,
+          "yellow_sum": 530.3289407774154,
+          "effective_yellow_sum": 491.54834726825663,
+          "expected_red": 3.2789999999999857,
+          "expected_second": 0.9957373804730192,
+          "yellow": 454,
+          "direct_red": 2
+        },
+        "source:other": {
+          "n": 9390,
+          "none": 7623,
+          "yellow_sum": 1886.1450948970419,
+          "effective_yellow_sum": 1773.9413836686563,
+          "expected_red": 33.4844892575452,
+          "expected_second": 11.076869490933099,
+          "yellow": 1728,
+          "direct_red": 28,
+          "second_yellow_red": 11
+        },
+        "violent": {
+          "n": 85,
+          "none": 40,
+          "yellow_sum": 49.59948611262115,
+          "effective_yellow_sum": 47.522308847752065,
+          "expected_red": 19.893944482933563,
+          "expected_second": 0.6200574229963378,
+          "yellow": 31,
+          "direct_red": 13,
+          "second_yellow_red": 1
+        },
+        "xg:.05-.10": {
+          "n": 2703,
+          "xg": 197.2592081310328,
+          "goals": 198,
+          "sot": 1165
+        },
+        "xg:.10-.20": {
+          "n": 3628,
+          "xg": 472.13352868642676,
+          "goals": 443,
+          "sot": 1684
+        },
+        "xg:.20-.40": {
+          "n": 5282,
+          "xg": 1442.569777020989,
+          "goals": 1386,
+          "sot": 2569
+        },
+        "xg:.40+": {
+          "n": 132,
+          "xg": 99.02653053408152,
+          "goals": 97,
+          "sot": 128
+        },
+        "xg:<0.05": {
+          "n": 12977,
+          "xg": 96.12249389035952,
+          "goals": 208,
+          "sot": 2979
+        }
+      }
+    },
+    "rejected_recognition": {
+      "summary": {
+        "metrics": {
+          "matches": 1000,
+          "goals_per_match": 2.35,
+          "shots_per_match": 24.746,
+          "sot_per_match": 8.562,
+          "fouls_per_match": 23.085,
+          "corners_per_match": 9.34,
+          "yellow_per_match": 2.687,
+          "red_per_match": 0.152,
+          "home_goals_per_match": 1.215,
+          "away_goals_per_match": 1.135,
+          "home_win_rate": 0.37,
+          "draw_rate": 0.299,
+          "away_win_rate": 0.331,
+          "zero_zero_rate": 0.106,
+          "btts_rate": 0.493,
+          "over_2_5_rate": 0.418,
+          "clean_sheet_rate": 0.507
+        },
+        "scoreline_distribution": {
+          "0-0": 0.106,
+          "0-1": 0.119,
+          "0-2": 0.051,
+          "0-3": 0.023,
+          "0-4+": 0.005,
+          "1-0": 0.112,
+          "1-1": 0.131,
+          "1-2": 0.068,
+          "1-3": 0.028,
+          "1-4+": 0.011,
+          "2-0": 0.063,
+          "2-1": 0.084,
+          "2-2": 0.057,
+          "2-3": 0.019,
+          "2-4+": 0.005,
+          "3-0": 0.018,
+          "3-1": 0.033,
+          "3-2": 0.022,
+          "3-3": 0.004,
+          "3-4+": 0.002,
+          "4+-0": 0.01,
+          "4+-1": 0.014,
+          "4+-2": 0.011,
+          "4+-3": 0.003,
+          "4+-4+": 0.001
+        },
+        "total_goal_distribution": {
+          "0": 0.106,
+          "1": 0.231,
+          "2": 0.245,
+          "3": 0.193,
+          "4": 0.128,
+          "5": 0.065,
+          "6+": 0.032
+        },
+        "result_distribution": {
+          "H": 0.37,
+          "D": 0.299,
+          "A": 0.331
+        }
+      },
+      "total_xg": 2325.4637539000987,
+      "total_goals": 2350,
+      "goals_per_xg": 1.0105511195600236,
+      "groups": {
+        "booked:routine": {
+          "n": 756,
+          "none": 743,
+          "yellow_sum": 97.28390998698856,
+          "effective_yellow_sum": 12.071265684141602,
+          "expected_red": 2.933310439418677,
+          "expected_second": 10.474556405764625,
+          "second_yellow_red": 10,
+          "direct_red": 3
+        },
+        "booked:spa": {
+          "n": 140,
+          "second_yellow_red": 66,
+          "yellow_sum": 61.889949474133154,
+          "effective_yellow_sum": 61.889949474133154,
+          "expected_red": 1.0081961191274216,
+          "expected_second": 61.299071115309,
+          "none": 73,
+          "direct_red": 1
+        },
+        "dogso:False:box": {
+          "n": 5,
+          "direct_red": 4,
+          "yellow_sum": 1.0825925645997923,
+          "effective_yellow_sum": 1.0825925645997923,
+          "expected_red": 4.092783229489955,
+          "expected_second": 0.0,
+          "none": 1
+        },
+        "dogso:False:final_third": {
+          "n": 4,
+          "direct_red": 4,
+          "yellow_sum": 1.6,
+          "effective_yellow_sum": 1.6,
+          "expected_red": 3.427990930847738,
+          "expected_second": 0.0
+        },
+        "dogso:True:box": {
+          "n": 7,
+          "yellow": 7,
+          "yellow_sum": 4.502311393933178,
+          "effective_yellow_sum": 4.502311393933178,
+          "expected_red": 0.0014,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 4,
+          "none": 2,
+          "yellow_sum": 1.6176414838462536,
+          "effective_yellow_sum": 1.6176414838462536,
+          "expected_red": 3.4279150475416316,
+          "expected_second": 0.0,
+          "direct_red": 2
+        },
+        "low_xg_body:chest": {
+          "n": 411,
+          "xg": 4.140009780609854,
+          "floor_active": 341,
+          "old_expected": 7.367498958353271,
+          "no_floor_expected": 4.001077558663057
+        },
+        "low_xg_body:head": {
+          "n": 2629,
+          "xg": 27.097074931971523,
+          "floor_active": 2143,
+          "old_expected": 50.834964325511024,
+          "no_floor_expected": 26.331006677447956
+        },
+        "low_xg_body:knee": {
+          "n": 225,
+          "xg": 2.0674261175288837,
+          "floor_active": 193,
+          "old_expected": 3.806597442278259,
+          "no_floor_expected": 2.008656733844532
+        },
+        "low_xg_body:left_foot": {
+          "n": 2568,
+          "xg": 14.706325470164085,
+          "floor_active": 2363,
+          "old_expected": 34.020676466526986,
+          "no_floor_expected": 14.378337372164012
+        },
+        "low_xg_body:right_foot": {
+          "n": 6224,
+          "xg": 39.03461497244665,
+          "floor_active": 5660,
+          "old_expected": 88.00636574280533,
+          "no_floor_expected": 38.22957418748415
+        },
+        "low_xg_body:shin": {
+          "n": 136,
+          "xg": 1.173708671383325,
+          "floor_active": 118,
+          "old_expected": 2.17904029473626,
+          "no_floor_expected": 1.137006585197855
+        },
+        "low_xg_body:shoulder": {
+          "n": 49,
+          "xg": 0.5228604400018207,
+          "floor_active": 40,
+          "old_expected": 0.9105357889465174,
+          "no_floor_expected": 0.5138946237755059
+        },
+        "low_xg_body:thigh": {
+          "n": 704,
+          "xg": 7.493834550222679,
+          "floor_active": 582,
+          "old_expected": 12.810172226239386,
+          "no_floor_expected": 7.272589815673733
+        },
+        "low_xg_origin:carry": {
+          "n": 195,
+          "xg": 2.660051848970218,
+          "floor_active": 136,
+          "old_expected": 3.4667955930117,
+          "no_floor_expected": 2.5843345410437752
+        },
+        "low_xg_origin:corner": {
+          "n": 2327,
+          "xg": 26.325870621094303,
+          "floor_active": 1864,
+          "old_expected": 54.74550594167696,
+          "no_floor_expected": 25.142461722176176
+        },
+        "low_xg_origin:cross": {
+          "n": 218,
+          "xg": 8.900791448696532,
+          "floor_active": 8,
+          "old_expected": 8.977216975849837,
+          "no_floor_expected": 8.949656083670847
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08701123159790321,
+          "floor_active": 0,
+          "old_expected": 0.08077592920121913,
+          "no_floor_expected": 0.08077592920121913
+        },
+        "low_xg_origin:dummy": {
+          "n": 32,
+          "xg": 0.47634302336812145,
+          "floor_active": 13,
+          "old_expected": 0.5728660230204352,
+          "no_floor_expected": 0.46417657512959637
+        },
+        "low_xg_origin:free_kick": {
+          "n": 527,
+          "xg": 9.501616521779814,
+          "floor_active": 261,
+          "old_expected": 12.72090437977631,
+          "no_floor_expected": 9.54513683382017
+        },
+        "low_xg_origin:open_play": {
+          "n": 8176,
+          "xg": 25.03600736028245,
+          "floor_active": 8163,
+          "old_expected": 88.82890201540071,
+          "no_floor_expected": 24.45009620864434
+        },
+        "low_xg_origin:progression": {
+          "n": 956,
+          "xg": 15.361060371527236,
+          "floor_active": 663,
+          "old_expected": 20.27970255538759,
+          "no_floor_expected": 15.03129074993887
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 218,
+          "xg": 3.509253439795957,
+          "floor_active": 91,
+          "old_expected": 4.037288397630165,
+          "no_floor_expected": 3.465373774998382
+        },
+        "low_xg_origin:rebound": {
+          "n": 3,
+          "xg": 0.13942212665308035,
+          "floor_active": 0,
+          "old_expected": 0.1341683937435362,
+          "no_floor_expected": 0.1341683937435362
+        },
+        "low_xg_origin:second_ball": {
+          "n": 292,
+          "xg": 4.2384269405632,
+          "floor_active": 241,
+          "old_expected": 6.091725040698595,
+          "no_floor_expected": 4.024672741884064
+        },
+        "low_xg_total": {
+          "n": 12946,
+          "xg": 96.2358549343287,
+          "floor_active": 11440,
+          "old_expected": 199.93585124539706,
+          "no_floor_expected": 93.87214355425098
+        },
+        "severity:0.30-0.50": {
+          "n": 8085,
+          "none": 7103,
+          "yellow_sum": 1031.6514918334558,
+          "effective_yellow_sum": 995.2204020307605,
+          "expected_red": 8.042846153014645,
+          "expected_second": 38.02998804563102,
+          "yellow": 937,
+          "second_yellow_red": 37,
+          "direct_red": 8
+        },
+        "severity:0.50-0.66": {
+          "n": 2627,
+          "none": 2025,
+          "yellow_sum": 616.8352625447648,
+          "effective_yellow_sum": 599.1045614234627,
+          "expected_red": 4.1319509078096965,
+          "expected_second": 16.250776370324953,
+          "yellow": 578,
+          "second_yellow_red": 20,
+          "direct_red": 4
+        },
+        "severity:0.66-0.75": {
+          "n": 329,
+          "yellow": 125,
+          "yellow_sum": 135.1990119778416,
+          "effective_yellow_sum": 135.1990119778416,
+          "expected_red": 6.292544209892206,
+          "expected_second": 7.076195209246208,
+          "second_yellow_red": 7,
+          "none": 192,
+          "direct_red": 5
+        },
+        "severity:0.75-0.84": {
+          "n": 216,
+          "yellow": 114,
+          "yellow_sum": 125.57968097895142,
+          "effective_yellow_sum": 125.57968097895142,
+          "expected_red": 29.29622891624108,
+          "expected_second": 6.606093020509981,
+          "direct_red": 26,
+          "second_yellow_red": 7,
+          "none": 69
+        },
+        "severity:<0.30": {
+          "n": 11171,
+          "none": 10779,
+          "yellow_sum": 454.77569678217696,
+          "effective_yellow_sum": 423.7248434033283,
+          "expected_red": 2.7927499999999843,
+          "expected_second": 1.4520758416780004,
+          "yellow": 388,
+          "second_yellow_red": 2,
+          "direct_red": 2
+        },
+        "severity:>=0.84": {
+          "n": 88,
+          "direct_red": 28,
+          "yellow_sum": 51.440854190677086,
+          "effective_yellow_sum": 51.440854190677086,
+          "expected_red": 25.159449147933152,
+          "expected_second": 2.358499033683451,
+          "none": 23,
+          "yellow": 34,
+          "second_yellow_red": 3
+        },
+        "source:ordinary": {
+          "n": 13112,
+          "none": 12644,
+          "yellow_sum": 529.8203909349853,
+          "effective_yellow_sum": 492.44702948453164,
+          "expected_red": 3.2779999999999854,
+          "expected_second": 1.2831701446912123,
+          "yellow": 464,
+          "second_yellow_red": 2,
+          "direct_red": 2
+        },
+        "source:other": {
+          "n": 9404,
+          "none": 7547,
+          "yellow_sum": 1885.661607372885,
+          "effective_yellow_sum": 1837.822324520494,
+          "expected_red": 72.4377693348906,
+          "expected_second": 70.4904573763824,
+          "direct_red": 71,
+          "yellow": 1712,
+          "second_yellow_red": 74
+        },
+        "violent": {
+          "n": 83,
+          "direct_red": 48,
+          "yellow_sum": 48.43692333188641,
+          "effective_yellow_sum": 48.43692333188641,
+          "expected_red": 51.11299275903922,
+          "expected_second": 1.030729013015568,
+          "none": 19,
+          "yellow": 15,
+          "second_yellow_red": 1
+        },
+        "xg:.05-.10": {
+          "n": 2711,
+          "xg": 197.89175461126624,
+          "goals": 197,
+          "sot": 1162
+        },
+        "xg:.10-.20": {
+          "n": 3642,
+          "xg": 474.71496943424796,
+          "goals": 444,
+          "sot": 1704
+        },
+        "xg:.20-.40": {
+          "n": 5307,
+          "xg": 1452.9938632719086,
+          "goals": 1397,
+          "sot": 2592
+        },
+        "xg:.40+": {
+          "n": 140,
+          "xg": 103.62731164834794,
+          "goals": 102,
+          "sot": 135
+        },
+        "xg:<0.05": {
+          "n": 12946,
+          "xg": 96.23585493432844,
+          "goals": 210,
+          "sot": 2969
+        }
+      }
+    },
+    "rejected_recognition_plus_shot_fix": {
+      "summary": {
+        "metrics": {
+          "matches": 1000,
+          "goals_per_match": 2.24,
+          "shots_per_match": 24.728,
+          "sot_per_match": 8.535,
+          "fouls_per_match": 23.162,
+          "corners_per_match": 9.39,
+          "yellow_per_match": 2.709,
+          "red_per_match": 0.152,
+          "home_goals_per_match": 1.141,
+          "away_goals_per_match": 1.099,
+          "home_win_rate": 0.361,
+          "draw_rate": 0.308,
+          "away_win_rate": 0.331,
+          "zero_zero_rate": 0.116,
+          "btts_rate": 0.46,
+          "over_2_5_rate": 0.387,
+          "clean_sheet_rate": 0.54
+        },
+        "scoreline_distribution": {
+          "0-0": 0.116,
+          "0-1": 0.12,
+          "0-2": 0.059,
+          "0-3": 0.026,
+          "0-4+": 0.005,
+          "1-0": 0.122,
+          "1-1": 0.13,
+          "1-2": 0.064,
+          "1-3": 0.024,
+          "1-4+": 0.011,
+          "2-0": 0.066,
+          "2-1": 0.078,
+          "2-2": 0.056,
+          "2-3": 0.016,
+          "2-4+": 0.005,
+          "3-0": 0.017,
+          "3-1": 0.03,
+          "3-2": 0.015,
+          "3-3": 0.005,
+          "3-4+": 0.001,
+          "4+-0": 0.009,
+          "4+-1": 0.013,
+          "4+-2": 0.007,
+          "4+-3": 0.004,
+          "4+-4+": 0.001
+        },
+        "total_goal_distribution": {
+          "0": 0.116,
+          "1": 0.242,
+          "2": 0.255,
+          "3": 0.185,
+          "4": 0.121,
+          "5": 0.052,
+          "6+": 0.029
+        },
+        "result_distribution": {
+          "H": 0.361,
+          "D": 0.308,
+          "A": 0.331
+        }
+      },
+      "total_xg": 2326.8681034800493,
+      "total_goals": 2240,
+      "goals_per_xg": 0.9626673710683773,
+      "groups": {
+        "booked:routine": {
+          "n": 772,
+          "none": 757,
+          "yellow_sum": 99.81778945976005,
+          "effective_yellow_sum": 12.428349671573534,
+          "expected_red": 4.43498271779617,
+          "expected_second": 9.963074787708232,
+          "second_yellow_red": 10,
+          "direct_red": 5
+        },
+        "booked:spa": {
+          "n": 145,
+          "second_yellow_red": 65,
+          "yellow_sum": 63.78134709427924,
+          "effective_yellow_sum": 63.78134709427924,
+          "expected_red": 1.5892062161353242,
+          "expected_second": 62.83241634072165,
+          "none": 78,
+          "direct_red": 2
+        },
+        "dogso:False:box": {
+          "n": 4,
+          "none": 1,
+          "yellow_sum": 0.9062414958024475,
+          "effective_yellow_sum": 0.9062414958024475,
+          "expected_red": 3.2336377468529727,
+          "expected_second": 0.0,
+          "direct_red": 3
+        },
+        "dogso:False:final_third": {
+          "n": 3,
+          "direct_red": 3,
+          "yellow_sum": 1.2000000000000002,
+          "effective_yellow_sum": 1.2000000000000002,
+          "expected_red": 2.534215251682296,
+          "expected_second": 0.0
+        },
+        "dogso:True:box": {
+          "n": 5,
+          "yellow": 5,
+          "yellow_sum": 3.2099706756009714,
+          "effective_yellow_sum": 3.2099706756009714,
+          "expected_red": 0.001,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 3,
+          "none": 2,
+          "yellow_sum": 1.2176414838462537,
+          "effective_yellow_sum": 1.2176414838462537,
+          "expected_red": 2.601730696768056,
+          "expected_second": 0.0,
+          "direct_red": 1
+        },
+        "low_xg_body:chest": {
+          "n": 424,
+          "xg": 4.180644517614041,
+          "floor_active": 354,
+          "old_expected": 7.570490176545524,
+          "no_floor_expected": 4.05083650619436
+        },
+        "low_xg_body:head": {
+          "n": 2633,
+          "xg": 26.893972577195623,
+          "floor_active": 2148,
+          "old_expected": 50.690229073525,
+          "no_floor_expected": 26.124376831123055
+        },
+        "low_xg_body:knee": {
+          "n": 228,
+          "xg": 2.188046846854429,
+          "floor_active": 193,
+          "old_expected": 3.9327460929478835,
+          "no_floor_expected": 2.121856391739174
+        },
+        "low_xg_body:left_foot": {
+          "n": 2574,
+          "xg": 14.84036420230876,
+          "floor_active": 2365,
+          "old_expected": 34.126884143274296,
+          "no_floor_expected": 14.527203853868345
+        },
+        "low_xg_body:right_foot": {
+          "n": 6190,
+          "xg": 39.06731240401705,
+          "floor_active": 5620,
+          "old_expected": 87.6933163247197,
+          "no_floor_expected": 38.256464029952134
+        },
+        "low_xg_body:shin": {
+          "n": 132,
+          "xg": 1.053058402676865,
+          "floor_active": 117,
+          "old_expected": 2.073320432617451,
+          "no_floor_expected": 1.0225579641747427
+        },
+        "low_xg_body:shoulder": {
+          "n": 50,
+          "xg": 0.5316010733447034,
+          "floor_active": 41,
+          "old_expected": 0.928161074324748,
+          "no_floor_expected": 0.5214911796604531
+        },
+        "low_xg_body:thigh": {
+          "n": 712,
+          "xg": 7.51990426883346,
+          "floor_active": 590,
+          "old_expected": 12.957171751761056,
+          "no_floor_expected": 7.296113218435046
+        },
+        "low_xg_origin:carry": {
+          "n": 197,
+          "xg": 2.6120522121017826,
+          "floor_active": 139,
+          "old_expected": 3.436492859799318,
+          "no_floor_expected": 2.535839282636972
+        },
+        "low_xg_origin:corner": {
+          "n": 2331,
+          "xg": 26.30668775620726,
+          "floor_active": 1867,
+          "old_expected": 54.780988215520836,
+          "no_floor_expected": 25.119153772686126
+        },
+        "low_xg_origin:cross": {
+          "n": 218,
+          "xg": 8.90852338798171,
+          "floor_active": 8,
+          "old_expected": 8.983360884848247,
+          "no_floor_expected": 8.955799992669258
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08701123159790321,
+          "floor_active": 0,
+          "old_expected": 0.08077592920121913,
+          "no_floor_expected": 0.08077592920121913
+        },
+        "low_xg_origin:dummy": {
+          "n": 30,
+          "xg": 0.45429636081494484,
+          "floor_active": 12,
+          "old_expected": 0.5381739203233948,
+          "no_floor_expected": 0.4421914909099032
+        },
+        "low_xg_origin:free_kick": {
+          "n": 535,
+          "xg": 9.607530762868505,
+          "floor_active": 266,
+          "old_expected": 12.885856032879005,
+          "no_floor_expected": 9.65242386532956
+        },
+        "low_xg_origin:open_play": {
+          "n": 8181,
+          "xg": 25.011958357666973,
+          "floor_active": 8169,
+          "old_expected": 88.8600597224272,
+          "no_floor_expected": 24.43298529440457
+        },
+        "low_xg_origin:progression": {
+          "n": 939,
+          "xg": 15.426137478991555,
+          "floor_active": 639,
+          "old_expected": 20.1778890695424,
+          "no_floor_expected": 15.099158013033536
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 222,
+          "xg": 3.59641696013321,
+          "floor_active": 92,
+          "old_expected": 4.138163538204947,
+          "no_floor_expected": 3.551239284188395
+        },
+        "low_xg_origin:rebound": {
+          "n": 3,
+          "xg": 0.13942212665308035,
+          "floor_active": 0,
+          "old_expected": 0.1341683937435362,
+          "no_floor_expected": 0.1341683937435362
+        },
+        "low_xg_origin:second_ball": {
+          "n": 285,
+          "xg": 4.124867657828,
+          "floor_active": 236,
+          "old_expected": 5.956390503225648,
+          "no_floor_expected": 3.917164656344399
+        },
+        "low_xg_total": {
+          "n": 12943,
+          "xg": 96.27490429284478,
+          "floor_active": 11428,
+          "old_expected": 199.9723190697156,
+          "no_floor_expected": 93.9208999751475
+        },
+        "severity:0.30-0.50": {
+          "n": 8057,
+          "none": 7061,
+          "yellow_sum": 1035.13095469664,
+          "effective_yellow_sum": 998.2535707880407,
+          "expected_red": 6.283474991212221,
+          "expected_second": 37.87063682926558,
+          "yellow": 955,
+          "second_yellow_red": 35,
+          "direct_red": 6
+        },
+        "severity:0.50-0.66": {
+          "n": 2631,
+          "none": 2035,
+          "yellow_sum": 615.7995273698342,
+          "effective_yellow_sum": 597.0034270450069,
+          "expected_red": 3.3070665570361135,
+          "expected_second": 18.441698006528423,
+          "yellow": 571,
+          "second_yellow_red": 22,
+          "direct_red": 3
+        },
+        "severity:0.66-0.75": {
+          "n": 321,
+          "yellow": 122,
+          "yellow_sum": 132.6958689476055,
+          "effective_yellow_sum": 132.6958689476055,
+          "expected_red": 7.220100640555166,
+          "expected_second": 5.726633499709005,
+          "second_yellow_red": 7,
+          "none": 186,
+          "direct_red": 6
+        },
+        "severity:0.75-0.84": {
+          "n": 221,
+          "yellow": 116,
+          "yellow_sum": 128.47290823295,
+          "effective_yellow_sum": 128.47290823295,
+          "expected_red": 28.816760184618442,
+          "expected_second": 6.020529897128259,
+          "direct_red": 26,
+          "second_yellow_red": 6,
+          "none": 73
+        },
+        "severity:<0.30": {
+          "n": 11267,
+          "none": 10870,
+          "yellow_sum": 458.9922145863826,
+          "effective_yellow_sum": 427.27625903162243,
+          "expected_red": 2.8167499999999848,
+          "expected_second": 1.87485144591127,
+          "yellow": 393,
+          "second_yellow_red": 2,
+          "direct_red": 2
+        },
+        "severity:>=0.84": {
+          "n": 91,
+          "direct_red": 31,
+          "yellow_sum": 53.21848094260182,
+          "effective_yellow_sum": 53.21848094260182,
+          "expected_red": 27.856515055166305,
+          "expected_second": 2.86114144988733,
+          "none": 21,
+          "yellow": 36,
+          "second_yellow_red": 3
+        },
+        "source:ordinary": {
+          "n": 13188,
+          "none": 12707,
+          "yellow_sum": 530.9204391150317,
+          "effective_yellow_sum": 492.9386506674614,
+          "expected_red": 3.296999999999984,
+          "expected_second": 1.3044652637454182,
+          "yellow": 477,
+          "second_yellow_red": 2,
+          "direct_red": 2
+        },
+        "source:other": {
+          "n": 9400,
+          "none": 7539,
+          "yellow_sum": 1893.389515660985,
+          "effective_yellow_sum": 1843.9818643203703,
+          "expected_red": 73.0036674285881,
+          "expected_second": 71.49102586468445,
+          "direct_red": 72,
+          "yellow": 1716,
+          "second_yellow_red": 73
+        },
+        "violent": {
+          "n": 88,
+          "direct_red": 54,
+          "yellow_sum": 51.37503926032259,
+          "effective_yellow_sum": 51.37503926032259,
+          "expected_red": 54.36174224617724,
+          "expected_second": 1.5746967266793925,
+          "none": 19,
+          "yellow": 14,
+          "second_yellow_red": 1
+        },
+        "xg:.05-.10": {
+          "n": 2695,
+          "xg": 196.74155699550175,
+          "goals": 195,
+          "sot": 1145
+        },
+        "xg:.10-.20": {
+          "n": 3625,
+          "xg": 473.1083402655252,
+          "goals": 435,
+          "sot": 1690
+        },
+        "xg:.20-.40": {
+          "n": 5325,
+          "xg": 1457.6736724290965,
+          "goals": 1419,
+          "sot": 2616
+        },
+        "xg:.40+": {
+          "n": 140,
+          "xg": 103.06962949708074,
+          "goals": 101,
+          "sot": 134
+        },
+        "xg:<0.05": {
+          "n": 12943,
+          "xg": 96.27490429284455,
+          "goals": 90,
+          "sot": 2950
+        }
+      }
+    },
+    "accepted": {
+      "summary": {
+        "metrics": {
+          "matches": 1000,
+          "goals_per_match": 2.231,
+          "shots_per_match": 24.735,
+          "sot_per_match": 8.52,
+          "fouls_per_match": 23.158,
+          "corners_per_match": 9.378,
+          "yellow_per_match": 2.725,
+          "red_per_match": 0.113,
+          "home_goals_per_match": 1.129,
+          "away_goals_per_match": 1.102,
+          "home_win_rate": 0.359,
+          "draw_rate": 0.309,
+          "away_win_rate": 0.332,
+          "zero_zero_rate": 0.118,
+          "btts_rate": 0.453,
+          "over_2_5_rate": 0.385,
+          "clean_sheet_rate": 0.547
+        },
+        "scoreline_distribution": {
+          "0-0": 0.118,
+          "0-1": 0.115,
+          "0-2": 0.063,
+          "0-3": 0.028,
+          "0-4+": 0.006,
+          "1-0": 0.125,
+          "1-1": 0.128,
+          "1-2": 0.064,
+          "1-3": 0.024,
+          "1-4+": 0.01,
+          "2-0": 0.066,
+          "2-1": 0.076,
+          "2-2": 0.055,
+          "2-3": 0.016,
+          "2-4+": 0.005,
+          "3-0": 0.017,
+          "3-1": 0.028,
+          "3-2": 0.016,
+          "3-3": 0.007,
+          "3-4+": 0.001,
+          "4+-0": 0.009,
+          "4+-1": 0.012,
+          "4+-2": 0.007,
+          "4+-3": 0.003,
+          "4+-4+": 0.001
+        },
+        "total_goal_distribution": {
+          "0": 0.118,
+          "1": 0.24,
+          "2": 0.257,
+          "3": 0.185,
+          "4": 0.119,
+          "5": 0.053,
+          "6+": 0.028
+        },
+        "result_distribution": {
+          "H": 0.359,
+          "D": 0.309,
+          "A": 0.332
+        }
+      },
+      "total_xg": 2320.7370867623385,
+      "total_goals": 2231,
+      "goals_per_xg": 0.9613325062652699,
+      "groups": {
+        "booked:routine": {
+          "n": 767,
+          "none": 755,
+          "yellow_sum": 100.12366833057276,
+          "effective_yellow_sum": 13.563462040919259,
+          "expected_red": 1.64431791793562,
+          "expected_second": 12.716867940185994,
+          "second_yellow_red": 11,
+          "direct_red": 1
+        },
+        "booked:spa": {
+          "n": 147,
+          "second_yellow_red": 68,
+          "yellow_sum": 64.6091032045194,
+          "effective_yellow_sum": 64.6091032045194,
+          "expected_red": 0.9946231069429298,
+          "expected_second": 64.01595711796249,
+          "none": 78,
+          "direct_red": 1
+        },
+        "dogso:False:box": {
+          "n": 4,
+          "none": 2,
+          "yellow_sum": 0.9062414958024475,
+          "effective_yellow_sum": 0.9062414958024475,
+          "expected_red": 1.3691605602177666,
+          "expected_second": 0.0,
+          "direct_red": 1,
+          "yellow": 1
+        },
+        "dogso:False:final_third": {
+          "n": 3,
+          "none": 2,
+          "yellow_sum": 1.2000000000000002,
+          "effective_yellow_sum": 1.2000000000000002,
+          "expected_red": 0.8447170515995329,
+          "expected_second": 0.0,
+          "yellow": 1
+        },
+        "dogso:True:box": {
+          "n": 5,
+          "yellow": 5,
+          "yellow_sum": 3.2099706756009714,
+          "effective_yellow_sum": 3.2099706756009714,
+          "expected_red": 0.001,
+          "expected_second": 0.0
+        },
+        "dogso:True:final_third": {
+          "n": 3,
+          "none": 2,
+          "yellow_sum": 1.2176414838462537,
+          "effective_yellow_sum": 1.2176414838462537,
+          "expected_red": 0.3042215269164768,
+          "expected_second": 0.0,
+          "yellow": 1
+        },
+        "low_xg_body:chest": {
+          "n": 431,
+          "xg": 4.248348170866483,
+          "floor_active": 360,
+          "old_expected": 7.651202995882038,
+          "no_floor_expected": 4.115152745308003
+        },
+        "low_xg_body:head": {
+          "n": 2631,
+          "xg": 26.96343369131604,
+          "floor_active": 2144,
+          "old_expected": 50.699860244767024,
+          "no_floor_expected": 26.192357675020435
+        },
+        "low_xg_body:knee": {
+          "n": 228,
+          "xg": 2.265437130541167,
+          "floor_active": 191,
+          "old_expected": 3.98488127350342,
+          "no_floor_expected": 2.197505174332266
+        },
+        "low_xg_body:left_foot": {
+          "n": 2596,
+          "xg": 14.828879926088804,
+          "floor_active": 2389,
+          "old_expected": 34.2474346669598,
+          "no_floor_expected": 14.514769146012123
+        },
+        "low_xg_body:right_foot": {
+          "n": 6184,
+          "xg": 39.12957238256505,
+          "floor_active": 5609,
+          "old_expected": 87.62020241372842,
+          "no_floor_expected": 38.30779901626697
+        },
+        "low_xg_body:shin": {
+          "n": 132,
+          "xg": 1.0530584026768648,
+          "floor_active": 117,
+          "old_expected": 2.06355843140101,
+          "no_floor_expected": 1.022328524653908
+        },
+        "low_xg_body:shoulder": {
+          "n": 53,
+          "xg": 0.5793382457323767,
+          "floor_active": 43,
+          "old_expected": 0.9846318332908621,
+          "no_floor_expected": 0.5683017885381535
+        },
+        "low_xg_body:thigh": {
+          "n": 710,
+          "xg": 7.342821114438262,
+          "floor_active": 592,
+          "old_expected": 12.777877500602475,
+          "no_floor_expected": 7.119645535039523
+        },
+        "low_xg_origin:carry": {
+          "n": 201,
+          "xg": 2.719744251336182,
+          "floor_active": 140,
+          "old_expected": 3.54230636561365,
+          "no_floor_expected": 2.640374634011971
+        },
+        "low_xg_origin:corner": {
+          "n": 2311,
+          "xg": 26.257641627900906,
+          "floor_active": 1845,
+          "old_expected": 54.40494911987355,
+          "no_floor_expected": 25.067486683672247
+        },
+        "low_xg_origin:cross": {
+          "n": 218,
+          "xg": 8.864195987731117,
+          "floor_active": 9,
+          "old_expected": 8.941416930771483,
+          "no_floor_expected": 8.910704763646736
+        },
+        "low_xg_origin:dribble": {
+          "n": 2,
+          "xg": 0.08701123159790321,
+          "floor_active": 0,
+          "old_expected": 0.08077592920121913,
+          "no_floor_expected": 0.08077592920121913
+        },
+        "low_xg_origin:dummy": {
+          "n": 33,
+          "xg": 0.5097416885046464,
+          "floor_active": 13,
+          "old_expected": 0.595895706855871,
+          "no_floor_expected": 0.4951891683727017
+        },
+        "low_xg_origin:free_kick": {
+          "n": 538,
+          "xg": 9.694736472518462,
+          "floor_active": 265,
+          "old_expected": 12.965092804156713,
+          "no_floor_expected": 9.732519482143848
+        },
+        "low_xg_origin:open_play": {
+          "n": 8217,
+          "xg": 25.119958357666977,
+          "floor_active": 8205,
+          "old_expected": 89.21216692841618,
+          "no_floor_expected": 24.536680019932135
+        },
+        "low_xg_origin:progression": {
+          "n": 933,
+          "xg": 15.339775187632153,
+          "floor_active": 635,
+          "old_expected": 20.059116148726822,
+          "no_floor_expected": 15.012954327151748
+        },
+        "low_xg_origin:quick_free_kick": {
+          "n": 222,
+          "xg": 3.541474054296095,
+          "floor_active": 95,
+          "old_expected": 4.097884149235338,
+          "no_floor_expected": 3.4973782412143937
+        },
+        "low_xg_origin:rebound": {
+          "n": 3,
+          "xg": 0.13942212665308035,
+          "floor_active": 0,
+          "old_expected": 0.1341683937435362,
+          "no_floor_expected": 0.1341683937435362
+        },
+        "low_xg_origin:second_ball": {
+          "n": 287,
+          "xg": 4.137188078387517,
+          "floor_active": 238,
+          "old_expected": 5.9958768835407215,
+          "no_floor_expected": 3.9296279620810295
+        },
+        "low_xg_total": {
+          "n": 12965,
+          "xg": 96.4108890642249,
+          "floor_active": 11445,
+          "old_expected": 200.02964936013487,
+          "no_floor_expected": 94.03785960517159
+        },
+        "severity:0.30-0.50": {
+          "n": 8044,
+          "none": 7054,
+          "yellow_sum": 1033.1356479350648,
+          "effective_yellow_sum": 997.1110819369248,
+          "expected_red": 3.419980831372379,
+          "expected_second": 38.23883540198634,
+          "yellow": 953,
+          "second_yellow_red": 35,
+          "direct_red": 2
+        },
+        "severity:0.50-0.66": {
+          "n": 2643,
+          "none": 2036,
+          "yellow_sum": 620.4624610365066,
+          "effective_yellow_sum": 600.9866687283816,
+          "expected_red": 1.141751482407153,
+          "expected_second": 18.898743273936294,
+          "yellow": 582,
+          "second_yellow_red": 24,
+          "direct_red": 1
+        },
+        "severity:0.66-0.75": {
+          "n": 318,
+          "yellow": 122,
+          "yellow_sum": 131.48612674958147,
+          "effective_yellow_sum": 131.48612674958147,
+          "expected_red": 1.1267196048263342,
+          "expected_second": 6.637803232378572,
+          "second_yellow_red": 7,
+          "none": 188,
+          "direct_red": 1
+        },
+        "severity:0.75-0.84": {
+          "n": 225,
+          "yellow": 122,
+          "yellow_sum": 130.78670067189137,
+          "effective_yellow_sum": 130.78670067189137,
+          "expected_red": 12.530757717532675,
+          "expected_second": 7.355537455538911,
+          "none": 85,
+          "second_yellow_red": 7,
+          "direct_red": 11
+        },
+        "severity:<0.30": {
+          "n": 11269,
+          "none": 10879,
+          "yellow_sum": 457.9358543797161,
+          "effective_yellow_sum": 426.87600639632757,
+          "expected_red": 2.8172499999999836,
+          "expected_second": 1.8522753682486153,
+          "yellow": 387,
+          "second_yellow_red": 1,
+          "direct_red": 2
+        },
+        "severity:>=0.84": {
+          "n": 89,
+          "none": 29,
+          "yellow_sum": 52.04612341897723,
+          "effective_yellow_sum": 52.04612341897723,
+          "expected_red": 15.815996653923712,
+          "expected_second": 3.74963032605971,
+          "direct_red": 15,
+          "yellow": 40,
+          "second_yellow_red": 5
+        },
+        "source:ordinary": {
+          "n": 13191,
+          "none": 12717,
+          "yellow_sum": 530.6067930497459,
+          "effective_yellow_sum": 493.38653821930745,
+          "expected_red": 3.297749999999984,
+          "expected_second": 1.2781397809234782,
+          "yellow": 471,
+          "second_yellow_red": 1,
+          "direct_red": 2
+        },
+        "source:other": {
+          "n": 9397,
+          "none": 7554,
+          "yellow_sum": 1895.2461211419945,
+          "effective_yellow_sum": 1845.9061696827803,
+          "expected_red": 33.554706290062306,
+          "expected_second": 75.45468527722498,
+          "yellow": 1735,
+          "second_yellow_red": 78,
+          "direct_red": 30
+        },
+        "violent": {
+          "n": 89,
+          "none": 39,
+          "yellow_sum": 51.95760204105733,
+          "effective_yellow_sum": 51.95760204105733,
+          "expected_red": 20.861102006443158,
+          "expected_second": 3.5742155308468004,
+          "yellow": 29,
+          "direct_red": 18,
+          "second_yellow_red": 3
+        },
+        "xg:.05-.10": {
+          "n": 2692,
+          "xg": 196.67757127492123,
+          "goals": 197,
+          "sot": 1148
+        },
+        "xg:.10-.20": {
+          "n": 3622,
+          "xg": 472.3104587915023,
+          "goals": 436,
+          "sot": 1682
+        },
+        "xg:.20-.40": {
+          "n": 5319,
+          "xg": 1454.0802466537032,
+          "goals": 1405,
+          "sot": 2602
+        },
+        "xg:.40+": {
+          "n": 137,
+          "xg": 101.25792097798663,
+          "goals": 100,
+          "sot": 131
+        },
+        "xg:<0.05": {
+          "n": 12965,
+          "xg": 96.41088906422468,
+          "goals": 93,
+          "sot": 2957
+        }
+      }
+    }
+  },
+  "heavy_audits": {
+    "baseline": {
+      "count": 500,
+      "start_seed": 70000,
+      "end_seed": 70499,
+      "status": "completed",
+      "provenance": "Recorded output of original baseline realism_diagnostics_v13.py; transient full log was lost when the execution environment reset. Only retained measurements are reproduced here.",
+      "metrics": {
+        "goals_per_match": 2.506,
+        "final_minute_mean": 97.4,
+        "first_half_added_mean": 2.268,
+        "second_half_added_mean": 5.822,
+        "goals_70plus_share": 0.272,
+        "goals_85plus_share": 0.122,
+        "goals_90plus_share": 0.081,
+        "tactical_candidates_per_match": 10.62,
+        "tactical_fouls_per_match": 0.516,
+        "tactical_cards": 89,
+        "distinct_foulers_mean": 14.432,
+        "top_fouler_share_mean": 0.152,
+        "load_injuries_per_match": 0.096,
+        "one_v_ones_per_match": 2.184,
+        "one_v_one_conversion": 0.259,
+        "penalties_per_match": 0.172,
+        "penalty_conversion": 0.721,
+        "second_balls_per_match": 5.682,
+        "attacking_second_ball_recovery": 0.446,
+        "reds_per_match": 0.07,
+        "red_match_rate": 0.068
+      },
+      "foul_actor_positions": {
+        "AM": 1224,
+        "CB": 2439,
+        "CM": 1266,
+        "DM": 1571,
+        "GK": 16,
+        "LB": 1158,
+        "LW": 1005,
+        "RB": 1172,
+        "RW": 980,
+        "ST": 915
+      }
+    },
+    "accepted": {
+      "count": 500,
+      "start_seed": 70000,
+      "end_seed": 70499,
+      "status": "completed",
+      "output": "v1.3 realism heavy audit: 500 matches, seeds 70000..70499\ngoals/match=2.432\nfinal_minute mean=97.43 median=97.49 p95=100.63\n1H_added_minutes mean=2.254 median=2.00 p95=4.00\n2H_added_minutes mean=5.856 median=6.00 p95=8.05\nlate_goals_70plus=320 share_of_goals=0.263\nvery_late_goals_85plus=152 share_of_goals=0.125\nstoppage_goals_90plus=99 share_of_goals=0.081\ntime_waste_attempts/match=0.772 cards=39 by_restart={'goal_kick': 135, 'free_kick': 168, 'corner': 47, 'throw_in': 34, 'kickoff': 2}\ntactical_foul_candidates/match=10.604 committed/match=0.510 cards=86\nfoul_actor_positions={'AM': 1216, 'CB': 2467, 'CM': 1266, 'DM': 1565, 'GK': 15, 'LB': 1153, 'LW': 982, 'RB': 1182, 'RW': 969, 'ST': 919}\ncommon_foul_actor_positions={'AM': 1197, 'CB': 2406, 'CM': 1229, 'DM': 1526, 'GK': 15, 'LB': 1129, 'LW': 966, 'RB': 1153, 'RW': 948, 'ST': 910}\ntactical_foul_actor_positions={'AM': 19, 'CB': 61, 'CM': 37, 'DM': 39, 'LB': 24, 'LW': 16, 'RB': 29, 'RW': 21, 'ST': 9}\nfoul_concentration: mean_distinct_foulers=14.426 mean_top_fouler_share=0.152\nload_injuries/match=0.0980 forced_off=3\ngk_one_v_ones/match=2.218 goal_rate=0.254\ngk_one_v_one_attacker_choices={'shoot_early': 242, 'power_finish': 218, 'round_keeper': 167, 'placed_finish': 282, 'chip': 200}\ngk_one_v_one_keeper_choices={'rush': 273, 'spread': 309, 'anticipate': 266, 'hold_line': 261}\nlive_penalties/match=0.1680 conversion=0.750\npenalty_styles={'placed': 33, 'stutter': 23, 'power': 28} targets={'center': 14, 'high_right': 14, 'low_right': 23, 'low_left': 20, 'high_left': 13}\ngeneral_second_balls/match=5.662 attacking_recovery_rate=0.450\nred_cards/match=0.164 red_match_rate=0.154\ntop_scorelines=[('1-1', 65), ('0-1', 58), ('0-0', 53), ('1-0', 43), ('2-1', 40), ('1-2', 39), ('0-2', 33), ('2-0', 31), ('2-2', 30), ('3-1', 23), ('1-3', 14), ('3-2', 10)]\n"
+    }
+  },
+  "notes": [
+    "Paired normal intervals are descriptive sampling estimates, not benchmark pass/fail gates.",
+    "Benchmarks use synthetic populations, so match rates do not calibrate individual incidents.",
+    "The broad direct-red experiment is rejected: consistency is not validated recognition accuracy.",
+    "Conditional shot calibration can legitimately differ from situation-only xG because of finisher and keeper execution, the upper conversion ceiling, and sampling variation.",
+    "No real reference target is read by simulation. All declared seeds are retained."
+  ]
+}

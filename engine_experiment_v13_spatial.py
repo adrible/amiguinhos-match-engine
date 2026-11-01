@@ -178,6 +178,256 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         transition_threat = clamp(float(ctx.get("transition_threat", 0.50)))
         return clamp(base * (0.86 + 0.28 * transition_threat), 0.08, 1.0)
 
+    def _keeper_attack_mode(self, team: int, zone: Zone) -> str:
+        """Contextual goalkeeper positioning: normal, high_support, keeper_up.
+
+        The keeper never leaks forward from a generic tiny probability. Forward
+        involvement is enabled only by explicit match context.
+        """
+        home, away = self.score
+        diff = (home - away) if team == 0 else (away - home)
+        minute = self.minute
+
+        # A goalkeeper may join the attack only in the explicit late-emergency
+        # case: exactly one goal behind, final minutes, and an attacking
+        # corner/free kick. There is no generic open-play or tiny-probability
+        # route that can move him forward.
+        if diff != -1 or minute < 89.0:
+            return "normal"
+
+        restart_attacking = (
+            self.state.restart_team == team
+            and self.state.restart in {"corner", "free_kick"}
+            and zone.band in {Band.ATT, Band.BOX}
+        )
+        if not restart_attacking:
+            return "normal"
+
+        urgency_fn = getattr(self, "clock_behaviour_diagnostic", None)
+        if callable(urgency_fn):
+            urgency = float(urgency_fn(team).get("restart_urgency", 0.0))
+            if urgency < 0.62:
+                return "normal"
+        # A decision for this restart, not a fresh random draw on each query.
+        # The public period clock excludes earlier halves' added time.
+        from narration_packet_v13 import _public_clock_components
+        public_second, _ = _public_clock_components(self, self.state.second)
+        if public_second < 89 * 60:
+            return "normal"
+        from engine_experiment_v13_passing_texture import _stable_fraction
+        willingness = .22 if public_second < 90 * 60 else .48
+        if _stable_fraction("keeper-joins", self.seed, team, self.state.second, self.state.restart) >= willingness:
+            return "normal"
+        return "keeper_up"
+
+    def _ensure_keeper_exposure_state(self) -> None:
+        if not hasattr(self, "_v13_keeper_up_team"):
+            self._v13_keeper_up_team = None
+        if not hasattr(self, "_v13_keeper_up_until"):
+            self._v13_keeper_up_until = 0.0
+
+    def _activate_keeper_up(self, team: int, seconds: float = 32.0) -> None:
+        self._ensure_keeper_exposure_state()
+        self._v13_keeper_up_team = int(team)
+        self._v13_keeper_up_until = max(
+            float(self._v13_keeper_up_until), self.state.second + float(seconds)
+        )
+
+    def _clear_keeper_up(self, team: Optional[int] = None) -> None:
+        self._ensure_keeper_exposure_state()
+        if team is None or self._v13_keeper_up_team == team:
+            if self._v13_keeper_up_team is not None:
+                self._v13_keeper_returned = self._v13_keeper_up_team
+            self._v13_keeper_up_team = None
+            self._v13_keeper_up_until = 0.0
+
+    def _keeper_is_exposed(self, team: int) -> bool:
+        self._ensure_keeper_exposure_state()
+        if self.state.second > self._v13_keeper_up_until:
+            self._clear_keeper_up()
+            return False
+        return self._v13_keeper_up_team == team
+
+    def export_state(self) -> dict:
+        data = super().export_state()
+        self._ensure_keeper_exposure_state()
+        data["v13_keeper_up"] = {
+            "team": self._v13_keeper_up_team,
+            "until": self._v13_keeper_up_until,
+        }
+        data["v13_keeper_returned"] = getattr(self, "_v13_keeper_returned", None)
+        data["v13_open_goal_shot"] = getattr(self, "_v13_open_goal_shot", None)
+        return data
+
+    @classmethod
+    def from_state_dict(cls, data: dict):
+        obj = super().from_state_dict(data)
+        keeper = data.get("v13_keeper_up", {})
+        obj._v13_keeper_up_team = keeper.get("team")
+        obj._v13_keeper_up_until = float(keeper.get("until", 0.0))
+        obj._v13_keeper_returned = data.get("v13_keeper_returned")
+        obj._v13_open_goal_shot = data.get("v13_open_goal_shot")
+        return obj
+
+    def _contextual_attacking_receiver_eligible(
+        self, team: int, zone: Zone, ps: PlayerState
+    ) -> bool:
+        if ps.player.position.upper() != "GK":
+            return True
+        mode = self._keeper_attack_mode(team, zone)
+        return (
+            (mode == "high_support" and zone.band == Band.MID)
+            or (mode == "keeper_up" and zone.band in {Band.MID, Band.ATT, Band.BOX})
+        )
+
+    def _resolve_restart(self):
+        kind = self.state.restart
+        team = self.state.restart_team
+        zone = self.state.restart_zone or self.state.zone
+        keeper_up = (
+            team is not None
+            and kind in {"corner", "free_kick"}
+            and self._keeper_attack_mode(team, zone) == "keeper_up"
+        )
+        if keeper_up:
+            self._activate_keeper_up(team, seconds=36.0)
+        event = super()._resolve_restart()
+        if keeper_up:
+            event.data["keeper_up"] = True
+        return event
+
+    def _calculate_xg(self, p, shooter, defender, keeper) -> float:
+        xg = super()._calculate_xg(p, shooter, defender, keeper)
+        defending_team = 1 - p.team
+        if not self._keeper_is_exposed(defending_team):
+            return xg
+        # Keeper out of goal: loss of possession has a real downside. The bonus
+        # is strongest for transitions and advanced shots, but even a long-range
+        # attempt at an empty goal becomes materially more dangerous.
+        empty_goal_bonus = {
+            Band.DEF: 0.075, Band.MID: 0.145, Band.ATT: 0.235, Band.BOX: 0.285
+        }[p.zone.band]
+        if p.origin in {"transition", "turnover", "carry", "progression"}:
+            empty_goal_bonus += 0.065
+        return clamp(xg + empty_goal_bonus, 0.003, 0.88)
+
+    def _switch_possession(self, new_team, zone, transition=0.0):
+        super()._switch_possession(new_team, zone, transition=transition)
+        # Once the exposed keeper's team safely recovers the ball in a normal
+        # build-up zone, he is considered to have retreated.
+        if self._keeper_is_exposed(new_team) and zone.band in {Band.DEF, Band.MID}:
+            self._clear_keeper_up(new_team)
+
+    def _emit(self, typ, team, relevance, text_key, **data):
+        self._ensure_keeper_exposure_state()
+        if self._v13_keeper_up_team is not None:
+            self._keeper_is_exposed(self._v13_keeper_up_team)
+        returned = getattr(self, "_v13_keeper_returned", None)
+        if returned is not None:
+            data["keeper_returned_team"] = returned
+            self._v13_keeper_returned = None
+        if self._v13_keeper_up_team is not None:
+            data["empty_goal_team"] = self._v13_keeper_up_team
+        event = super()._emit(typ, team, relevance, text_key, **data)
+        if getattr(typ, "value", typ) == "goal":
+            self._clear_keeper_up()
+        return event
+
+    def _open_goal_direct_shot_profile(
+        self, team: int, actor: PlayerState, zone: Zone, ctx: dict
+    ) -> dict:
+        """Perception and willingness to shoot at an exposed goal."""
+        opponent = 1 - team
+        if zone.band == Band.DEF or not self._keeper_is_exposed(opponent):
+            return {"eligible": False, "perception_probability": 0.0, "attempt_probability_if_perceived": 0.0}
+        vision = actor.effective("vision") / 100.0
+        composure = actor.effective("composure") / 100.0
+        technique = actor.effective("technique") / 100.0
+        long_shots = actor.effective("long_shots") / 100.0
+        pressure = clamp(float(ctx.get("pressure", 0.5)))
+        space = clamp(float(ctx.get("space", 0.5)))
+        visibility = {Band.MID: 0.82, Band.ATT: 0.95, Band.BOX: 1.00}[zone.band]
+        lane_factor = 1.0 if zone.lane == Lane.CENTER else 0.93
+        perception = clamp((0.50 + 0.30 * vision + 0.12 * composure + 0.10 * space - 0.20 * pressure) * visibility * lane_factor, 0.0, 0.98)
+        strike_skill = 0.40 * long_shots + 0.34 * technique + 0.26 * composure
+        distance_bonus = {Band.MID: 0.02, Band.ATT: 0.13, Band.BOX: 0.22}[zone.band]
+        attempt = clamp(0.46 + 0.36 * strike_skill + 0.13 * space - 0.18 * pressure + distance_bonus, 0.28, 0.97)
+        return {"eligible": True, "perception_probability": perception, "attempt_probability_if_perceived": attempt}
+
+    def _resolve_shot(self, p):
+        marker = getattr(self, "_v13_open_goal_shot", None)
+        event = super()._resolve_shot(p)
+        if marker is not None and marker.get("team") == p.team and marker.get("actor") == p.actor:
+            event.data["open_goal"] = True
+            event.data["keeper_exposed"] = True
+            event.data["open_goal_perception"] = marker.get("perception_probability")
+            event.data["open_goal_attempt"] = marker.get("attempt_probability_if_perceived")
+        self._v13_open_goal_shot = None
+        return event
+
+    def _choose_actor(self, team: int, zone: Zone) -> PlayerState:
+        """Choose the ball carrier without letting the goalkeeper teleport forward.
+
+        The keeper remains eligible in the defensive third for ordinary build-up.
+        Outside that band, open-play possession actors must be outfield players
+        unless a future explicit keeper-up mechanic opts in.
+        """
+        if zone.band == Band.DEF:
+            return super()._choose_actor(team, zone)
+
+        rt = self.teams[team]
+        tactics = rt.team.tactics
+        weights: list[tuple[PlayerState, float]] = []
+        for ps in rt.on_field:
+            pos = ps.player.position.upper()
+            if pos == "GK":
+                mode = self._keeper_attack_mode(team, zone)
+                if mode == "high_support" and zone.band == Band.MID:
+                    w = 0.035
+                elif mode == "keeper_up" and zone.band in {Band.MID, Band.ATT, Band.BOX}:
+                    w = {Band.MID: 0.045, Band.ATT: 0.070, Band.BOX: 0.105}[zone.band]
+                else:
+                    continue
+                w *= 0.75 + 0.25 * ps.energy
+                weights.append((ps, w))
+                continue
+            if zone.band == Band.MID:
+                w = {
+                    "DM": 1.2, "CM": 1.5, "AM": 1.15, "LB": 0.65,
+                    "RB": 0.65, "LW": 0.85, "RW": 0.85, "ST": 0.45,
+                    "CB": 0.35,
+                }.get(pos, 0.5)
+            elif zone.band == Band.ATT:
+                w = {
+                    "AM": 1.35, "LW": 1.25, "RW": 1.25, "ST": 1.15,
+                    "CM": 0.75, "LB": 0.35, "RB": 0.35, "DM": 0.30,
+                    "CB": 0.10,
+                }.get(pos, 0.5)
+            else:
+                w = {
+                    "ST": 1.65, "LW": 1.05, "RW": 1.05, "AM": 1.15,
+                    "CM": 0.45, "LB": 0.16, "RB": 0.16, "DM": 0.12,
+                    "CB": 0.09,
+                }.get(pos, 0.4)
+
+            if zone.lane == Lane.LEFT and pos in ("LB", "LW"):
+                w *= 1.45
+            if zone.lane == Lane.RIGHT and pos in ("RB", "RW"):
+                w *= 1.45
+            if zone.lane == Lane.CENTER and pos in ("CB", "DM", "CM", "AM", "ST"):
+                w *= 1.25
+
+            overlap_helper = getattr(self, "_fullback_overlap_factor", None)
+            if callable(overlap_helper):
+                w *= overlap_helper(pos, zone, tactics)
+            w *= 0.75 + 0.25 * ps.energy
+            weights.append((ps, w))
+
+        selected = weighted_choice(self.rng, weights)
+        if selected.player.position.upper() == "GK" and zone.band != Band.DEF:
+            self._activate_keeper_up(team)
+        return selected
+
     def _receiver_option_quality(self, ps: PlayerState, zone: Zone, ctx: dict) -> float:
         """Projected reward if this receiver gets the ball."""
         off_ball = ps.effective("off_ball") / 100.0
@@ -203,24 +453,44 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         lane = 0.93 + 0.08 * self._lane_novelty(ps, zone)
         return clamp(base * spatial * lane)
 
+    @staticmethod
+    def _attacking_receiver_eligible(ps: PlayerState) -> bool:
+        """Whether a player can be selected as an ordinary attacking receiver.
+
+        Goalkeepers remain available for defensive build-up as ball carriers,
+        but they are not valid open-play attacking targets. If a future
+        keeper-up/set-piece mechanic is added, it should opt in explicitly
+        rather than relying on a tiny generic probability.
+        """
+        return ps.player.position.upper() != "GK"
+
     def _base_target_weights(
         self,
         team: int,
         zone: Zone,
-        actor: PlayerState,
+        actor: Optional[PlayerState],
     ) -> list[tuple[PlayerState, float]]:
         """Normal receiver preference, without creativity or boldness."""
         tactics = self.teams[team].team.tactics
         weights: list[tuple[PlayerState, float]] = []
         for ps in self.teams[team].on_field:
-            if ps.player.name == actor.player.name:
+            if actor is not None and ps.player.name == actor.player.name:
+                continue
+            if not self._contextual_attacking_receiver_eligible(team, zone, ps):
                 continue
             pos = ps.player.position.upper()
-            w = {
-                "ST": 1.55, "AM": 1.35, "LW": 1.25, "RW": 1.25,
-                "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35,
-                "CB": 0.12, "GK": 0.01,
-            }.get(pos, 0.5)
+            if pos == "GK":
+                mode = self._keeper_attack_mode(team, zone)
+                w = (
+                    0.030 if mode == "high_support"
+                    else {Band.MID: 0.040, Band.ATT: 0.060, Band.BOX: 0.095}.get(zone.band, 0.0)
+                )
+            else:
+                w = {
+                    "ST": 1.55, "AM": 1.35, "LW": 1.25, "RW": 1.25,
+                    "CM": 0.75, "LB": 0.42, "RB": 0.42, "DM": 0.35,
+                    "CB": 0.12,
+                }.get(pos, 0.5)
             w *= 0.70 + 0.30 * ps.effective("off_ball") / 100.0
 
             overlap_helper = getattr(self, "_fullback_overlap_factor", None)
@@ -757,7 +1027,19 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             for name, prob in base.items()
         }
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None) -> PlayerState:
+    def _action_target_weights(self, weights, action):
+        """Replace the legacy movement factor with contextual receiver quality.
+
+        Apply once at selection, after spatial/tactical weights. Explicit runs,
+        combinations and creative targets keep their existing priority.
+        """
+        return [
+            (ps, weight * (0.55 + 0.65 * self._attacking_target_quality(ps, action) / 100.0)
+             / (0.70 + 0.30 * ps.effective("off_ball") / 100.0))
+            for ps, weight in weights
+        ]
+
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None) -> PlayerState:
         """Choose a receiver, honoring a creative option selected this same beat.
 
         Creativity must not independently hijack every attacking target choice.
@@ -766,7 +1048,27 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         transient and consumed immediately by the action execution.
         """
         if not attacking:
-            return super()._choose_target(team, zone, attacking=False, exclude=exclude)
+            target = super()._choose_target(team, zone, attacking=False, exclude=exclude)
+            if (
+                target.player.position.upper() != "GK"
+                or zone.band == Band.DEF
+                or self._keeper_attack_mode(team, zone) == "keeper_up"
+            ):
+                return target
+            # A backwards/safe pass from midfield or the attacking third must
+            # not teleport the goalkeeper into that same advanced zone.
+            eligible = [
+                ps for ps in self.teams[team].on_field
+                if not ps.red
+                and ps.player.position.upper() != "GK"
+                and ps.player.name != exclude
+            ]
+            if not eligible:
+                return target
+            return weighted_choice(
+                self.rng,
+                [(ps, 0.75 + 0.25 * ps.energy) for ps in eligible],
+            )
 
         marker = getattr(self, "_v13_forced_target", None)
         if marker is not None:
@@ -776,7 +1078,9 @@ class MatchEngineV13Spatial(_StableMatchEngine):
                 except KeyError:
                     target = None
                 self._v13_forced_target = None
-                if target is not None:
+                if target is not None and self._contextual_attacking_receiver_eligible(team, zone, target):
+                    if target.player.position.upper() == "GK":
+                        self._activate_keeper_up(team)
                     return target
             else:
                 # Never let a stale idea leak into a later possession/action.
@@ -787,8 +1091,23 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         except KeyError:
             actor = None
         if actor is None:
-            return super()._choose_target(team, zone, attacking=True, exclude=exclude)
-        return weighted_choice(self.rng, self._base_target_weights(team, zone, actor))
+            # Do not fall back to the frozen engine here: its historical tiny
+            # GK target weight can leak a keeper into an attacking sequence.
+            target = weighted_choice(
+                self.rng,
+                self._action_target_weights(
+                    MatchEngineV13Spatial._base_target_weights(self, team, zone, None), action
+                ),
+            )
+            if target.player.position.upper() == "GK":
+                self._activate_keeper_up(team)
+            return target
+        target = weighted_choice(self.rng, self._action_target_weights(
+            self._base_target_weights(team, zone, actor), action
+        ))
+        if target.player.position.upper() == "GK":
+            self._activate_keeper_up(team)
+        return target
 
     def _choose_decision(
         self,
@@ -807,8 +1126,22 @@ class MatchEngineV13Spatial(_StableMatchEngine):
         then accidentally target another.
         """
         self._v13_forced_target = None
+        self._v13_open_goal_shot = None
         team = self._team_index_for_actor(actor)
         if team is not None:
+            open_goal = self._open_goal_direct_shot_profile(team, actor, zone, ctx)
+            if (
+                open_goal["eligible"]
+                and self.rng.random() < open_goal["perception_probability"]
+                and self.rng.random() < open_goal["attempt_probability_if_perceived"]
+            ):
+                self._v13_open_goal_shot = {
+                    "team": team,
+                    "actor": actor.player.name,
+                    "perception_probability": round(open_goal["perception_probability"], 4),
+                    "attempt_probability_if_perceived": round(open_goal["attempt_probability_if_perceived"], 4),
+                }
+                return "shoot"
             info = self._hidden_opportunity(team, actor, zone, ctx)
             if info and info["qualifies"]:
                 confidence = clamp(0.46 + 3.2 * max(0.0, info["margin"]), 0.46, 0.92)

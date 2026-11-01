@@ -1,0 +1,52 @@
+{
+  "before": {
+    "fixture_pairs": 100,
+    "seed_range": [
+      94000,
+      94099
+    ],
+    "slot_goal_difference": 0.115,
+    "paired_bootstrap_95_percent_interval": [
+      -0.13,
+      0.355
+    ],
+    "matched_metrics": {
+      "normal": {
+        "goals_per_match": 2.88,
+        "zero_zero_rate": 0.09,
+        "draw_rate": 0.31
+      },
+      "mirrored": {
+        "goals_per_match": 2.89,
+        "zero_zero_rate": 0.08,
+        "draw_rate": 0.21
+      }
+    },
+    "interpretation": "An interval including zero is inconclusive, not proof of symmetry. Labels are internal slots, not venue advantage."
+  },
+  "after": {
+    "fixture_pairs": 100,
+    "seed_range": [
+      94000,
+      94099
+    ],
+    "slot_goal_difference": -0.01,
+    "paired_bootstrap_95_percent_interval": [
+      -0.24,
+      0.215
+    ],
+    "matched_metrics": {
+      "normal": {
+        "goals_per_match": 2.85,
+        "zero_zero_rate": 0.1,
+        "draw_rate": 0.24
+      },
+      "mirrored": {
+        "goals_per_match": 2.67,
+        "zero_zero_rate": 0.13,
+        "draw_rate": 0.22
+      }
+    },
+    "interpretation": "An interval including zero is inconclusive, not proof of symmetry. Labels are internal slots, not venue advantage."
+  }
+}

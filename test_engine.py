@@ -85,6 +85,61 @@ class MatchEngineTests(unittest.TestCase):
         self.assertGreater(len(goals), 4)
 
 
+    def test_contextual_attacking_target_selection_prefers_quality_without_quota(self):
+        from engine import Band, Lane, Zone
+
+        home, away = make_pair(seed=451)
+        e = MatchEngine(home, away, seed=5451)
+        high = next(ps for ps in e.teams[0].on_field if ps.player.position == "ST")
+        low = next(ps for ps in e.teams[0].on_field if ps.player.position == "AM")
+        low.player.position = "ST"
+
+        for attr in ("off_ball", "anticipation", "finishing", "composure", "technique"):
+            setattr(high.player, attr, 96)
+            setattr(low.player, attr, 44)
+
+        counts = {high.player.name: 0, low.player.name: 0}
+        zone = Zone(Band.ATT, Lane.CENTER)
+        for _ in range(2400):
+            target = e._choose_target(
+                0, zone, attacking=True, exclude=None, action="through_ball"
+            )
+            if target.player.name in counts:
+                counts[target.player.name] += 1
+
+        self.assertGreater(counts[high.player.name], counts[low.player.name])
+        self.assertGreater(counts[low.player.name], 0)
+
+    def test_contextual_target_quality_changes_with_action(self):
+        home, away = make_pair(seed=452)
+        e = MatchEngine(home, away, seed=5452)
+        aerial = next(ps for ps in e.teams[0].on_field if ps.player.position == "ST")
+        runner = next(ps for ps in e.teams[0].on_field if ps.player.position == "AM")
+
+        for ps in (aerial, runner):
+            ps.player.position = "ST"
+            for attr in ("off_ball", "anticipation", "finishing", "composure", "technique", "heading", "strength"):
+                setattr(ps.player, attr, 70)
+
+        aerial.player.heading = 98
+        aerial.player.strength = 94
+        aerial.player.finishing = 55
+        runner.player.heading = 48
+        runner.player.strength = 60
+        runner.player.finishing = 97
+        runner.player.off_ball = 96
+        runner.player.composure = 94
+
+        self.assertGreater(
+            e._attacking_target_quality(aerial, "cross"),
+            e._attacking_target_quality(runner, "cross"),
+        )
+        self.assertGreater(
+            e._attacking_target_quality(runner, "through_ball"),
+            e._attacking_target_quality(aerial, "through_ball"),
+        )
+
+
 class StabilityRegressionTests(unittest.TestCase):
     def test_snapshot_is_json_safe_and_full_state_restores_exactly(self):
         import json

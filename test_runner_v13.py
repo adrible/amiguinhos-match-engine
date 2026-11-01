@@ -4,9 +4,15 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from engine import EventType
+from engine import Event, EventType
 from engine_experiment_v13 import MatchEngine
 from final_protocol_v13 import OFFICIAL_FINAL_SEED
+from narration_packet_v13 import (
+    _sanitize_data,
+    build_narration_packet,
+    continuity_snapshot,
+    event_fact,
+)
 from runner_v13 import MatchSessionV13, event_view
 from team_loader_v13 import load_team_v13
 
@@ -21,6 +27,21 @@ class LiveRunnerTests(unittest.TestCase):
         self.assertIsNone(session.engine.state.restart)
         self.assertEqual(sum(st.shots for st in session.engine.stats), 0)
         self.assertEqual(sum(st.goals for st in session.engine.stats), 0)
+
+    def test_default_runner_venue_is_neutral(self):
+        session = MatchSessionV13.from_fixture(seed=171)
+        venue = session.snapshot()["venue"]
+        self.assertEqual(venue["mode"], "neutral")
+        self.assertAlmostEqual(venue["home_effects"]["pressure_shift"], 0.0, places=6)
+        self.assertAlmostEqual(venue["away_effects"]["pressure_shift"], 0.0, places=6)
+
+    def test_runner_can_request_explicit_home_away_context(self):
+        session = MatchSessionV13.from_fixture(seed=172, venue_mode="home_away")
+        venue = session.snapshot()["venue"]
+        self.assertEqual(venue["mode"], "home_away")
+        self.assertLess(venue["home_effects"]["pressure_shift"], 0.0)
+        self.assertGreater(venue["away_effects"]["pressure_shift"], 0.0)
+        self.assertTrue(session.pristine)
 
     def test_snapshot_does_not_advance_live_match(self):
         session = MatchSessionV13.from_fixture(seed=18)
@@ -121,6 +142,160 @@ class LiveRunnerTests(unittest.TestCase):
         self.assertTrue(session.engine.config.allow_extra_time)
         self.assertFalse(session.engine.config.auto_tactical_adaptation)
         self.assertTrue(session.pristine)
+
+    # ---------------- narration packet regressions ----------------
+
+    def test_restored_narrator_clock_is_anchored_to_live_engine_clock(self):
+        session = MatchSessionV13.from_fixture(seed=43)
+        for _ in range(6):
+            if session.engine.state.ended:
+                break
+            session.press_p()
+        restored = MatchSessionV13.from_json(session.export_json())
+        self.assertGreater(restored.engine.state.second, 0.0)
+        self.assertAlmostEqual(
+            restored.narrator_state.last_display_second,
+            restored.engine.state.second,
+            places=6,
+        )
+        self.assertEqual(
+            restored.narrator_state.consumed_log_index,
+            len(restored.engine.state.event_log),
+        )
+
+    def test_narration_sanitization_is_recursive(self):
+        raw = {
+            "actor": "Oscar",
+            "danger": 0.91,
+            "nested": {
+                "xg": 0.42,
+                "target": "Fred",
+                "probability": 0.73,
+            },
+            "sequence": [
+                {"kind": "shoot", "execution": 0.81},
+                {"kind": "pass", "receiver": "Hulk", "chance_quality": 0.55},
+            ],
+        }
+        clean = _sanitize_data(raw)
+        self.assertEqual(clean["actor"], "Oscar")
+        self.assertNotIn("danger", clean)
+        self.assertEqual(clean["nested"], {"target": "Fred"})
+        self.assertEqual(clean["sequence"][0], {"kind": "shoot"})
+        self.assertEqual(
+            clean["sequence"][1],
+            {"kind": "pass", "receiver": "Hulk"},
+        )
+
+    def test_foul_fact_never_preannounces_card(self):
+        session = MatchSessionV13.from_fixture(seed=44)
+        event = Event(
+            12.5,
+            0,
+            EventType.FOUL,
+            2,
+            "advantage_played",
+            {
+                "attacker": "Remo",
+                "defender": "Opponent",
+                "advantage": True,
+                "card": "yellow",
+                "danger": 0.77,
+            },
+        )
+        fact = event_fact(event, session)
+        self.assertTrue(fact["facts"]["advantage"])
+        self.assertNotIn("card", fact["facts"])
+        self.assertNotIn("danger", fact["facts"])
+
+    def test_duplicate_public_card_is_suppressed(self):
+        session = MatchSessionV13.from_fixture(seed=45)
+        state = session.narrator_state
+
+        first = Event(
+            10.0,
+            0,
+            EventType.CARD,
+            2,
+            "card_shown_contextual",
+            {"player": "Jorge", "card": "yellow"},
+        )
+        before = continuity_snapshot(session.engine)
+        session.engine.state.event_log.append(first)
+        first_packet = build_narration_packet(session, first, state, before)
+        self.assertTrue(first_packet["narrate"])
+
+        duplicate = Event(
+            10.5,
+            0,
+            EventType.CARD,
+            2,
+            "deferred_card_after_advantage",
+            {"player": "Jorge", "card": "yellow"},
+        )
+        before = continuity_snapshot(session.engine)
+        session.engine.state.event_log.append(duplicate)
+        duplicate_packet = build_narration_packet(session, duplicate, state, before)
+        self.assertFalse(duplicate_packet["narrate"])
+        self.assertEqual(duplicate_packet["skip_reason"], "card_already_narrated")
+
+    def test_second_half_public_clock_resets_after_first_half_stoppage(self):
+        session = MatchSessionV13.from_fixture(seed=47)
+
+        period_end = Event(
+            48.47,
+            1,
+            EventType.PERIOD_END,
+            5,
+            "period_end",
+            {"marker": 45},
+        )
+        session.engine.state.event_log.append(period_end)
+        session.engine.state.second = 48.47 * 60.0
+        session.engine.state.restart = "kickoff"
+        session.engine.state.restart_team = 1
+
+        restored = MatchSessionV13.from_json(session.export_json())
+        self.assertEqual(restored.narrator_state.period_anchor_marker, 45)
+        self.assertAlmostEqual(restored.narrator_state.last_display_second, 45 * 60.0, places=6)
+
+        kickoff = Event(
+            48.55,
+            1,
+            EventType.PROGRESSION,
+            2,
+            "kickoff_direct_launch",
+            {"taker": "Rin Itoshi", "receiver": "Oliver Aiku"},
+        )
+        before = continuity_snapshot(restored.engine)
+        restored.engine.state.event_log.append(kickoff)
+        restored.engine.state.second = 48.55 * 60.0
+        restored.engine.state.restart = None
+        restored.engine.state.restart_team = None
+
+        packet = build_narration_packet(
+            restored,
+            kickoff,
+            restored.narrator_state,
+            before,
+        )
+        self.assertTrue(packet["narrate"])
+        self.assertEqual(packet["continuity"]["previous_display_clock"], "45:00")
+        self.assertEqual(packet["clock"], "45:05")
+        self.assertEqual(packet["main_event"]["clock"], "45:05")
+
+    def test_pending_continuity_does_not_expose_danger(self):
+        session = MatchSessionV13.from_fixture(seed=46)
+        # Find a live pending action naturally; do not alter physics to create it.
+        for _ in range(40):
+            if session.engine.state.ended or session.engine.state.pending is not None:
+                break
+            session.engine.step()
+        snapshot = continuity_snapshot(session.engine)
+        pending = snapshot["pending"]
+        if pending is not None:
+            self.assertNotIn("danger", pending)
+            self.assertFalse(any("probability" in key.lower() for key in pending))
 
 
 if __name__ == "__main__":

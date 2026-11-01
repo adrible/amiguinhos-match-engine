@@ -1,0 +1,27 @@
+name: Highlights Brazil 2002 x DanganLock Game 7
+
+on:
+  push:
+    branches:
+      - v1.3-spatial-creativity-boldness
+    paths:
+      - highlight_brazil2002_danganlock_game7.py
+      - .github/workflows/highlights-brazil2002-danganlock-game7.yml
+
+permissions:
+  contents: read
+
+jobs:
+  highlights:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run deterministic game 7 and extract highlights
+        run: python highlight_brazil2002_danganlock_game7.py

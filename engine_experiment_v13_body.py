@@ -59,8 +59,10 @@ class MatchEngineV13Body(MatchEngineV13OffBall):
         while a left-footer is natural for line/crossing. Vice versa on the right.
         Central reception is neutral.
         """
-        foot = (actor.player.preferred_foot or "R").upper()
-        if lane == Lane.CENTER:
+        foot = str(actor.player.preferred_foot or "R").strip().upper()
+        if foot in {"B", "BOTH", "AMBIDEXTROUS", "AMBIDEXTRO", "TWO_FOOTED", "TWO-FOOTED", "2"}:
+            foot = "B"
+        if lane == Lane.CENTER or foot == "B":
             return {
                 "foot": foot,
                 "inverted": False,

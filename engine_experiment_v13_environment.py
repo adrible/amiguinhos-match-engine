@@ -27,8 +27,7 @@ class MatchEngineV13Environment(MatchEngineV13Ratings):
         )
 
     def _generate_environment(self) -> dict:
-        home = self.teams[0].team.name
-        away = self.teams[1].team.name
+        home, away = sorted(rt.team.name for rt in self.teams)
         rng = random.Random(f"v13-environment:{self.seed}:{home}:{away}")
         weather = weighted_choice(
             rng,

@@ -209,7 +209,7 @@ class MatchEngineV13SpaceManipulation(MatchEngineV13TransitionStructure):
         }
         return self._v13_isolation_target
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_space_manipulation_state()
         marker = self._v13_isolation_target
         if (
@@ -222,7 +222,7 @@ class MatchEngineV13SpaceManipulation(MatchEngineV13TransitionStructure):
                 return self.teams[team].by_name(marker["target"])
             except KeyError:
                 pass
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _progressive_action(self, team, actor, zone, kind, ctx):
         marker = self._prepare_isolation(team, actor, zone, ctx, kind)

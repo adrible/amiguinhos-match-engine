@@ -64,7 +64,7 @@ NARRATOR_RULES = [
     "Never display a clock earlier than continuity.previous_display_clock.",
     "If an action remains pending, end naturally on anticipation; never say that the engine or system stopped.",
     "Do not turn repeated tactical background adjustments into separate headline events unless the packet explicitly marks them narratable.",
-    "Describe shot_target as intention only; actual_shot_region and the outcome describe where the ball went. A blocked ball never reached the goal plane.",
+    "Describe shot_target and intended_shot_region as intention only; left/right are viewed by the shooter; actual_shot_region and the outcome describe where the ball went. A blocked ball never reached the goal plane.",
     "Resolve resolved_pending_action before describing the resulting shot, clearance or keeper claim.",
     "Describe a successful deception or dribble_move when it creates separation; do not invent a successful duel from a failed attempt.",
     "Use pass_technique together with pass_purpose and pass_technique_executed; a technique attempt does not guarantee a completed pass.",

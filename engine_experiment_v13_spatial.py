@@ -1027,7 +1027,19 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             for name, prob in base.items()
         }
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None) -> PlayerState:
+    def _action_target_weights(self, weights, action):
+        """Replace the legacy movement factor with contextual receiver quality.
+
+        Apply once at selection, after spatial/tactical weights. Explicit runs,
+        combinations and creative targets keep their existing priority.
+        """
+        return [
+            (ps, weight * (0.55 + 0.65 * self._attacking_target_quality(ps, action) / 100.0)
+             / (0.70 + 0.30 * ps.effective("off_ball") / 100.0))
+            for ps, weight in weights
+        ]
+
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None) -> PlayerState:
         """Choose a receiver, honoring a creative option selected this same beat.
 
         Creativity must not independently hijack every attacking target choice.
@@ -1083,12 +1095,16 @@ class MatchEngineV13Spatial(_StableMatchEngine):
             # GK target weight can leak a keeper into an attacking sequence.
             target = weighted_choice(
                 self.rng,
-                MatchEngineV13Spatial._base_target_weights(self, team, zone, None),
+                self._action_target_weights(
+                    MatchEngineV13Spatial._base_target_weights(self, team, zone, None), action
+                ),
             )
             if target.player.position.upper() == "GK":
                 self._activate_keeper_up(team)
             return target
-        target = weighted_choice(self.rng, self._base_target_weights(team, zone, actor))
+        target = weighted_choice(self.rng, self._action_target_weights(
+            self._base_target_weights(team, zone, actor), action
+        ))
         if target.player.position.upper() == "GK":
             self._activate_keeper_up(team)
         return target

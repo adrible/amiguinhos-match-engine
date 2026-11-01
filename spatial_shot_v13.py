@@ -24,7 +24,7 @@ def reference_target_probability(distance, pressure):
     spread = DISPERSION_SCALE * (1.20 - .75 * .60 + .18 * pressure + .18 * .30) * (distance / 12) ** .48
     def interval(lo, hi, mean, sigma):
         return .5 * (erf((hi-mean)/(sigma*sqrt(2))) - erf((lo-mean)/(sigma*sqrt(2))))
-    targets = [(.16,0.,.8),(.18,3.12,2.12),(.18,2.8,1.2),(.21,2.95,.28),
+    targets = [(.08,0.,.8),(.08,0.,1.95),(.18,3.12,2.12),(.18,2.8,1.2),(.21,2.95,.28),
                (.05,2.85,.75),(.05,2.85,1.15),(.05,2.85,1.55),(.12,2.25,.45)]
     return sum(weight * interval(-3.59,3.59,x,spread*1.9) * interval(-2.37,2.37,z,spread)
                for weight,x,z in targets)
@@ -66,6 +66,42 @@ def keeper_response(keeper, x, z, keeper_x, distance, speed, shot_type):
                 spatial_conversion_multiplier=clamp(.45 + 1.25 * difficulty, .40, 1.65))
 
 
+def shot_intention(engine, p, shooter, shot_type):
+    """One deterministic source for the chosen technique and goal-plane target."""
+    key = (engine.seed, engine.state.second, p.team, p.actor, p.origin, p.rebound_depth)
+    def draw(tag):
+        return _stable_fraction('goal-plane-v1', tag, *key)
+    side = -1 if p.zone.lane == Lane.LEFT else 1 if p.zone.lane == Lane.RIGHT else 0
+    far = draw('target-side') < .72
+    suffix = 'far_corner' if far else 'near_corner'
+    r = draw('target')
+    if r < .08:
+        target = 'central'
+    elif r < .16:
+        target = 'high_center'
+    elif r < .34:
+        target = 'high_' + suffix
+    elif r < .52:
+        target = 'mid_' + suffix
+    elif r < .73:
+        target = 'low_' + suffix
+    elif r < .88:
+        target = 'near_post'
+    else:
+        target = 'counterstep'
+    if shot_type == 'chip':
+        target = 'central_chip'
+    elif p.body_part == 'head' and draw('header') < .55:
+        shot_type, target = 'downward_header', 'low_' + suffix
+    elif p.body_part != 'head' and p.pressure > .65 and draw('toe') < .23:
+        shot_type = 'toe_poke'
+    elif p.body_part != 'head' and side and shooter.effective('technique') > 80 and draw('outside') < .16:
+        shot_type = 'outside_foot'
+    elif p.body_part != 'head' and p.zone.band == Band.BOX and p.danger > .7 and draw('legs') < .12:
+        shot_type, target = 'nutmeg', 'between_legs'
+    return shot_type, target
+
+
 def shot_geometry(engine, p, shooter, keeper, selection):
     key = (engine.seed, engine.state.second, p.team, p.actor, p.origin, p.rebound_depth)
     def draw(tag):
@@ -78,51 +114,36 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     keeper_x += (draw('keeper-offset') - .5) * (1.2 - keeper.effective('gk_positioning') / 120)
     shot_type = selection['shot_type']
     opposite = -1 if keeper_x > 0 else 1
-    # Consume the attacker's already-selected intent. The fallback keeps
-    # backwards compatibility for old callers that do not provide target_zone.
+    # Explicit intent is authoritative. Legacy callers use the same deterministic
+    # selector as shot_selection_diagnostic, including headers and keeper nutmegs.
     target = str(selection.get('target_zone') or '')
     if not target:
-        r = draw('target')
-        if r < .16:
-            target = 'central'
-        elif r < .34:
-            target = 'high_far_corner'
-        elif r < .52:
-            target = 'mid_far_corner'
-        elif r < .73:
-            target = 'low_far_corner'
-        elif r < .88:
-            target = 'near_post'
-        else:
-            target = 'counterstep'
+        shot_type, target = shot_intention(engine, p, shooter, shot_type)
+    aliases = {'far_post': 'mid_far_corner', 'far_corner': 'mid_far_corner',
+               'low_corner': 'low_far_corner', 'near_corner': 'near_post',
+               'wrong_foot': 'counterstep'}
+    target = aliases.get(target, target)
     if target == 'central':
         tx, tz = 0., .8
-    elif target == 'high_far_corner':
-        tx, tz = opposite * 3.12, 2.12
-    elif target in {'mid_far_corner', 'far_post', 'far_corner'}:
-        target, tx, tz = 'mid_far_corner', opposite * 2.8, 1.20
-    elif target in {'low_far_corner', 'low_corner'}:
-        target, tx, tz = 'low_far_corner', opposite * 2.95, .28
-    elif target in {'near_post', 'near_corner'}:
-        target, tx, tz = 'near_post', (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
-    elif target in {'counterstep', 'wrong_foot'}:
-        target, tx, tz = 'counterstep', -opposite * 2.25, .45
+    elif target == 'high_center':
+        tx, tz = 0., 1.95
+    elif target in {'high_far_corner', 'high_near_corner'}:
+        tx, tz = (opposite if target == 'high_far_corner' else -opposite) * 3.12, 2.12
+    elif target in {'mid_far_corner', 'mid_near_corner'}:
+        tx, tz = (opposite if target == 'mid_far_corner' else -opposite) * 2.8, 1.20
+    elif target in {'low_far_corner', 'low_near_corner'}:
+        tx = (opposite if target == 'low_far_corner' else -opposite) * 2.95
+        tz = .23 if shot_type == 'downward_header' else .28
+    elif target == 'near_post':
+        tx, tz = (side or -opposite) * 2.85, .55 + draw('near-height') * 1.2
+    elif target == 'counterstep':
+        tx, tz = -opposite * 2.25, .45
     elif target == 'central_chip':
         tx, tz = opposite * .7, 1.95
+    elif target == 'between_legs':
+        tx, tz = keeper_x, .16
     else:
-        # Unknown experimental labels degrade to a central intention instead of
-        # creating an impossible coordinate or silently changing the outcome.
         target, tx, tz = 'central', 0., .8
-    if shot_type == 'chip':
-        target, tx, tz = 'central_chip', opposite * .7, 1.95
-    elif p.body_part == 'head' and draw('header') < .55:
-        shot_type, target, tz = 'downward_header', 'low_far_corner', .23
-    elif p.body_part != 'head' and p.pressure > .65 and draw('toe') < .23:
-        shot_type = 'toe_poke'
-    elif p.body_part != 'head' and side and shooter.effective('technique') > 80 and draw('outside') < .16:
-        shot_type = 'outside_foot'
-    elif p.body_part != 'head' and p.zone.band == Band.BOX and p.danger > .7 and draw('legs') < .12:
-        shot_type, target, tx, tz = 'nutmeg', 'between_legs', keeper_x, .16
     preferred = str(shooter.player.preferred_foot).upper()
     if p.body_part in {'left_foot', 'right_foot'}:
         weak = preferred not in {'B', 'BOTH'} and p.body_part != ('left_foot' if preferred == 'L' else 'right_foot')
@@ -145,8 +166,9 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     frame = (abs(abs(x) - 3.66) <= .07 and z <= 2.51) or (abs(z - 2.44) <= .07 and abs(x) <= 3.73)
     exposed = getattr(engine, '_keeper_is_exposed', lambda team: False)(1 - p.team)
     response = keeper_response(keeper, x, z, keeper_x, distance, speed, shot_type)
+    intended = ('high' if tz > 1.65 else 'low' if tz < .65 else 'mid') + ('_center' if abs(tx) < 1.2 else '_left' if tx < 0 else '_right')
     actual = ('high' if z > 1.65 else 'low' if z < .65 else 'mid') + ('_center' if abs(x) < 1.2 else '_left' if x < 0 else '_right')
-    return dict(shot_type=shot_type, shot_target=target, intended_goal_position={'x': tx, 'z': tz},
+    return dict(shot_type=shot_type, shot_target=target, intended_shot_region=intended, intended_goal_position={'x': tx, 'z': tz},
                 actual_goal_position={'x': x, 'z': z}, actual_shot_region=actual,
                 keeper_goal_position={'x': keeper_x, 'z': .8}, shot_speed_mps=speed,
                 shot_distance_m=distance, shot_foot='head' if p.body_part == 'head' else 'weak' if weak else 'strong',

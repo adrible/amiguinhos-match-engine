@@ -86,7 +86,7 @@ class MatchEngineV13Runs(MatchEngineV13Combinations):
         self._v13_active_run_plan = None
         return None
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_run_state()
         marker = self._v13_forced_space_target
         if attacking and marker and marker.get("team") == team and marker.get("actor") == exclude:
@@ -94,7 +94,7 @@ class MatchEngineV13Runs(MatchEngineV13Combinations):
                 return self.teams[team].by_name(marker["target"])
             except KeyError:
                 pass
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     @staticmethod
     def _apply_run_context(ctx: dict, plan: dict | None) -> dict:

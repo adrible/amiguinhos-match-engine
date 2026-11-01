@@ -15,6 +15,19 @@ Tournament branches carry fixture/session data; they are not the sole location
 for engine improvements. Pin older completed matches to their original commit
 for exact replay. The historical `main`/v1.2 snapshot is not the active v1.3 runtime.
 
+## Candidate validation and freeze snapshot
+
+`v1.3-spatial-creativity-boldness` remains the active candidate; PR #2 stays in
+draft until promotion is explicitly approved. `v1.3-final-freeze` is a snapshot
+of the validated candidate, not a second development line or an authorization
+to run the official final. Its history retains the previous freeze snapshot.
+The final-match release gate remains defined in
+[V13_FREEZE_AND_FINAL_PROTOCOL.md](V13_FREEZE_AND_FINAL_PROTOCOL.md).
+
+The November 2026 integration repairs action-aware receiver selection through
+all v1.3 layers and reconciles PR #6 with the current bilateral/high-centre shot
+intentions. See [validation notes](V13_INTEGRATION_FIXES_20261101.md).
+
 ## v1.3
 
 The engine keeps outcome-blind simulation rules and adds contextual football behaviour, including:
@@ -64,3 +77,9 @@ The official final seed is reserved and must never be previewed, dry-run, calibr
 ## Calibração geral em campo neutro
 
 A revisão de 19/09/2026 calibra a precisão espacial e sua conversão, preservando o xG da situação. Em `mode="neutral"`, nenhum lado recebe vantagem de torcida, familiaridade ou viagem, inclusive com metadados antigos assimétricos. Use `compare_general_engine_v13.py --neutral` para comparar agregados sem distinguir mando. Resultados, limitações e reprodução: [calibração neutra](NEUTRAL_CALIBRATION_v13_20260919.md).
+
+A [revisão de contato e disciplina de 20/09/2026](CONTACT_CALIBRATION_v13_20260920.md) considera espaço livre no contato faltoso e reforça a reincidência na decisão de amarelo. Inclui validação independente e diagnóstico pareado da ordem dos times, com as regressões do índice global documentadas.
+
+[Alvos do chute e passes criativos](TARGET_PASS_VARIETY_v13_20260920.md): meio alto e cantos bilaterais explícitos, técnicas de primeira ligadas à recepção e escolha ponderada de passes difíceis; comparação real e regressões documentadas.
+
+[Calibração de ritmo e ambiente](CADENCE_CALIBRATION_v13_20260920.md): clima invariável à ordem dos times, menor dispersão de ritmo e validação de 300 confrontos nas duas ordens (600 partidas por versão), com incerteza e resultados individuais preservados.

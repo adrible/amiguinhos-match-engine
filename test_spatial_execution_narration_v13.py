@@ -35,14 +35,29 @@ class SpatialExecutionTests(unittest.TestCase):
             g = shot_geometry(e, p, a, k, selection)
             self.assertEqual(g['shot_target'], selection['target_zone'])
 
+    def test_selected_target_matches_execution_for_headers_and_special_techniques(self):
+        e, a, p, k = self.setup_shot()
+        a.player.technique = 95
+        p.danger, p.pressure = .85, .75
+        for body in ('head', 'left_foot', 'right_foot'):
+            p.body_part = body
+            for lane in (Lane.LEFT, Lane.CENTER, Lane.RIGHT):
+                p.zone = Zone(Band.BOX, lane)
+                for second in range(100):
+                    e.state.second = second
+                    selection = e.shot_selection_diagnostic(a, p, k)
+                    g = shot_geometry(e, p, a, k, selection)
+                    self.assertEqual(g['shot_target'], selection['target_zone'])
+                    self.assertEqual(g['shot_type'], selection['shot_type'])
+
     def test_handling_contributes_to_spatial_save_response(self):
         e, a, p, k = self.setup_shot()
         original = k.player.handling
         try:
             k.player.handling = 40
-            weak = keeper_response(k, 0, .55, 0, 12, 18, 'placed')
+            weak = keeper_response(k, 1.5, 1.2, 0, 12, 24, 'placed')
             k.player.handling = 95
-            strong = keeper_response(k, 0, .55, 0, 12, 18, 'placed')
+            strong = keeper_response(k, 1.5, 1.2, 0, 12, 24, 'placed')
         finally:
             k.player.handling = original
         self.assertLess(strong['spatial_conversion_multiplier'], weak['spatial_conversion_multiplier'])

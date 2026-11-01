@@ -102,7 +102,7 @@ class MatchEngineV13PassingLanes(MatchEngineV13ShotPreparation):
             "target_movement": target_movement,
         }
 
-    def _choose_target(self, team, zone, attacking=True, exclude=None):
+    def _choose_target(self, team, zone, attacking=True, exclude=None, action=None):
         self._ensure_passing_lane_state()
         marker = self._v13_lane_target_override
         if (
@@ -115,7 +115,7 @@ class MatchEngineV13PassingLanes(MatchEngineV13ShotPreparation):
                 return self.teams[team].by_name(marker["target"])
             except KeyError:
                 pass
-        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude)
+        return super()._choose_target(team, zone, attacking=attacking, exclude=exclude, action=action)
 
     def _lane_adjusted_context(self, ctx: dict, diag: dict) -> dict:
         adjusted = dict(ctx)
@@ -137,7 +137,7 @@ class MatchEngineV13PassingLanes(MatchEngineV13ShotPreparation):
             event.data.setdefault("lane_interceptor", diag["interceptor"])
 
     def _safe_pass(self, team, actor, zone, ctx):
-        target = super()._choose_target(team, zone, attacking=False, exclude=actor.player.name)
+        target = super()._choose_target(team, zone, attacking=False, exclude=actor.player.name, action="safe_pass")
         diag = self.passing_lane_diagnostic(team, actor, target, zone, "safe_pass", ctx)
         self._v13_lane_target_override = {
             "team": team,
@@ -153,7 +153,7 @@ class MatchEngineV13PassingLanes(MatchEngineV13ShotPreparation):
         return event
 
     def _progressive_action(self, team, actor, zone, kind, ctx):
-        target = super()._choose_target(team, zone, attacking=True, exclude=actor.player.name)
+        target = super()._choose_target(team, zone, attacking=True, exclude=actor.player.name, action=kind)
         diag = self.passing_lane_diagnostic(team, actor, target, zone, kind, ctx)
         self._v13_lane_target_override = {
             "team": team,
@@ -177,7 +177,7 @@ class MatchEngineV13PassingLanes(MatchEngineV13ShotPreparation):
     def _create_or_resolve_danger(self, team, actor, zone, kind, ctx):
         if kind != "through_ball":
             return super()._create_or_resolve_danger(team, actor, zone, kind, ctx)
-        target = super()._choose_target(team, zone, attacking=True, exclude=actor.player.name)
+        target = super()._choose_target(team, zone, attacking=True, exclude=actor.player.name, action=kind)
         diag = self.passing_lane_diagnostic(team, actor, target, zone, kind, ctx)
         self._v13_lane_target_override = {
             "team": team,

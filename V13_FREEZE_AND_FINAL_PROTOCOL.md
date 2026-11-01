@@ -7,7 +7,13 @@ is frozen for the Regional Internacional U21 final.  It is intentionally
 result-agnostic: no score, winner, shot count, xG value or Amiguinhos success
 rate is a release target.
 
-The official v1.2 remains frozen and is not modified by this protocol.
+The historical v1.2 remains unchanged on `archive-v1.2-stable`. The active
+v1.3 source tree does not promise v1.2 runtime compatibility.
+
+`v1.3-final-freeze` records a candidate snapshot with shared ancestry with the
+active branch. Updating that snapshot alone does not certify the release gate
+or authorize the official-final runner. Retain the previous snapshot in its
+history; never discard it to repair branch ancestry.
 
 ## Freeze gate
 
@@ -15,7 +21,7 @@ Before v1.3 can be treated as the final-match candidate, the exact candidate
 head must satisfy all of the following:
 
 1. Python 3.11 and 3.12 candidate CI are green.
-2. The frozen v1.2 regression suite remains green.
+2. The archived v1.2 regression suite remains green on its own unchanged tree.
 3. All v1.3 behavioural/regression tests are green.
 4. The 100-match generic smoke completes with coherent statistical invariants.
 5. Amiguinhos U21 x Flamengo U21 calibration runs the complete contiguous,

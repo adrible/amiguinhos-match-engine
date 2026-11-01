@@ -1,0 +1,30 @@
+{
+  "fouls": {
+    "delta_after_minus_before": -1.5666666666666667,
+    "paired_bootstrap_95_percent_interval": [
+      -2.046666666666667,
+      -1.1
+    ]
+  },
+  "yellow": {
+    "delta_after_minus_before": 0.38,
+    "paired_bootstrap_95_percent_interval": [
+      0.18666666666666668,
+      0.5833333333333334
+    ]
+  },
+  "goals": {
+    "delta_after_minus_before": 0.15,
+    "paired_bootstrap_95_percent_interval": [
+      -0.04,
+      0.35
+    ]
+  },
+  "sot": {
+    "delta_after_minus_before": 0.16666666666666666,
+    "paired_bootstrap_95_percent_interval": [
+      -0.16666666666666666,
+      0.5
+    ]
+  }
+}

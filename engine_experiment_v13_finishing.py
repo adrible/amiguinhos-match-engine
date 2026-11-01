@@ -57,33 +57,8 @@ class MatchEngineV13AdvancedFinishing(MatchEngineV13CrossingAerial):
         else:
             shot_type = "low_driven" if fraction < 0.54 else "power"
 
-        # The target is selected here before resolution and is the same intent
-        # consumed by the goal-plane model. Reuse the spatial draw key so this
-        # refactor does not silently reshuffle the calibrated target mix.
-        target_fraction = _stable_fraction(
-            "goal-plane-v1",
-            "target",
-            self.seed,
-            self.state.second,
-            p.team,
-            p.actor,
-            p.origin,
-            p.rebound_depth,
-        )
-        if shot_type == "chip":
-            target = "central_chip"
-        elif target_fraction < 0.16:
-            target = "central"
-        elif target_fraction < 0.34:
-            target = "high_far_corner"
-        elif target_fraction < 0.52:
-            target = "mid_far_corner"
-        elif target_fraction < 0.73:
-            target = "low_far_corner"
-        elif target_fraction < 0.88:
-            target = "near_post"
-        else:
-            target = "counterstep"
+        from spatial_shot_v13 import shot_intention
+        shot_type, target = shot_intention(self, p, shooter, shot_type)
 
         execution = clamp(
             0.35 * finishing

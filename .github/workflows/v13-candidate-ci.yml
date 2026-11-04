@@ -58,6 +58,7 @@ jobs:
           test_cadence_calibration_v13.py
           test_target_pass_variety_v13.py
           test_v13_target_action.py
+          test_v13_coordinates.py
           test_contact_calibration_v13.py
           test_neutral_calibration_v13.py
           test_spatial_execution_narration_v13.py

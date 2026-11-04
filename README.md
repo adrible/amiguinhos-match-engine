@@ -15,6 +15,14 @@ Tournament branches carry fixture/session data; they are not the sole location
 for engine improvements. Pin older completed matches to their original commit
 for exact replay. The historical `main`/v1.2 snapshot is not the active v1.3 runtime.
 
+## Experimental spatial coordinates
+
+`feature/player-xy-ball-xyz-v13` adds persistent player x/y and ball x/y/z in
+metres, geometric pressure/pass/defender readings, clock-driven movement and
+in-flight save/load. The live `p` packet includes the complete pitch frame.
+See [coordinate API and scope](SPATIAL_COORDINATES_v13.md). This new spatial
+branch requires its own population validation before promotion.
+
 ## Candidate validation and freeze snapshot
 
 `v1.3-spatial-creativity-boldness` remains the active candidate; PR #2 stays in

@@ -39,8 +39,10 @@ from engine_experiment_v13_discipline_realism import MatchEngineV13DisciplineRea
 from engine_experiment_v13_venue import MatchEngineV13VenueContext
 from engine_experiment_v13_rules_hardening import MatchEngineV13RulesHardening
 
-ENGINE_VERSION = "1.3-candidate"
-MatchEngine = MatchEngineV13RulesHardening
+from engine_experiment_v13_coordinates import MatchEngineV13Coordinates
+
+ENGINE_VERSION = "1.3-candidate-spatial"
+MatchEngine = MatchEngineV13Coordinates
 
 __all__ = [
     "ENGINE_VERSION",
@@ -80,4 +82,5 @@ __all__ = [
     "MatchEngineV13DisciplineRealism",
     "MatchEngineV13VenueContext",
     "MatchEngineV13RulesHardening",
+    "MatchEngineV13Coordinates",
 ]

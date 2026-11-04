@@ -472,6 +472,7 @@ def build_narration_packet(
     elif main_event.type.value in {"goal", "save", "post", "penalty"} and public_second >= 85 * 60:
         emotion = "decisive_late_chance"
     return {
+        "pitch": engine.pitch_snapshot() if hasattr(engine, "pitch_snapshot") else None,
         "command": "P_RESULT",
         "circulation_summary": summary,
         "contextual_emotion": emotion,

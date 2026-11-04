@@ -42,6 +42,7 @@ from narration_packet_v13 import (
 
 
 VENUE_MODES = ("neutral", "home_away", "shared_stadium")
+ENGINE_MODES = ("event", "continuous")
 
 
 class MatchSessionV13:
@@ -64,6 +65,7 @@ class MatchSessionV13:
         auto_adapt: bool = False,
         allow_extra_time: bool = False,
         venue_mode: str = "neutral",
+        engine_mode: str = "event",
         allow_reserved_final_seed: bool = False,
     ) -> "MatchSessionV13":
         if (
@@ -78,13 +80,19 @@ class MatchSessionV13:
         if venue_mode not in VENUE_MODES:
             raise ValueError(f"venue_mode must be one of {VENUE_MODES}")
 
+        if engine_mode not in ENGINE_MODES:
+            raise ValueError(f"engine_mode must be one of {ENGINE_MODES}")
+        engine_class = MatchEngine
+        if engine_mode == "continuous":
+            from engine_experiment_v13_continuous import MatchEngineV13Continuous
+            engine_class = MatchEngineV13Continuous
         home = load_team_for_v13(home_key)
         away = load_team_for_v13(away_key)
         venue_context = None if venue_mode == "neutral" else {
             "mode": venue_mode,
             "source": "live_runner",
         }
-        engine = MatchEngine(
+        engine = engine_class(
             home,
             away,
             seed=int(seed),
@@ -117,7 +125,12 @@ class MatchSessionV13:
 
     @classmethod
     def from_json(cls, payload: str) -> "MatchSessionV13":
-        return cls(MatchEngine.from_json(payload))
+        raw = json.loads(payload)
+        engine_class = MatchEngine
+        if "v13_continuous" in raw:
+            from engine_experiment_v13_continuous import MatchEngineV13Continuous
+            engine_class = MatchEngineV13Continuous
+        return cls(engine_class.from_state_dict(raw))
 
     @property
     def pristine(self) -> bool:
@@ -331,6 +344,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--auto-adapt", action="store_true")
     parser.add_argument("--extra-time", action="store_true")
+    parser.add_argument("--engine-mode", choices=ENGINE_MODES, default="event")
     parser.add_argument("--venue-mode", choices=VENUE_MODES, default="neutral")
     parser.add_argument("--official-final", action="store_true")
     parser.add_argument("--load", dest="load_path")
@@ -351,6 +365,7 @@ def main() -> None:
             auto_adapt=args.auto_adapt,
             allow_extra_time=args.extra_time,
             venue_mode=args.venue_mode,
+            engine_mode=args.engine_mode,
         )
     run_cli(session)
 

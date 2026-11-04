@@ -1,0 +1,138 @@
+{
+  "scope": "20,000 counterfactual goal-plane executions. Sensitivity, not real-event validation. Expected goals use base block and spatial conversion formulas; they are not complete match outcomes.",
+  "seed": 113001,
+  "samples_per_case": 1000,
+  "cases": {
+    "distance_6": {
+      "sot": 0.58,
+      "xg": 0.4269834749152926,
+      "expected_goals": 0.4346617651635603,
+      "spread": 0.9951183385774144
+    },
+    "distance_12": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.1676854009384547,
+      "spread": 1.3879349999999862
+    },
+    "distance_18": {
+      "sot": 0.446,
+      "xg": 0.0652842951657315,
+      "expected_goals": 0.062231581330469694,
+      "spread": 1.6861372853219816
+    },
+    "distance_24": {
+      "sot": 0.392,
+      "xg": 0.029786834230150553,
+      "expected_goals": 0.023427378196423248,
+      "spread": 1.935813550556073
+    },
+    "distance_35": {
+      "sot": 0.329,
+      "xg": 0.007654805126677604,
+      "expected_goals": 0.004809723482070539,
+      "spread": 2.3201432016757786
+    },
+    "pressure_0.0": {
+      "sot": 0.547,
+      "xg": 0.16849023596848575,
+      "expected_goals": 0.18820331098370036,
+      "spread": 1.1611349999999832
+    },
+    "pressure_0.5": {
+      "sot": 0.49,
+      "xg": 0.15028364564801672,
+      "expected_goals": 0.16242031397676202,
+      "spread": 1.4446350000000014
+    },
+    "pressure_1.0": {
+      "sot": 0.435,
+      "xg": 0.13372800851129799,
+      "expected_goals": 0.1351861678543344,
+      "spread": 1.7766610308000155
+    },
+    "finisher_45": {
+      "sot": 0.413,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.12041665568990689,
+      "spread": 1.86988500000002
+    },
+    "finisher_70": {
+      "sot": 0.477,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.15448463950517813,
+      "spread": 1.5256349999999803
+    },
+    "finisher_95": {
+      "sot": 0.542,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.19165383697083557,
+      "spread": 1.1813849999999984
+    },
+    "keeper_45": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.23423142603130678,
+      "spread": 1.3879349999999862
+    },
+    "keeper_70": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.1860234400895688,
+      "spread": 1.3879349999999862
+    },
+    "keeper_95": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.14245476798998313,
+      "spread": 1.3879349999999862
+    },
+    "lateral_0.0": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.1676854009384547,
+      "spread": 1.3879349999999862
+    },
+    "lateral_10.0": {
+      "sot": 0.469,
+      "xg": 0.07969009627596793,
+      "expected_goals": 0.08107411806079746,
+      "spread": 1.575199944625795
+    },
+    "lateral_20.0": {
+      "sot": 0.404,
+      "xg": 0.02637444942291716,
+      "expected_goals": 0.021772823345688967,
+      "spread": 1.9094393374482508
+    },
+    "body_left_foot": {
+      "sot": 0.487,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.16267340730013258,
+      "spread": 1.459935000000012
+    },
+    "body_right_foot": {
+      "sot": 0.503,
+      "xg": 0.153790518141894,
+      "expected_goals": 0.1676854009384547,
+      "spread": 1.3879349999999862
+    },
+    "body_head": {
+      "sot": 0.523,
+      "xg": 0.05946207027773754,
+      "expected_goals": 0.053052709795338694,
+      "spread": 1.385099999999982
+    }
+  },
+  "checks": {
+    "distance_reduces_xg": true,
+    "distance_reduces_accuracy": true,
+    "pressure_reduces_xg": true,
+    "pressure_reduces_accuracy": true,
+    "skill_changes_accuracy": true,
+    "skill_does_not_change_xg": true,
+    "keeper_reduces_conversion": true,
+    "keeper_does_not_change_xg": true,
+    "angle_reduces_xg": true
+  }
+}

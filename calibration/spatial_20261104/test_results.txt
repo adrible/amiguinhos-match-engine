@@ -1,0 +1,92 @@
+realism-r2-final-suite
+
+Known pre-existing v1.2 API incompatibility excluded: test_engine_v12.StableV12Tests.test_same_seed_remains_reproducible
+.................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+----------------------------------------------------------------------
+Ran 849 tests in 215.932s
+
+OK
+
+
+realism-r2-tests2
+
+----------------------------------------------------------------------
+Ran 85 tests in 7.405s
+
+OK
+
+
+realism-regression
+
+----------------------------------------------------------------------
+Ran 47 tests in 3.360s
+
+OK
+
+
+realism-core
+
+----------------------------------------------------------------------
+Ran 30 tests in 110.669s
+
+OK
+
+
+before-known-tests
+
+======================================================================
+ERROR: test_same_seed_remains_reproducible (test_engine_v12.StableV12Tests.test_same_seed_remains_reproducible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/amiguinhos-coordinate-before/test_engine_v12.py", line 35, in test_same_seed_remains_reproducible
+    m1 = simulate_full_match(a1, b1, seed=999)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/amiguinhos-coordinate-before/engine_experiment_v12.py", line 168, in simulate_full_match_v12
+    engine.step()
+  File "/tmp/amiguinhos-coordinate-before/engine.py", line 451, in step
+    return self._open_play_step()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/amiguinhos-coordinate-before/engine.py", line 541, in _open_play_step
+    return self._execute_decision(team, actor, zone, decision, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/amiguinhos-coordinate-before/engine.py", line 562, in _execute_decision
+    if decision in ("progressive_pass", "switch", "long_ball"): return self._progressive_action(team, actor, zone, decision, ctx)
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/amiguinhos-coordinate-before/engine.py", line 579, in _progressive_action
+    target = self._choose_target(team, zone, attacking=True, exclude=actor.player.name, action=kind)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MatchEngineV12._choose_target() got an unexpected keyword argument 'action'
+
+======================================================================
+ERROR: test_goalkeeper_cannot_choose_open_play_shot_without_keeper_up (test_v13_goalkeeper_receiver_eligibility.GoalkeeperAttackingReceiverEligibilityTests.test_goalkeeper_cannot_choose_open_play_shot_without_keeper_up)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/amiguinhos-coordinate-before/test_v13_goalkeeper_receiver_eligibility.py", line 98, in test_goalkeeper_cannot_choose_open_play_shot_without_keeper_up
+    ctx = engine._context(goalkeeper, zone)
+          ^^^^^^^^^^^^^^^
+AttributeError: 'MatchEngineV13Coordinates' object has no attribute '_context'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.011s
+
+FAILED (errors=2)
+
+
+realism-r2-sensitivity
+
+{
+  "distance_reduces_xg": true,
+  "distance_reduces_accuracy": true,
+  "pressure_reduces_xg": true,
+  "pressure_reduces_accuracy": true,
+  "skill_changes_accuracy": true,
+  "skill_does_not_change_xg": true,
+  "keeper_reduces_conversion": true,
+  "keeper_does_not_change_xg": true,
+  "angle_reduces_xg": true
+}
+
+
+realism-r2-physics
+
+{'cases': 240, 'gravity_or_ground_acceleration_failures': 0, 'max_acceleration_error_m_s2': 1.7763568394002505e-14, 'midflight_restore_cases': 20, 'note': 'Vacuum projectile mechanics and persistence only; not validation against real ball tracking.'}

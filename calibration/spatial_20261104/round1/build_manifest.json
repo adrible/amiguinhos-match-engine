@@ -1,0 +1,21 @@
+{
+  "local_frozen_build": "ea76d9b",
+  "published_runtime_commit": "6e8bbeb2eed65635d89c141e4c482aadae879211",
+  "runtime_tree_sha": "835b6eb1277e09c1beb8ca16c224db1d2d42b6e1",
+  "equivalence": "GitHub-created commit and local frozen build have identical Git tree; only commit metadata differs. Cohort raw headers retain the local frozen build. No runtime changes after cohort freeze.",
+  "runtime_files_sha256": {
+    ".github/workflows/v13-candidate-ci.yml": "629dd2d1f4ccd4760edb1389fd74c2a971df3cdd6286ee84a4b714eac6c500c6",
+    "calibration/spatial_20261104/README.md": "9f62ad56ec7ff42433b20e1257ed5ad2b7eefe1e6aba05991c98d92f1f4d2d4a",
+    "calibration/spatial_20261104/build_shot_reference.py": "583ad170da3237647775fabeabe283a279a9daf190655059ac946eeba823a71a",
+    "calibration/spatial_20261104/run_audit.py": "ea426094a7fb2cccedc24f137502160276a54483ec81af2f59a4037e5ad00b14",
+    "calibration/spatial_20261104/run_sensitivity.py": "d2a3e4f69331ffe8580ac005b4428877e36103680313ff59a0c070300fe87c89",
+    "data/spatial_shot_reference_v13.json": "9acbcad4a2dc49f785554cec38a911760e905d9c067de0c1c31a2cdd1f898b2d",
+    "engine_experiment_v13.py": "dc6e9df6bc3133385579d4653dc512c0b7a4ff9714260c05580f4419264211fb",
+    "engine_experiment_v13_coordinate_play.py": "89046e4173b026b99fa135cc28db44f30e088dac0f88f34bad73152eb784f7bf",
+    "engine_experiment_v13_coordinates.py": "e32c9c17b0de9a6c8325fc60a2b23eebeff7b117c1cb6ea0513dff7da247ba7e",
+    "spatial_shot_v13.py": "59b497ae372a9710f6a86dcb1610ce2701759926f1dcb01c775b55e6e32ce683",
+    "test_spatial_execution_narration_v13.py": "50c22af68d6182a5575205c2b746b5851fc0e3241db48c040977e3ce1d13450e",
+    "test_v13_coordinate_play.py": "05c67ee14764d99d1865a3861c5164e498b654c7a62ac885dbd308944916efdc",
+    "test_v13_goalkeeper_receiver_eligibility.py": "293c36ac4b479549478ff55bfea66d265b552bc1673a81c7ec134296a8d2fc1a"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "cases": 240,
+  "gravity_or_ground_acceleration_failures": 0,
+  "max_acceleration_error_m_s2": 1.7763568394002505e-14,
+  "midflight_restore_cases": 20,
+  "note": "Vacuum projectile mechanics and persistence only; not validation against real ball tracking."
+}

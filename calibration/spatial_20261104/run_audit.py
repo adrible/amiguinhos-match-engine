@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import inspect
 from collections import Counter, defaultdict
 import json
 import math
@@ -35,12 +37,15 @@ class ObservedEngine(ShotAuditEngine):
     def __init__(self, *a, **kw):
         self.audit_counts = Counter()
         self.audit_examples = []
+        self.hard_examples = []
         self.audit_distances = defaultdict(list)
         self.audit_shots = []
         super().__init__(*a, **kw)
 
     def violation(self, name, **data):
         self.audit_counts[name] += 1
+        if name not in {"shot_distance_proxy_gap_over_10m"}:
+            self.hard_examples.append({"kind":name,"second":self.state.second,**data})
         if len(self.audit_examples) < 16:
             self.audit_examples.append({"kind": name, "second": self.state.second, **data})
 
@@ -203,9 +208,11 @@ seeds = list(range(args.start_seed, args.start_seed+args.count))
 if RESERVED_OFFICIAL_FINAL_SEED in seeds or args.count <= 0:
     raise ValueError("Invalid or quarantined seed schedule")
 result = {"engine_commit": subprocess.check_output(["git", "-C", str(args.engine_root), "rev-parse", "HEAD"], text=True).strip(),
+          "runtime_code_sha256": hashlib.sha256(Path(inspect.getfile(MatchEngine)).read_bytes()).hexdigest(),
+          "runtime_parameters": {key:getattr(sys.modules[MatchEngine.__module__],key,None) for key in ("CONTEXT_LOGIT_OFFSET","OPEN_PLAY_TIME_SCALE","FIRST_CAUTION_SCALE")},
           "seed_policy": "contiguous_unfiltered", "seeds": seeds, "matches": [], "failures": [],
           "spatial_counts": Counter(), "spatial_distances": defaultdict(list),
-          "spatial_examples": [], "shots": [], "shot_groups": {}, "shot_cells": {}, "parity_checked": False}
+          "spatial_examples": [], "hard_spatial_examples": [], "shots": [], "shot_groups": {}, "shot_cells": {}, "parity_checked": False}
 groups, cells = defaultdict(Counter), defaultdict(Counter)
 started = time.monotonic()
 for index, seed in enumerate(seeds):
@@ -229,6 +236,7 @@ for index, seed in enumerate(seeds):
             result["spatial_distances"][name].extend(values)
         if len(result["spatial_examples"]) < 40:
             result["spatial_examples"].extend({"seed": seed, **r} for r in engine.audit_examples[:4])
+        result["hard_spatial_examples"].extend({"seed":seed,**r} for r in engine.hard_examples)
         result["shots"].extend({"seed": seed, **shot} for shot in engine.audit_shots)
         for shot in engine.audit_shots:
             group = groups[shot["body_part"]]

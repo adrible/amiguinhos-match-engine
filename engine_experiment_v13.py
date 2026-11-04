@@ -43,7 +43,7 @@ from engine_experiment_v13_coordinates import MatchEngineV13Coordinates
 
 from engine_experiment_v13_coordinate_play import MatchEngineV13CoordinatePlay
 
-ENGINE_VERSION = "1.3-candidate-spatial-realism"
+ENGINE_VERSION = "1.3-candidate-spatial-realism-r2"
 MatchEngine = MatchEngineV13CoordinatePlay
 
 __all__ = [

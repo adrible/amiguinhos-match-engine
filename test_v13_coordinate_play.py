@@ -118,5 +118,19 @@ class CoordinatePlayTests(unittest.TestCase):
             broken['v13_coordinate_play']={'delivery':{'team':0,'x':point,'y':8.,'kind':'cross','second':second}}
             with self.assertRaises(ValueError):MatchEngine.from_state_dict(broken)
 
+    def test_returned_frame_keeps_owned_ball_at_its_current_player(self):
+        e=self.fixture();ps=e.teams[0].on_field[-1]
+        from unittest.mock import patch
+        from engine import Event, EventType
+        from engine_experiment_v13_coordinates import MatchEngineV13Coordinates
+        def lower_step():
+            e._xy_ball={'x':10.,'y':10.,'z':0.,'owner':{'team':0,'player':ps.player.name}}
+            ps.x,ps.y=94.,34.
+            return Event(e.minute,0,EventType.INFO,0,'test',{})
+        with patch.object(MatchEngineV13Coordinates,'step',side_effect=lower_step):
+            event=e.step()
+        self.assertEqual((e._xy_ball['x'],e._xy_ball['y']),(94.,34.))
+        self.assertEqual(event.data['ball_coordinates'],e._xy_ball)
+
 
 if __name__=='__main__':unittest.main()

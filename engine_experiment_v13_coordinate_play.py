@@ -12,6 +12,12 @@ from engine import Band, Lane, Zone, clamp, weighted_choice
 from engine_experiment_v13_coordinates import MatchEngineV13Coordinates
 from spatial_shot_v13 import _stable_fraction
 
+# Context calibration on the first 600 synthetic league fixtures (112000–112599),
+# frozen before the independent 114000–114299 validation. No score quotas.
+CONTEXT_LOGIT_OFFSET = .14
+OPEN_PLAY_TIME_SCALE = .96
+FIRST_CAUTION_SCALE = 1.16
+
 MODEL = json.loads((Path(__file__).parent / 'data/spatial_shot_reference_v13.json').read_text())['coefficients']
 
 
@@ -163,7 +169,7 @@ class MatchEngineV13CoordinatePlay(MatchEngineV13Coordinates):
         # Beats represent circulation as well as preparation. Explicit new
         # receiving runs and restart set-up replace part of that old envelope.
         if getattr(self, '_planning_open_play', False):
-            seconds *= .90
+            seconds *= OPEN_PLAY_TIME_SCALE
         return super()._advance_clock(seconds, possession_team)
 
     def shot_geometry_context(self, p, shooter):
@@ -185,8 +191,14 @@ class MatchEngineV13CoordinatePlay(MatchEngineV13Coordinates):
                     'header': p.body_part == 'head', 'pressure': p.pressure,
                     'cross': p.origin in {'cross','corner'}, 'cutback': p.origin == 'cutback',
                     'freekick': p.origin == 'free_kick'}
-        score = sum(MODEL[k]*features[k] for k in MODEL)
+        score = CONTEXT_LOGIT_OFFSET + sum(MODEL[k]*features[k] for k in MODEL)
         return clamp(1./(1.+exp(-score)), .001, .95)
+
+    def _card_probabilities(self, defending_team, defender, incident, zone, foul_count_after):
+        probs = super()._card_probabilities(defending_team,defender,incident,zone,foul_count_after)
+        if not defender.yellow:
+            probs = {**probs, 'yellow':min(1.,FIRST_CAUTION_SCALE*probs['yellow'])}
+        return probs
 
     def _emit(self, event_type, team, relevance, text_key, **data):
         if getattr(self, '_xy_ready', False) and event_type.value == 'danger':
@@ -320,7 +332,13 @@ class MatchEngineV13CoordinatePlay(MatchEngineV13Coordinates):
         self._movement_plan = None
         self._aerial_runner = None
         try:
-            return super().step()
+            event = super().step()
+            owner = self._xy_ball.get('owner')
+            if owner is not None and self._xyz_flight is None:
+                ps = self.teams[owner['team']].by_name(owner['player'])
+                self._xy_ball.update(x=ps.x,y=ps.y)
+                event.data['ball_coordinates'] = deepcopy(self._xy_ball)
+            return event
         finally:
             self._movement_budget = {}
             self._movement_plan = None

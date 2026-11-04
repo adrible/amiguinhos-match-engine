@@ -95,7 +95,7 @@ class GoalkeeperAttackingReceiverEligibilityTests(unittest.TestCase):
         goalkeeper = self._goalkeeper(engine)
         zone = Zone(Band.ATT, Lane.CENTER)
         tactics = engine.teams[0].team.tactics
-        ctx = engine._context(goalkeeper, zone)
+        ctx = engine._spatial_context(0, zone)
         for _ in range(200):
             decision = engine._choose_decision(goalkeeper, zone, tactics, ctx)
             self.assertNotEqual(decision, "shoot")

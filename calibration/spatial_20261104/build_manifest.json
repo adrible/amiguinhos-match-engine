@@ -1,0 +1,25 @@
+{
+  "runtime_commit": "f93a4458f2915eccedb188705cb2027855adbccb",
+  "runtime_tree_sha": "357064dcf0157709ddf309da11d89eb6f35479ba",
+  "validation_seeds": [
+    114000,
+    114299
+  ],
+  "n_each_version": 300,
+  "development_round1_seeds": [
+    112000,
+    112599
+  ],
+  "parameters": {
+    "CONTEXT_LOGIT_OFFSET": 0.14,
+    "OPEN_PLAY_TIME_SCALE": 0.96,
+    "FIRST_CAUTION_SCALE": 1.16
+  },
+  "runtime_files_sha256": {
+    "engine_experiment_v13_coordinate_play.py": "fbcdab26200e0c88cd751b4442d7d385fe1f2ca3e16f08bc940cadd43a4cb99e",
+    "engine_experiment_v13_coordinates.py": "e32c9c17b0de9a6c8325fc60a2b23eebeff7b117c1cb6ea0513dff7da247ba7e",
+    "engine_experiment_v13.py": "f3dfc3e594af225291901887e38c40c9b27cca12fadbd6a0109ef2d7d5cf67db",
+    "spatial_shot_v13.py": "59b497ae372a9710f6a86dcb1610ce2701759926f1dcb01c775b55e6e32ce683",
+    "data/spatial_shot_reference_v13.json": "9acbcad4a2dc49f785554cec38a911760e905d9c067de0c1c31a2cdd1f898b2d"
+  }
+}

@@ -58,6 +58,11 @@ class ReboundContinuityTests(unittest.TestCase):
     def test_reaction_quality_changes_second_ball_edge(self):
         e = self.engine(seed=8307)
         shooter, p = self.context(e)
+        # Equal reach to the rebound isolates reaction attributes; kickoff
+        # positions would leave every attacker far from the opposing box.
+        for team, rt in enumerate(e.teams):
+            for index, ps in enumerate(p for p in rt.on_field if p.player.position != "GK"):
+                ps.x, ps.y = 93. + 2.*team, 30. + .8*index
         attackers = [ps for ps in e.teams[0].on_field if ps.player.name != shooter.player.name and ps.player.position.upper() != "GK"]
         for ps in attackers:
             for attr in ("anticipation", "off_ball", "pace", "positioning", "composure"):

@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "600 partidas completas na validação final: 300 anteriores + 300 revisadas, sementes 114000–114299, sem falhas nem exclusão de resultados. A primeira rodada de desenvolvimento reteve outras 1.200 partidas comparativas em round1/.",
+    "Código da revisão congelado no commit f93a445 antes da coorte final; os três lotes registram os mesmos parâmetros 0,14 / 0,96 / 1,16 e o hash da classe carregada. Nenhuma mudança de runtime durante a validação.",
+    "Paridade do observador por igualdade completa do estado e RNG em uma partida inteira de cada versão.",
+    "Ledger completo, IDs de chutes únicos e soma de xG consistente em todas as partidas das duas rodadas.",
+    "849 testes aprovados na suíte final da revisão. Um teste histórico v1.2 foi explicitamente excluído, pois a mesma falha de assinatura _choose_target(action) foi reproduzida no commit anterior. Evidência em test_results.txt; o código estável não foi alterado.",
+    "85 testes direcionados de coordenadas, contato, disciplina, arbitragem e mando também aprovados; 15 testes específicos de geometria/contato/alcance/persistência/tracking e 25 de coordenadas integram a suíte.",
+    "20.000 execuções contrafactuais (20 cenários × 1.000) da revisão: nove relações causais aprovadas para distância, pressão, ângulo, habilidade e goleiro. A habilidade muda a execução sem alterar a qualidade geométrica da chance.",
+    "240 trajetórias de bola da revisão, nenhuma falha em gravidade/solo ou ponto final; 20 retomadas durante o voo com estado idêntico. Teste de consistência, não comparação com tracking real de bola.",
+    "96 jogos usados no controle de mando desta comparação: 24 sementes × dois modos × duas versões. Os 48 jogos da versão anterior foram reutilizados da rodada 1; foram produzidos 144 jogos distintos de controle ao todo.",
+    "Cenários antigos de chute na área e disputa de rebote receberam posições físicas coerentes; as mesmas asserções de dificuldade e qualidade de reação foram mantidas.",
+    "Sincronização de posse corrigida: o ponto da bola dominada acompanha o jogador registrado como dono ao fim do passo público; o novo teste verifica também o evento retornado."
+  ]
+}

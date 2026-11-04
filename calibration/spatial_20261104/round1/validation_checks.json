@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "1.200 partidas completas na coorte final: 600 anteriores + 600 calibradas; nenhuma falha excluída, mesma população e sementes pareadas.",
+    "Paridade do observador verificada por igualdade completa do estado e RNG em uma partida inteira de cada versão.",
+    "Ledger de chutes: cobertura completa, IDs únicos e soma de xG consistente em cada uma das 1.200 partidas.",
+    "20.000 execuções contrafactuais de finalização (20 cenários × 1.000): distância, pressão, ângulo, habilidade, goleiro e corpo; nove relações causais verificadas.",
+    "240 trajetórias de bola: gravidade/solo consistentes, pontos finais finitos e 20 retomadas durante o voo com estado idêntico.",
+    "96 partidas adicionais de controle de mando: 24 sementes × dois modos × duas versões; amostra pequena, sem seleção de resultados.",
+    "14 testes novos de geometria, contato, alcance, tracking externo, persistência, simetria e validade de estados; 25 testes de coordenadas.",
+    "848 testes aprovados na suíte final da primeira rodada, excluindo somente um teste histórico v1.2 com falha já reproduzida na versão anterior. 30 testes do núcleo/loader/persistência também aprovados.",
+    "Um teste histórico v1.2 foi excluído da suíte final: test_engine_v12.StableV12Tests.test_same_seed_remains_reproducible. O mesmo erro foi reproduzido no commit anterior: assinatura _choose_target não aceita action. O runtime estável foi preservado.",
+    "Cenários antigos de chute na área e de disputa de rebote foram atualizados para colocar os jogadores fisicamente no local declarado; as mesmas asserções de dificuldade e reação foram mantidas."
+  ]
+}

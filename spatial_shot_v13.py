@@ -152,6 +152,9 @@ def shot_geometry(engine, p, shooter, keeper, selection):
     balance = attribute(shooter, 'balance', (shooter.effective('strength') + shooter.effective('technique')) / 2) / 100
     weak_skill = attribute(shooter, 'weak_foot', shooter.effective('technique') * .72) / 100
     distance = {Band.BOX: 12., Band.ATT: 24., Band.MID: 40., Band.DEF: 65.}[p.zone.band]
+    context = getattr(engine, "shot_geometry_context", None)
+    if context is not None:
+        distance = max(.1, context(p, shooter)["distance"])
     # Goal-plane spread grows with distance, pressure and difficult body shapes.
     spread = DISPERSION_SCALE * (1.20 - .75 * quality + .18 * p.pressure + .18 * (1 - balance)
               + (.20 * (1 - weak_skill) if weak else 0)) * (distance / 12) ** .48

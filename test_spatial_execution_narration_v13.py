@@ -16,6 +16,8 @@ class SpatialExecutionTests(unittest.TestCase):
     def setup_shot(self):
         e = fixture()
         a = next(p for p in e.teams[0].on_field if p.player.position == 'ST')
+        # Geometry now consumes physical XY; this is explicitly a box fixture.
+        e.set_player_coordinates(0, a.player.name, 93., 34.)
         p = PendingAction(0, a.player.name, 'shoot', Zone(Band.BOX, Lane.CENTER), danger=.6, pressure=.3)
         return e, a, p, e._goalkeeper(1)
 

@@ -41,8 +41,10 @@ from engine_experiment_v13_rules_hardening import MatchEngineV13RulesHardening
 
 from engine_experiment_v13_coordinates import MatchEngineV13Coordinates
 
-ENGINE_VERSION = "1.3-candidate-spatial"
-MatchEngine = MatchEngineV13Coordinates
+from engine_experiment_v13_coordinate_play import MatchEngineV13CoordinatePlay
+
+ENGINE_VERSION = "1.3-candidate-spatial-realism"
+MatchEngine = MatchEngineV13CoordinatePlay
 
 __all__ = [
     "ENGINE_VERSION",

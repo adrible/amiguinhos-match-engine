@@ -475,7 +475,7 @@ class MatchEngineV13Coordinates(MatchEngineV13RulesHardening):
                 pending = self.state.pending
                 delivery = data.get("kind") or pending.origin
                 if delivery in {"cross", "long_ball", "corner"}:
-                    actor_name = data.get("actor") or data.get("crosser")
+                    actor_name = data.get("creator") or data.get("actor") or data.get("crosser")
                     try:
                         actor = self.teams[pending.team].by_name(actor_name)
                         receiver = self.teams[pending.team].by_name(pending.actor)

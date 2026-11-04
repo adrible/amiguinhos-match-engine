@@ -2,7 +2,7 @@ name: Match Engine v1.3 Candidate CI
 
 on:
   pull_request:
-    branches: [main, v1.3-spatial-creativity-boldness, tournament-interdimensional-20260918]
+    branches: [main, v1.3-spatial-creativity-boldness, feature/player-xy-ball-xyz-v13, tournament-interdimensional-20260918]
   workflow_dispatch:
     inputs:
       heavy_validation:
@@ -58,6 +58,7 @@ jobs:
           test_cadence_calibration_v13.py
           test_target_pass_variety_v13.py
           test_v13_target_action.py
+          test_v13_coordinate_play.py
           test_v13_coordinates.py
           test_contact_calibration_v13.py
           test_neutral_calibration_v13.py

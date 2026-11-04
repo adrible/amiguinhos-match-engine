@@ -596,7 +596,7 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         defenders=[{'player':p.player.name,'x':p.x,'y':p.y,'distance':hypot(p.x-shooter.x,p.y-shooter.y)} for p in self.teams[1-team].on_field if not p.red]
         return {**g,'second':self._cs_time,'x':shooter.x,'y':shooter.y,'z':self._xy_ball['z'],
                 'pressure':self._physical_pressure(team,shooter.x,shooter.y),'keeper':{'player':keeper.player.name,'x':keeper.x,'y':keeper.y,'team_x':kx,'team_y':ky},
-                'keeper_depth':105.-kx,'keeper_lateral':abs(ky-34.),'defenders':defenders,'nearest_defender':min(d['distance'] for d in defenders)}
+                'keeper_depth':105.-kx,'keeper_lateral':abs(ky-34.),'defenders':defenders,'nearest_defender':min((d['distance'] for d in defenders if d['player']!=keeper.player.name),default=None)}
 
     def _calculate_xg(self,p,shooter,defender,keeper):
         if p.origin=='penalty':return .76

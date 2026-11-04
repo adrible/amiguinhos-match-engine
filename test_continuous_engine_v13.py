@@ -172,6 +172,13 @@ class ShotContactOrderingTests(unittest.TestCase):
         self.assertLess(e._cs_ball.x,103.)
         self.assertNotIn('crossing',e._cs_shot_live)
 
+    def test_nearest_defender_feature_excludes_keeper_as_in_training_data(self):
+        e=fixture();shooter=e.teams[0].on_field[-1];shooter.x,shooter.y=95.,34.
+        keeper=e._goalkeeper(1);keeper.x,keeper.y=95.1,34.
+        for p in e.teams[1].on_field:
+            if p is not keeper:p.x,p.y=90.,34.
+        self.assertAlmostEqual(e._shot_frame(0,shooter)['nearest_defender'],5.)
+
     def test_ball_above_individual_body_is_not_blocked(self):
         from continuous_physics_v13 import BallState
         e=fixture();p=e.teams[1].on_field[-1];p.x,p.y=103.,34.

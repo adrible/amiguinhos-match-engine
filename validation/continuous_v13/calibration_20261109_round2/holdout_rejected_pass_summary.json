@@ -1,0 +1,121 @@
+{
+  "matches_per_version": 100,
+  "bootstrap_replicates": 5000,
+  "pass_types": {
+    "long_ball": {
+      "before": {
+        "per_match": 278.34,
+        "completed": 12209,
+        "attempts": 27834,
+        "accuracy": 0.438636200330531
+      },
+      "after": {
+        "per_match": 233.17,
+        "completed": 9927,
+        "attempts": 23317,
+        "accuracy": 0.42574087575588626
+      },
+      "difference": -45.17,
+      "paired_bootstrap_ci95": [
+        -51.8,
+        -38.63
+      ]
+    },
+    "cross": {
+      "before": {
+        "per_match": 32.12,
+        "completed": 1191,
+        "attempts": 3212,
+        "accuracy": 0.3707970112079701
+      },
+      "after": {
+        "per_match": 24.86,
+        "completed": 966,
+        "attempts": 2486,
+        "accuracy": 0.38857602574416733
+      },
+      "difference": -7.26,
+      "paired_bootstrap_ci95": [
+        -9.07,
+        -5.39
+      ]
+    },
+    "safe_pass": {
+      "before": {
+        "per_match": 315.8,
+        "completed": 24416,
+        "attempts": 31580,
+        "accuracy": 0.7731475617479417
+      },
+      "after": {
+        "per_match": 315.6,
+        "completed": 25130,
+        "attempts": 31560,
+        "accuracy": 0.7962610899873257
+      },
+      "difference": -0.2,
+      "paired_bootstrap_ci95": [
+        -8.99,
+        8.36
+      ]
+    },
+    "progressive_pass": {
+      "before": {
+        "per_match": 95.19,
+        "completed": 7755,
+        "attempts": 9519,
+        "accuracy": 0.8146864166404034
+      },
+      "after": {
+        "per_match": 103.29,
+        "completed": 8417,
+        "attempts": 10329,
+        "accuracy": 0.8148901152096041
+      },
+      "difference": 8.1,
+      "paired_bootstrap_ci95": [
+        4.2,
+        11.91
+      ]
+    },
+    "through_ball": {
+      "before": {
+        "per_match": 44.34,
+        "completed": 2721,
+        "attempts": 4434,
+        "accuracy": 0.6136671177266576
+      },
+      "after": {
+        "per_match": 45.22,
+        "completed": 2770,
+        "attempts": 4522,
+        "accuracy": 0.6125608137992039
+      },
+      "difference": 0.88,
+      "paired_bootstrap_ci95": [
+        -1.87,
+        3.54
+      ]
+    },
+    "cutback": {
+      "before": {
+        "per_match": 0.92,
+        "completed": 53,
+        "attempts": 92,
+        "accuracy": 0.5760869565217391
+      },
+      "after": {
+        "per_match": 1.29,
+        "completed": 67,
+        "attempts": 129,
+        "accuracy": 0.5193798449612403
+      },
+      "difference": 0.37,
+      "paired_bootstrap_ci95": [
+        0.08,
+        0.65
+      ]
+    }
+  },
+  "note": "Counts use simulator labels, which need not match StatsBomb pass categories."
+}

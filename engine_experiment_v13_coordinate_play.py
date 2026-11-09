@@ -180,7 +180,10 @@ class MatchEngineV13CoordinatePlay(MatchEngineV13Coordinates):
                 'inside_box': x >= 88.5 and abs(dy) <= 20.16}
 
     def _physical_zone(self, team, ps):
-        x, y = self._to_team(team, ps.x, ps.y)
+        return self._physical_zone_at(team, ps.x, ps.y)
+
+    def _physical_zone_at(self, team, world_x, world_y):
+        x, y = self._to_team(team, world_x, world_y)
         band = Band.BOX if x >= 88.5 and abs(y-34.) <= 20.16 else Band.ATT if x >=70 else Band.MID if x>=35 else Band.DEF
         lane = Lane.LEFT if y<27 else Lane.RIGHT if y>41 else Lane.CENTER
         return Zone(band, lane)

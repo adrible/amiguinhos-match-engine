@@ -48,6 +48,24 @@ class ContinuousFoulAdvantageTests(unittest.TestCase):
         self.assertEqual(e._cs_restart_point, point)
         self.assertEqual(e.state.restart, 'free_kick')
 
+    def test_foul_zone_uses_contact_position_not_attacker_later_position(self):
+        for team in (0, 1):
+            for contact, later, restart in (((88.4, 34.), (89., 34.), 'free_kick'),
+                                             ((88.6, 34.), (88., 34.), 'penalty'),
+                                             ((91., 54.17), (91., 54.15), 'free_kick'),
+                                             ((91., 54.15), (91., 54.17), 'penalty')):
+                with self.subTest(team=team, contact=contact):
+                    e = self.fixture()
+                    attacker = e.teams[team].on_field[-1]
+                    defender = e.teams[1-team].on_field[-1]
+                    attacker.x, attacker.y = e._to_world(team, *later)
+                    x, y = e._to_world(team, *contact)
+                    e._cs_foul_contact = {'team': 1-team, 'defender': defender.player.name,
+                                          'attacker': attacker.player.name, 'x': x, 'y': y,
+                                          'second': e._cs_time}
+                    self.resolve(e, False)
+                    self.assertEqual(e.state.restart, restart)
+
 
 if __name__ == '__main__':
     unittest.main()

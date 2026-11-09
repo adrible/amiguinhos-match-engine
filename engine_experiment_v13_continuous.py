@@ -427,7 +427,7 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
 
     def _resolve_continuous_foul(self,defending_team,defender,attacker,point):
         event=self._commit_foul(defending_team,defender,attacker,
-                                self._physical_zone(1-defending_team,attacker))
+                                self._physical_zone_at(1-defending_team,*point))
         if not event.data.get('advantage',False):
             self._cs_restart_point=point
             self._loose('foul');self.state.pending=None

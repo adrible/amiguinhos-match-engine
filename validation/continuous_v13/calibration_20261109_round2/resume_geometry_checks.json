@@ -1,0 +1,54 @@
+[
+  {
+    "seed": 145500,
+    "save_minute": 25.006532034633334,
+    "finished_minute": 101.28810323843332,
+    "score": [
+      4,
+      4
+    ],
+    "shots": 40,
+    "save_sha256": "c9fa9e69fea448e49528eda464e6d181c173241ff8999aa34a289280189ba9c5",
+    "observer_enabled_on_restored_run": true,
+    "equal_final_state": true
+  },
+  {
+    "seed": 145501,
+    "save_minute": 40.00291531985,
+    "finished_minute": 100.3752738157,
+    "score": [
+      2,
+      3
+    ],
+    "shots": 23,
+    "save_sha256": "fd6bf0e32993e22d5ef853d688780e29f59d628e60151e66c4e3e12fafb671d5",
+    "observer_enabled_on_restored_run": true,
+    "equal_final_state": true
+  },
+  {
+    "seed": 145502,
+    "save_minute": 55.11358314106667,
+    "finished_minute": 101.24269898068333,
+    "score": [
+      1,
+      1
+    ],
+    "shots": 30,
+    "save_sha256": "bbff492513df7cb25c745d2a204896bde1298766be2eb0cb788a9394409fa7b1",
+    "observer_enabled_on_restored_run": true,
+    "equal_final_state": true
+  },
+  {
+    "seed": 145503,
+    "save_minute": 70.0598899572,
+    "finished_minute": 100.12957457928333,
+    "score": [
+      6,
+      3
+    ],
+    "shots": 36,
+    "save_sha256": "0b8989c196df0804eed40e622ee299ec972d728280364bd7c10994bc5f78302a",
+    "observer_enabled_on_restored_run": true,
+    "equal_final_state": true
+  }
+]

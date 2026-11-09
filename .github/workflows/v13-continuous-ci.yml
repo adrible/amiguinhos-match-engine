@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Physics, geometry, possession and controlled context tests
-        run: python -m unittest -v test_continuous_physics_v13 test_continuous_engine_v13 test_continuous_contexts_v13
+        run: python -m unittest -v test_continuous_physics_v13 test_continuous_engine_v13 test_continuous_contexts_v13 test_continuous_advantage_v13
       - name: Complete independent continuous matches
         run: python validation/continuous_v13/run_smoke.py 126000 2 /tmp/continuous-smoke.json
       - uses: actions/upload-artifact@v4

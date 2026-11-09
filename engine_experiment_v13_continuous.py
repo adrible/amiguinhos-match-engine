@@ -412,9 +412,17 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
             defender=self.teams[contact['team']].by_name(contact['defender'])
             attacker=self.teams[1-contact['team']].by_name(contact['attacker'])
         except KeyError:return self._emit(EventType.INFO,self.state.possession,0,'physical_contact_resolved')
-        self._cs_restart_point=(contact['x'],contact['y']);self._loose('foul');self.state.pending=None
-        if self._cs_transport:self._finish_pass('cancelled',reason='foul')
-        return self._commit_foul(contact['team'],defender,attacker,self._physical_zone(1-contact['team'],attacker))
+        return self._resolve_continuous_foul(contact['team'],defender,attacker,
+                                             (contact['x'],contact['y']))
+
+    def _resolve_continuous_foul(self,defending_team,defender,attacker,point):
+        event=self._commit_foul(defending_team,defender,attacker,
+                                self._physical_zone(1-defending_team,attacker))
+        if not event.data.get('advantage',False):
+            self._cs_restart_point=point
+            self._loose('foul');self.state.pending=None
+            if self._cs_transport:self._finish_pass('cancelled',reason='foul')
+        return event
 
     def _finish_pass(self,status,*,team=None,player=None,reason=None):
         tr=self._cs_transport
@@ -679,8 +687,7 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         if gap<1.2:
             foul=.035*(defender.effective('aggression')/60.)*(1.2-defender.effective('discipline')/200.)
             if self._draw('physical-foul')<foul:
-                self._cs_restart_point=(actor.x,actor.y);self._loose('foul')
-                return self._commit_foul(1-team,defender,actor,self._physical_zone(team,actor))
+                return self._resolve_continuous_foul(1-team,defender,actor,(actor.x,actor.y))
             tackle=clamp(.35+(defender.effective('tackling')-actor.effective('dribbling'))/160.,.05,.8)
             if self._draw('physical-tackle')<tackle:
                 self._record('turnover',1-team,defender.player.name,from_team=team,source='tackle')

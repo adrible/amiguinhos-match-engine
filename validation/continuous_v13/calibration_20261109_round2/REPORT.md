@@ -31,6 +31,8 @@ The discarded pass experiment adjusted the expected value of a cross or long bal
 
 Goals increased by 0.67 per match (paired bootstrap 95% interval [0.05, 1.31]); long balls decreased by 45.17 ([-51.80, -38.63]); passes decreased by 43.28 ([-63.36, -24.62]). Penalties changed by +0.08 ([-0.21, 0.38]); this does not establish a change. Real and engine event categories are not perfectly interchangeable. Generic teams and physics-derived assumptions limit external validity.
 
+Comparing the rejected experiment directly against the geometry-only version keeps the foul fix constant. Goals were 5.10 versus 5.71: the paired difference was +0.61 with 95% interval [-0.02, 1.27], so this comparison does not establish an increase. Passes declined by 46.81 per game, with interval [-65.72, -29.38]. The observed trade-off and the uncertainty motivated rejection, not a claim that the pass change alone definitively raised goals.
+
 ### Held-out 100 pairs: accepted geometry fix alone
 
 | Mean per game | Previous | Geometry fix | EPL reference |

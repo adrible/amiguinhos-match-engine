@@ -48,6 +48,7 @@ MatchEngine = MatchEngineV13CoordinatePlay
 
 __all__ = [
     "ENGINE_VERSION",
+    "get_engine_class",
     "MatchEngine",
     "MatchEngineV13KeeperCrosses",
     "MatchEngineV13Restarts",
@@ -86,3 +87,13 @@ __all__ = [
     "MatchEngineV13RulesHardening",
     "MatchEngineV13Coordinates",
 ]
+
+
+def get_engine_class(mode="event"):
+    """Select the validated event candidate or the opt-in continuous candidate."""
+    if mode == "event":
+        return MatchEngine
+    if mode == "continuous":
+        from engine_experiment_v13_continuous import MatchEngineV13Continuous
+        return MatchEngineV13Continuous
+    raise ValueError("mode must be event or continuous")

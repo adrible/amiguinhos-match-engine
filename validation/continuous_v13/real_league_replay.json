@@ -1,0 +1,264 @@
+{
+  "source": "StatsBomb Open Data, Premier League 2015/16",
+  "matches": 380,
+  "n_teams": 20,
+  "data_missing_matches": 0,
+  "coordinate_note": "120x80 normalized to 105x68, approximate metres; freeze frames are shot instants, not continuous tracking. No acceleration, jump or ball-flight observations are inferred.",
+  "rebound_definition": "previous same-team relevant action is a shot, same possession and period, within eight seconds; explicit inference, not provider label",
+  "all": {
+    "n": 9817,
+    "distance_mean": 16.631941215362126,
+    "angle_mean_degrees": 26.731337974401047,
+    "provider_mean_xg": 0.09168613574091881,
+    "engine_mean_xg": 0.09149408240865423,
+    "mae_to_provider": 0.030628089697910397,
+    "actual_goals_per_shot": 0.09310379953142509,
+    "keeper_position_observed": 9804,
+    "pressure_observed_rate": 0.2175817459509015
+  },
+  "heldout_76_matches": {
+    "n": 2031,
+    "distance_mean": 16.408556181011505,
+    "angle_mean_degrees": 27.1167941665688,
+    "provider_mean_xg": 0.09424891120019695,
+    "engine_mean_xg": 0.09332090411018511,
+    "mae_to_provider": 0.032413225394656416,
+    "actual_goals_per_shot": 0.10241260462826195,
+    "keeper_position_observed": 2031,
+    "pressure_observed_rate": 0.22796651895617923
+  },
+  "sources": {
+    "corner": {
+      "all": {
+        "n": 1669,
+        "distance_mean": 12.611745510486708,
+        "angle_mean_degrees": 36.98178502682714,
+        "provider_mean_xg": 0.09574727246764529,
+        "engine_mean_xg": 0.11381739646715212,
+        "mae_to_provider": 0.03473124708533969,
+        "actual_goals_per_shot": 0.08687837028160575,
+        "keeper_position_observed": 1664,
+        "pressure_observed_rate": 0.36069502696225286
+      },
+      "heldout": {
+        "n": 385,
+        "distance_mean": 12.606404434818957,
+        "angle_mean_degrees": 37.23960338870938,
+        "provider_mean_xg": 0.09726274361376623,
+        "engine_mean_xg": 0.11800377885127443,
+        "mae_to_provider": 0.04027064922738438,
+        "actual_goals_per_shot": 0.09350649350649351,
+        "keeper_position_observed": 385,
+        "pressure_observed_rate": 0.34025974025974026
+      }
+    },
+    "cross": {
+      "all": {
+        "n": 1245,
+        "distance_mean": 9.788923593722012,
+        "angle_mean_degrees": 41.16713739757924,
+        "provider_mean_xg": 0.14350361337309236,
+        "engine_mean_xg": 0.14119772185253032,
+        "mae_to_provider": 0.0433297132995549,
+        "actual_goals_per_shot": 0.14377510040160643,
+        "keeper_position_observed": 1244,
+        "pressure_observed_rate": 0.3389558232931727
+      },
+      "heldout": {
+        "n": 272,
+        "distance_mean": 9.907230313651649,
+        "angle_mean_degrees": 40.33119042807549,
+        "provider_mean_xg": 0.13884659355882353,
+        "engine_mean_xg": 0.132416014672117,
+        "mae_to_provider": 0.04221537041672134,
+        "actual_goals_per_shot": 0.16176470588235295,
+        "keeper_position_observed": 272,
+        "pressure_observed_rate": 0.35661764705882354
+      }
+    },
+    "cutback": {
+      "all": {
+        "n": 45,
+        "distance_mean": 14.875105394443603,
+        "angle_mean_degrees": 25.144447567636583,
+        "provider_mean_xg": 0.09663425644444444,
+        "engine_mean_xg": 0.09710652830380274,
+        "mae_to_provider": 0.02956426301046016,
+        "actual_goals_per_shot": 0.06666666666666667,
+        "keeper_position_observed": 45,
+        "pressure_observed_rate": 0.13333333333333333
+      },
+      "heldout": {
+        "n": 11,
+        "distance_mean": 16.06480470549205,
+        "angle_mean_degrees": 23.934291628520334,
+        "provider_mean_xg": 0.12315403245454545,
+        "engine_mean_xg": 0.10268896802536918,
+        "mae_to_provider": 0.05224989541087329,
+        "actual_goals_per_shot": 0.18181818181818182,
+        "keeper_position_observed": 11,
+        "pressure_observed_rate": 0
+      }
+    },
+    "free_kick": {
+      "all": {
+        "n": 401,
+        "distance_mean": 24.95864311287556,
+        "angle_mean_degrees": 15.177372062444546,
+        "provider_mean_xg": 0.040997752932169576,
+        "engine_mean_xg": 0.03750953506810406,
+        "mae_to_provider": 0.012258737746115448,
+        "actual_goals_per_shot": 0.06234413965087282,
+        "keeper_position_observed": 401,
+        "pressure_observed_rate": 0
+      },
+      "heldout": {
+        "n": 91,
+        "distance_mean": 24.750068960291525,
+        "angle_mean_degrees": 15.574499781723194,
+        "provider_mean_xg": 0.0426260293989011,
+        "engine_mean_xg": 0.03796515022337378,
+        "mae_to_provider": 0.012476018449887084,
+        "actual_goals_per_shot": 0.07692307692307693,
+        "keeper_position_observed": 91,
+        "pressure_observed_rate": 0
+      }
+    },
+    "open_play": {
+      "all": {
+        "n": 5893,
+        "distance_mean": 19.039818043676775,
+        "angle_mean_degrees": 21.19561922584393,
+        "provider_mean_xg": 0.07147015370035635,
+        "engine_mean_xg": 0.06706515889637459,
+        "mae_to_provider": 0.024429326768628648,
+        "actual_goals_per_shot": 0.07127099949092143,
+        "keeper_position_observed": 5887,
+        "pressure_observed_rate": 0.17088070592228066
+      },
+      "heldout": {
+        "n": 1165,
+        "distance_mean": 18.831636707321586,
+        "angle_mean_degrees": 21.45136229536774,
+        "provider_mean_xg": 0.07573974259390558,
+        "engine_mean_xg": 0.07032661293277839,
+        "mae_to_provider": 0.02570431479114977,
+        "actual_goals_per_shot": 0.07982832618025751,
+        "keeper_position_observed": 1165,
+        "pressure_observed_rate": 0.18197424892703862
+      }
+    },
+    "rebound": {
+      "all": {
+        "n": 244,
+        "distance_mean": 12.160684768000433,
+        "angle_mean_degrees": 35.90549876519426,
+        "provider_mean_xg": 0.19173435085245902,
+        "engine_mean_xg": 0.18925522416987373,
+        "mae_to_provider": 0.06505129151684023,
+        "actual_goals_per_shot": 0.20491803278688525,
+        "keeper_position_observed": 244,
+        "pressure_observed_rate": 0.15163934426229508
+      },
+      "heldout": {
+        "n": 40,
+        "distance_mean": 12.700206291421031,
+        "angle_mean_degrees": 32.673270739702765,
+        "provider_mean_xg": 0.1752720523875,
+        "engine_mean_xg": 0.16337874501193844,
+        "mae_to_provider": 0.06356672592509426,
+        "actual_goals_per_shot": 0.175,
+        "keeper_position_observed": 40,
+        "pressure_observed_rate": 0.125
+      }
+    },
+    "through_ball": {
+      "all": {
+        "n": 320,
+        "distance_mean": 13.102822919473084,
+        "angle_mean_degrees": 26.75471090857759,
+        "provider_mean_xg": 0.227728626064375,
+        "engine_mean_xg": 0.22387698495598737,
+        "mae_to_provider": 0.0708854020990873,
+        "actual_goals_per_shot": 0.2875,
+        "keeper_position_observed": 319,
+        "pressure_observed_rate": 0.19375
+      },
+      "heldout": {
+        "n": 67,
+        "distance_mean": 13.45837474749841,
+        "angle_mean_degrees": 26.694824768201865,
+        "provider_mean_xg": 0.23471289042686566,
+        "engine_mean_xg": 0.22441916736506015,
+        "mae_to_provider": 0.06934653393288663,
+        "actual_goals_per_shot": 0.2835820895522388,
+        "keeper_position_observed": 67,
+        "pressure_observed_rate": 0.26865671641791045
+      }
+    }
+  },
+  "pressure": {
+    "False": {
+      "n": 7681,
+      "distance_mean": 17.6623668630858,
+      "angle_mean_degrees": 24.68843327045788,
+      "provider_mean_xg": 0.09139447054624397,
+      "engine_mean_xg": 0.09135882296717583,
+      "mae_to_provider": 0.030746827518958426,
+      "actual_goals_per_shot": 0.09295664627001693,
+      "keeper_position_observed": 7670,
+      "pressure_observed_rate": 0
+    },
+    "True": {
+      "n": 2136,
+      "distance_mean": 12.926557601052425,
+      "angle_mean_degrees": 34.07756973048131,
+      "provider_mean_xg": 0.09273495613431648,
+      "engine_mean_xg": 0.09198047181408286,
+      "mae_to_provider": 0.030201111606398275,
+      "actual_goals_per_shot": 0.09363295880149813,
+      "keeper_position_observed": 2134,
+      "pressure_observed_rate": 1
+    }
+  },
+  "keeper_depth": {
+    "0-2": {
+      "n": 5005,
+      "distance_mean": 15.61466276971697,
+      "angle_mean_degrees": 29.478596531350654,
+      "provider_mean_xg": 0.08314252978631369,
+      "engine_mean_xg": 0.08600586764428793,
+      "mae_to_provider": 0.026861017551939315,
+      "actual_goals_per_shot": 0.07792207792207792,
+      "keeper_position_observed": 5005,
+      "pressure_observed_rate": 0.24735264735264736
+    },
+    "2-5": {
+      "n": 4276,
+      "distance_mean": 17.823353533616853,
+      "angle_mean_degrees": 23.51509710786184,
+      "provider_mean_xg": 0.08422265492869505,
+      "engine_mean_xg": 0.08276300499939743,
+      "mae_to_provider": 0.028136953955458437,
+      "actual_goals_per_shot": 0.09027128157156221,
+      "keeper_position_observed": 4276,
+      "pressure_observed_rate": 0.18405051449953228
+    },
+    "5-120": {
+      "n": 523,
+      "distance_mean": 16.573329338159375,
+      "angle_mean_degrees": 26.483953933331517,
+      "provider_mean_xg": 0.23096922869866157,
+      "engine_mean_xg": 0.2126211845397422,
+      "mae_to_provider": 0.08687260388510427,
+      "actual_goals_per_shot": 0.25430210325047803,
+      "keeper_position_observed": 523,
+      "pressure_observed_rate": 0.2084130019120459
+    }
+  },
+  "limitations": [
+    "Freeze frames are shot instants; they cannot validate continuous acceleration, jump timing or ball drag against real tracking.",
+    "The model approximates provider xG, not deterministic scoring.",
+    "Rebounds are inferred from sequence/possession and eight-second timing; source categories are not interchangeable without this definition."
+  ]
+}

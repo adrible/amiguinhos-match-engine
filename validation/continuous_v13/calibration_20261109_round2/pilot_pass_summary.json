@@ -1,0 +1,121 @@
+{
+  "matches_per_version": 24,
+  "bootstrap_replicates": 5000,
+  "pass_types": {
+    "long_ball": {
+      "before": {
+        "per_match": 272.6666666666667,
+        "completed": 2826,
+        "attempts": 6544,
+        "accuracy": 0.43184596577017115
+      },
+      "after": {
+        "per_match": 239.625,
+        "completed": 2518,
+        "attempts": 5751,
+        "accuracy": 0.43783689793079467
+      },
+      "difference": -33.041666666666664,
+      "paired_bootstrap_ci95": [
+        -46.791666666666664,
+        -18.166666666666668
+      ]
+    },
+    "cross": {
+      "before": {
+        "per_match": 29.416666666666668,
+        "completed": 271,
+        "attempts": 706,
+        "accuracy": 0.3838526912181303
+      },
+      "after": {
+        "per_match": 24.375,
+        "completed": 222,
+        "attempts": 585,
+        "accuracy": 0.37948717948717947
+      },
+      "difference": -5.041666666666667,
+      "paired_bootstrap_ci95": [
+        -8.333333333333334,
+        -2.0833333333333335
+      ]
+    },
+    "safe_pass": {
+      "before": {
+        "per_match": 313.5833333333333,
+        "completed": 5888,
+        "attempts": 7526,
+        "accuracy": 0.7823545043847994
+      },
+      "after": {
+        "per_match": 313.125,
+        "completed": 5973,
+        "attempts": 7515,
+        "accuracy": 0.794810379241517
+      },
+      "difference": -0.4583333333333333,
+      "paired_bootstrap_ci95": [
+        -17.958333333333332,
+        20.833333333333332
+      ]
+    },
+    "progressive_pass": {
+      "before": {
+        "per_match": 97.875,
+        "completed": 1927,
+        "attempts": 2349,
+        "accuracy": 0.8203490847169008
+      },
+      "after": {
+        "per_match": 102.08333333333333,
+        "completed": 2019,
+        "attempts": 2450,
+        "accuracy": 0.8240816326530612
+      },
+      "difference": 4.208333333333333,
+      "paired_bootstrap_ci95": [
+        -2.75,
+        11.125
+      ]
+    },
+    "through_ball": {
+      "before": {
+        "per_match": 43.333333333333336,
+        "completed": 659,
+        "attempts": 1040,
+        "accuracy": 0.6336538461538461
+      },
+      "after": {
+        "per_match": 45.375,
+        "completed": 659,
+        "attempts": 1089,
+        "accuracy": 0.6051423324150597
+      },
+      "difference": 2.0416666666666665,
+      "paired_bootstrap_ci95": [
+        -3.2916666666666665,
+        7.458333333333333
+      ]
+    },
+    "cutback": {
+      "before": {
+        "per_match": 0.9166666666666666,
+        "completed": 11,
+        "attempts": 22,
+        "accuracy": 0.5
+      },
+      "after": {
+        "per_match": 1.4166666666666667,
+        "completed": 15,
+        "attempts": 34,
+        "accuracy": 0.4411764705882353
+      },
+      "difference": 0.5,
+      "paired_bootstrap_ci95": [
+        0,
+        1
+      ]
+    }
+  },
+  "note": "Counts use simulator labels, which need not match StatsBomb pass categories."
+}

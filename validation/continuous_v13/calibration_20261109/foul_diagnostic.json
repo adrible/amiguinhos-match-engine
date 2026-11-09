@@ -1,0 +1,1899 @@
+{
+  "scope": "8 exploratory generic-team matches; no selective outcomes",
+  "games": [
+    {
+      "seed": 139000,
+      "records": [
+        {
+          "minute": 16.597819357466665,
+          "attack_x": 63.54411065898022,
+          "attack_y": 26.740458868182344,
+          "box": false,
+          "pressure": 0.5743795552007795,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 21.512533696916666,
+          "attack_x": 76.22604841377131,
+          "attack_y": 48.923380179514254,
+          "box": false,
+          "pressure": 0.5713018990628818,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 25.135227115666666,
+          "attack_x": 45.973633629671426,
+          "attack_y": 42.85096783886682,
+          "box": false,
+          "pressure": 0.5675721469180655,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 27.211893782333334,
+          "attack_x": 45.30351313741221,
+          "attack_y": 50.95463302200153,
+          "box": false,
+          "pressure": 0.5785301082986126,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 31.61874627585,
+          "attack_x": 69.83067743239269,
+          "attack_y": 50.07864728327765,
+          "box": false,
+          "pressure": 0.43098054755219506,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 36.59078145995,
+          "attack_x": 45.45047163494022,
+          "attack_y": 50.86604406420885,
+          "box": false,
+          "pressure": 0.700206498107312,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 38.88744812661666,
+          "attack_x": 23.598857082614472,
+          "attack_y": 37.758445269788524,
+          "box": false,
+          "pressure": 0.34169369590300014,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 41.38078145995,
+          "attack_x": 40.81541895755856,
+          "attack_y": 53.15695234343758,
+          "box": false,
+          "pressure": 0.5273170655715146,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 45.15744812661667,
+          "attack_x": 51.84352720305491,
+          "attack_y": 10.43955492343143,
+          "box": false,
+          "pressure": 0.5112452172790753,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 92.70367463616667,
+          "attack_x": 81.83334238818672,
+          "attack_y": 33.78981513098122,
+          "box": false,
+          "pressure": 0.6481879700344314,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        }
+      ],
+      "shots": 27,
+      "goals": 6,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139001,
+      "records": [
+        {
+          "minute": 3.3266666666666667,
+          "attack_x": 28.651383965428394,
+          "attack_y": 48.79402013088493,
+          "box": false,
+          "pressure": 0.5586706446866148,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 9.085,
+          "attack_x": 70.43729421387222,
+          "attack_y": 16.757056302796087,
+          "box": false,
+          "pressure": 0.6003106096024817,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 10.901133994266667,
+          "attack_x": 46.70651714022212,
+          "attack_y": 33.13252286828289,
+          "box": false,
+          "pressure": 0.6106789497262175,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 13.017800660933334,
+          "attack_x": 41.51796906398222,
+          "attack_y": 54.58567676126371,
+          "box": false,
+          "pressure": 0.6234945184607836,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 17.425957117883335,
+          "attack_x": 60.07047930502484,
+          "attack_y": 41.28931883832985,
+          "box": false,
+          "pressure": 0.2031782954603153,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 21.310957117883333,
+          "attack_x": 43.70071816577428,
+          "attack_y": 21.70025197109041,
+          "box": false,
+          "pressure": 0.5738313177650118,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 22.960957117883332,
+          "attack_x": 33.94820109076335,
+          "attack_y": 24.18200146211831,
+          "box": false,
+          "pressure": 0.6376873796063035,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 27.040957117883334,
+          "attack_x": 77.93083786240072,
+          "attack_y": 10.402918372642866,
+          "box": false,
+          "pressure": 0.4773360455355957,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 42.24553733268333,
+          "attack_x": 83.15934788017198,
+          "attack_y": 15.774491577589977,
+          "box": false,
+          "pressure": 0.4657991780063141,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 49.61035160135,
+          "attack_x": 71.42815916599581,
+          "attack_y": 35.31679965246499,
+          "box": false,
+          "pressure": 0.5345597994544264,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 54.745351601349995,
+          "attack_x": 81.54216301578762,
+          "attack_y": 17.97051973444684,
+          "box": false,
+          "pressure": 0.5128892952962529,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 55.14201826801666,
+          "attack_x": 88.85800784485502,
+          "attack_y": 29.330373050820434,
+          "box": true,
+          "pressure": 0.68335546105493,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 67.9147351123,
+          "attack_x": 56.543636127398194,
+          "attack_y": 37.339654257304936,
+          "box": false,
+          "pressure": 0.6113148355696945,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 70.65140177896666,
+          "attack_x": 62.042923934528815,
+          "attack_y": 29.756329298296684,
+          "box": false,
+          "pressure": 0.5579806823199558,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 71.0167351123,
+          "attack_x": 61.99340363632253,
+          "attack_y": 32.08119647232918,
+          "box": false,
+          "pressure": 0.6129234511319201,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 78.5053359509,
+          "attack_x": 38.16460331287924,
+          "attack_y": 51.36807193168715,
+          "box": false,
+          "pressure": 0.5569860758827407,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 81.72872188773334,
+          "attack_x": 98.93687572977092,
+          "attack_y": 30.763739066345348,
+          "box": true,
+          "pressure": 0.5763189239810242,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 84.90636681955,
+          "attack_x": 66.17145467816356,
+          "attack_y": 40.68761683083439,
+          "box": false,
+          "pressure": 0.590842587092008,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 87.20793484336667,
+          "attack_x": 61.13170985159716,
+          "attack_y": 36.463211702777755,
+          "box": false,
+          "pressure": 0.5715762746390844,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 88.48821803135,
+          "attack_x": 59.79225895182281,
+          "attack_y": 22.341793674007665,
+          "box": false,
+          "pressure": 0.5629882825104832,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 88.93755136468333,
+          "attack_x": 79.38772185350933,
+          "attack_y": 17.10647022252863,
+          "box": false,
+          "pressure": 0.5695224416141438,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 89.89355136468333,
+          "attack_x": 26.33123510334994,
+          "attack_y": 32.23036681436493,
+          "box": false,
+          "pressure": 0.7395506065215853,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 90.35088469801667,
+          "attack_x": 60.36980088606928,
+          "attack_y": 34.44196236286372,
+          "box": false,
+          "pressure": 0.5489318391070253,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 97.28560149496667,
+          "attack_x": 35.00254393567492,
+          "attack_y": 12.538460712678145,
+          "box": false,
+          "pressure": 0.37065736081112555,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        }
+      ],
+      "shots": 27,
+      "goals": 7,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139002,
+      "records": [
+        {
+          "minute": 2.643333333333333,
+          "attack_x": 68.8048092680053,
+          "attack_y": 30.900479309782433,
+          "box": false,
+          "pressure": 0.7839996877058525,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 3.746666666666667,
+          "attack_x": 76.07987452434668,
+          "attack_y": 30.586250366225624,
+          "box": false,
+          "pressure": 0.6054204094936944,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 4.7,
+          "attack_x": 50.26299370932441,
+          "attack_y": 40.38960127299778,
+          "box": false,
+          "pressure": 0.6211216880879338,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 6.616666666666666,
+          "attack_x": 49.92558870081616,
+          "attack_y": 30.88462220065898,
+          "box": false,
+          "pressure": 0.5742246656205345,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 9.557827825416666,
+          "attack_x": 18.23033143091421,
+          "attack_y": 39.783730009555256,
+          "box": false,
+          "pressure": 0.6590181758377989,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 10.427827825416667,
+          "attack_x": 68.66444897157812,
+          "attack_y": 39.01214204645225,
+          "box": false,
+          "pressure": 0.5724641728930844,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 23.124807739300003,
+          "attack_x": 90.69640403463782,
+          "attack_y": 36.00357051217488,
+          "box": true,
+          "pressure": 0.7514173171404643,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 24.69147440596667,
+          "attack_x": 76.18546926631971,
+          "attack_y": 30.82744342981698,
+          "box": false,
+          "pressure": 0.5424748878024522,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 28.346307269866667,
+          "attack_x": 55.27151846658668,
+          "attack_y": 35.53313785198278,
+          "box": false,
+          "pressure": 0.6478223753138537,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 30.99630726986667,
+          "attack_x": 62.770429371839036,
+          "attack_y": 40.625520009554464,
+          "box": false,
+          "pressure": 0.5257520929586598,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 33.65797393653333,
+          "attack_x": 69.74442460753858,
+          "attack_y": 53.65413551589926,
+          "box": false,
+          "pressure": 0.5668525230259605,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 38.20092628963334,
+          "attack_x": 60.487456001034936,
+          "attack_y": 32.87603820082411,
+          "box": false,
+          "pressure": 0.5506375633993834,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 44.16925962296667,
+          "attack_x": 67.82156299166076,
+          "attack_y": 41.475254198356666,
+          "box": false,
+          "pressure": 0.5949456400538653,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 51.1653000453,
+          "attack_x": 48.0260744131546,
+          "attack_y": 33.26119601705737,
+          "box": false,
+          "pressure": 0.640731042200889,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 55.43701000768333,
+          "attack_x": 66.61496974401665,
+          "attack_y": 30.745014313874545,
+          "box": false,
+          "pressure": 0.5151080418434266,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 61.852915755333335,
+          "attack_x": 70.93756494993514,
+          "attack_y": 49.21212564952988,
+          "box": false,
+          "pressure": 0.5105969446777817,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 64.82124908866666,
+          "attack_x": 79.64554142021186,
+          "attack_y": 36.811576268149885,
+          "box": false,
+          "pressure": 0.6186226697177182,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 67.55791575533334,
+          "attack_x": 47.76211135029643,
+          "attack_y": 35.00295795152644,
+          "box": false,
+          "pressure": 0.5958949445315144,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 78.67591575533334,
+          "attack_x": 92.584557035793,
+          "attack_y": 36.69443884835583,
+          "box": true,
+          "pressure": 0.6815869673504682,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 80.871582422,
+          "attack_x": 55.9098036442055,
+          "attack_y": 47.09832011308188,
+          "box": false,
+          "pressure": 0.5648418041466541,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "elbow_or_forearm"
+        },
+        {
+          "minute": 81.56891575533334,
+          "attack_x": 53.17364479536644,
+          "attack_y": 17.380822678320786,
+          "box": false,
+          "pressure": 0.5721011028481486,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 89.02651987948335,
+          "attack_x": 27.7014118279574,
+          "attack_y": 54.63642053188387,
+          "box": false,
+          "pressure": 0.5293521664875246,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 92.2322637366,
+          "attack_x": 74.50149861087066,
+          "attack_y": 3.625853863311491,
+          "box": false,
+          "pressure": 0.2880047058689136,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 95.9275592356,
+          "attack_x": 65.90619165578651,
+          "attack_y": 32.621862495563214,
+          "box": false,
+          "pressure": 0.7043127081871514,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "elbow_or_forearm"
+        },
+        {
+          "minute": 99.59149654746668,
+          "attack_x": 86.43998276401868,
+          "attack_y": 32.583322997647194,
+          "box": false,
+          "pressure": 0.5482160765853772,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 100.66865688265001,
+          "attack_x": 61.03874151020953,
+          "attack_y": 27.876019927354285,
+          "box": false,
+          "pressure": 0.47549640373525337,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        }
+      ],
+      "shots": 34,
+      "goals": 5,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139003,
+      "records": [
+        {
+          "minute": 0.18000000000000002,
+          "attack_x": 72.71279445180843,
+          "attack_y": 46.26775745446492,
+          "box": false,
+          "pressure": 0.5673192850824379,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 6.421869290966667,
+          "attack_x": 64.45684734515218,
+          "attack_y": 33.72529242744256,
+          "box": false,
+          "pressure": 0.7991293748983359,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 10.111869290966666,
+          "attack_x": 23.695295706757435,
+          "attack_y": 47.16788575770745,
+          "box": false,
+          "pressure": 0.5805281317059552,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 12.231869290966667,
+          "attack_x": 21.54397189077093,
+          "attack_y": 48.90919663656913,
+          "box": false,
+          "pressure": 0.5827198912707043,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 17.3952026243,
+          "attack_x": 57.0241200866608,
+          "attack_y": 38.17672430164608,
+          "box": false,
+          "pressure": 0.4867776926801669,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 17.461869290966668,
+          "attack_x": 51.83777214185393,
+          "attack_y": 45.47285719715259,
+          "box": false,
+          "pressure": 0.5508037178303457,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 18.425202624300002,
+          "attack_x": 78.95000835962053,
+          "attack_y": 36.83072352983773,
+          "box": false,
+          "pressure": 0.6162409657950044,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 21.12349006285,
+          "attack_x": 54.07999034761654,
+          "attack_y": 31.838174693983426,
+          "box": false,
+          "pressure": 0.6832564353384015,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 36.33675775655,
+          "attack_x": 84.59603452533983,
+          "attack_y": 30.367469544591216,
+          "box": false,
+          "pressure": 0.6172509213787573,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 37.09883900635,
+          "attack_x": 3.4770772614945713,
+          "attack_y": 34.51436080878621,
+          "box": false,
+          "pressure": 0.49609636319167505,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 42.573301486350005,
+          "attack_x": 25.19258943198178,
+          "attack_y": 16.93316889967431,
+          "box": false,
+          "pressure": 0.5826062619251895,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 43.50830148635,
+          "attack_x": 46.10443077613782,
+          "attack_y": 35.057009109372075,
+          "box": false,
+          "pressure": 0.5892809679892865,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 47.17163481968333,
+          "attack_x": 74.2877982680708,
+          "attack_y": 20.635282773905175,
+          "box": false,
+          "pressure": 0.5977948138548013,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 57.159594358750006,
+          "attack_x": 58.102612518341026,
+          "attack_y": 34.97938363623332,
+          "box": false,
+          "pressure": 0.5738428460999865,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 70.70602546261667,
+          "attack_x": 59.696292365407565,
+          "attack_y": 20.000964492405718,
+          "box": false,
+          "pressure": 0.6354131432166823,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 73.14669212928334,
+          "attack_x": 66.2925470959752,
+          "attack_y": 50.39367866603925,
+          "box": false,
+          "pressure": 0.5861769571254289,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 75.00969212928334,
+          "attack_x": 59.91791244686112,
+          "attack_y": 34.65469314067334,
+          "box": false,
+          "pressure": 0.6662393007033274,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 78.28702546261667,
+          "attack_x": 78.56582551699978,
+          "attack_y": 29.36644458788988,
+          "box": false,
+          "pressure": 0.551449749456816,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 85.7067579599,
+          "attack_x": 91.65244631571325,
+          "attack_y": 35.74424742429546,
+          "box": true,
+          "pressure": 0.6150094556011005,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 86.54642462656668,
+          "attack_x": 55.170456991110946,
+          "attack_y": 32.941542803830465,
+          "box": false,
+          "pressure": 0.7559188114842407,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 86.97642462656667,
+          "attack_x": 37.08464597447808,
+          "attack_y": 34.53779443666193,
+          "box": false,
+          "pressure": 0.5198806644755898,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 92.75192537858334,
+          "attack_x": 77.52840443551871,
+          "attack_y": 20.581019122233783,
+          "box": false,
+          "pressure": 0.5248564110231264,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 96.6359535741,
+          "attack_x": 67.20769088374539,
+          "attack_y": 11.155412472825462,
+          "box": false,
+          "pressure": 0.4510117435091766,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "elbow_or_forearm"
+        },
+        {
+          "minute": 98.38662024076666,
+          "attack_x": 46.18102626560332,
+          "attack_y": 15.971916042063336,
+          "box": false,
+          "pressure": 0.6062576241349857,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        }
+      ],
+      "shots": 20,
+      "goals": 4,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139004,
+      "records": [
+        {
+          "minute": 1.65,
+          "attack_x": 79.77864804640075,
+          "attack_y": 51.68640785769076,
+          "box": false,
+          "pressure": 0.5610182460665796,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 1.6766666666666665,
+          "attack_x": 24.735152789060425,
+          "attack_y": 16.519918935167087,
+          "box": false,
+          "pressure": 0.5801726105818057,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 3.6866666666666665,
+          "attack_x": 43.82520733419444,
+          "attack_y": 46.3616703655945,
+          "box": false,
+          "pressure": 0.6127850691395509,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 7.35917544115,
+          "attack_x": 85.0208189262439,
+          "attack_y": 37.77376248244775,
+          "box": false,
+          "pressure": 0.5680440882249527,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 7.482508774483334,
+          "attack_x": 82.1760098755995,
+          "attack_y": 50.89837848314339,
+          "box": false,
+          "pressure": 0.5700394613674399,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 11.208829920716665,
+          "attack_x": 64.93669513817153,
+          "attack_y": 27.74288716129361,
+          "box": false,
+          "pressure": 0.5873929563778482,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 12.095496587383334,
+          "attack_x": 56.872535649581756,
+          "attack_y": 3.998166421045963,
+          "box": false,
+          "pressure": 0.29577715727297815,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 12.868829920716667,
+          "attack_x": 30.135513574388657,
+          "attack_y": 17.20951942002863,
+          "box": false,
+          "pressure": 0.5621520150236833,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 30.958681954033334,
+          "attack_x": 52.08259961360504,
+          "attack_y": 32.673129105275514,
+          "box": false,
+          "pressure": 0.6259037201069308,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 32.74048685286667,
+          "attack_x": 53.13082929241942,
+          "attack_y": 23.22165692713807,
+          "box": false,
+          "pressure": 0.6007779553208025,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 36.085486852866666,
+          "attack_x": 28.622445801224572,
+          "attack_y": 48.67013538870175,
+          "box": false,
+          "pressure": 0.579985533411059,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 48.39386582283333,
+          "attack_x": 44.72709863148529,
+          "attack_y": 34.71894202965926,
+          "box": false,
+          "pressure": 0.7055372632824062,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 54.573695916716666,
+          "attack_x": 81.9478047797638,
+          "attack_y": 46.4131989429923,
+          "box": false,
+          "pressure": 0.6557131006072094,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 55.317029250050005,
+          "attack_x": 79.51336286697551,
+          "attack_y": 18.83091052503506,
+          "box": false,
+          "pressure": 0.41034281642396997,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 55.70036258338334,
+          "attack_x": 78.3397087978419,
+          "attack_y": 32.919451328161635,
+          "box": false,
+          "pressure": 0.5564690617408019,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 62.93369591671667,
+          "attack_x": 48.500182609858385,
+          "attack_y": 34.664312769480176,
+          "box": false,
+          "pressure": 0.5974694103221153,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 70.96365671701666,
+          "attack_x": 73.41536457738593,
+          "attack_y": 17.83436260850321,
+          "box": false,
+          "pressure": 0.6056499078322,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 71.36365671701667,
+          "attack_x": 70.37796995601123,
+          "attack_y": 29.98349651799449,
+          "box": false,
+          "pressure": 0.5564523451605319,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 72.44365671701667,
+          "attack_x": 73.14391454755513,
+          "attack_y": 27.01056933127411,
+          "box": false,
+          "pressure": 0.5242533512631844,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 86.28146941103334,
+          "attack_x": 101.4727958544967,
+          "attack_y": 23.04860255893994,
+          "box": true,
+          "pressure": 0.4627982610229917,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 89.21636240641666,
+          "attack_x": 77.61181698847547,
+          "attack_y": 21.237878463106576,
+          "box": false,
+          "pressure": 0.5610201745996275,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 90.73436240641666,
+          "attack_x": 39.140212841927806,
+          "attack_y": 16.080734661730446,
+          "box": false,
+          "pressure": 0.5953673152934984,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 94.09416772971667,
+          "attack_x": 78.2734844013657,
+          "attack_y": 49.92368116828023,
+          "box": false,
+          "pressure": 0.5165319491485341,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        }
+      ],
+      "shots": 28,
+      "goals": 3,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139005,
+      "records": [
+        {
+          "minute": 6.283333333333333,
+          "attack_x": 33.41295476837487,
+          "attack_y": 28.80782224242791,
+          "box": false,
+          "pressure": 0.383773763944127,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 9.573333333333332,
+          "attack_x": 67.51349858770966,
+          "attack_y": 13.876428872730413,
+          "box": false,
+          "pressure": 0.5081561814123787,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 9.896666666666667,
+          "attack_x": 51.97566507134589,
+          "attack_y": 26.083197379761575,
+          "box": false,
+          "pressure": 0.6021930360008354,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "elbow_or_forearm"
+        },
+        {
+          "minute": 17.72449454865,
+          "attack_x": 41.101697503912746,
+          "attack_y": 35.97073085655996,
+          "box": false,
+          "pressure": 0.5371124001866467,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 18.591161215316667,
+          "attack_x": 83.17150964499506,
+          "attack_y": 30.46211945915409,
+          "box": false,
+          "pressure": 0.5124708738810961,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 25.14982560025,
+          "attack_x": 100.1772769308887,
+          "attack_y": 20.53636828112119,
+          "box": true,
+          "pressure": 0.6436279562502948,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 26.676492266916668,
+          "attack_x": 66.83184642243928,
+          "attack_y": 40.70190372068207,
+          "box": false,
+          "pressure": 0.6182230713710883,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 36.282579940383336,
+          "attack_x": 76.50589291653456,
+          "attack_y": 16.637461533929816,
+          "box": false,
+          "pressure": 0.44999197228569743,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 36.749246607050004,
+          "attack_x": 48.99597790194401,
+          "attack_y": 43.45823117003339,
+          "box": false,
+          "pressure": 0.5982671916248616,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 39.82800836185,
+          "attack_x": 59.37329347232366,
+          "attack_y": 46.6299671447771,
+          "box": false,
+          "pressure": 0.6539825144437342,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 39.891341695183336,
+          "attack_x": 66.1673212816706,
+          "attack_y": 52.84627465727175,
+          "box": false,
+          "pressure": 0.547013010364716,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 40.77134169518333,
+          "attack_x": 24.6460377609274,
+          "attack_y": 17.280767631103288,
+          "box": false,
+          "pressure": 0.595148094335264,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 56.24294682811667,
+          "attack_x": 39.25963328680639,
+          "attack_y": 35.82158906022837,
+          "box": false,
+          "pressure": 0.5655991302772926,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 67.32483713726667,
+          "attack_x": 66.95134112586928,
+          "attack_y": 26.674684314133547,
+          "box": false,
+          "pressure": 0.6055374849053896,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 78.66123717076667,
+          "attack_x": 74.3461556847538,
+          "attack_y": 32.01415801122419,
+          "box": false,
+          "pressure": 0.4500572329847564,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 79.57790383743333,
+          "attack_x": 65.0143106298101,
+          "attack_y": 27.309397258930268,
+          "box": false,
+          "pressure": 0.5470062743614265,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 82.1767595745,
+          "attack_x": 1.069259146101834,
+          "attack_y": 34.7166695303642,
+          "box": false,
+          "pressure": 0.5419382861758493,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 84.08675957450001,
+          "attack_x": 66.25391056126776,
+          "attack_y": 10.302209937468447,
+          "box": false,
+          "pressure": 0.5456403541899761,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 85.64842624116666,
+          "attack_x": 75.96057502201532,
+          "attack_y": 50.673568651698396,
+          "box": false,
+          "pressure": 0.5795167358125985,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 88.94842624116667,
+          "attack_x": 66.44379675135457,
+          "attack_y": 56.209937882328305,
+          "box": false,
+          "pressure": 0.6095799181483458,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        }
+      ],
+      "shots": 41,
+      "goals": 4,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139006,
+      "records": [
+        {
+          "minute": 0.29,
+          "attack_x": 50.9275654529228,
+          "attack_y": 43.38257109279062,
+          "box": false,
+          "pressure": 0.34213103800556843,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 2.393333333333333,
+          "attack_x": 58.628646953531245,
+          "attack_y": 53.966717426371616,
+          "box": false,
+          "pressure": 0.48347000064822787,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 6.5600000000000005,
+          "attack_x": 60.594279785646435,
+          "attack_y": 52.88427006349854,
+          "box": false,
+          "pressure": 0.5659866799127939,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 8.146666666666667,
+          "attack_x": 57.90187086534303,
+          "attack_y": 25.512791296706386,
+          "box": false,
+          "pressure": 0.6403735155744164,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 9.346666666666666,
+          "attack_x": 25.364245136655587,
+          "attack_y": 9.397272447986186,
+          "box": false,
+          "pressure": 0.5674901347303032,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 9.82,
+          "attack_x": 50.629876109036076,
+          "attack_y": 39.58991924967643,
+          "box": false,
+          "pressure": 0.5464920798429862,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 10.823017612366668,
+          "attack_x": 78.50696196905818,
+          "attack_y": 49.19354372960515,
+          "box": false,
+          "pressure": 0.6270882990382932,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 11.773017612366667,
+          "attack_x": 69.8904551587879,
+          "attack_y": 27.596874044120526,
+          "box": false,
+          "pressure": 0.6781789683426793,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 12.4563509457,
+          "attack_x": 58.756334812386044,
+          "attack_y": 38.13271101091068,
+          "box": false,
+          "pressure": 0.6370242683443239,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 16.399684279033334,
+          "attack_x": 70.93547941936612,
+          "attack_y": 53.444894443911494,
+          "box": false,
+          "pressure": 0.7433232685878332,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 18.539684279033334,
+          "attack_x": 50.4645578396269,
+          "attack_y": 35.58405277622865,
+          "box": false,
+          "pressure": 0.6340552498582058,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 19.333017612366667,
+          "attack_x": 65.20802686787377,
+          "attack_y": 44.297186981823494,
+          "box": false,
+          "pressure": 0.584204473812396,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 20.42968427903333,
+          "attack_x": 80.38061458546993,
+          "attack_y": 47.927643419007204,
+          "box": false,
+          "pressure": 0.6131517371821196,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 32.60920088745,
+          "attack_x": 88.00120732577743,
+          "attack_y": 27.827798419583303,
+          "box": false,
+          "pressure": 0.7449822377503241,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 33.52819696176667,
+          "attack_x": 57.36925494141287,
+          "attack_y": 35.07332880511314,
+          "box": false,
+          "pressure": 0.5772333649389885,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 34.27486362843333,
+          "attack_x": 78.27239655281271,
+          "attack_y": 36.95549039585951,
+          "box": false,
+          "pressure": 0.45896531469563506,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 45.537799927,
+          "attack_x": 84.31599126567203,
+          "attack_y": 47.62267855415862,
+          "box": false,
+          "pressure": 0.4556643671397853,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 46.44446659366667,
+          "attack_x": 74.83020016446989,
+          "attack_y": 50.437426560385916,
+          "box": false,
+          "pressure": 0.5137740715689204,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 48.781133260333334,
+          "attack_x": 84.15603461449552,
+          "attack_y": 52.30730402705881,
+          "box": false,
+          "pressure": 0.48070004449973436,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 49.54113326033333,
+          "attack_x": 50.22420809747787,
+          "attack_y": 12.278565724187999,
+          "box": false,
+          "pressure": 0.6394071760190452,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 50.11113326033333,
+          "attack_x": 69.26294813600674,
+          "attack_y": 29.89173678966619,
+          "box": false,
+          "pressure": 0.605054614005936,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 54.531669373949995,
+          "attack_x": 49.92250672194573,
+          "attack_y": 48.75651653196322,
+          "box": false,
+          "pressure": 0.5354110076861591,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 55.528336040616665,
+          "attack_x": 59.81357266611797,
+          "attack_y": 26.542384571422936,
+          "box": false,
+          "pressure": 0.6618526412473096,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 60.53333604061667,
+          "attack_x": 75.81746403141506,
+          "attack_y": 18.968970596081498,
+          "box": false,
+          "pressure": 0.5712242307560411,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 63.482847639616665,
+          "attack_x": 56.239039984579115,
+          "attack_y": 2.673037880786063,
+          "box": false,
+          "pressure": 0.5356704915074454,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 66.67584317163333,
+          "attack_x": 79.56311651556733,
+          "attack_y": 51.47363131861253,
+          "box": false,
+          "pressure": 0.49453410486127614,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 67.21250983830001,
+          "attack_x": 69.58753742566293,
+          "attack_y": 55.88368850304785,
+          "box": false,
+          "pressure": 0.4196928669235658,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 67.79917650496667,
+          "attack_x": 76.72886289915195,
+          "attack_y": 20.328199944322918,
+          "box": false,
+          "pressure": 0.5019525520467694,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 75.00655356408333,
+          "attack_x": 18.15105909291428,
+          "attack_y": 25.172633918238766,
+          "box": false,
+          "pressure": 0.5375493743794856,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 81.41907291896668,
+          "attack_x": 61.39513721379603,
+          "attack_y": 40.3545765558911,
+          "box": false,
+          "pressure": 0.6309867771791677,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 83.23187173726666,
+          "attack_x": 54.33179109666111,
+          "attack_y": 34.99047787563768,
+          "box": false,
+          "pressure": 0.5524453254963083,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 83.67053840393334,
+          "attack_x": 104.42656932612915,
+          "attack_y": 6.3195322868802455,
+          "box": false,
+          "pressure": 0.690151427623205,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 94.90975729433333,
+          "attack_x": 56.67833956960853,
+          "attack_y": 23.47355121545222,
+          "box": false,
+          "pressure": 0.5445585958289991,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 96.934423961,
+          "attack_x": 31.085442000459636,
+          "attack_y": 49.07110720863714,
+          "box": false,
+          "pressure": 0.585383528118987,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        }
+      ],
+      "shots": 22,
+      "goals": 4,
+      "ledger_complete": true
+    },
+    {
+      "seed": 139007,
+      "records": [
+        {
+          "minute": 2.9366666666666665,
+          "attack_x": 79.31736766867807,
+          "attack_y": 18.562273495000117,
+          "box": false,
+          "pressure": 0.5699402981388884,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 14.83202448065,
+          "attack_x": 77.87376875939451,
+          "attack_y": 35.23435853237815,
+          "box": false,
+          "pressure": 0.6398131117543386,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 19.290357813983334,
+          "attack_x": 51.24481231458647,
+          "attack_y": 56.92871447493848,
+          "box": false,
+          "pressure": 0.7162445517439724,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 24.42414351395,
+          "attack_x": 63.036079979145875,
+          "attack_y": 34.66245590516484,
+          "box": false,
+          "pressure": 0.7213731716839744,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 26.450761265916665,
+          "attack_x": 69.44768379894187,
+          "attack_y": 42.98418542296961,
+          "box": false,
+          "pressure": 0.5414490013865128,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 27.757427932583333,
+          "attack_x": 26.275891754081513,
+          "attack_y": 30.386600842583135,
+          "box": false,
+          "pressure": 0.3500041080879406,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 29.230761265916666,
+          "attack_x": 50.1516666600675,
+          "attack_y": 31.50698819106031,
+          "box": false,
+          "pressure": 0.6475465613616936,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        },
+        {
+          "minute": 31.79013005225,
+          "attack_x": 74.68352323262454,
+          "attack_y": 50.79622010278757,
+          "box": false,
+          "pressure": 0.5666867559869728,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 33.51950042561666,
+          "attack_x": 15.622682053434918,
+          "attack_y": 31.126853710351206,
+          "box": false,
+          "pressure": 0.46976992072823487,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 38.00950042561667,
+          "attack_x": 57.40007580270883,
+          "attack_y": 34.28388539571032,
+          "box": false,
+          "pressure": 0.6036526765062153,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 39.742833758950006,
+          "attack_x": 51.13219590497447,
+          "attack_y": 20.5892746570773,
+          "box": false,
+          "pressure": 0.5607377222439368,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 44.66563363096667,
+          "attack_x": 72.97638109681239,
+          "attack_y": 51.357938384166204,
+          "box": false,
+          "pressure": 0.609239804887829,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "reckless_tackle"
+        },
+        {
+          "minute": 45.11896696429999,
+          "attack_x": 56.40867393305664,
+          "attack_y": 24.038352672741304,
+          "box": false,
+          "pressure": 0.5559077272756696,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 51.60468089241667,
+          "attack_x": 28.35449337289728,
+          "attack_y": 63.068915407397505,
+          "box": false,
+          "pressure": 0.5325960176037473,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 56.74320821521667,
+          "attack_x": 59.77430442491324,
+          "attack_y": 26.224284291615433,
+          "box": false,
+          "pressure": 0.5510940114178249,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 61.08320821521667,
+          "attack_x": 85.38974230609682,
+          "attack_y": 4.034622635192555,
+          "box": false,
+          "pressure": 0.3833826975794564,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 67.37987488188334,
+          "attack_x": 92.10356852458925,
+          "attack_y": 33.554814210427466,
+          "box": true,
+          "pressure": 0.625565919244504,
+          "advantage": false,
+          "event": "penalty",
+          "foul_type": "holding"
+        },
+        {
+          "minute": 70.79787488188335,
+          "attack_x": 59.13905254557271,
+          "attack_y": 38.0764545186145,
+          "box": false,
+          "pressure": 0.5396312264593726,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "sliding_tackle"
+        },
+        {
+          "minute": 73.10654154855,
+          "attack_x": 64.40238295611464,
+          "attack_y": 27.51485703468775,
+          "box": false,
+          "pressure": 0.7953413262393483,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "push_charge"
+        },
+        {
+          "minute": 76.39841213495,
+          "attack_x": 40.90029331561567,
+          "attack_y": 41.69694777041049,
+          "box": false,
+          "pressure": 0.4528622203390674,
+          "advantage": true,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 77.75980600136667,
+          "attack_x": 50.19154610693516,
+          "attack_y": 34.53100411858473,
+          "box": false,
+          "pressure": 0.490628447284131,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "trip"
+        },
+        {
+          "minute": 90.94863012113333,
+          "attack_x": 11.65617211018538,
+          "attack_y": 35.19053735582123,
+          "box": false,
+          "pressure": 0.7690746484281963,
+          "advantage": false,
+          "event": "foul",
+          "foul_type": "late_tackle"
+        }
+      ],
+      "shots": 33,
+      "goals": 7,
+      "ledger_complete": true
+    }
+  ]
+}

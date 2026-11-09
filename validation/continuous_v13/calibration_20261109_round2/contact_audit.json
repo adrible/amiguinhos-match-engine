@@ -1,0 +1,3995 @@
+{
+  "scope": "12 independent synthetic matches, baseline foul handling",
+  "matches": [
+    {
+      "seed": 141000,
+      "fouls": [
+        {
+          "contact": [
+            27.445993599167764,
+            24.98804288434917
+          ],
+          "resolution": [
+            27.034021465224924,
+            25.175563984836913
+          ],
+          "distance_m": 0.4526424662728311,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            57.04893434201944,
+            40.30183276106
+          ],
+          "resolution": [
+            56.49097468447501,
+            40.51617670012561
+          ],
+          "distance_m": 0.5977142324399355,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            24.696952339920216,
+            53.55932571798736
+          ],
+          "resolution": [
+            25.16415713468487,
+            52.62744119504315
+          ],
+          "distance_m": 1.0424438039309611,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.73577319935415,
+            35.761110595067954
+          ],
+          "resolution": [
+            60.87884441644904,
+            36.20162875854051
+          ],
+          "distance_m": 4.166424769783967,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            76.62424685210868,
+            47.479768726857536
+          ],
+          "resolution": [
+            76.62424685210868,
+            47.479768726857536
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            82.62786092512398,
+            27.72438296027841
+          ],
+          "resolution": [
+            82.62786092512398,
+            27.72438296027841
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.72711133022224,
+            29.98529924211458
+          ],
+          "resolution": [
+            56.72378146467562,
+            29.999640028226985
+          ],
+          "distance_m": 0.014722301140799353,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            14.887479939408266,
+            42.10765490492411
+          ],
+          "resolution": [
+            14.887479939408266,
+            42.10765490492411
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            63.19815799143691,
+            54.36866715044872
+          ],
+          "resolution": [
+            63.19815799143691,
+            54.36866715044872
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            87.0575323197566,
+            44.15826250043759
+          ],
+          "resolution": [
+            86.99751768634016,
+            44.14396867819194
+          ],
+          "distance_m": 0.061693351169313855,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            64.6160404402417,
+            27.109373052339556
+          ],
+          "resolution": [
+            64.54268906807002,
+            27.256379084217627
+          ],
+          "distance_m": 0.16428997902491083,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.4356567053824,
+            51.20633124239478
+          ],
+          "resolution": [
+            79.4356567053824,
+            51.20633124239478
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.83204980881894,
+            42.60243670671503
+          ],
+          "resolution": [
+            65.60660754564815,
+            42.567684565572065
+          ],
+          "distance_m": 0.22810507521225587,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            22.985485878145553,
+            46.85150855941771
+          ],
+          "resolution": [
+            22.94571161823906,
+            47.29909479597947
+          ],
+          "distance_m": 0.449350009358663,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            71.70142318087069,
+            14.319005884916876
+          ],
+          "resolution": [
+            71.84951233326782,
+            14.26585600779164
+          ],
+          "distance_m": 0.15733819147342826,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            86.97887106769616,
+            34.660975880397125
+          ],
+          "resolution": [
+            86.97887106769616,
+            34.660975880397125
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            43.668425420499425,
+            37.197880604693935
+          ],
+          "resolution": [
+            41.90486100718523,
+            36.10216360379059
+          ],
+          "distance_m": 2.076235821378883,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            24.16116674150983,
+            16.503913316465503
+          ],
+          "resolution": [
+            24.16116674150983,
+            16.503913316465503
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            35.863782662537794,
+            19.687777306160626
+          ],
+          "resolution": [
+            33.5203746883223,
+            18.8351548772887
+          ],
+          "distance_m": 2.4936972430173294,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            74.87807812167925,
+            30.25879826918309
+          ],
+          "resolution": [
+            74.87807812167925,
+            30.25879826918309
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            76.24985575077156,
+            33.58607310044318
+          ],
+          "resolution": [
+            76.24985575077156,
+            33.58607310044318
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            24.799260120952724,
+            33.494758171857995
+          ],
+          "resolution": [
+            24.734239500400207,
+            33.45199904575313
+          ],
+          "distance_m": 0.07782045979230538,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            49.41629478712473,
+            53.3915948400677
+          ],
+          "resolution": [
+            49.30385012551527,
+            52.38101721485893
+          ],
+          "distance_m": 1.0168141120662413,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            62.07678857196685,
+            54.234423273172844
+          ],
+          "resolution": [
+            62.07678857196685,
+            54.234423273172844
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            66.58839434272866,
+            49.62129331482319
+          ],
+          "resolution": [
+            66.58839434272866,
+            49.62129331482319
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            68.77608573059149,
+            49.83959589213083
+          ],
+          "resolution": [
+            69.54143163451326,
+            49.74503128319975
+          ],
+          "distance_m": 0.7711658822277593,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            45.84694988147894,
+            15.395509851975625
+          ],
+          "resolution": [
+            45.84694988147894,
+            15.395509851975625
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            67.50815276350345,
+            40.393211843327165
+          ],
+          "resolution": [
+            67.47058264502049,
+            40.10153333761875
+          ],
+          "distance_m": 0.29408819169616374,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            57.04608371332965,
+            23.939636091244488
+          ],
+          "resolution": [
+            56.91247942203199,
+            24.02214763654016
+          ],
+          "distance_m": 0.1570294932814517,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            38.17669486328335,
+            31.37892430181367
+          ],
+          "resolution": [
+            38.20479821448498,
+            31.329789420841077
+          ],
+          "distance_m": 0.056604194870635144,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141001,
+      "fouls": [
+        {
+          "contact": [
+            78.098456860193,
+            30.62361834030297
+          ],
+          "resolution": [
+            78.06787619399907,
+            30.693537754062795
+          ],
+          "distance_m": 0.07631449118864826,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            59.492767516248286,
+            49.55977159408591
+          ],
+          "resolution": [
+            59.492767516248286,
+            49.55977159408591
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            69.64613019916983,
+            26.635222857764305
+          ],
+          "resolution": [
+            69.64613019916983,
+            26.635222857764305
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.06662975744214,
+            12.583305022071206
+          ],
+          "resolution": [
+            76.54876892382745,
+            12.409905300216685
+          ],
+          "distance_m": 0.5461202308387116,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            27.42693501958455,
+            59.99741962129749
+          ],
+          "resolution": [
+            27.42693501958455,
+            59.99741962129749
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            31.864247365560246,
+            20.874356078543457
+          ],
+          "resolution": [
+            31.864247365560246,
+            20.874356078543457
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.90090643974514,
+            36.98711972501439
+          ],
+          "resolution": [
+            70.8822705588399,
+            36.930807857992235
+          ],
+          "distance_m": 0.059315448448399775,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            67.24442685219935,
+            38.94390185787896
+          ],
+          "resolution": [
+            67.10585821884003,
+            39.08927269279307
+          ],
+          "distance_m": 0.20083312922597016,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.42976614820768,
+            31.86676159495387
+          ],
+          "resolution": [
+            80.37779316265639,
+            31.824152638094567
+          ],
+          "distance_m": 0.06720650587370557,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            81.70804037057653,
+            43.93924305567254
+          ],
+          "resolution": [
+            81.30655585665305,
+            44.49534347134977
+          ],
+          "distance_m": 0.6858844561854115,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.16072492395747,
+            49.59322446342321
+          ],
+          "resolution": [
+            80.16072492395747,
+            49.59322446342321
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            71.08528061104933,
+            19.16389248729392
+          ],
+          "resolution": [
+            70.91759648560141,
+            19.180396959169563
+          ],
+          "distance_m": 0.1684944020409213,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            58.58627709761602,
+            16.93939267431372
+          ],
+          "resolution": [
+            58.58627709761602,
+            16.93939267431372
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.07165436402087,
+            20.35845800366669
+          ],
+          "resolution": [
+            80.07165436402087,
+            20.35845800366669
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            50.991539212580186,
+            34.136583790850864
+          ],
+          "resolution": [
+            50.95336998349426,
+            34.1758145479557
+          ],
+          "distance_m": 0.054735202128361526,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            38.91258752165275,
+            24.20651617191233
+          ],
+          "resolution": [
+            38.91258752165275,
+            24.20651617191233
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            67.938302835764,
+            21.166269867252872
+          ],
+          "resolution": [
+            70.08733775037706,
+            20.913582035795343
+          ],
+          "distance_m": 2.16383969008627,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            67.76467586328866,
+            30.309436341763487
+          ],
+          "resolution": [
+            67.30440265858017,
+            29.991141086768394
+          ],
+          "distance_m": 0.5596099465922765,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            62.160446986846445,
+            14.45939481738819
+          ],
+          "resolution": [
+            62.15953167187406,
+            14.473224633043035
+          ],
+          "distance_m": 0.013860072241718138,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            5.829973053124235,
+            61.48673409467906
+          ],
+          "resolution": [
+            5.773448618089873,
+            61.62798966826831
+          ],
+          "distance_m": 0.15214515709013984,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            73.60905283714882,
+            15.602795605517098
+          ],
+          "resolution": [
+            73.60905283714882,
+            15.602795605517098
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            54.158421046765234,
+            23.15891999819862
+          ],
+          "resolution": [
+            53.97809364060169,
+            23.25615143454688
+          ],
+          "distance_m": 0.20487050941513452,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.12155186861996,
+            35.273069591121406
+          ],
+          "resolution": [
+            80.1868350557952,
+            35.29810454511047
+          ],
+          "distance_m": 0.06991883472278348,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            80.35359014182316,
+            50.63934735796413
+          ],
+          "resolution": [
+            80.35359014182316,
+            50.63934735796413
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.12738768465483,
+            50.68383484823478
+          ],
+          "resolution": [
+            77.12738768465483,
+            50.68383484823478
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        }
+      ]
+    },
+    {
+      "seed": 141010,
+      "fouls": [
+        {
+          "contact": [
+            73.17158547573386,
+            29.696956551518873
+          ],
+          "resolution": [
+            72.28127218980235,
+            29.94960390253003
+          ],
+          "distance_m": 0.9254666018172243,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            74.73681542421943,
+            19.31250373603926
+          ],
+          "resolution": [
+            74.74220097222248,
+            19.272621571087612
+          ],
+          "distance_m": 0.04024414502165114,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            67.8820024434222,
+            31.49643161002544
+          ],
+          "resolution": [
+            68.42900387196295,
+            31.760882307375066
+          ],
+          "distance_m": 0.6075728220998109,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.75343213092223,
+            18.89894027912424
+          ],
+          "resolution": [
+            77.75343213092223,
+            18.89894027912424
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            73.26765394143798,
+            16.482547061044336
+          ],
+          "resolution": [
+            73.07001125887004,
+            16.620443068980457
+          ],
+          "distance_m": 0.2409936492469714,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            80.583526572549,
+            19.815272792690905
+          ],
+          "resolution": [
+            80.583526572549,
+            19.815272792690905
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            49.484640281276306,
+            36.57334002013664
+          ],
+          "resolution": [
+            49.484640281276306,
+            36.57334002013664
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            84.87275592062885,
+            34.997809484508096
+          ],
+          "resolution": [
+            84.57196892143662,
+            34.61780146444876
+          ],
+          "distance_m": 0.48464307917526356,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            81.18068527858884,
+            34.38929280298035
+          ],
+          "resolution": [
+            80.29759321658219,
+            34.43015939454323
+          ],
+          "distance_m": 0.8840371419149371,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            32.94853797481824,
+            39.957535933115594
+          ],
+          "resolution": [
+            32.886827899801105,
+            39.534635370409624
+          ],
+          "distance_m": 0.42737924527946536,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            53.06851573203292,
+            40.32838082138151
+          ],
+          "resolution": [
+            53.06851573203292,
+            40.32838082138151
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            68.07658465476402,
+            13.209014170737824
+          ],
+          "resolution": [
+            70.30776640862108,
+            13.785018752857422
+          ],
+          "distance_m": 2.304333590730177,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            103.42322525754233,
+            57.37292985190769
+          ],
+          "resolution": [
+            102.48999892234892,
+            57.552567544119995
+          ],
+          "distance_m": 0.9503584024787098,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            102.43292209447681,
+            57.50787334189237
+          ],
+          "resolution": [
+            102.43133142853289,
+            57.49887293265628
+          ],
+          "distance_m": 0.00913988974562589,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            0.8251823698189469,
+            14.630060719647872
+          ],
+          "resolution": [
+            0.8251823698189469,
+            14.630060719647872
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            101.11430618240352,
+            59.071317708767424
+          ],
+          "resolution": [
+            101.12196383288746,
+            58.95593784606335
+          ],
+          "distance_m": 0.11563369893134591,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            62.612646007515885,
+            9.475962350875578
+          ],
+          "resolution": [
+            62.974547156366526,
+            9.4972402172923
+          ],
+          "distance_m": 0.36252612200869344,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            66.582776896334,
+            40.158454562939234
+          ],
+          "resolution": [
+            67.99901197268827,
+            40.05408423696558
+          ],
+          "distance_m": 1.420075686870256,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            80.31538480284043,
+            33.61012102110741
+          ],
+          "resolution": [
+            79.634668478247,
+            32.9374983605716
+          ],
+          "distance_m": 0.956972286972962,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            69.15390483842401,
+            41.14638555610369
+          ],
+          "resolution": [
+            69.16976971323449,
+            41.196974581757935
+          ],
+          "distance_m": 0.05301833427596656,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            98.00925909892938,
+            66.81682989927505
+          ],
+          "resolution": [
+            97.00143628315881,
+            67.39393769641136
+          ],
+          "distance_m": 1.161361372486288,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.599401095399756,
+            33.044062845660974
+          ],
+          "resolution": [
+            56.599401095399756,
+            33.044062845660974
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            61.401554908367515,
+            27.771173639487515
+          ],
+          "resolution": [
+            60.80636186863892,
+            27.522369899333647
+          ],
+          "distance_m": 0.6451031356736027,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            79.40356168511539,
+            50.8009655533247
+          ],
+          "resolution": [
+            79.40356168511539,
+            50.8009655533247
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            93.59802363033762,
+            21.711648835711102
+          ],
+          "resolution": [
+            93.6576284878164,
+            21.737469421613177
+          ],
+          "distance_m": 0.06495722970841225,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141011,
+      "fouls": [
+        {
+          "contact": [
+            83.10436209684346,
+            34.19258883461591
+          ],
+          "resolution": [
+            82.64737251088803,
+            34.289272523480676
+          ],
+          "distance_m": 0.4671051459406231,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            38.571590433098265,
+            40.11475316880609
+          ],
+          "resolution": [
+            38.58936546612832,
+            40.111723713770125
+          ],
+          "distance_m": 0.018031344848193968,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.04096264326415,
+            35.00754638780564
+          ],
+          "resolution": [
+            79.28415005306071,
+            35.34290067716917
+          ],
+          "distance_m": 0.8277848730708691,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            98.77833570774342,
+            17.987194365478057
+          ],
+          "resolution": [
+            97.81180209294986,
+            17.635651117401313
+          ],
+          "distance_m": 1.0284794036801403,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            74.0926969055056,
+            49.644789388709334
+          ],
+          "resolution": [
+            74.0926969055056,
+            49.644789388709334
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            66.1397877411529,
+            33.76576530223211
+          ],
+          "resolution": [
+            66.00584499514142,
+            33.84369855030727
+          ],
+          "distance_m": 0.15496531987719664,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            60.23251427262021,
+            35.49504871133733
+          ],
+          "resolution": [
+            60.992934794124544,
+            36.04982114914083
+          ],
+          "distance_m": 0.9412820126143733,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            20.840068277649888,
+            15.291256457741502
+          ],
+          "resolution": [
+            20.774583904996753,
+            15.832896266907948
+          ],
+          "distance_m": 0.5455839861429571,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            78.05797252524071,
+            49.80950261717454
+          ],
+          "resolution": [
+            78.05797252524071,
+            49.80950261717454
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            59.383093188529664,
+            34.73612345208361
+          ],
+          "resolution": [
+            60.07218573597843,
+            34.959329044406225
+          ],
+          "distance_m": 0.724340579695435,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            54.618429220190286,
+            30.137992008437507
+          ],
+          "resolution": [
+            54.408527367085036,
+            30.360970188888608
+          ],
+          "distance_m": 0.30623203113701525,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            70.17149393905396,
+            12.371651728977184
+          ],
+          "resolution": [
+            70.17149393905396,
+            12.371651728977184
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            81.33861745942684,
+            58.352431262735934
+          ],
+          "resolution": [
+            80.45094480768083,
+            58.08549744118148
+          ],
+          "distance_m": 0.9269392654038707,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            12.583548605592327,
+            29.85898730787104
+          ],
+          "resolution": [
+            12.583548605592327,
+            29.85898730787104
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            73.88505864866143,
+            34.257527632984655
+          ],
+          "resolution": [
+            73.61771256912233,
+            33.83388178521526
+          ],
+          "distance_m": 0.500948830298237,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            33.82350727027139,
+            17.46244911531033
+          ],
+          "resolution": [
+            33.82350727027139,
+            17.46244911531033
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            74.51287357057774,
+            45.710758749815454
+          ],
+          "resolution": [
+            74.28081049706954,
+            45.89843342077212
+          ],
+          "distance_m": 0.29845443907699865,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            49.37339656948301,
+            36.109920679104164
+          ],
+          "resolution": [
+            49.37339656948301,
+            36.109920679104164
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            22.005969650653967,
+            46.55917757841479
+          ],
+          "resolution": [
+            22.229759401884763,
+            46.57413955406106
+          ],
+          "distance_m": 0.22428935211280435,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            93.44241725318307,
+            32.34090015652489
+          ],
+          "resolution": [
+            93.44241725318307,
+            32.34090015652489
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.15577790528453,
+            51.214891567593455
+          ],
+          "resolution": [
+            57.06482510560386,
+            51.396818737192234
+          ],
+          "distance_m": 0.9270729784901683,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        }
+      ]
+    },
+    {
+      "seed": 141002,
+      "fouls": [
+        {
+          "contact": [
+            62.9230681934868,
+            27.74410096841855
+          ],
+          "resolution": [
+            62.9230681934868,
+            27.74410096841855
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            53.939955419475694,
+            43.167138713654886
+          ],
+          "resolution": [
+            53.939955419475694,
+            43.167138713654886
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            37.99764750268355,
+            30.23816845299998
+          ],
+          "resolution": [
+            37.99764750268355,
+            30.23816845299998
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.05977169422239,
+            30.5478786363889
+          ],
+          "resolution": [
+            79.05977169422239,
+            30.5478786363889
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            58.43779708991227,
+            32.37422119099298
+          ],
+          "resolution": [
+            58.43779708991227,
+            32.37422119099298
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.951732246095155,
+            31.159642122533327
+          ],
+          "resolution": [
+            56.951732246095155,
+            31.159642122533327
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.93064069843703,
+            18.513634489382802
+          ],
+          "resolution": [
+            70.93064069843703,
+            18.513634489382802
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            30.092441778090194,
+            15.959786081133863
+          ],
+          "resolution": [
+            30.192451343821087,
+            15.979501040955904
+          ],
+          "distance_m": 0.10193425762944737,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            75.15711070742644,
+            15.495334690698629
+          ],
+          "resolution": [
+            75.06453498024685,
+            15.520767651145313
+          ],
+          "distance_m": 0.09600573284920569,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            54.779420907827706,
+            35.15661818828303
+          ],
+          "resolution": [
+            54.779420907827706,
+            35.15661818828303
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            64.81157882461777,
+            17.432271913575704
+          ],
+          "resolution": [
+            64.2798247979954,
+            17.641123561232156
+          ],
+          "distance_m": 0.5712979568998253,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            59.21958359352003,
+            30.34872356294267
+          ],
+          "resolution": [
+            59.21958359352003,
+            30.34872356294267
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141003,
+      "fouls": [
+        {
+          "contact": [
+            33.343679635846215,
+            34.4041581853395
+          ],
+          "resolution": [
+            33.00719713137389,
+            34.04771291066747
+          ],
+          "distance_m": 0.4901772226980589,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            82.84704396406013,
+            36.50955559507282
+          ],
+          "resolution": [
+            82.84704396406013,
+            36.50955559507282
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            79.61539884278609,
+            32.56462015709616
+          ],
+          "resolution": [
+            79.61539884278609,
+            32.56462015709616
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            43.717838395319006,
+            25.56079128560974
+          ],
+          "resolution": [
+            43.23447581597425,
+            25.19108400507472
+          ],
+          "distance_m": 0.6085415814810146,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            39.723618294572745,
+            40.36376150147867
+          ],
+          "resolution": [
+            39.35814786264358,
+            40.37155174937914
+          ],
+          "distance_m": 0.36555344968532777,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.82727430969904,
+            25.29960387864214
+          ],
+          "resolution": [
+            65.8528726699978,
+            25.20525580734279
+          ],
+          "distance_m": 0.09775906407025581,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            22.427717013693552,
+            35.52005725444039
+          ],
+          "resolution": [
+            22.427717013693552,
+            35.52005725444039
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            64.83221225474645,
+            55.15149515184575
+          ],
+          "resolution": [
+            64.7951760749657,
+            55.00640704777868
+          ],
+          "distance_m": 0.1497405641585795,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            85.84175225594029,
+            30.559988926303603
+          ],
+          "resolution": [
+            86.1868232608729,
+            30.55492641956321
+          ],
+          "distance_m": 0.3451081387329127,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            58.43710093116584,
+            33.71048434676836
+          ],
+          "resolution": [
+            58.43710093116584,
+            33.71048434676836
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            84.09511116757366,
+            36.06390053344737
+          ],
+          "resolution": [
+            83.95273369079516,
+            36.10130934716431
+          ],
+          "distance_m": 0.14720993593342493,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            87.66868278222704,
+            36.631055955493025
+          ],
+          "resolution": [
+            87.71996473691063,
+            36.821859186252084
+          ],
+          "distance_m": 0.19757457261566902,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            39.29998276005756,
+            40.87683814434277
+          ],
+          "resolution": [
+            39.29998276005756,
+            40.87683814434277
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            41.23201678345582,
+            14.94009526145981
+          ],
+          "resolution": [
+            41.6662308628467,
+            15.133271591930686
+          ],
+          "distance_m": 0.4752462113425695,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            51.34473116475624,
+            42.57455606115239
+          ],
+          "resolution": [
+            51.28457410089058,
+            42.5776940925482
+          ],
+          "distance_m": 0.060238854354794334,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            78.2487219182319,
+            17.854954645133496
+          ],
+          "resolution": [
+            78.2487219182319,
+            17.854954645133496
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            30.12818897213181,
+            16.370130797377193
+          ],
+          "resolution": [
+            30.201203241256337,
+            16.41592182649149
+          ],
+          "distance_m": 0.08618527625491168,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            46.903594020705455,
+            56.56957380009707
+          ],
+          "resolution": [
+            47.02812944637548,
+            56.14148414062453
+          ],
+          "distance_m": 0.44583610081971836,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.55983593948032,
+            47.95091031604284
+          ],
+          "resolution": [
+            82.39559226257433,
+            48.82570560609007
+          ],
+          "distance_m": 2.967622065468654,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            83.30252686988206,
+            27.52468855814969
+          ],
+          "resolution": [
+            82.32748379513191,
+            27.45012876179771
+          ],
+          "distance_m": 0.9778896465605253,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            28.608659248467692,
+            23.175634080916904
+          ],
+          "resolution": [
+            28.608659248467692,
+            23.175634080916904
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            24.017848286943146,
+            31.87827342301402
+          ],
+          "resolution": [
+            24.017848286943146,
+            31.87827342301402
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141004,
+      "fouls": [
+        {
+          "contact": [
+            67.89511543479053,
+            28.956441815231678
+          ],
+          "resolution": [
+            67.47243091220125,
+            28.484399493868317
+          ],
+          "distance_m": 0.6336293544294148,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            38.75067610667179,
+            28.155008202729263
+          ],
+          "resolution": [
+            33.20661217830434,
+            27.26698789049123
+          ],
+          "distance_m": 5.614732844648306,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.17923207832496,
+            38.59661207830218
+          ],
+          "resolution": [
+            70.17923207832496,
+            38.59661207830218
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            24.694672891938506,
+            17.84228393520559
+          ],
+          "resolution": [
+            24.918236498945316,
+            17.59347385863071
+          ],
+          "distance_m": 0.3344953521098508,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            73.39443845787383,
+            49.362248286958156
+          ],
+          "resolution": [
+            73.72161176245507,
+            49.33299918539534
+          ],
+          "distance_m": 0.32847812891095024,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            64.75285919251867,
+            26.789165663071476
+          ],
+          "resolution": [
+            67.73425853955108,
+            26.546103317167365
+          ],
+          "distance_m": 2.991290920402373,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            67.52758677923754,
+            31.497195488521342
+          ],
+          "resolution": [
+            67.52758677923754,
+            31.497195488521342
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.64454164512773,
+            41.600661294392154
+          ],
+          "resolution": [
+            65.43979633941613,
+            41.28017496677007
+          ],
+          "distance_m": 0.3803053068307432,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            70.93051041733501,
+            41.294943859484746
+          ],
+          "resolution": [
+            70.26228266728498,
+            41.273323699812025
+          ],
+          "distance_m": 0.6685774130504317,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            23.731206396715663,
+            16.989442361843615
+          ],
+          "resolution": [
+            23.66681073966853,
+            17.24432248818928
+          ],
+          "distance_m": 0.262889101053113,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            28.553069565297637,
+            50.13835529804321
+          ],
+          "resolution": [
+            28.722018771341727,
+            49.84850654096208
+          ],
+          "distance_m": 0.33549386910106854,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            83.96939756692097,
+            32.37187695998763
+          ],
+          "resolution": [
+            83.54959963891137,
+            31.95584918264666
+          ],
+          "distance_m": 0.5910240366350789,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            56.58171669481546,
+            53.18106033127625
+          ],
+          "resolution": [
+            56.51115856849762,
+            53.21734008033359
+          ],
+          "distance_m": 0.07933895248330583,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            23.54005224318723,
+            31.41108541581493
+          ],
+          "resolution": [
+            23.706421857764116,
+            31.772606798073816
+          ],
+          "distance_m": 0.3979655242415317,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.24597477705909,
+            39.66402952942612
+          ],
+          "resolution": [
+            70.24597477705909,
+            39.66402952942612
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            83.16173385117617,
+            50.44104689058369
+          ],
+          "resolution": [
+            83.16169311913451,
+            50.44105314545018
+          ],
+          "distance_m": 4.1209496139336135e-05,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            95.19712056122722,
+            43.43913758324743
+          ],
+          "resolution": [
+            95.19712056122722,
+            43.43913758324743
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            83.69864922716343,
+            47.02216862564666
+          ],
+          "resolution": [
+            84.00857490289232,
+            47.13837404947649
+          ],
+          "distance_m": 0.3309949017786843,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            55.14615076160156,
+            37.50530902340341
+          ],
+          "resolution": [
+            55.14615076160156,
+            37.50530902340341
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            35.25830644432153,
+            26.847003183608926
+          ],
+          "resolution": [
+            35.133972972729765,
+            27.308201112959217
+          ],
+          "distance_m": 0.47766341936038736,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            71.08792833808923,
+            52.809431204864524
+          ],
+          "resolution": [
+            70.85218335463846,
+            52.94902083530089
+          ],
+          "distance_m": 0.27397255728916853,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            68.45022059754751,
+            12.947547024393216
+          ],
+          "resolution": [
+            67.86724178248042,
+            13.123737459052897
+          ],
+          "distance_m": 0.6090216482873164,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            80.14603476888674,
+            36.64568367952238
+          ],
+          "resolution": [
+            80.12821778725959,
+            36.61110037672079
+          ],
+          "distance_m": 0.038903080430325324,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            61.05999474057666,
+            29.85880280242491
+          ],
+          "resolution": [
+            64.246972255108,
+            31.381011404426747
+          ],
+          "distance_m": 3.531847208775708,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.37859207228372,
+            34.15059823936664
+          ],
+          "resolution": [
+            79.31830168121485,
+            33.987615922300556
+          ],
+          "distance_m": 0.17377619782774217,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            23.47210062465193,
+            17.99957072132569
+          ],
+          "resolution": [
+            24.076192762707564,
+            17.83697410158949
+          ],
+          "distance_m": 0.6255916975234449,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141005,
+      "fouls": [
+        {
+          "contact": [
+            47.45006933227709,
+            33.460226832572644
+          ],
+          "resolution": [
+            49.80591508612119,
+            31.803471059770462
+          ],
+          "distance_m": 2.8800779341223794,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            78.90531483797308,
+            16.98734832351584
+          ],
+          "resolution": [
+            78.74602123323955,
+            17.06278596689437
+          ],
+          "distance_m": 0.17625348378829278,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            27.716162140674484,
+            33.8409480244669
+          ],
+          "resolution": [
+            27.72238513556059,
+            33.764034442601094
+          ],
+          "distance_m": 0.0771649191069365,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            24.575936133651272,
+            12.489449018043283
+          ],
+          "resolution": [
+            24.38339073531017,
+            14.406799476778396
+          ],
+          "distance_m": 1.9269941650233615,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.55928465593259,
+            16.58928424608807
+          ],
+          "resolution": [
+            76.58772311308614,
+            16.16891116758573
+          ],
+          "distance_m": 1.05860538288245,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            36.16357219200226,
+            17.71999239877391
+          ],
+          "resolution": [
+            30.655250922198363,
+            15.28408753177633
+          ],
+          "distance_m": 6.022892638295702,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            63.89533179201482,
+            44.472354483881404
+          ],
+          "resolution": [
+            63.89533179201482,
+            44.472354483881404
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            78.92545234627858,
+            36.93360659248129
+          ],
+          "resolution": [
+            78.90942821757504,
+            36.99614556697668
+          ],
+          "distance_m": 0.06455924435464215,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            72.21910371810424,
+            43.23318941624472
+          ],
+          "resolution": [
+            71.82122141167248,
+            43.1743036437729
+          ],
+          "distance_m": 0.402216190587916,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            68.73349125293717,
+            51.346753196284226
+          ],
+          "resolution": [
+            68.32821671669657,
+            51.3822057018353
+          ],
+          "distance_m": 0.4068222337518929,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            60.674174086919706,
+            48.8384148923613
+          ],
+          "resolution": [
+            60.663060568281374,
+            48.82973712698955
+          ],
+          "distance_m": 0.014100138594060306,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            21.336816881416723,
+            1.3190514407426643
+          ],
+          "resolution": [
+            21.772782928126617,
+            1.2486335762169511
+          ],
+          "distance_m": 0.4416164280551785,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            78.72056193298653,
+            50.16702992205259
+          ],
+          "resolution": [
+            78.71897006135868,
+            50.16852028308324
+          ],
+          "distance_m": 0.0021806492797405946,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            24.371332959162928,
+            29.386984518044514
+          ],
+          "resolution": [
+            24.371332959162928,
+            29.386984518044514
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            30.770482581662378,
+            21.489788292476486
+          ],
+          "resolution": [
+            30.52787543567069,
+            22.160714727181123
+          ],
+          "distance_m": 0.7134427153399961,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            84.86062610251898,
+            7.622670606044906
+          ],
+          "resolution": [
+            84.20990690057977,
+            7.440657157906195
+          ],
+          "distance_m": 0.6756954751037976,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        }
+      ]
+    },
+    {
+      "seed": 141006,
+      "fouls": [
+        {
+          "contact": [
+            50.08237034269065,
+            15.6559786866002
+          ],
+          "resolution": [
+            50.014358581503934,
+            15.565929176427503
+          ],
+          "distance_m": 0.1128473036543711,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.70142172567895,
+            36.38380258611458
+          ],
+          "resolution": [
+            70.70142172567895,
+            36.38380258611458
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            35.585524886296405,
+            32.274194344713834
+          ],
+          "resolution": [
+            36.1060499190997,
+            32.33033380757865
+          ],
+          "distance_m": 0.5235436458077064,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            48.24439372821703,
+            36.973572554927934
+          ],
+          "resolution": [
+            51.89723339208685,
+            37.79890976498457
+          ],
+          "distance_m": 3.7449191073032075,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            20.9905658426906,
+            32.66294038777223
+          ],
+          "resolution": [
+            19.743458849821423,
+            31.296764129251628
+          ],
+          "distance_m": 1.8497873988673827,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            66.36841501425204,
+            39.98469563409462
+          ],
+          "resolution": [
+            67.33541918862153,
+            39.56748516559125
+          ],
+          "distance_m": 1.053167436012349,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            34.87080414966847,
+            42.80665319760988
+          ],
+          "resolution": [
+            34.86365154561359,
+            42.820592278916884
+          ],
+          "distance_m": 0.015667090746181035,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            61.65824411488312,
+            60.4340547307143
+          ],
+          "resolution": [
+            60.68085703296023,
+            60.4471364546182
+          ],
+          "distance_m": 0.9774746234097486,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            63.996712888576496,
+            31.029516432682122
+          ],
+          "resolution": [
+            63.26614036227163,
+            30.63451262449393
+          ],
+          "distance_m": 0.8305204540977016,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            85.95169402375889,
+            35.937931364064035
+          ],
+          "resolution": [
+            84.98559370728694,
+            36.27271597216254
+          ],
+          "distance_m": 1.022462984810146,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            74.91879069644207,
+            38.400414835346794
+          ],
+          "resolution": [
+            74.91879069644207,
+            38.400414835346794
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            67.09051748528302,
+            42.05775948674124
+          ],
+          "resolution": [
+            66.66086122623784,
+            42.05521529769497
+          ],
+          "distance_m": 0.4296637916261935,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            59.88731710679135,
+            45.15818441756498
+          ],
+          "resolution": [
+            59.88731710679135,
+            45.15818441756498
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            30.312380573035448,
+            40.45404158959378
+          ],
+          "resolution": [
+            30.519460221164916,
+            40.468004653029055
+          ],
+          "distance_m": 0.20754986824838526,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            74.90329116977847,
+            18.774176059031326
+          ],
+          "resolution": [
+            74.90329116977847,
+            18.774176059031326
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            73.56541713969345,
+            50.457620107107914
+          ],
+          "resolution": [
+            73.43836182891258,
+            50.54540609777244
+          ],
+          "distance_m": 0.1544326136364254,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            71.20454724354764,
+            14.995834083832285
+          ],
+          "resolution": [
+            73.72620971601418,
+            14.622884614806743
+          ],
+          "distance_m": 2.549092570208568,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            78.3315987665151,
+            46.79188296323352
+          ],
+          "resolution": [
+            78.34715748395534,
+            46.87216145414601
+          ],
+          "distance_m": 0.0817723045509432,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            67.32834394295564,
+            32.368353625267126
+          ],
+          "resolution": [
+            67.32834394295564,
+            32.368353625267126
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            28.27557878462177,
+            34.412272559490034
+          ],
+          "resolution": [
+            28.552818776895293,
+            34.3768078570622
+          ],
+          "distance_m": 0.2794991206321006,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.83894194230018,
+            30.685713934726753
+          ],
+          "resolution": [
+            79.83894194230018,
+            30.685713934726753
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141007,
+      "fouls": [
+        {
+          "contact": [
+            36.02598732265147,
+            42.645408880310185
+          ],
+          "resolution": [
+            36.057806905425046,
+            42.60572144357903
+          ],
+          "distance_m": 0.050868246305276095,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.64358981119582,
+            32.54360338746
+          ],
+          "resolution": [
+            69.79779950041319,
+            32.11013206703673
+          ],
+          "distance_m": 0.9503991979390964,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            62.447151803934645,
+            33.5877110499453
+          ],
+          "resolution": [
+            62.447151803934645,
+            33.5877110499453
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            59.65621242091508,
+            40.541901072885686
+          ],
+          "resolution": [
+            59.65621242091508,
+            40.541901072885686
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            28.891833289418187,
+            13.32217205418133
+          ],
+          "resolution": [
+            28.890667282877715,
+            13.328772029114006
+          ],
+          "distance_m": 0.006702181761514798,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            52.5,
+            34.0
+          ],
+          "resolution": [
+            52.5,
+            34.0
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            76.10673046285471,
+            54.86055321648215
+          ],
+          "resolution": [
+            76.10673046285471,
+            54.86055321648215
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            23.24047439180674,
+            31.550996677759297
+          ],
+          "resolution": [
+            23.1738951113901,
+            31.70072787270753
+          ],
+          "distance_m": 0.1638665045743754,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            26.13908248392228,
+            62.0150743799324
+          ],
+          "resolution": [
+            25.76910349057256,
+            60.322606678266496
+          ],
+          "distance_m": 1.7324351002858205,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            68.69733482208329,
+            36.51071377794317
+          ],
+          "resolution": [
+            68.64831328291832,
+            36.54037416261171
+          ],
+          "distance_m": 0.057296157993260204,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            62.47890296094637,
+            63.144924087980385
+          ],
+          "resolution": [
+            62.47890296094637,
+            63.144924087980385
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            93.86354518749626,
+            31.068919071773568
+          ],
+          "resolution": [
+            93.86354518749626,
+            31.068919071773568
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            61.677105132350384,
+            38.87190495988377
+          ],
+          "resolution": [
+            63.34091197574709,
+            39.95316189932067
+          ],
+          "distance_m": 1.9842806709773089,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.47505537256488,
+            51.60759109018533
+          ],
+          "resolution": [
+            78.76450994113458,
+            51.76168864012658
+          ],
+          "distance_m": 0.7270631781519218,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            53.06505572964189,
+            34.74093525542471
+          ],
+          "resolution": [
+            53.872771739336386,
+            35.81822371772663
+          ],
+          "distance_m": 1.346460390552072,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            78.09472641111171,
+            30.77638749970086
+          ],
+          "resolution": [
+            80.08160621115834,
+            29.646143929617885
+          ],
+          "distance_m": 2.28585692193262,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.27080447657598,
+            25.95592654379147
+          ],
+          "resolution": [
+            79.14548213632182,
+            25.607027598307525
+          ],
+          "distance_m": 0.37072383673913945,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            64.30305434904908,
+            48.44167266867055
+          ],
+          "resolution": [
+            64.74456850057506,
+            48.42391582687863
+          ],
+          "distance_m": 0.4418710800993074,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            68.50611659826393,
+            25.013667162589115
+          ],
+          "resolution": [
+            68.51669549473462,
+            24.89471520682823
+          ],
+          "distance_m": 0.11942144208590454,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            55.181775838250346,
+            44.3816398339501
+          ],
+          "resolution": [
+            55.13762759801716,
+            44.29614180265385
+          ],
+          "distance_m": 0.09622359622889888,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            82.18561006436872,
+            34.8502949951009
+          ],
+          "resolution": [
+            81.86159541861812,
+            35.083665751095225
+          ],
+          "distance_m": 0.39930865306707863,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141008,
+      "fouls": [
+        {
+          "contact": [
+            71.62554448156202,
+            39.93818069607448
+          ],
+          "resolution": [
+            70.8800656188505,
+            39.941742875698544
+          ],
+          "distance_m": 0.745487373382902,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.59311472799138,
+            18.690991973314215
+          ],
+          "resolution": [
+            78.674341780326,
+            18.2193261384067
+          ],
+          "distance_m": 1.1796273133999682,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            62.48652400087275,
+            18.109076352392137
+          ],
+          "resolution": [
+            62.48652400087275,
+            18.109076352392137
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            7.444660377821535,
+            59.22243569069492
+          ],
+          "resolution": [
+            7.444660377821535,
+            59.22243569069492
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            68.11673284337681,
+            39.2545524080202
+          ],
+          "resolution": [
+            67.51763759537151,
+            39.140339619754855
+          ],
+          "distance_m": 0.6098849704541628,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            51.925115026860816,
+            19.64021624621356
+          ],
+          "resolution": [
+            51.925115026860816,
+            19.64021624621356
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            43.386473223585796,
+            37.16804231355886
+          ],
+          "resolution": [
+            43.36546926545694,
+            37.19103048238216
+          ],
+          "distance_m": 0.031138756605355027,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            79.14028294842473,
+            26.711272965210206
+          ],
+          "resolution": [
+            79.28999445753195,
+            26.496113487773506
+          ],
+          "distance_m": 0.26212046217339663,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            3.18204801823855,
+            51.62135817849301
+          ],
+          "resolution": [
+            3.158128135403387,
+            51.62074036059184
+          ],
+          "distance_m": 0.02392786020117417,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            69.45875016198714,
+            52.06147497909148
+          ],
+          "resolution": [
+            69.6048731559316,
+            52.36506145894934
+          ],
+          "distance_m": 0.33692236511068996,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.49832561966133,
+            20.133250343839705
+          ],
+          "resolution": [
+            76.97131984207769,
+            19.748382717203327
+          ],
+          "distance_m": 0.652578102328951,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            54.46493322598454,
+            21.0138877410323
+          ],
+          "resolution": [
+            53.500447057518386,
+            21.239844664691233
+          ],
+          "distance_m": 0.9906008785136061,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            96.92408511084413,
+            48.550025378293
+          ],
+          "resolution": [
+            96.75023791553022,
+            48.761711965381245
+          ],
+          "distance_m": 0.27392345367197435,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            51.83605493496432,
+            36.58410810816696
+          ],
+          "resolution": [
+            51.83082141364142,
+            36.63627767224306
+          ],
+          "distance_m": 0.05243141387877885,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            15.452080064857128,
+            0.6685041818920752
+          ],
+          "resolution": [
+            15.191294383733464,
+            2.2957389676460878
+          ],
+          "distance_m": 1.647999459783601,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            80.92570520853232,
+            38.44215187540594
+          ],
+          "resolution": [
+            81.83332502374498,
+            38.147260202054994
+          ],
+          "distance_m": 0.9543242782086053,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            56.53616302422365,
+            50.226237940647394
+          ],
+          "resolution": [
+            56.62558986596746,
+            50.25358955076093
+          ],
+          "distance_m": 0.09351615154654419,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            8.922811835872636,
+            12.110623387253888
+          ],
+          "resolution": [
+            8.851566765209569,
+            12.248735723015528
+          ],
+          "distance_m": 0.1554055255881256,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.44355570974062,
+            52.12092550046719
+          ],
+          "resolution": [
+            65.38555517554437,
+            52.13041116868112
+          ],
+          "distance_m": 0.05877108020545121,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            61.329265621359774,
+            28.371420913604275
+          ],
+          "resolution": [
+            63.02238478844915,
+            28.2128956603363
+          ],
+          "distance_m": 1.7005242632462216,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            57.00414689346862,
+            22.89674084904125
+          ],
+          "resolution": [
+            57.00414689346862,
+            22.89674084904125
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            70.25609614641722,
+            18.324556024459177
+          ],
+          "resolution": [
+            69.95049075444241,
+            17.99799906818101
+          ],
+          "distance_m": 0.4472517202848272,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            92.0121180257747,
+            34.58569398250895
+          ],
+          "resolution": [
+            92.21540775642372,
+            34.85031243701511
+          ],
+          "distance_m": 0.33369093642558034,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            40.94880503273984,
+            19.271117973920198
+          ],
+          "resolution": [
+            40.94880503273984,
+            19.271117973920198
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            25.33013485789853,
+            18.17916482869287
+          ],
+          "resolution": [
+            25.300713187655163,
+            17.929256600251257
+          ],
+          "distance_m": 0.2516341735987666,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        }
+      ]
+    },
+    {
+      "seed": 141009,
+      "fouls": [
+        {
+          "contact": [
+            61.34391494646201,
+            36.59588315020938
+          ],
+          "resolution": [
+            61.34391494646201,
+            36.59588315020938
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            45.43603824168464,
+            12.182648478205977
+          ],
+          "resolution": [
+            45.97731857356129,
+            12.217293613506458
+          ],
+          "distance_m": 0.5423879451799092,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.50282345525251,
+            50.52322155128363
+          ],
+          "resolution": [
+            79.97269366611329,
+            50.25623254883312
+          ],
+          "distance_m": 2.4842588403640584,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            89.25377708401878,
+            36.570709953054745
+          ],
+          "resolution": [
+            88.82829305118784,
+            36.54319523548462
+          ],
+          "distance_m": 0.42637274992316504,
+          "contact_in_box": true,
+          "resolution_in_box": true,
+          "restart": "penalty",
+          "advantage": false
+        },
+        {
+          "contact": [
+            53.453751558662596,
+            45.21730701124178
+          ],
+          "resolution": [
+            53.45607115491064,
+            45.255636735025156
+          ],
+          "distance_m": 0.03839984703177779,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            36.80971945715568,
+            55.586326730710894
+          ],
+          "resolution": [
+            36.6615153760319,
+            55.30747017743016
+          ],
+          "distance_m": 0.315793329520042,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            41.68326461027016,
+            55.546254689160435
+          ],
+          "resolution": [
+            41.43061807314323,
+            55.58498647992112
+          ],
+          "distance_m": 0.2555981696682467,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            83.75067346422222,
+            30.702507965042994
+          ],
+          "resolution": [
+            83.47128559756764,
+            30.240772119516095
+          ],
+          "distance_m": 0.5396828430460193,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            77.2056270588398,
+            49.080793487371
+          ],
+          "resolution": [
+            77.22128757466106,
+            49.095372571294384
+          ],
+          "distance_m": 0.021396295095957873,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.87641981024417,
+            7.227528905845222
+          ],
+          "resolution": [
+            65.61026105366601,
+            7.465554974299728
+          ],
+          "distance_m": 0.35706707068440746,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            65.56694165961244,
+            58.99578526887557
+          ],
+          "resolution": [
+            64.73167511088805,
+            59.03627226268901
+          ],
+          "distance_m": 0.836247214695514,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            81.65779969555881,
+            35.18221121324546
+          ],
+          "resolution": [
+            80.83592470691548,
+            35.138317057281164
+          ],
+          "distance_m": 0.8230462890295368,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            23.26562703968679,
+            32.685273407624976
+          ],
+          "resolution": [
+            23.75306547277326,
+            32.899890704762704
+          ],
+          "distance_m": 0.5325944144285572,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            81.95114816807894,
+            50.34160587024357
+          ],
+          "resolution": [
+            81.67363233396505,
+            50.41365213630201
+          ],
+          "distance_m": 0.2867153686792829,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            48.94285092084352,
+            36.967304159861726
+          ],
+          "resolution": [
+            51.61947393452603,
+            35.79843645599721
+          ],
+          "distance_m": 2.920712664147628,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            68.02164470316227,
+            35.469652316387524
+          ],
+          "resolution": [
+            67.70215113534259,
+            35.475815667008945
+          ],
+          "distance_m": 0.3195530108902577,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        },
+        {
+          "contact": [
+            86.06526397473279,
+            41.20841881453547
+          ],
+          "resolution": [
+            85.84600227557884,
+            41.17970892189496
+          ],
+          "distance_m": 0.22113333229367668,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": "free_kick",
+          "advantage": false
+        },
+        {
+          "contact": [
+            50.82586772845325,
+            47.47203879092612
+          ],
+          "resolution": [
+            50.82586772845325,
+            47.47203879092612
+          ],
+          "distance_m": 0.0,
+          "contact_in_box": false,
+          "resolution_in_box": false,
+          "restart": null,
+          "advantage": true
+        }
+      ]
+    }
+  ]
+}

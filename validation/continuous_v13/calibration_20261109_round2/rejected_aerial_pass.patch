@@ -1,0 +1,31 @@
+--- a/engine_experiment_v13_continuous.py
++++ b/engine_experiment_v13_continuous.py
+@@ -121,6 +121,13 @@
+     def _header_spread_multiplier(skill,speed,pressure):
+         """Incoming pace and pressure increase the uncertainty of directing a header."""
+         return clamp(1.+.65*min(1.,speed/25.)*(1.-.45*skill)+.25*pressure,1.,2.)
++
++    @classmethod
++    def _expected_aerial_survival(cls,skill,speed,pressure,wet):
++        # Aerial passes can also be controlled after a bounce. Keep the
++        # previous lane-survival ceiling while accounting for receiver contact.
++        contact=cls._aerial_control_probability(skill,speed,pressure,wet)
++        return clamp(.15+.85*contact,.04,.65)
+ 
+     def _physical_players(self):
+         return [{'team':t,'player':p.player.name,'x':p.x,'y':p.y,'red':p.red,
+@@ -654,7 +661,13 @@
+                 awareness=max(.001,1.-actor.effective('vision')/100.)**2
+                 success*=awareness;continuation*=awareness
+             if (x<40 and tx>x+18) or (clearance<.8 and d>25):kind='long_ball'
+-            survival=.65 if kind in {'cross','long_ball'} else clamp((clearance-.35)/1.8,.04,1.)
++            if kind in {'cross','long_ball'}:
++                technique=actor.effective('crossing' if kind=='cross' else 'passing')/100.
++                incoming=(20.+5.*technique)*exp(-.009*d)
++                target_pressure=self._physical_pressure(team,target.x,target.y)
++                wet=self._environment_effects()['surface_control_penalty']
++                survival=self._expected_aerial_survival(target.effective('heading')/100.,incoming,target_pressure,wet)
++            else:survival=clamp((clearance-.35)/1.8,.04,1.)
+             success*=survival;continuation*=survival
+             if kind=='cross':continuation*=.75+self.teams[team].team.tactics.cross_frequency*.5
+             options.append((target,kind,max(.00001,continuation),success))

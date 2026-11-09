@@ -112,6 +112,16 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         distances=[hypot(p.x-x,p.y-y) for p in self.teams[1-team].on_field if not p.red]
         return 1.-exp(-sum(exp(-d/3.5) for d in distances))
 
+    @staticmethod
+    def _aerial_control_probability(skill,speed,pressure,wet=0.):
+        """First aerial contact becomes harder with pace, pressure and a wet ball."""
+        return clamp(.50+.34*skill-.015*speed-.24*pressure-wet,.10,.98)
+
+    @staticmethod
+    def _header_spread_multiplier(skill,speed,pressure):
+        """Incoming pace and pressure increase the uncertainty of directing a header."""
+        return clamp(1.+.65*min(1.,speed/25.)*(1.-.45*skill)+.25*pressure,1.,2.)
+
     def _physical_players(self):
         return [{'team':t,'player':p.player.name,'x':p.x,'y':p.y,'red':p.red,
                  'keeper':p is self._goalkeeper(t)} for t,rt in enumerate(self.teams) for p in rt.on_field]
@@ -412,9 +422,17 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
             defender=self.teams[contact['team']].by_name(contact['defender'])
             attacker=self.teams[1-contact['team']].by_name(contact['attacker'])
         except KeyError:return self._emit(EventType.INFO,self.state.possession,0,'physical_contact_resolved')
-        self._cs_restart_point=(contact['x'],contact['y']);self._loose('foul');self.state.pending=None
-        if self._cs_transport:self._finish_pass('cancelled',reason='foul')
-        return self._commit_foul(contact['team'],defender,attacker,self._physical_zone(1-contact['team'],attacker))
+        return self._resolve_continuous_foul(contact['team'],defender,attacker,
+                                             (contact['x'],contact['y']))
+
+    def _resolve_continuous_foul(self,defending_team,defender,attacker,point):
+        event=self._commit_foul(defending_team,defender,attacker,
+                                self._physical_zone_at(1-defending_team,*point))
+        if not event.data.get('advantage',False):
+            self._cs_restart_point=point
+            self._loose('foul');self.state.pending=None
+            if self._cs_transport:self._finish_pass('cancelled',reason='foul')
+        return event
 
     def _finish_pass(self,status,*,team=None,player=None,reason=None):
         tr=self._cs_transport
@@ -470,10 +488,12 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         speed=hypot(ball.vx,ball.vy)
         perceived_pressure=clamp(pressure+self._venue_effects(team)['pressure_shift'])
         wet=self._environment_effects()['surface_control_penalty']
-        control=clamp((.72+.26*skill-.005*speed-.12*perceived_pressure-wet) if part=='head' else (.90+.12*skill-.003*speed-.08*perceived_pressure-.4*wet),.10,.99)
+        control=(self._aerial_control_probability(skill,speed,perceived_pressure,wet)
+                 if part=='head' else clamp(.90+.12*skill-.003*speed-.08*perceived_pressure-.4*wet,.10,.99))
         if self._draw('first-touch',self._cs_seq,key)<control:
             passer_team=tr['team'];source=tr['kind'];pid=self._cs_passes[tr['pass_index']]['id']
-            reception={'team':team,'player':ps.player.name,'x':ball.x,'y':ball.y,'z':ball.z,'part':part,'second':self._cs_time,'pass_id':pid}
+            reception={'team':team,'player':ps.player.name,'x':ball.x,'y':ball.y,'z':ball.z,'part':part,'second':self._cs_time,'pass_id':pid,
+                       'incoming_speed':speed}
             self._cs_last_reception=reception
             self._finish_pass('completed' if team==passer_team and ps.player.name!=tr['passer'] else 'intercepted' if team!=passer_team else 'recovered',team=team,player=ps.player.name)
             if team!=passer_team:
@@ -679,8 +699,7 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         if gap<1.2:
             foul=.035*(defender.effective('aggression')/60.)*(1.2-defender.effective('discipline')/200.)
             if self._draw('physical-foul')<foul:
-                self._cs_restart_point=(actor.x,actor.y);self._loose('foul')
-                return self._commit_foul(1-team,defender,actor,self._physical_zone(team,actor))
+                return self._resolve_continuous_foul(1-team,defender,actor,(actor.x,actor.y))
             tackle=clamp(.35+(defender.effective('tackling')-actor.effective('dribbling'))/160.,.05,.8)
             if self._draw('physical-tackle')<tackle:
                 self._record('turnover',1-team,defender.player.name,from_team=team,source='tackle')
@@ -832,7 +851,11 @@ class MatchEngineV13Continuous(MatchEngineV13CoordinatePlay):
         self._cs_air_contact=None
         keeper=self._goalkeeper(1-team);xg=self._calculate_xg(p,shooter,None,keeper)
         from spatial_shot_v13 import shot_geometry
-        geometry=shot_geometry(self,p,shooter,keeper,self.shot_selection_diagnostic(shooter,p,keeper))
+        selection=self.shot_selection_diagnostic(shooter,p,keeper)
+        if head:
+            selection['contact_spread_multiplier']=self._header_spread_multiplier(
+                shooter.effective('heading')/100.,air.get('incoming_speed',0.),p.pressure)
+        geometry=shot_geometry(self,p,shooter,keeper,selection)
         if p.origin=='penalty':
             quality=(shooter.effective('finishing')+shooter.effective('composure'))/200.
             side=-1. if self._draw('penalty-side')<.5 else 1.

@@ -160,6 +160,9 @@ def shot_geometry(engine, p, shooter, keeper, selection):
               + (.20 * (1 - weak_skill) if weak else 0)) * (distance / 12) ** .48
     spread *= {'volley': 1.22, 'first_time': 1.10, 'outside_foot': 1.16,
                'chip': 1.14, 'toe_poke': 1.12}.get(shot_type, 1)
+    # Continuous callers may provide physical contact difficulty. Legacy event
+    # callers omit it and retain their original geometry exactly.
+    spread *= clamp(float(selection.get('contact_spread_multiplier', 1.)), 1., 2.)
     x, z = tx + gaussian('horizontal') * spread * 1.9, tz + gaussian('vertical') * spread
     # Low strikes can bounce/skid: a below-ground error is projected upwards.
     z = abs(z)

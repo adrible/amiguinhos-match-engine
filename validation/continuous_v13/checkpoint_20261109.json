@@ -1,26 +1,26 @@
 {
   "engine_commit": "0b96e9c886f67d66ed44fea1b092e75e9cd2163f",
-  "matches": 121,
+  "matches": 162,
   "failures": [],
   "parity": false,
-  "goals_per_match": 7.198347107438017,
-  "shots_per_match": 36.66942148760331,
-  "shot_distance_nonpenalty": 12.458204168353422,
-  "nonpenalty_xg": 0.1584587904437893,
-  "pass_per_match": 782.7933884297521,
-  "pass_accuracy": 0.6704955763424059,
+  "goals_per_match": 7.006172839506172,
+  "shots_per_match": 36.111111111111114,
+  "shot_distance_nonpenalty": 12.479648324252299,
+  "nonpenalty_xg": 0.15724945581214494,
+  "pass_per_match": 783.7592592592592,
+  "pass_accuracy": 0.6711401995762746,
   "source_counts": {
-    "open_play": 1160,
-    "progressive_pass": 106,
-    "corner": 254,
-    "penalty": 107,
-    "through_ball": 174,
-    "safe_pass": 223,
-    "cross": 2034,
-    "free_kick": 24,
-    "rebound": 44,
-    "long_ball": 294,
-    "cutback": 17
+    "open_play": 1533,
+    "progressive_pass": 144,
+    "corner": 337,
+    "penalty": 142,
+    "through_ball": 247,
+    "safe_pass": 280,
+    "cross": 2654,
+    "free_kick": 34,
+    "rebound": 54,
+    "long_ball": 403,
+    "cutback": 22
   },
   "reference": {
     "goals_per_match": 2.7,
@@ -1782,5 +1782,5 @@
     ]
   },
   "context_failures": [],
-  "notice": "Preliminary checkpoint, not full 380-match validation."
+  "notice": "Preliminary checkpoint; full 380-match validation not yet complete."
 }
